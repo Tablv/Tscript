@@ -93,16 +93,14 @@ export default class Editor extends Vue {
     this.bindKeymap();
 
     // 加载数据
-    let paramMap = RequestUtil.getRequestParams(),
-      setId = paramMap.get("dashboardSetId") || "",
-      debuggerMode = paramMap.get("debuggerMode") === "true";
+    const { dashboardSetId, debuggerMode } = RequestUtil.getRequestParams();
 
-    if (debuggerMode) {
+    if (debuggerMode === "true") {
       // 不加载数据
       return;
     }
 
-    if (ObjectUtil.isEmptyString(setId) && !debuggerMode) {
+    if (ObjectUtil.isEmptyString(dashboardSetId)) {
       UIUtil.showLoading({
         text: "仪表盘参数错误",
         spinner: "el-icon-error"
@@ -117,7 +115,7 @@ export default class Editor extends Vue {
     }
 
     // 加载数据
-    this.loadData(setId);
+    this.loadData(dashboardSetId);
   }
 
   @Watch("menuVisible")

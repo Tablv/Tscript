@@ -44,9 +44,9 @@ export default class Preview extends Vue {
    */
   created(): void {
     // 加载数据
-    let setId = RequestUtil.getRequestParams().get("dashboardSetId") || "";
+    const { dashboardSetId } = RequestUtil.getRequestParams();
 
-    if (ObjectUtil.isEmptyString(setId)) {
+    if (ObjectUtil.isEmptyString(dashboardSetId)) {
       UIUtil.showLoading({
         text: "仪表盘参数错误",
         spinner: "el-icon-error"
@@ -62,7 +62,7 @@ export default class Preview extends Vue {
 
     let loadingInstance = UIUtil.showLoading();
 
-    this.setDashboardSetId(setId);
+    this.setDashboardSetId(dashboardSetId);
 
     this.loadData()
       .then(() => {

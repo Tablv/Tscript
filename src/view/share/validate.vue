@@ -49,7 +49,7 @@ export default class Preview extends Vue {
    */
   created(): void {
     // 加载数据
-    let shareId = RequestUtil.getRequestParams().get("shareId") || "";
+    const { shareId } = RequestUtil.getRequestParams();
 
     if (ObjectUtil.isEmptyString(shareId) || shareId === "null") {
       UIUtil.showLoading({
