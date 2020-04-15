@@ -1,0 +1,72 @@
+@mixin defaultSelectView($mainMinHeight) {
+  .select-view {
+    @include select(none);
+
+    main {
+      min-height: $mainMinHeight;
+
+      // 按钮
+      .row-button {
+        width: 100%;
+
+        i {
+          margin-right: 4px;
+        }
+      }
+
+      // 单选
+      .el-radio {
+        display: flex;
+        align-items: center;
+        margin-right: 0;
+        padding: 14px 10px;
+        height: auto;
+
+        & + .el-radio {
+          margin-left: 0;
+          margin-top: 14px;
+        }
+
+        ::v-deep {
+          .el-radio__inner {
+            display: flex;
+            align-items: center;
+          }
+          .el-radio__label {
+            width: 100%;
+          }
+        }
+
+        .label-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .label-title {
+            font-size: 16px;
+            font-weight: 600;
+          }
+
+          .label-content {
+            margin-top: 8px;
+            font-size: 13px;
+            color: map-get($colors, "desc");
+          }
+          
+          .el-button--text {
+            padding: 0;
+          }
+        }
+      }
+    }
+
+    footer {
+      text-align: right;
+      padding-top: 10px;
+
+      .el-button--text {
+        padding: 9px 6px;
+      }
+    }
+  }
+}

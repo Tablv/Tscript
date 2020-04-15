@@ -1,0 +1,71 @@
+// 颜色定义
+$fieldColor: #409eff;
+
+.drag-area {
+    padding: 0 9px;
+    position: relative;
+
+    // 防止0px导致无法将数据拖入列表
+    > span {
+        display: block;
+        min-height: 30px;
+    }
+    
+    // 拖入提示
+    .tips {
+        cursor: default;
+        font-size: 13px;
+        line-height: 23px;
+        text-align: center;
+        border-radius: 50px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+    }
+
+    .sortable-ghost {
+        background: rgba($color: $fieldColor, $alpha: .6);
+    }
+
+    .drag-item {
+        background-color: $fieldColor;
+        
+        // 鼠标呈拖拽手势
+        cursor: move;
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+        cursor: -ms-grab;
+        cursor: -o-grab;
+    }
+    
+    // 拖拽元素
+    .drag-item,
+    .sortable-ghost {
+        margin-bottom: 5px;
+        border-radius: 20px;
+        padding: 0 30px 0 14px;
+        font-size: 12px;
+        line-height: 24px;
+        position: relative;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        cursor: default;
+        z-index: 100;
+
+        // 下拉箭头
+        .el-dropdown {
+            position: absolute;
+            right: 10px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        // 标签
+        .el-tag {
+            margin-left: 4px;
+            height: 16px;
+            padding: 0 4px;
+            line-height: 14px;
+        }
+    }
+
+}

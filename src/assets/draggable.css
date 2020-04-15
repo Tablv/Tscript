@@ -1,0 +1,48 @@
+.drag-area {
+  padding: 0 9px;
+  position: relative; }
+  .drag-area > span {
+    display: block;
+    min-height: 30px; }
+  .drag-area .tips {
+    cursor: default;
+    font-size: 13px;
+    line-height: 23px;
+    text-align: center;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    background-color: #fff; }
+  .drag-area .sortable-ghost {
+    background: rgba(64, 158, 255, 0.6); }
+  .drag-area .drag-item {
+    background-color: #409eff;
+    cursor: move;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: -ms-grab;
+    cursor: -o-grab; }
+  .drag-area .drag-item,
+  .drag-area .sortable-ghost {
+    margin-bottom: 5px;
+    border-radius: 20px;
+    padding: 0 30px 0 14px;
+    font-size: 12px;
+    line-height: 24px;
+    position: relative;
+    color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 100; }
+    .drag-area .drag-item .el-dropdown,
+    .drag-area .sortable-ghost .el-dropdown {
+      position: absolute;
+      right: 10px;
+      color: #fff;
+      cursor: pointer; }
+    .drag-area .drag-item .el-tag,
+    .drag-area .sortable-ghost .el-tag {
+      margin-left: 4px;
+      height: 16px;
+      padding: 0 4px;
+      line-height: 14px; }
+
+/*# sourceMappingURL=draggable.css.map */

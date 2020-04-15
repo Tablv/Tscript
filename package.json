@@ -1,0 +1,61 @@
+{
+  "name": "bi-visual-core",
+  "version": "0.0.5",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name bi-visual-core --dest lib pkg/entry/registry.js"
+  },
+  "publishConfig": {
+    "registry": "http://192.168.1.138:9999/repository/glaway-npm-release/"
+  },
+  "dependencies": {
+    "animate.css": "^3.7.2",
+    "axios": "^0.19.0",
+    "core-js": "^3.6.1",
+    "echarts": "^4.7.0",
+    "element-ui": "^2.12.0",
+    "font-awesome": "^4.7.0",
+    "lodash": "^4.17.15",
+    "qs": "^6.9.0",
+    "typescript": "^3.8.2",
+    "vue": "^2.6.10",
+    "vue-class-component": "^7.0.2",
+    "vue-clipboard2": "^0.3.1",
+    "vue-draggable": "^2.0.2",
+    "vue-draggable-resizable-gorkys": "^2.2.1",
+    "vue-property-decorator": "^8.3.0",
+    "vuedraggable": "^2.23.0",
+    "vuex": "^3.0.1",
+    "vuex-class": "^0.3.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@types/echarts": "^4.4.4",
+    "@types/lodash": "^4.14.149",
+    "@types/qs": "^6.5.3",
+    "@typescript-eslint/parser": "^2.21.0",
+    "@vue/cli-plugin-babel": "^4.2.2",
+    "@vue/cli-plugin-eslint": "^4.2.2",
+    "@vue/cli-plugin-typescript": "^4.2.2",
+    "@vue/cli-service": "^4.2.2",
+    "@vue/eslint-config-prettier": "^5.0.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "csstype": "^2.6.9",
+    "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "node-sass": "^4.13.0",
+    "prettier": "^1.19.1",
+    "sass": "^1.23.7",
+    "sass-loader": "^8.0.0",
+    "typescript": "^3.8.2",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}
