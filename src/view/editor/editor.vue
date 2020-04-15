@@ -101,7 +101,6 @@ export default class Editor extends Vue {
       // 不加载数据
       return;
     }
-
     if (ObjectUtil.isEmptyString(setId) && !debuggerMode) {
       UIUtil.showLoading({
         text: "仪表盘参数错误",
@@ -137,7 +136,6 @@ export default class Editor extends Vue {
 
   loadData(setId: string): void {
     let loadingInstance = UIUtil.showLoading();
-
     this.setDashboardSetId(setId);
 
     Promise.all([this.loadDashboardSet(), this.loadDashboards()])

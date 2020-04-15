@@ -19,6 +19,7 @@ export default class RequestUtil extends Vue {
         params.set(key, decodeURI(value));
       });
     }
+    console.log(params)
     return params;
   }
 }
