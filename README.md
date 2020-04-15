@@ -1,4 +1,4 @@
-# draggable-demo
+# BI-Visual-Core
 
 ## Project setup
 ```
