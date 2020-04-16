@@ -22,10 +22,7 @@ export default function warnConfigure(
   markLineConfigure(warnConfig, echartsOption);
 
   // 配置柱/点 颜色
-  itemStyleConfigure(
-    warnConfig,
-    echartsOption
-  );
+  itemStyleConfigure(warnConfig, echartsOption);
 
   if (warnConfig.displayType === WarnDisplayType.ON_TOOLTIP) {
     // 配置鼠标移入时的 Tooltip

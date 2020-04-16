@@ -1,10 +1,6 @@
 <template>
   <span class="dialog-button">
-    <tool-button
-      :title="title"
-      :icon-class="iconClass"
-      @click="openDialog"
-    />
+    <tool-button :title="title" :icon-class="iconClass" @click="openDialog" />
 
     <el-dialog
       :visible.sync="dialogVisible"

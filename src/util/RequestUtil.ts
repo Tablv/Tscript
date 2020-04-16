@@ -13,12 +13,11 @@ export default class RequestUtil {
       let params = url.substr(1),
         paramsPair = params.split("&"); // [ "id=1", "name=a" ]
 
-        paramsPair.reduce((paramMap, paramPair) => {
-
-          const [paramName, paramVal] = paramPair.split("=");
-          paramMap[paramName] = paramVal;
-          return paramMap;
-        }, paramMap);
+      paramsPair.reduce((paramMap, paramPair) => {
+        const [paramName, paramVal] = paramPair.split("=");
+        paramMap[paramName] = paramVal;
+        return paramMap;
+      }, paramMap);
     }
 
     return paramMap;

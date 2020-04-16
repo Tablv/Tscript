@@ -17,7 +17,10 @@
         v-loading="isFetching"
       >
         <div class="toolbar-box" @click.stop v-show="isCurrent">
-          <chart-toolbar v-model="isShowDetail" :dashboard.sync="thisDashboard" />
+          <chart-toolbar
+            v-model="isShowDetail"
+            :dashboard.sync="thisDashboard"
+          />
         </div>
 
         <!-- 既没有拖入字段，也没有启用静态数据，显示如下 -->

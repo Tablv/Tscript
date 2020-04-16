@@ -139,15 +139,12 @@ export default class SortIndexView extends Vue {
   // 当前标签页
   currentTabName = SortTab.result;
 
-  @Emit("close")
-  closeEmit() {}
-
   open() {
     this.loadAllDatapack();
   }
 
+  @Emit("close")
   close() {
-    this.closeEmit();
     if (this.isConfigMode) {
       this.goBack();
     }

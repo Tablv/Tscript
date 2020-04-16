@@ -98,15 +98,12 @@ export default class WarnIndexView extends Vue {
   // 正在加载数据标志位
   isLoading = false;
 
-  @Emit("close")
-  closeEmit() {}
-
   open() {
     this.loadAllDatapack();
   }
 
+  @Emit("close")
   close() {
-    this.closeEmit();
     if (this.isConfigMode) {
       this.goBack();
     }
