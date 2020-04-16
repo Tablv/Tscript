@@ -1,6 +1,7 @@
-import Vue from "vue";
-
-export default class RequestUtil extends Vue {
+/**
+ * 请求 工具类
+ */
+export default class RequestUtil {
   /**
    * 获取请求参数对象
    */
