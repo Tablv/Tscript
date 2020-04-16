@@ -4,14 +4,14 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <div slot="header">
+    <template #header>
       <span
         >数据设置
         <el-tag style="margin-left: 6px;" size="mini" type="danger"
           >待开发</el-tag
         >
       </span>
-    </div>
+    </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <el-form-item label="小数位数设置">

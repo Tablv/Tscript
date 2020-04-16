@@ -4,7 +4,7 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <div slot="header" class="clearfix">
+    <template #header class="clearfix">
       <span
         >使用 SQL 查询
         <el-tag style="margin-left: 6px;" size="mini" type="danger"
@@ -16,8 +16,8 @@
         active-color="#13ce66"
         :value="currentDashboard.staticData.sql.enable"
         @click.native="sqlSwitchChange"
-      ></el-switch>
-    </div>
+      />
+    </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <el-form-item label="SQL">
@@ -26,7 +26,7 @@
           :autosize="{ minRows: 8 }"
           :disabled="!currentDashboard.staticData.sql.enable"
           v-model="currentDashboard.staticData.sql.data"
-        ></el-input>
+        />
       </el-form-item>
     </el-form>
   </el-card>

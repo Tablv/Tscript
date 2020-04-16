@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Emit } from "vue-property-decorator";
+import { Vue, Component, Emit, Model, Prop } from "vue-property-decorator";
 import DialogButton from "../toolkit/DialogButton.vue";
 
 @Component({
@@ -19,7 +19,24 @@ import DialogButton from "../toolkit/DialogButton.vue";
     DialogButton
   }
 })
-export default class SortIndexView extends Vue {
+export default class TypeChangeView extends Vue {
+  @Model("visible")
+  visible!: boolean;
+
+  @Prop()
+  title!: string;
+
+  @Prop()
+  iconClass!: string;
+
+  get dialogVisible() {
+    return this.visible;
+  }
+
+  set dialogVisible(val: boolean) {
+    this.$emit("visible", val);
+  }
+
   @Emit("close")
   close() {}
 }

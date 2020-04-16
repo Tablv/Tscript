@@ -8,7 +8,7 @@
     @open="open"
     @closed="close"
   >
-    <div slot="dialog-content" v-loading="isLoading" class="dialog-main-box">
+    <template #dialog-content v-loading="isLoading" class="dialog-main-box">
       <warn-select-view
         v-if="isSelectMode"
         :datapacks="warnDatapacks"
@@ -26,7 +26,7 @@
         @save="doSave"
         @back="goBack"
       />
-    </div>
+    </template>
   </dialog-button>
 </template>
 

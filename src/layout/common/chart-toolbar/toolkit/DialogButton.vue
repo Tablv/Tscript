@@ -12,14 +12,14 @@
       @open="openHandle"
       @closed="closedHandle"
     >
-      <div class="dialog-header-box" slot="title">
+      <template #title class="dialog-header-box">
         <i :class="iconClass"></i>
         <span>{{ title }}</span>
-      </div>
+      </template>
       <slot name="dialog-content"></slot>
-      <span v-if="enableFooter" slot="footer">
+      <template #footer v-if="enableFooter">
         <slot name="dialog-footer"></slot>
-      </span>
+      </template>
     </el-dialog>
   </span>
 </template>

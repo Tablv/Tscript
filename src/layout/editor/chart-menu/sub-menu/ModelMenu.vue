@@ -1,10 +1,10 @@
 <template>
   <floating-menu title="数据模型">
-    <div slot="tool">
+    <template #tool>
       <el-button type="text" @click="openDatasetChooser">
         <i class="fa fa-cog"></i>
       </el-button>
-    </div>
+    </template>
 
     <ul class="fields-box">
       <li class="field" v-for="table in tables" :key="table.id">

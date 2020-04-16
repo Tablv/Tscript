@@ -8,7 +8,7 @@
     @open="open"
     @closed="close"
   >
-    <div slot="dialog-content" v-loading="isLoading" class="dialog-main-box">
+    <template #dialog-content v-loading="isLoading" class="dialog-main-box">
       <sort-select-view
         v-if="isSelectMode"
         :datapacks="sortDatapacks"
@@ -29,7 +29,7 @@
         @save="doSave"
         @back="goBack"
       />
-    </div>
+    </template>
   </dialog-button>
 </template>
 

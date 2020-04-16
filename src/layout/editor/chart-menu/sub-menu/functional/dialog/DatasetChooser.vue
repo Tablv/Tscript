@@ -5,7 +5,7 @@
     :visible.sync="showDatasetChooser"
   >
     <!-- title -->
-    <div slot="title">
+    <template #title>
       <div v-show="showDatasetTree">
         <div class="el-page-header__content">选择数据包</div>
       </div>
@@ -14,7 +14,7 @@
         <el-page-header @back="showDatasetTree = true" content="选择数据集">
         </el-page-header>
       </div>
-    </div>
+    </template>
 
     <!-- content -->
     <div v-show="showDatasetTree">

@@ -4,15 +4,15 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <div slot="header">
+    <template #header>
       <span>使用 JSON 数据</span>
       <el-switch
         class="pull-right"
         active-color="#13ce66"
         :value="currentDashboard.staticData.json.enable"
         @click.native="jsonSwitchChange"
-      ></el-switch>
-    </div>
+      />
+    </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <el-form-item label="数据">

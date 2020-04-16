@@ -4,9 +4,9 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <div slot="header">
+    <template #header>
       <span>饼图样式</span>
-    </div>
+    </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <!-- 配色部分 -->
