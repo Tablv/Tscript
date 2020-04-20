@@ -53,7 +53,7 @@ $switchAnimationDuration: 0.2s;
 
 .tool-btn {
   margin: 2px;
-  padding: 8px;
+  padding: 0 6px;
   width: 28px;
   height: 28px;
   border: 0;
