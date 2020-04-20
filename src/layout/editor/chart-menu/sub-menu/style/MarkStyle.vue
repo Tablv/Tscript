@@ -10,7 +10,7 @@
         <el-tag style="margin-left: 6px;" size="mini" type="danger"
           >待开发</el-tag
         >
-      </template>
+      </span>
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
