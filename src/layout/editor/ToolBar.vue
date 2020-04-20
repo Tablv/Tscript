@@ -144,9 +144,11 @@ export default class ToolBar extends Vue {
 ::v-deep {
   .el-drawer__body {
     display: flex;
+    padding: 0 20px;
     flex: inherit;
     flex-flow: row wrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .chart-type .fa {

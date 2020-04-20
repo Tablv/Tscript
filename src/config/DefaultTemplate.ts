@@ -189,6 +189,29 @@ export const customDataTemplates: any = {
         biaxial: {}
       }
     }
+  },
+  barStack: {
+    visualData: {
+      type: ChartType.barStack
+    },
+    echarts: {
+      sampleStyle: {
+        barStack: {
+          width: {
+            value: 13,
+            unit: ""
+          },
+          label: {
+            show: false,
+            position: "top"
+          },
+          axisLabel: {
+            interval: 0,
+            rotate: 0
+          }
+        }
+      }
+    }
   }
 };
 

@@ -104,7 +104,8 @@ export default class TitleStyle extends Vue {
     bar: () => import("./custom-style/BarStyle.vue"),
     pie: () => import("./custom-style/PieStyle.vue"),
     line: () => import("./custom-style/LineStyle.vue"),
-    biaxial: () => import("./custom-style/LineStyle.vue")
+    biaxial: () => import("./custom-style/LineStyle.vue"),
+    barStack: () => import("./custom-style/BarStackStyle.vue")
   };
 
   render(h: CreateElement) {

@@ -135,7 +135,6 @@ export default class Editor extends Vue {
 
   loadData(setId: string): void {
     let loadingInstance = UIUtil.showLoading();
-
     this.setDashboardSetId(setId);
 
     Promise.all([this.loadDashboardSet(), this.loadDashboards()])
