@@ -17,7 +17,9 @@
         <el-row>
           <el-col :span="12">
             <el-slider
-              v-model="currentDashboard.echarts.sampleStyle.barStack.width.value"
+              v-model="
+                currentDashboard.echarts.sampleStyle.barStack.width.value
+              "
               :max="30"
               :min="1"
             />
@@ -52,7 +54,9 @@
           <el-col :span="10" :offset="2">
             <el-select
               v-if="currentDashboard.echarts.sampleStyle.barStack.label.show"
-              v-model="currentDashboard.echarts.sampleStyle.barStack.label.position"
+              v-model="
+                currentDashboard.echarts.sampleStyle.barStack.label.position
+              "
               size="mini"
               placeholder="位置"
             >
