@@ -4,9 +4,9 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <div slot="header">
+    <template #header>
       <span>维度和度量</span>
-    </div>
+    </template>
 
     <el-form label-position="right" label-width="60px">
       <el-form-item label="维度">

@@ -138,11 +138,11 @@
         </el-form-item>
       </el-form>
 
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" v-if="!isShared" @click="confirmShare"
-          >分 享</el-button
-        >
-      </span>
+      <template #footer class="dialog-footer">
+        <el-button type="primary" v-if="!isShared" @click="confirmShare">
+          <span>分 享</span>
+        </el-button>
+      </template>
     </el-dialog>
   </div>
 </template>

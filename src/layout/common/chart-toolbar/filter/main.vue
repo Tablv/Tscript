@@ -8,7 +8,7 @@
     @open="open"
     @closed="close"
   >
-    <div slot="dialog-content" v-loading="isLoading" class="dialog-main-box">
+    <template #dialog-content v-loading="isLoading" class="dialog-main-box">
       <filter-select-view
         v-if="isSelectMode"
         :datapacks="filterDatapacks"
@@ -28,7 +28,7 @@
         @save="doSave"
         @back="goBack"
       />
-    </div>
+    </template>
   </dialog-button>
 </template>
 
@@ -113,15 +113,12 @@ export default class FilterViewIndex extends Vue {
   // 正在加载数据标志位
   isLoading = false;
 
-  @Emit("close")
-  closeEmit() {}
-
   open() {
     this.loadAllDatapack();
   }
 
+  @Emit("close")
   close() {
-    this.closeEmit();
     if (this.isConfigMode) {
       this.goBack();
     }

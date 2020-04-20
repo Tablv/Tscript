@@ -441,8 +441,11 @@ export default class ConfigView extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "../toolkit/config-view";
 $mainMinHeight: 320px;
 $configMinWidth: 530px;
+
+@include defaultConfigView($mainMinHeight);
 
 .config-view {
   @include select(none);
@@ -460,29 +463,6 @@ $configMinWidth: 530px;
       }
     }
 
-    // .config-inline {
-    //   min-width: $configMinWidth;
-
-    //   & + .config-inline {
-    //     margin-top: 14px;
-    //   }
-
-    //   .el-button {
-    //     padding: 7px 10px;
-    //   }
-
-    //   .el-select {
-    //     margin-left: 10px;
-    //   }
-
-    //   .el-input {
-    //     margin-left: 10px;
-    //   }
-
-    //   .config-inner {
-    //     display: inline-block;
-    //   }
-    // }
     .field-drag-area-box {
       padding: 0 20px;
     }
@@ -524,15 +504,6 @@ $configMinWidth: 530px;
           margin-right: 80px;
         }
       }
-    }
-  }
-
-  footer {
-    text-align: right;
-    padding-top: 10px;
-
-    .el-button--text {
-      padding: 9px 6px;
     }
   }
 }

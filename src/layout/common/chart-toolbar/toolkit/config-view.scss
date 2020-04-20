@@ -1,0 +1,19 @@
+@mixin defaultConfigView($mainMinHeight) {
+  .config-view {
+    @include select(none);
+    overflow-x: hidden;
+  
+    main {
+      min-height: $mainMinHeight;
+    }
+
+    footer {
+      text-align: right;
+      padding-top: 10px;
+  
+      .el-button--text {
+        padding: 9px 6px;
+      }
+    }
+  }
+}

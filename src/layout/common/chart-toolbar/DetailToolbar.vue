@@ -126,7 +126,8 @@ export default class DetailToolbar extends Vue {
    * 是否可预警
    */
   get isWarnable() {
-    return Options.getChartFunctionalOptions(this.thisDashboard.visualData.type)?.warnable;
+    return Options.getChartFunctionalOptions(this.thisDashboard.visualData.type)
+      ?.warnable;
   }
 
   /**

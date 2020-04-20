@@ -54,9 +54,9 @@
         </el-dropdown>
       </div>
     </transition-group>
-    <div slot="footer" v-if="!axisData.length" class="tips">
-      <span>拖入字段</span>
-    </div>
+    <template #footer>
+      <div class="tips" v-if="!axisData.length">拖入字段</div>
+    </template>
   </draggable>
 </template>
 

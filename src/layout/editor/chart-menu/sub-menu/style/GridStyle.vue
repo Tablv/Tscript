@@ -4,9 +4,9 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <div slot="header">
+    <template #header>
       <span>数值轴</span>
-    </div>
+    </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <value-unit-option

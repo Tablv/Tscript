@@ -1,6 +1,7 @@
-import Vue from "vue";
-
-export default class RequestUtil extends Vue {
+/**
+ * 请求 工具类
+ */
+export default class RequestUtil {
   /**
    * 获取请求参数对象
    */
@@ -12,12 +13,11 @@ export default class RequestUtil extends Vue {
       let params = url.substr(1),
         paramsPair = params.split("&"); // [ "id=1", "name=a" ]
 
-        paramsPair.reduce((paramMap, paramPair) => {
-
-          const [paramName, paramVal] = paramPair.split("=");
-          paramMap[paramName] = paramVal;
-          return paramMap;
-        }, paramMap);
+      paramsPair.reduce((paramMap, paramPair) => {
+        const [paramName, paramVal] = paramPair.split("=");
+        paramMap[paramName] = paramVal;
+        return paramMap;
+      }, paramMap);
     }
 
     return paramMap;

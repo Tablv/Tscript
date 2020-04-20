@@ -228,19 +228,22 @@ export default class ConfigView extends Vue {
 
     if (!currentFilter) return;
 
-    this.allColumns.forEach((column: TableInfoVO) => {
-      if (tableColumnId === column.id) {
-        currentFilter.fieldData = ObjectUtil.copy(column);
-        return;
-      }
-    });
+    // 复制并赋值给配置
+    const column = this.allColumns.filter(
+      (column: TableInfoVO) => tableColumnId === column.id
+    )[0];
+    currentFilter.fieldData = ObjectUtil.copy(column);
 
+    // 标准时，加载字段对应的数据
     if (currentFilter.type === FilterType.standard) {
       this.setLoading(true);
       this.loadValue(configId)
         .catch((err: Error) => console.error(err))
         .finally(() => this.setLoading(false));
     }
+
+    // 重置过滤值
+    currentFilter.values = "";
   }
 
   /**
@@ -275,15 +278,14 @@ export default class ConfigView extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "../toolkit/config-view";
 $mainMinHeight: 320px;
 $configMinWidth: 650px;
 
+@include defaultConfigView($mainMinHeight);
+
 .config-view {
-  @include select(none);
-
   main {
-    min-height: $mainMinHeight;
-
     .filter-name {
       .el-input {
         width: 300px;
@@ -332,15 +334,6 @@ $configMinWidth: 650px;
       .value-input {
         width: 150px;
       }
-    }
-  }
-
-  footer {
-    text-align: right;
-    padding-top: 10px;
-
-    .el-button--text {
-      padding: 9px 6px;
     }
   }
 }

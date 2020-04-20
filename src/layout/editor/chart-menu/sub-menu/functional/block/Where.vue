@@ -4,17 +4,16 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <div slot="header" class="clearfix">
+    <template #header class="clearfix">
       <span>条件过滤</span>
       <div class="pull-right">
         <el-switch
           v-model="currentDashboard.analysis.isReact"
           active-text="参与联动"
           inactive-text=""
-        >
-        </el-switch>
+        />
       </div>
-    </div>
+    </template>
 
     <draggable
       class="drag-area"
@@ -58,7 +57,7 @@
           </el-dropdown>
         </div>
       </transition-group>
-      <div slot="footer" class="tips">拖入字段</div>
+      <template #footer class="tips">拖入字段</template>
     </draggable>
 
     <!-- 条件过滤对话框 -->

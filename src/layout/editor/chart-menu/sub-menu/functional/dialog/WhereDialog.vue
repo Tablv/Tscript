@@ -7,9 +7,9 @@
     v-if="show"
   >
     <!-- title -->
-    <div slot="title">
+    <template #title>
       <div class="el-page-header__content">条件过滤</div>
-    </div>
+    </template>
 
     <el-table v-if="show" :data="currentWhere.w" style="width: 100%">
       <el-table-column label="字段">
@@ -66,12 +66,12 @@
       </el-table-column>
     </el-table>
 
-    <span slot="footer" class="dialog-footer">
+    <template #footer class="dialog-footer">
       <el-button size="small" @click="onWhereEditorClose">取 消</el-button>
       <el-button size="small" type="primary" @click="onWhereEditConfirm"
         >确 定</el-button
       >
-    </span>
+    </template>
   </el-dialog>
 </template>
 

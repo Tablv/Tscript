@@ -204,6 +204,7 @@ export default class ConfigView extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "../toolkit/config-view";
 $mainMinWidth: 360px;
 $mainMinHeight: 320px;
 
@@ -269,6 +270,8 @@ $mainMinHeight: 320px;
 /**
  * 配置界面
  */
+@include defaultConfigView($mainMinHeight);
+
 .config-view {
   @include select(none);
 

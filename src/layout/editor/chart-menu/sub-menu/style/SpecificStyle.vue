@@ -4,9 +4,9 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <div slot="header">
+    <template #header>
       <span>标题</span>
-    </div>
+    </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <el-form-item label="标题">
