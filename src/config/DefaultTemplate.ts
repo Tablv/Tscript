@@ -93,7 +93,7 @@ export const generalDataTemplate: any = {
         color: generalMenuOptions.color.selection[0].colors,
         grid: {
           top: {
-            value: 50,
+            value: 60,
             unit: ""
           },
           left: {
@@ -105,7 +105,7 @@ export const generalDataTemplate: any = {
             unit: ""
           },
           bottom: {
-            value: 50,
+            value: 30,
             unit: ""
           }
         }
@@ -131,8 +131,8 @@ export const generalDataTemplate: any = {
         fontSize: 12
       },
       data: [],
-      left: "80%",
-      top: "5%"
+      right: "10%",
+      top: "10%"
     },
     series: []
   }

@@ -7,7 +7,7 @@ import ObjectUtil from "@/util/ObjectUtil";
 const templates = {
   echarts: {
     sampleStyle: {
-      barStack: ObjectUtil.copy(BarTemplates.templates.echarts.sampleStyle)
+      barStack: ObjectUtil.copy(BarTemplates.templates.echarts.sampleStyle.bar)
     }
   }
 };

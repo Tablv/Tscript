@@ -8,7 +8,6 @@ import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
-import UUID from '@/util/UUID';
 
 class BarStackHandle implements ChartHandler {
   public getChartHandleResult(
