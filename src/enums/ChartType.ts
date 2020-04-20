@@ -8,6 +8,11 @@ export const enum ChartType {
   bar = "bar",
 
   /**
+   * 堆积柱图
+   */
+  barStack = "barStack",
+
+  /**
    * 饼图
    */
   pie = "pie",

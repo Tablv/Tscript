@@ -30,6 +30,12 @@ export const chartCreateOptions = [
     enable: true
   },
   {
+    iconClass: "fa fa-3x fa-line-chart",
+    desc: "堆积柱图",
+    createType: ChartType.barStack,
+    enable: true
+  },
+  {
     iconClass: "fa fa-3x fa-pie-chart",
     desc: "饼图",
     createType: ChartType.pie,
@@ -253,7 +259,27 @@ export const customChartStyleOptions: any = {
   },
   pie: {},
   line: {},
-  biaxial: {}
+  biaxial: {},
+  barStack: {
+    series: {
+      barWidth: {
+        unit: {
+          selection: [
+            { text: "px", value: "" },
+            { text: "%", value: "%" }
+          ]
+        }
+      },
+      barLabel: {
+        position: {
+          selection: [
+            { text: "顶部", value: "top" },
+            { text: "内部", value: "inside" }
+          ]
+        }
+      }
+    }
+  }
 };
 
 /**
@@ -273,6 +299,10 @@ export const customChartFunctionalOptions: ChartFunctionalOptions = {
   },
   biaxial: {
     doubleMeasures: true,
+    changeLimit: []
+  },
+  barStack: {
+    warnable: true,
     changeLimit: []
   }
 };

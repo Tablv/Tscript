@@ -93,4 +93,7 @@ export interface EChartsSampleStyle {
 
   // 组合图配置
   biaxial?: {};
+
+  // 堆积柱图
+  barStack?: {};
 }
