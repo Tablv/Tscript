@@ -63,7 +63,6 @@ import ChartComponent from "@/layout/common/EChartsComponent.vue";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import ChartToolbar from "@/layout/common/chart-toolbar/CommonToolbar.vue";
-import { customDataTemplates } from "@/config/DefaultTemplate";
 
 @Component({
   components: {

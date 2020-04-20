@@ -1,3 +1,5 @@
+import { PieTemplates } from "./chart-templates/PieTemplates";
+import { BarTemplates } from "./chart-templates/BarTemplates";
 import ObjectUtil from "@/util/ObjectUtil";
 import { ChartType } from "@/enums/ChartType";
 import { ComparableSymbol } from "@/enums/ComparableSymbol";
@@ -65,7 +67,7 @@ export const dashboardSetOptions: any = {
 /**
  * 仪表盘通用可选配置
  */
-export const generalChartStyleOptions: any = {
+export const generalMenuOptions: any = {
   title: {
     size: {
       selection: [
@@ -236,28 +238,9 @@ export const generalChartStyleOptions: any = {
 /**
  * 各类型图表的样式配置
  */
-export const customChartStyleOptions: any = {
-  bar: {
-    series: {
-      barWidth: {
-        unit: {
-          selection: [
-            { text: "px", value: "" },
-            { text: "%", value: "%" }
-          ]
-        }
-      },
-      barLabel: {
-        position: {
-          selection: [
-            { text: "顶部", value: "top" },
-            { text: "内部", value: "inside" }
-          ]
-        }
-      }
-    }
-  },
-  pie: {},
+export const customMenuOptions: any = {
+  bar: BarTemplates.menuOptions,
+  pie: PieTemplates.menuOptions,
   line: {},
   biaxial: {},
   barStack: {
@@ -329,8 +312,8 @@ export default class Options {
     }
 
     // 合并选项
-    let generalOptions = generalChartStyleOptions,
-      customOptions = customChartStyleOptions[chartType],
+    let generalOptions = generalMenuOptions,
+      customOptions = customMenuOptions[chartType],
       options = ObjectUtil.merge(generalOptions, customOptions, true);
 
     // 保存缓存
