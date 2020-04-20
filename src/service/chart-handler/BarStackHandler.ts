@@ -8,8 +8,9 @@ import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
+import UUID from '@/util/UUID';
 
-class BarHandler implements ChartHandler {
+class BarStackHandle implements ChartHandler {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard
@@ -44,7 +45,6 @@ class BarHandler implements ChartHandler {
 
     return style;
   }
-
   /**
    * 获取X轴数据
    *
@@ -105,6 +105,7 @@ class BarHandler implements ChartHandler {
       const seriesData = {
         name: measureName,
         type: "bar",
+        stack: "stack",
         data: EChartDataUtil.getFieldDataArray(measureName, result),
         barWidth: EChartDataUtil.getBarWidth(sampleStyle),
         label: EChartDataUtil.getSeriesLabel(sampleStyle)
@@ -127,4 +128,4 @@ class BarHandler implements ChartHandler {
   }
 }
 
-export default new BarHandler();
+export default new BarStackHandle();
