@@ -41,7 +41,7 @@ import { DatasetType } from "@/enums/DatasetType";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
-import { chartCreateOptions } from "@/config/Options";
+import { chartCreateOptions } from "@/config/EditorOptions";
 import { EditorStore, CommonStore } from "@/store/modules-model";
 import DashboardSet from "@/model/view/DashboardSet";
 import { AxiosRequest } from "@/config/AxiosRequest";

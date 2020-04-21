@@ -4,7 +4,7 @@ import { HBarTemplates } from "./chart-templates/HBarTemplates";
 import { LineTemplates } from "./chart-templates/LineTemplates";
 import { PieTemplates } from "./chart-templates/PieTemplates";
 import { BiaxialTemplates } from "./chart-templates/BiaxialTemplates";
-import { generalMenuOptions } from "./Options";
+import { generalMenuOptions } from "./MenuOptions";
 import { WarnDisplayType } from "@/enums/WarnType";
 import { SortType } from "@/enums/SortType";
 import { ChartType } from "@/enums/ChartType";

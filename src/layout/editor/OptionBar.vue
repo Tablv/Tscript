@@ -151,10 +151,12 @@
 import { Component, Vue } from "vue-property-decorator";
 import { ChartType } from "@/enums/ChartType";
 import { DatasetType } from "@/enums/DatasetType";
-import { chartCreateOptions } from "@/config/Options";
 import { EditorStore, CommonStore } from "@/store/modules-model";
 import DashboardSet from "@/model/view/DashboardSet";
-import { dashboardSetOptions } from "@/config/Options";
+import {
+  chartCreateOptions,
+  dashboardSetOptions
+} from "@/config/EditorOptions";
 import { ShareType } from "@/enums/ShareType";
 import ShareVO from "@/model/results/ShareVO";
 import UIUtil from "@/util/UIUtil";

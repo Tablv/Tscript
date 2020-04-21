@@ -7,7 +7,7 @@ import EChartsService from "../EChartsService";
 import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 import EChartDataUtil from "@/util/EChartDataUtil";
-import BarHandler from './BarHandler';
+import BarHandler from "./BarHandler";
 
 export default class HBarHandler extends BarHandler {
   public getChartHandleResult(
@@ -57,10 +57,12 @@ export default class HBarHandler extends BarHandler {
     result: AnalysisResults,
     sampleStyle: EChartsSampleStyle
   ): Array<echarts.EChartOption.XAxis> {
-    /* 
+    /*
      * 横向条形图 X轴配置，使用竖向柱状图 Y轴配置
      */
-    return super.getYAxis(fieldNames, result, sampleStyle) as Array<echarts.EChartOption.XAxis>;
+    return super.getYAxis(fieldNames, result, sampleStyle) as Array<
+      echarts.EChartOption.XAxis
+    >;
   }
 
   /**
@@ -71,7 +73,9 @@ export default class HBarHandler extends BarHandler {
     result: AnalysisResults,
     sampleStyle: EChartsSampleStyle
   ): Array<echarts.EChartOption.YAxis> {
-    return super.getXAxis(fieldNames, result, sampleStyle) as Array<echarts.EChartOption.YAxis>;
+    return super.getXAxis(fieldNames, result, sampleStyle) as Array<
+      echarts.EChartOption.YAxis
+    >;
   }
 
   /**

@@ -22,7 +22,7 @@ import EChartsOption from "@/model/view/dashboard/EChartsOption";
 import AnalysisData from "@/model/view/dashboard/AnalysisData";
 import EventsConfig from "@/model/view/dashboard/EventsConfig";
 import ReactWhere from "@/model/view/ReactWhere";
-import { generalMenuOptions } from "@/config/Options";
+import { generalMenuOptions } from "@/config/MenuOptions";
 import UUID from "@/util/UUID";
 import EChartsUtil from "@/util/EChartsUtil";
 import UIUtil from "@/util/UIUtil";

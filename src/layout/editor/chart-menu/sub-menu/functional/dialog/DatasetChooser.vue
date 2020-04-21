@@ -42,7 +42,7 @@
 <script lang="ts">
 import { Component, Vue, Model } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
-import { treeConfig } from "@/config/Options";
+import { treeConfig } from "@/config/CommonOptions";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import { DatasetType } from "@/enums/DatasetType";
 import TableVO from "@/model/results/TableVO";
