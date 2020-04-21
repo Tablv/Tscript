@@ -1,16 +1,10 @@
 import ObjectUtil from "@/util/ObjectUtil";
 import { ChartType } from "@/enums/ChartType";
 import { ComparableSymbol } from "@/enums/ComparableSymbol";
-
-import { BarTemplates } from "./chart-templates/BarTemplates";
-import { BarStackTemplates } from "./chart-templates/BarStackTemplates";
-import { HBarTemplates } from "./chart-templates/HBarTemplates";
-import { PieTemplates } from "./chart-templates/PieTemplates";
-import { LineTemplates } from "./chart-templates/LineTemplates";
-import { BiaxialTemplates } from "./chart-templates/BiaxialTemplates";
+import ChartConfig from "./ChartConfig";
 
 /**
- * 仪表盘通用可选配置
+ * 菜单通用可选配置
  */
 export const generalMenuOptions: any = {
   title: {
@@ -181,41 +175,15 @@ export const generalMenuOptions: any = {
 };
 
 /**
- * 各类型图表的样式配置
+ * 各类型图表额外可选配置
  */
-export const customMenuOptions: any = {
-  bar: BarTemplates.menuOptions,
-  barStack: BarStackTemplates.menuOptions,
-  hbar: HBarTemplates.menuOptions,
-  pie: PieTemplates.menuOptions,
-  line: LineTemplates.menuOptions,
-  biaxial: BiaxialTemplates.menuOptions
-};
+export const customMenuOptions: any = ChartConfig.getAllMenuOptions();
 
 /**
  * 各类型图表的功能配置
+ *  - 定义是否可预警、是否为双度量、图表切换条件等
  */
-export const customChartFunctionalOptions: ChartFunctionalOptions = {
-  bar: {
-    warnable: true,
-    changeLimit: []
-  },
-  pie: {
-    changeLimit: []
-  },
-  line: {
-    warnable: true,
-    changeLimit: []
-  },
-  biaxial: {
-    doubleMeasures: true,
-    changeLimit: []
-  },
-  barStack: {
-    warnable: true,
-    changeLimit: []
-  }
-};
+export const customChartFunctionalOptions: ChartFunctionalOptions = ChartConfig.getAllConfig();
 
 /**
  * 初始化模板类
@@ -267,14 +235,14 @@ export default class MenuOptions {
  *       pie: {}
  *     }
  */
-type ChartFunctionalOptions = {
+export type ChartFunctionalOptions = {
   [key: string]: ChartFunctionalOption;
 };
 
 /**
  * 各个图表功能性配置项
  */
-type ChartFunctionalOption = {
+export type ChartFunctionalOption = {
   /**
    * 是否可预警
    *  - 未定义时为 不可预警

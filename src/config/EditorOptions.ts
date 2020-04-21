@@ -1,36 +1,11 @@
-import { ChartType } from "@/enums/ChartType";
+import ChartConfig from "./ChartConfig";
 
 /**
  * 编辑器部分
  */
 
 // 可选图表选项
-export const chartCreateOptions = [
-  {
-    iconClass: "gw-icon gw-iconfsux_tubiao_zhuzhuangtu1",
-    desc: "柱状图",
-    createType: ChartType.bar,
-    enable: true
-  },
-  {
-    iconClass: "gw-icon gw-iconfsux_tubiao_duijizhuzhuangtu",
-    desc: "堆积柱图",
-    createType: ChartType.barStack,
-    enable: true
-  },
-  {
-    iconClass: "gw-icon gw-iconfsux_tubiao_bingtu1",
-    desc: "饼图",
-    createType: ChartType.pie,
-    enable: true
-  },
-  {
-    iconClass: "gw-icon gw-iconfsux_zhexiantu",
-    desc: "折线图",
-    createType: ChartType.line,
-    enable: true
-  }
-];
+export const chartCreateOptions = ChartConfig.getAllCreateMenuConfig();
 
 /**
  * 仪表盘集
