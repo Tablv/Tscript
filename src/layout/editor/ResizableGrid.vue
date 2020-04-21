@@ -9,6 +9,7 @@
             :item.sync="item"
             :index="index"
             @click.native.stop="innerClick(index)"
+            @mousedown.native.stop="setChartZIndex(index)"
           />
         </transition-group>
       </div>
@@ -184,8 +185,6 @@ export default class ResizableGrid extends Vue {
     this.activeArea(ShortcutType.grid);
     // 设置当前激活的图表下标
     this.setActiveIndex(index);
-    // 设置当前激活的图表z-index
-    this.setChartZIndex(index);
   }
 }
 </script>

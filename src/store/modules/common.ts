@@ -166,16 +166,14 @@ const mutations: MutationTree<any> = {
    */
   setDashboardChartZIndex(state, index: number): void {
     // state.currentDashboard.visualData.position.z = zIndex;
-    let maxZIndex = state.dashboards.length - 1;
-    // console.log(state.dashboards[index])
-    // let oldZIndex = state.dashboards[index].visualData.position.z;
-    // console.log(oldZIndex)
-    // state.dashboards[index].visualData.position.z = maxZIndex;
-    // state.dashboards.forEach((dashboard: Dashboard) => {
-    //   if (dashboard.visualData.position.z > oldZIndex) {
-    //     dashboard.visualData.position.z -= 1;
-    //   }
-    // });
+    const maxZIndex = state.dashboards.length - 1;
+    const oldZIndex = state.dashboards[index].visualData.position.z;
+    state.dashboards.forEach((dashboard: Dashboard) => {
+      if (dashboard.visualData.position.z > oldZIndex) {
+        dashboard.visualData.position.z -= 1;
+      }
+    });
+    state.dashboards[index].visualData.position.z = maxZIndex;
   },
 
   // 设置联动条件
