@@ -32,7 +32,7 @@ export const chartCreateOptions = [
     enable: true
   },
   {
-    iconClass: "fa fa-3x fa-line-chart",
+    iconClass: "fa fa-3x fa-signal",
     desc: "堆积柱图",
     createType: ChartType.barStack,
     enable: true
