@@ -17,19 +17,21 @@
       :visible.sync="showCreateChart"
       direction="ltr"
     >
-      <el-button
-        class="chart-type"
-        v-for="(opt, idx) in chartCreateOptions"
-        :key="idx"
-        :chart-type="opt.createType"
-        :disabled="!opt.enable"
-        @click="createChart(opt.createType)"
-      >
-        <div>
-          <i :class="opt.iconClass"></i>
-        </div>
-        <div>{{ opt.desc }}</div>
-      </el-button>
+      <div class="chart-btn-group">
+        <el-button
+          class="chart-type"
+          v-for="(opt, idx) in chartCreateOptions"
+          :key="idx"
+          :chart-type="opt.createType"
+          :disabled="!opt.enable"
+          @click="createChart(opt.createType)"
+        >
+          <div>
+            <i :class="opt.iconClass"></i>
+          </div>
+          <div>{{ opt.title }}</div>
+        </el-button>
+      </div>
     </el-drawer>
   </div>
 </template>
@@ -141,29 +143,27 @@ export default class ToolBar extends Vue {
 </script>
 
 <style lang="scss" scoped>
-::v-deep {
-  .el-drawer__body {
-    display: flex;
-    padding: 0 20px;
-    flex: inherit;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .chart-type .fa {
-    margin: 8px 4px 12px;
-  }
-}
-
 // 修复flex布局时，按钮错位问题
 .el-button + .el-button {
   margin-left: 0;
 }
 
-.chart-type {
-  flex: 0 0 30%;
-  margin-bottom: 15px;
+.chart-btn-group {
+  display: flex;
+  padding: 0 20px;
+  flex: inherit;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  .chart-type {
+    flex: 0 0 30%;
+    margin-bottom: 15px;
+
+    .fa {
+      margin: 8px 4px 12px;
+    }
+  }
 }
 
 .toolbar {

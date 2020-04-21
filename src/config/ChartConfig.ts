@@ -1,0 +1,154 @@
+import { BarConfig } from "./chart-config/Bar";
+import { BarStackConfig } from "./chart-config/BarStack";
+import { HBarConfig } from "./chart-config/HBar";
+import { LineConfig } from "./chart-config/Line";
+import { PieConfig } from "./chart-config/Pie";
+import { BiaxialConfig } from "./chart-config/Biaxial";
+import { ChartType } from "@/enums/ChartType";
+
+/**
+ * 图表全部配置项
+ */
+export type ChartConfigItem = {
+  /**
+   * 图表样式模板
+   */
+  templates: any;
+
+  /**
+   * 图表菜单选项
+   */
+  menuOptions: any;
+
+  /**
+   * 创建菜单配置
+   */
+  createMenuConfig?: CreateMenuConfig;
+
+  /**
+   * 图表配置项
+   */
+  config: any;
+};
+
+/**
+ * 创建菜单配置
+ */
+export type CreateMenuConfig = {
+  iconClass: string;
+  title: string;
+  createType: ChartType;
+  enable: boolean;
+};
+
+export default class ChartConfig {
+  /**
+   * 图表配置映射类
+   */
+  public static chartConfigMap: { [chartType: string]: ChartConfigItem } = {
+    /**
+     * 柱图部分
+     */
+
+    // 柱图
+    bar: BarConfig,
+
+    // 堆积柱图
+    barStack: BarStackConfig,
+
+    // 条图
+    hbar: HBarConfig,
+
+    /**
+     * 饼图
+     */
+    pie: PieConfig,
+
+    /**
+     * 线图
+     */
+    line: LineConfig,
+
+    /**
+     * 组合图
+     */
+    biaxial: BiaxialConfig
+  };
+
+  /**
+   * 获取样式模板
+   *
+   * @param chartType 图表类型
+   */
+  public static getTemplates(chartType: ChartType) {
+    return this.chartConfigMap[chartType].templates;
+  }
+
+  /**
+   * 获取菜单选项
+   *
+   * @param chartType 图表类型
+   */
+  public static getMenuOptions(chartType: ChartType) {
+    return this.chartConfigMap[chartType].menuOptions;
+  }
+
+  /**
+   * 获取图表配置
+   *
+   * @param chartType 图表类型
+   */
+  public static getConfig(chartType: ChartType) {
+    return this.chartConfigMap[chartType].menuOptions;
+  }
+
+  /**
+   * 获取所有样式模板
+   */
+  public static getAllTemplates() {
+    return this.getSpecificMap("templates");
+  }
+
+  /**
+   * 获取所有菜单选项
+   */
+  public static getAllMenuOptions() {
+    return this.getSpecificMap("menuOptions");
+  }
+
+  /**
+   * 获取所有菜单选项
+   */
+  public static getAllCreateMenuConfig(): Array<CreateMenuConfig> {
+    return Object.values(this.chartConfigMap)
+      .map(chartConfig => chartConfig.createMenuConfig)
+      .filter(menuConfig => !!menuConfig) as Array<CreateMenuConfig>;
+  }
+
+  /**
+   * 获取所有图表配置
+   */
+  public static getAllConfig() {
+    return this.getSpecificMap("config");
+  }
+
+  /**
+   * 获取指定属性的字典对象
+   */
+  private static getSpecificMap(propertyName: string) {
+    return Object.entries(this.chartConfigMap).reduce(
+      (resultMap: any, configEntries: any) => {
+        const chartType = configEntries[0];
+        const chartConfig = (configEntries[1] as any)[propertyName];
+
+        // 不为空，添加到字典对象
+        if (chartConfig) {
+          resultMap[chartType] = chartConfig;
+        }
+
+        return resultMap;
+      },
+      {}
+    );
+  }
+}

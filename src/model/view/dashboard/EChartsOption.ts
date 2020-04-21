@@ -1,7 +1,12 @@
+import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
+import { PieChartOption } from "@/config/chart-config/Pie";
+import { HBarChartOption } from "@/config/chart-config/HBar";
+import { BarStackChartOption } from "@/config/chart-config/BarStack";
+import { BarChartOption } from "@/config/chart-config/Bar";
+import { LineChartOption } from "@/config/chart-config/Line";
+
 /**
- *
  * ECharts Option
- *
  */
 export default interface EChartsOption {
   sampleStyle: EChartsSampleStyle;
@@ -70,33 +75,20 @@ export interface EChartsSampleStyle {
   };
 
   // 柱图配置
-  bar?: {
-    width: {
-      value: number;
-      unit: string; // '%'  or  '' (px)
-    };
-    label: {
-      show: boolean;
-      position: string; // 'top' 'left' 'right' 'bottom' 'inside'
-    };
-    axisLabel: {
-      interval: 0;
-      rotate: 0;
-    };
-  };
+  bar?: BarChartOption;
 
   // 堆积柱图
-  barStack?: {};
+  barStack?: BarStackChartOption;
 
   // 条图
-  hbar?: {};
+  hbar?: HBarChartOption;
 
   // 饼图配置
-  pie?: {};
+  pie?: PieChartOption;
 
   // 线图配置
-  line?: {};
+  line?: LineChartOption;
 
   // 组合图配置
-  biaxial?: {};
+  biaxial?: BiaxialChartOption;
 }

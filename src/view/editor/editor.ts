@@ -5,7 +5,7 @@ import Editor from "./editor.vue";
 // CSS
 import "font-awesome/css/font-awesome.min.css";
 import "animate.css";
-import "../../assets/font/iconfont.css";
+import "@/assets/font/iconfont.css";
 
 // Element-UI
 import "@/dependencies/element-ui.js";

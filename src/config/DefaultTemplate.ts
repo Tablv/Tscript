@@ -1,9 +1,3 @@
-import { BarTemplates } from "./chart-templates/BarTemplates";
-import { BarStackTemplates } from "./chart-templates/BarStackTemplates";
-import { HBarTemplates } from "./chart-templates/HBarTemplates";
-import { LineTemplates } from "./chart-templates/LineTemplates";
-import { PieTemplates } from "./chart-templates/PieTemplates";
-import { BiaxialTemplates } from "./chart-templates/BiaxialTemplates";
 import { generalMenuOptions } from "./MenuOptions";
 import { WarnDisplayType } from "@/enums/WarnType";
 import { SortType } from "@/enums/SortType";
@@ -16,6 +10,7 @@ import { BackgroundType } from "@/enums/DashboardSet";
 import { FILTER_DEFAULT_VALUE } from "@/model/view/Filter";
 import { SORT_DEFAULT_VALUE } from "@/model/view/Sort";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
+import ChartConfig from "./ChartConfig";
 
 /**
  * 仪表盘集通用初始化数据
@@ -142,35 +137,7 @@ export const generalDataTemplate: any = {
 /**
  * 各类型仪表盘自定义初始化数据
  */
-export const customDataTemplates: any = {
-  /**
-   * 柱图部分
-   */
-
-  // 柱图
-  bar: BarTemplates.templates,
-
-  // 堆积柱图
-  barStack: BarStackTemplates.templates,
-
-  // 条图
-  hbar: HBarTemplates.templates,
-
-  /**
-   * 饼图
-   */
-  pie: PieTemplates.templates,
-
-  /**
-   * 线图
-   */
-  line: LineTemplates.templates,
-
-  /**
-   * 组合图
-   */
-  biaxial: BiaxialTemplates.templates
-};
+export const customDataTemplates: any = ChartConfig.getAllTemplates();
 
 /**
  * 初始化模板类
