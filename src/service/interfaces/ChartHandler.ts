@@ -27,7 +27,11 @@ export default interface ChartHandler {
   /**
    * 获取 Y轴 数据
    */
-  getYAxis(): Array<echarts.EChartOption.YAxis>;
+  getYAxis(
+    fieldNames: SplitedFieldNames,
+    result: AnalysisResults,
+    sampleStyle: EChartsSampleStyle
+  ): Array<echarts.EChartOption.YAxis>;
 
   /**
    * 获取 Series 数据

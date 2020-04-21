@@ -1,8 +1,9 @@
+import { BarTemplates } from "./chart-templates/BarTemplates";
 import { BarStackTemplates } from "./chart-templates/BarStackTemplates";
-import { BiaxialTemplates } from "./chart-templates/BiaxialTemplates";
+import { HBarTemplates } from "./chart-templates/HBarTemplates";
 import { LineTemplates } from "./chart-templates/LineTemplates";
 import { PieTemplates } from "./chart-templates/PieTemplates";
-import { BarTemplates } from "./chart-templates/BarTemplates";
+import { BiaxialTemplates } from "./chart-templates/BiaxialTemplates";
 import { generalMenuOptions } from "./Options";
 import { WarnDisplayType } from "@/enums/WarnType";
 import { SortType } from "@/enums/SortType";
@@ -151,6 +152,9 @@ export const customDataTemplates: any = {
 
   // 堆积柱图
   barStack: BarStackTemplates.templates,
+
+  // 条图
+  hbar: HBarTemplates.templates,
 
   /**
    * 饼图

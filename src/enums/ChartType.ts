@@ -13,6 +13,11 @@ export const enum ChartType {
   barStack = "barStack",
 
   /**
+   * 条形图
+   */
+  hbar = "hbar",
+
+  /**
    * 饼图
    */
   pie = "pie",

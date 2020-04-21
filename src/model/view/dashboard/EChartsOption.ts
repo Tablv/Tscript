@@ -85,6 +85,12 @@ export interface EChartsSampleStyle {
     };
   };
 
+  // 堆积柱图
+  barStack?: {};
+
+  // 条图
+  hbar?: {};
+
   // 饼图配置
   pie?: {};
 
@@ -93,7 +99,4 @@ export interface EChartsSampleStyle {
 
   // 组合图配置
   biaxial?: {};
-
-  // 堆积柱图
-  barStack?: {};
 }

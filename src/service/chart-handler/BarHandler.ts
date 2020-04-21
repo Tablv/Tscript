@@ -9,7 +9,10 @@ import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
 
-class BarHandler implements ChartHandler {
+/**
+ * 柱图处理
+ */
+export default class BarHandler implements ChartHandler {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard
@@ -31,7 +34,7 @@ class BarHandler implements ChartHandler {
       sampleStyle = dashboard.echarts.sampleStyle;
 
     style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
-    style.yAxis = this.getYAxis();
+    style.yAxis = this.getYAxis(fieldNames, result, sampleStyle);
     style.series = this.getSeries(fieldNames, result, sampleStyle);
     style.legend = this.getLegend(fieldNames);
 
@@ -79,7 +82,11 @@ class BarHandler implements ChartHandler {
   /**
    * 获取Y轴数据
    */
-  public getYAxis(): Array<echarts.EChartOption.YAxis> {
+  public getYAxis(
+    fieldNames: SplitedFieldNames,
+    result: AnalysisResults,
+    sampleStyle: EChartsSampleStyle
+  ): Array<echarts.EChartOption.YAxis> {
     return [
       {
         type: "value"
@@ -126,5 +133,3 @@ class BarHandler implements ChartHandler {
     return legend;
   }
 }
-
-export default new BarHandler();

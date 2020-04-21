@@ -1,8 +1,13 @@
-import { PieTemplates } from "./chart-templates/PieTemplates";
-import { BarTemplates } from "./chart-templates/BarTemplates";
 import ObjectUtil from "@/util/ObjectUtil";
 import { ChartType } from "@/enums/ChartType";
 import { ComparableSymbol } from "@/enums/ComparableSymbol";
+
+import { BarTemplates } from "./chart-templates/BarTemplates";
+import { BarStackTemplates } from "./chart-templates/BarStackTemplates";
+import { HBarTemplates } from "./chart-templates/HBarTemplates";
+import { PieTemplates } from "./chart-templates/PieTemplates";
+import { LineTemplates } from "./chart-templates/LineTemplates";
+import { BiaxialTemplates } from "./chart-templates/BiaxialTemplates";
 
 /**
  * Element-UI 配置
@@ -240,29 +245,11 @@ export const generalMenuOptions: any = {
  */
 export const customMenuOptions: any = {
   bar: BarTemplates.menuOptions,
+  barStack: BarStackTemplates.menuOptions,
+  hbar: HBarTemplates.menuOptions,
   pie: PieTemplates.menuOptions,
-  line: {},
-  biaxial: {},
-  barStack: {
-    series: {
-      barWidth: {
-        unit: {
-          selection: [
-            { text: "px", value: "" },
-            { text: "%", value: "%" }
-          ]
-        }
-      },
-      barLabel: {
-        position: {
-          selection: [
-            { text: "顶部", value: "top" },
-            { text: "内部", value: "inside" }
-          ]
-        }
-      }
-    }
-  }
+  line: LineTemplates.menuOptions,
+  biaxial: BiaxialTemplates.menuOptions
 };
 
 /**

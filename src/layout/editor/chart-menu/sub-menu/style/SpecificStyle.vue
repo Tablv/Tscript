@@ -101,11 +101,27 @@ export default class TitleStyle extends Vue {
   elFormLabelWidth!: string;
 
   readonly componentRegistry = {
+    /**
+     * 柱图
+     */
     bar: () => import("./custom-style/BarStyle.vue"),
+    barStack: () => import("./custom-style/BarStackStyle.vue"),
+    hbar: () => import("./custom-style/BarStyle.vue"),
+
+    /**
+     * 饼图
+     */
     pie: () => import("./custom-style/PieStyle.vue"),
+
+    /**
+     * 折线图
+     */
     line: () => import("./custom-style/LineStyle.vue"),
-    biaxial: () => import("./custom-style/LineStyle.vue"),
-    barStack: () => import("./custom-style/BarStackStyle.vue")
+
+    /**
+     * 组合图
+     */
+    biaxial: () => import("./custom-style/LineStyle.vue")
   };
 
   render(h: CreateElement) {

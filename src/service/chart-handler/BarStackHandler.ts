@@ -9,7 +9,10 @@ import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
 
-class BarStackHandle implements ChartHandler {
+/**
+ * 堆积柱图处理
+ */
+export default class BarStackHandler implements ChartHandler {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard
@@ -126,5 +129,3 @@ class BarStackHandle implements ChartHandler {
     return legend;
   }
 }
-
-export default new BarStackHandle();

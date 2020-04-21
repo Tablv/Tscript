@@ -7,7 +7,10 @@ import EChartsService from "../EChartsService";
 import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
 
-class PieHandler implements ChartHandler {
+/**
+ * 饼图处理
+ */
+export default class PieHandler implements ChartHandler {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard
@@ -112,5 +115,3 @@ class PieHandler implements ChartHandler {
     return series;
   }
 }
-
-export default new PieHandler();
