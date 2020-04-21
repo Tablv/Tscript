@@ -31,25 +31,25 @@ export const boxCardBodyStyle = {
 // 可选图表选项
 export const chartCreateOptions = [
   {
-    iconClass: "fa fa-3x fa-bar-chart",
+    iconClass: "gw-icon gw-iconfsux_tubiao_zhuzhuangtu1",
     desc: "柱状图",
     createType: ChartType.bar,
     enable: true
   },
   {
-    iconClass: "fa fa-3x fa-signal",
+    iconClass: "gw-icon gw-iconfsux_tubiao_duijizhuzhuangtu",
     desc: "堆积柱图",
     createType: ChartType.barStack,
     enable: true
   },
   {
-    iconClass: "fa fa-3x fa-pie-chart",
+    iconClass: "gw-icon gw-iconfsux_tubiao_bingtu1",
     desc: "饼图",
     createType: ChartType.pie,
     enable: true
   },
   {
-    iconClass: "fa fa-3x fa-line-chart",
+    iconClass: "gw-icon gw-iconfsux_zhexiantu",
     desc: "折线图",
     createType: ChartType.line,
     enable: true

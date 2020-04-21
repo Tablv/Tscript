@@ -38,7 +38,7 @@
           :item="thisDashboard"
           :index="index"
         />
-          <!-- :style="{
+        <!-- :style="{
             width: thisDashboard.visualData.width + 'px',
             height: thisDashboard.visualData.height + 'px'
           }" -->
@@ -469,7 +469,7 @@ $shadow: 0 0 6px $shadowColor;
   // 当前激活的元素
   &.activeElement {
     border: 1px solid $borderColor;
-    z-index: 10000 !important;
+    z-index: 6666 !important;
   }
 
   .no-chart-text {
