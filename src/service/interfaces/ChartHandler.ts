@@ -4,15 +4,15 @@ import Dashboard from "@/model/view/dashboard/Dashboard";
 import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
 
 /**
- * 图表通用信息 接口
+ * 图表通用处理 接口
  */
-export default interface ChartHandle {
+export default interface ChartHandler {
   getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard
   ): echarts.EChartOption;
   /**
-   * 获取X轴数据
+   * 获取 X轴 数据
    *
    * @param fieldNames 列数据
    * @param result 分析结果
@@ -25,12 +25,12 @@ export default interface ChartHandle {
   ): Array<echarts.EChartOption.XAxis>;
 
   /**
-   * 获取Y轴数据
+   * 获取 Y轴 数据
    */
   getYAxis(): Array<echarts.EChartOption.YAxis>;
 
   /**
-   * 获取Series数据
+   * 获取 Series 数据
    *
    * @param fieldNames 分析结果划分数据
    * @param result 分析结果
@@ -41,6 +41,7 @@ export default interface ChartHandle {
     result: AnalysisResults,
     sampleStyle: EChartsSampleStyle
   ): Array<echarts.EChartOption.Series>;
+
   /**
    * 获取图例
    *
