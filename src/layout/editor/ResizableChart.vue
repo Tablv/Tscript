@@ -465,6 +465,7 @@ $shadow: 0 0 6px $shadowColor;
   // 当前激活的元素
   &.activeElement {
     border: 1px solid $borderColor;
+    z-index: 10000 !important;
   }
 
   .no-chart-text {
