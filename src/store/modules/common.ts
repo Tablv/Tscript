@@ -160,6 +160,24 @@ const mutations: MutationTree<any> = {
     state.dashboardIndex = index;
   },
 
+  // 设置当前选中仪表盘的层级
+  /**
+   * @param index {number} 激活图表下标
+   */
+  setDashboardChartZIndex(state, index: number): void {
+    // state.currentDashboard.visualData.position.z = zIndex;
+    let maxZIndex = state.dashboards.length - 1;
+    // console.log(state.dashboards[index])
+    // let oldZIndex = state.dashboards[index].visualData.position.z;
+    // console.log(oldZIndex)
+    // state.dashboards[index].visualData.position.z = maxZIndex;
+    // state.dashboards.forEach((dashboard: Dashboard) => {
+    //   if (dashboard.visualData.position.z > oldZIndex) {
+    //     dashboard.visualData.position.z -= 1;
+    //   }
+    // });
+  },
+
   // 设置联动条件
   setReactWhere(state, reactWhere: ReactWhere): void {
     state.reactWhere = reactWhere;

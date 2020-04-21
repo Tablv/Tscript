@@ -46,6 +46,10 @@ export default class ResizableGrid extends Vue {
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
 
+  // 当前的下标的层级
+  @CommonStore.Mutation("setDashboardChartZIndex")
+  setChartZIndex!: Function;
+
   // 当前下标的 Setter
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
@@ -135,7 +139,6 @@ export default class ResizableGrid extends Vue {
 
       // 设置拖拽的盒子为画布
       target = canvasDOM;
-
       this.outerClick();
 
       // 初始化位置
@@ -166,17 +169,23 @@ export default class ResizableGrid extends Vue {
 
   // 激活当前区域，用于切换全局、局部快捷键
   activeArea(type: ShortcutType): void {
+    // 设置快捷键
     this.setActiveShortcutType(type);
   }
 
+  // 拖拽画布的时
   outerClick(): void {
     this.activeArea(ShortcutType.global);
     this.setActiveIndex(-1);
   }
 
+  // 点击事件监听函数
   innerClick(index: number): void {
     this.activeArea(ShortcutType.grid);
+    // 设置当前激活的图表下标
     this.setActiveIndex(index);
+    // 设置当前激活的图表z-index
+    this.setChartZIndex(index);
   }
 }
 </script>

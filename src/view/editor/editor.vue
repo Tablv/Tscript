@@ -245,7 +245,6 @@ $bottomHeight: 50px;
   right: 0;
   width: $floatMenuWidth;
   overflow: hidden;
-  z-index: 10001;
 
   &:after {
     clear: both;

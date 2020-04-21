@@ -351,6 +351,7 @@ export default class ResizableElement extends Vue {
 
   /**
    * 获取偏移位置
+   * 拖拽结束
    */
   onDragStop(x: number, y: number): void {
     // 防止出现非当前下标的元素被操作的问题
@@ -360,6 +361,7 @@ export default class ResizableElement extends Vue {
 
   /**
    * 调整大小
+   * 调整结束
    */
   onResizeStop(x: number, y: number, width: number, height: number): void {
     if (this.activeIndex === -1) return;
@@ -469,7 +471,6 @@ $shadow: 0 0 6px $shadowColor;
   // 当前激活的元素
   &.activeElement {
     border: 1px solid $borderColor;
-    z-index: 6666 !important;
   }
 
   .no-chart-text {
