@@ -10,9 +10,9 @@ import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
 
 /**
- * 折线图处理
+ * 堆积柱图处理
  */
-export default class LineHandler implements ChartHandler {
+export default class BarStackHandler implements ChartHandler {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard
@@ -47,7 +47,6 @@ export default class LineHandler implements ChartHandler {
 
     return style;
   }
-
   /**
    * 获取X轴数据
    *
@@ -78,6 +77,7 @@ export default class LineHandler implements ChartHandler {
 
     return xAxis;
   }
+
   /**
    * 获取Y轴数据
    */
@@ -106,7 +106,8 @@ export default class LineHandler implements ChartHandler {
     fieldNames.measures.forEach(measureName => {
       const seriesData = {
         name: measureName,
-        type: "line",
+        type: "bar",
+        stack: "stack",
         data: EChartDataUtil.getFieldDataArray(measureName, result),
         barWidth: EChartDataUtil.getBarWidth(sampleStyle),
         label: EChartDataUtil.getSeriesLabel(sampleStyle)
@@ -116,7 +117,6 @@ export default class LineHandler implements ChartHandler {
 
     return series;
   }
-
   /**
    * 获取图例
    *

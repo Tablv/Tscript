@@ -22,7 +22,7 @@ import EChartsOption from "@/model/view/dashboard/EChartsOption";
 import AnalysisData from "@/model/view/dashboard/AnalysisData";
 import EventsConfig from "@/model/view/dashboard/EventsConfig";
 import ReactWhere from "@/model/view/ReactWhere";
-import { generalChartStyleOptions } from "@/config/Options";
+import { generalMenuOptions } from "@/config/MenuOptions";
 import UUID from "@/util/UUID";
 import EChartsUtil from "@/util/EChartsUtil";
 import UIUtil from "@/util/UIUtil";
@@ -120,7 +120,7 @@ export default class EChartsComponent extends Vue implements ChartUIService {
   public bindChartEvents(clearEvent: boolean, thisEvents: EventsConfig): void {
     // 事件选项
     let eventSelection = clearEvent
-        ? generalChartStyleOptions.events.method.selection
+        ? generalMenuOptions.events.method.selection
         : null,
       triggerCallback = this.getEventMethod(thisEvents);
 

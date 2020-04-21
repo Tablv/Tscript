@@ -1,4 +1,10 @@
-import { generalChartStyleOptions } from "./Options";
+import { BarTemplates } from "./chart-templates/BarTemplates";
+import { BarStackTemplates } from "./chart-templates/BarStackTemplates";
+import { HBarTemplates } from "./chart-templates/HBarTemplates";
+import { LineTemplates } from "./chart-templates/LineTemplates";
+import { PieTemplates } from "./chart-templates/PieTemplates";
+import { BiaxialTemplates } from "./chart-templates/BiaxialTemplates";
+import { generalMenuOptions } from "./MenuOptions";
 import { WarnDisplayType } from "@/enums/WarnType";
 import { SortType } from "@/enums/SortType";
 import { ChartType } from "@/enums/ChartType";
@@ -85,10 +91,10 @@ export const generalDataTemplate: any = {
   echarts: {
     sampleStyle: {
       global: {
-        color: generalChartStyleOptions.color.selection[0].colors,
+        color: generalMenuOptions.color.selection[0].colors,
         grid: {
           top: {
-            value: 50,
+            value: 60,
             unit: ""
           },
           left: {
@@ -100,7 +106,7 @@ export const generalDataTemplate: any = {
             unit: ""
           },
           bottom: {
-            value: 50,
+            value: 30,
             unit: ""
           }
         }
@@ -126,8 +132,8 @@ export const generalDataTemplate: any = {
         fontSize: 12
       },
       data: [],
-      left: "80%",
-      top: "5%"
+      right: "10%",
+      top: "10%"
     },
     series: []
   }
@@ -137,59 +143,33 @@ export const generalDataTemplate: any = {
  * 各类型仪表盘自定义初始化数据
  */
 export const customDataTemplates: any = {
-  bar: {
-    visualData: {
-      type: ChartType.bar
-    },
-    echarts: {
-      sampleStyle: {
-        bar: {
-          width: {
-            value: 13,
-            unit: ""
-          },
-          label: {
-            show: false,
-            position: "top"
-          },
-          axisLabel: {
-            interval: 0,
-            rotate: 0
-          }
-        }
-      }
-    }
-  },
-  pie: {
-    visualData: {
-      type: ChartType.pie
-    },
-    echarts: {
-      sampleStyle: {
-        pie: {}
-      }
-    }
-  },
-  line: {
-    visualData: {
-      type: ChartType.line
-    },
-    echarts: {
-      sampleStyle: {
-        line: {}
-      }
-    }
-  },
-  biaxial: {
-    visualData: {
-      type: ChartType.biaxial
-    },
-    echarts: {
-      sampleStyle: {
-        biaxial: {}
-      }
-    }
-  }
+  /**
+   * 柱图部分
+   */
+
+  // 柱图
+  bar: BarTemplates.templates,
+
+  // 堆积柱图
+  barStack: BarStackTemplates.templates,
+
+  // 条图
+  hbar: HBarTemplates.templates,
+
+  /**
+   * 饼图
+   */
+  pie: PieTemplates.templates,
+
+  /**
+   * 线图
+   */
+  line: LineTemplates.templates,
+
+  /**
+   * 组合图
+   */
+  biaxial: BiaxialTemplates.templates
 };
 
 /**
@@ -216,7 +196,14 @@ export default class DefaultTemplate {
     // 合并数据
     let generalData = generalDataTemplate,
       customData = customDataTemplates[chartType],
-      defaultConfig = ObjectUtil.merge(generalData, customData, true);
+      defaultConfig: Dashboard = ObjectUtil.merge(
+        generalData,
+        customData,
+        true
+      );
+
+    // 设置图表类型
+    defaultConfig.visualData.type = chartType;
 
     // 保存缓存
     this.configCache.set(chartType, defaultConfig);

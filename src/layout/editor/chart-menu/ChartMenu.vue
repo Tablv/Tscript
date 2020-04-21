@@ -48,7 +48,7 @@
 <script lang="ts">
 import { Component, Vue, Watch, Provide } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
-import { boxCardBodyStyle } from "@/config/Options";
+import { boxCardBodyStyle } from "@/config/CommonOptions";
 import { AxiosRequest } from "@/config/AxiosRequest";
 
 // 左侧菜单

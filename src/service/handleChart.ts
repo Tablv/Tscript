@@ -14,7 +14,10 @@ export default function handleChart(
     throw new Error("找不到对应图表类型的处理方法");
   }
 
-  let styleCustomized = customizedHandler(result, dashboard),
+  let styleCustomized = customizedHandler.getChartHandleResult(
+      result,
+      dashboard
+    ),
     styleGlobal = GlobalHandler(result, dashboard),
     resultStyle = ObjectUtil.merge(styleCustomized, styleGlobal, true);
 

@@ -37,11 +37,11 @@
           ref="chartComponent"
           :item="thisDashboard"
           :index="index"
-          :style="{
+        />
+        <!-- :style="{
             width: thisDashboard.visualData.width + 'px',
             height: thisDashboard.visualData.height + 'px'
-          }"
-        />
+          }" -->
       </div>
     </vdr>
   </div>
@@ -63,7 +63,6 @@ import ChartComponent from "@/layout/common/EChartsComponent.vue";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import ChartToolbar from "@/layout/common/chart-toolbar/CommonToolbar.vue";
-import { customDataTemplates } from "@/config/DefaultTemplate";
 
 @Component({
   components: {
@@ -453,6 +452,10 @@ $handleColor: #09f;
 $borderColor: #00a2ff;
 $shadowColor: #58bee9;
 $shadow: 0 0 6px $shadowColor;
+@mixin topAndLeft($top, $left) {
+  margin-top: $top;
+  margin-left: $left;
+}
 
 .vdr {
   background-color: $bgColor;
@@ -466,6 +469,7 @@ $shadow: 0 0 6px $shadowColor;
   // 当前激活的元素
   &.activeElement {
     border: 1px solid $borderColor;
+    z-index: 6666 !important;
   }
 
   .no-chart-text {
@@ -565,50 +569,42 @@ $shadow: 0 0 6px $shadowColor;
 
     // topLeft
     .handle-tl {
-      margin-top: -2px;
-      margin-left: -2px;
+      @include topAndLeft(-2px, -2px);
     }
 
     // topMiddle
     .handle-tm {
-      margin-top: -3px;
-      margin-left: -5px;
+      @include topAndLeft(-3px, -5px);
     }
 
     // topRight
     .handle-tr {
-      margin-top: -2px;
-      margin-left: -8px;
+      @include topAndLeft(-2px, -8px);
     }
 
     // middleLeft
     .handle-ml {
-      margin-top: -5px;
-      margin-left: -3px;
+      @include topAndLeft(-5px, -3px);
     }
 
     // middleRight
     .handle-mr {
-      margin-top: -5px;
-      margin-left: -7px;
+      @include topAndLeft(-5px, -7px);
     }
 
     // bottomLeft
     .handle-bl {
-      margin-top: -8px;
-      margin-left: -2px;
+      @include topAndLeft(-8px, -2px);
     }
 
     // bottomMiddle
     .handle-bm {
-      margin-top: -7px;
-      margin-left: -5px;
+      @include topAndLeft(-7px, -5px);
     }
 
     // bottomRight
     .handle-br {
-      margin-top: -8px;
-      margin-left: -8px;
+      @include topAndLeft(-8px, -8px);
     }
   }
 }

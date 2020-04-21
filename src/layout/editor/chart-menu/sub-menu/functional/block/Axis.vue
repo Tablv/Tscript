@@ -49,7 +49,7 @@ import { Properties } from "csstype";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import AxisWidget from "../widget/AxisWidget.vue";
 import "@/assets/draggable.scss";
-import Options from "@/config/Options";
+import MenuOptions from "@/config/MenuOptions";
 import FieldDTO from "@/model/params/FieldDTO";
 import { FieldType } from "@/enums/FieldType";
 
@@ -73,7 +73,7 @@ export default class Axis extends Vue {
 
   get isDoubleMeasures(): boolean {
     const chartType = this.currentDashboard?.visualData.type;
-    return Options.getChartFunctionalOptions(chartType)?.doubleMeasures;
+    return MenuOptions.getChartFunctionalOptions(chartType)?.doubleMeasures;
   }
 
   created() {

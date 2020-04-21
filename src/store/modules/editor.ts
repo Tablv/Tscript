@@ -5,7 +5,7 @@ import { Module, GetterTree, MutationTree, ActionTree } from "vuex";
 import { ShortcutType } from "@/enums/ShortcutType";
 import { ChartType } from "@/enums/ChartType";
 import UIUtil from "@/util/UIUtil";
-import Options from "@/config/Options";
+import MenuOptions from "@/config/MenuOptions";
 import ObjectUtil from "@/util/ObjectUtil";
 import { AxiosRequest } from "@/config/AxiosRequest";
 import { customDataTemplates } from "@/config/DefaultTemplate";
@@ -118,8 +118,8 @@ const actions: ActionTree<any, any> = {
   loadOptions({ state, rootGetters }: any): Promise<void> {
     const currentDashboard: Dashboard = rootGetters["common/currentDashboard"],
       type = currentDashboard.visualData.type as ChartType,
-      chartStyleOptions = Options.getChartStyleOptions(type),
-      chartFunctionalOptions = Options.getChartFunctionalOptions(type);
+      chartStyleOptions = MenuOptions.getChartStyleOptions(type),
+      chartFunctionalOptions = MenuOptions.getChartFunctionalOptions(type);
 
     if (!chartStyleOptions || !chartFunctionalOptions) {
       return Promise.reject("图表配置选项不存在");

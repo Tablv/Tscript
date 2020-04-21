@@ -2,64 +2,17 @@ import ObjectUtil from "@/util/ObjectUtil";
 import { ChartType } from "@/enums/ChartType";
 import { ComparableSymbol } from "@/enums/ComparableSymbol";
 
-/**
- * Element-UI 配置
- */
-
-// 树
-export const treeConfig = {
-  children: "children",
-  label: "name"
-};
-
-// 卡片
-export const boxCardBodyStyle = {
-  padding: "8px"
-};
-
-/**
- * 编辑器部分
- */
-
-// 可选图表选项
-export const chartCreateOptions = [
-  {
-    iconClass: "fa fa-3x fa-bar-chart",
-    desc: "柱状图",
-    createType: ChartType.bar,
-    enable: true
-  },
-  {
-    iconClass: "fa fa-3x fa-pie-chart",
-    desc: "饼图",
-    createType: ChartType.pie,
-    enable: true
-  },
-  {
-    iconClass: "fa fa-3x fa-line-chart",
-    desc: "折线图",
-    createType: ChartType.line,
-    enable: true
-  }
-];
-
-/**
- * 仪表盘集
- */
-export const dashboardSetOptions: any = {
-  terminalType: {
-    selection: [
-      { text: "PC", value: 0 },
-      { text: "大屏幕", value: 1 },
-      { text: "手机", value: 2 }
-    ]
-  }
-};
+import { BarTemplates } from "./chart-templates/BarTemplates";
+import { BarStackTemplates } from "./chart-templates/BarStackTemplates";
+import { HBarTemplates } from "./chart-templates/HBarTemplates";
+import { PieTemplates } from "./chart-templates/PieTemplates";
+import { LineTemplates } from "./chart-templates/LineTemplates";
+import { BiaxialTemplates } from "./chart-templates/BiaxialTemplates";
 
 /**
  * 仪表盘通用可选配置
  */
-export const generalChartStyleOptions: any = {
+export const generalMenuOptions: any = {
   title: {
     size: {
       selection: [
@@ -230,30 +183,13 @@ export const generalChartStyleOptions: any = {
 /**
  * 各类型图表的样式配置
  */
-export const customChartStyleOptions: any = {
-  bar: {
-    series: {
-      barWidth: {
-        unit: {
-          selection: [
-            { text: "px", value: "" },
-            { text: "%", value: "%" }
-          ]
-        }
-      },
-      barLabel: {
-        position: {
-          selection: [
-            { text: "顶部", value: "top" },
-            { text: "内部", value: "inside" }
-          ]
-        }
-      }
-    }
-  },
-  pie: {},
-  line: {},
-  biaxial: {}
+export const customMenuOptions: any = {
+  bar: BarTemplates.menuOptions,
+  barStack: BarStackTemplates.menuOptions,
+  hbar: HBarTemplates.menuOptions,
+  pie: PieTemplates.menuOptions,
+  line: LineTemplates.menuOptions,
+  biaxial: BiaxialTemplates.menuOptions
 };
 
 /**
@@ -274,13 +210,17 @@ export const customChartFunctionalOptions: ChartFunctionalOptions = {
   biaxial: {
     doubleMeasures: true,
     changeLimit: []
+  },
+  barStack: {
+    warnable: true,
+    changeLimit: []
   }
 };
 
 /**
  * 初始化模板类
  */
-export default class Options {
+export default class MenuOptions {
   /**
    * 选项缓存
    */
@@ -299,8 +239,8 @@ export default class Options {
     }
 
     // 合并选项
-    let generalOptions = generalChartStyleOptions,
-      customOptions = customChartStyleOptions[chartType],
+    let generalOptions = generalMenuOptions,
+      customOptions = customMenuOptions[chartType],
       options = ObjectUtil.merge(generalOptions, customOptions, true);
 
     // 保存缓存

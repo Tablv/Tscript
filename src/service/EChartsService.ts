@@ -36,7 +36,7 @@ export default class EChartsService {
 
     const resultStyle = ChartHandler(result, dashboard);
 
-    return resultStyle;
+    return resultStyle as EChartsOption;
   }
 
   /**

@@ -85,6 +85,12 @@ export interface EChartsSampleStyle {
     };
   };
 
+  // 堆积柱图
+  barStack?: {};
+
+  // 条图
+  hbar?: {};
+
   // 饼图配置
   pie?: {};
 

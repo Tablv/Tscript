@@ -41,7 +41,7 @@ import { DatasetType } from "@/enums/DatasetType";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
-import { chartCreateOptions } from "@/config/Options";
+import { chartCreateOptions } from "@/config/EditorOptions";
 import { EditorStore, CommonStore } from "@/store/modules-model";
 import DashboardSet from "@/model/view/DashboardSet";
 import { AxiosRequest } from "@/config/AxiosRequest";
@@ -144,9 +144,11 @@ export default class ToolBar extends Vue {
 ::v-deep {
   .el-drawer__body {
     display: flex;
+    padding: 0 20px;
     flex: inherit;
     flex-flow: row wrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .chart-type .fa {

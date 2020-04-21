@@ -53,7 +53,7 @@ import FilterDialog from "./filter/main.vue";
 import SortDialog from "./sort/main.vue";
 import WarnDialog from "./warn/main.vue";
 import { ChartType } from "@/enums/ChartType";
-import Options from "@/config/Options";
+import MenuOptions from "@/config/MenuOptions";
 
 /**
  * 组件是否可见的 Map
@@ -126,8 +126,9 @@ export default class DetailToolbar extends Vue {
    * 是否可预警
    */
   get isWarnable() {
-    return Options.getChartFunctionalOptions(this.thisDashboard.visualData.type)
-      ?.warnable;
+    return MenuOptions.getChartFunctionalOptions(
+      this.thisDashboard.visualData.type
+    )?.warnable;
   }
 
   /**

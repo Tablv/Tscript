@@ -135,7 +135,6 @@ export default class Editor extends Vue {
 
   loadData(setId: string): void {
     let loadingInstance = UIUtil.showLoading();
-
     this.setDashboardSetId(setId);
 
     Promise.all([this.loadDashboardSet(), this.loadDashboards()])
@@ -246,7 +245,7 @@ $bottomHeight: 50px;
   right: 0;
   width: $floatMenuWidth;
   overflow: hidden;
-  z-index: 6000;
+  z-index: 10001;
 
   &:after {
     clear: both;
