@@ -101,7 +101,7 @@ export default class BarStackHandler implements ChartHandler {
     result: AnalysisResults,
     sampleStyle: EChartsSampleStyle
   ): Array<echarts.EChartOption.Series> {
-    let series: Array<echarts.EChartOption.Series> = [];
+    let series: Array<echarts.EChartOption.Series | { data: Array<any> }> = [];
 
     fieldNames.measures.forEach(measureName => {
       const seriesData = {

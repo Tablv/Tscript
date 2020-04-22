@@ -1,5 +1,6 @@
 import { BarConfig } from "./chart-config/Bar";
 import { BarStackConfig } from "./chart-config/BarStack";
+import { BarPercentageConfig } from "./chart-config/BarPercentage";
 import { HBarConfig } from "./chart-config/HBar";
 import { LineConfig } from "./chart-config/Line";
 import { PieConfig } from "./chart-config/Pie";
@@ -55,6 +56,9 @@ export default class ChartConfig {
 
     // 堆积柱图
     barStack: BarStackConfig,
+
+    // 百分比堆积柱图
+    barPercentage: BarPercentageConfig,
 
     // 条图
     hbar: HBarConfig,

@@ -21,6 +21,27 @@ export default class EChartServiceUtil {
     return fieldArray;
   }
 
+  public static getPercentageArray(
+    fieldName: string,
+    result: AnalysisResults
+  ): Array<string | number> {
+    let fieldArray: Array<string | number> = [];
+
+    let sumResult = result.reduce(
+      (sum: any, value: any) => sum + value[fieldName],
+      0
+    );
+
+    // result.forEach(data => {
+    //   fieldArray.push(data[fieldName]);
+    // });
+    fieldArray = result.map(
+      (data: any) => (data[fieldName] * 1000) / sumResult
+    );
+
+    return fieldArray;
+  }
+
   /**
    * 获取柱宽
    *
