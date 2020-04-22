@@ -26,7 +26,7 @@ const menuOptions = {};
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-icon gw-iconfsux_zhexiantu",
+  iconClass: "gw-iconfsux_zhexiantu",
   title: "折线图",
   createType: ChartType.line,
   enable: true
