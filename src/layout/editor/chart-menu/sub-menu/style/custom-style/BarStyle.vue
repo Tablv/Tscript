@@ -17,14 +17,14 @@
         <el-row>
           <el-col :span="12">
             <el-slider
-              v-model="currentDashboard.echarts.sampleStyle.bar.width.value"
+              v-model="sampleStyleData.width.value"
               :max="30"
               :min="1"
             />
           </el-col>
           <el-col :span="10" :offset="2">
             <el-select
-              v-model="currentDashboard.echarts.sampleStyle.bar.width.unit"
+              v-model="sampleStyleData.width.unit"
               size="mini"
               placeholder="单位"
             >
@@ -45,14 +45,13 @@
         <el-row>
           <el-col :span="12">
             <el-switch
-              v-model="currentDashboard.echarts.sampleStyle.bar.label.show"
+              v-model="sampleStyleData.label.show"
               active-color="#13ce66"
             />
           </el-col>
-          <el-col :span="10" :offset="2">
+          <el-col v-if="sampleStyleData.label.show" :span="10" :offset="2">
             <el-select
-              v-if="currentDashboard.echarts.sampleStyle.bar.label.show"
-              v-model="currentDashboard.echarts.sampleStyle.bar.label.position"
+              v-model="sampleStyleData.label.position"
               size="mini"
               placeholder="位置"
             >
@@ -73,9 +72,7 @@
         <el-row>
           <el-col :offset="1" :span="23">
             <el-slider
-              v-model="
-                currentDashboard.echarts.sampleStyle.bar.axisLabel.rotate
-              "
+              v-model="sampleStyleData.axisLabel.rotate"
               :max="360"
               :min="0"
             />
@@ -87,11 +84,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Inject } from "vue-property-decorator";
+import { Component, Vue, Inject, Prop } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ColorOption from "../common/ColorOption.vue";
+import { BarChartOption } from "@/config/chart-config/Bar";
 
 @Component({
   components: {
@@ -104,6 +102,13 @@ export default class BarStyle extends Vue {
 
   @EditorStore.State("styleSelection")
   styleSelection!: any;
+
+  @Prop()
+  sampleStyle!: BarChartOption;
+
+  get sampleStyleData() {
+    return this.sampleStyle;
+  }
 
   @Inject()
   boxCardBodyStyle!: Properties;

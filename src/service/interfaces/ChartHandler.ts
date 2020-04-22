@@ -1,7 +1,7 @@
+import { ChartOption } from "@/config/ChartConfig";
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
-import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
 
 /**
  * 图表通用处理 接口
@@ -9,7 +9,8 @@ import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
 export default interface ChartHandler {
   getChartHandleResult(
     result: AnalysisResults,
-    dashboard: Dashboard
+    dashboard: Dashboard,
+    sampleStyle: ChartOption
   ): echarts.EChartOption;
   /**
    * 获取 X轴 数据
@@ -21,7 +22,7 @@ export default interface ChartHandler {
   getXAxis(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: ChartOption
   ): Array<echarts.EChartOption.XAxis>;
 
   /**
@@ -30,7 +31,7 @@ export default interface ChartHandler {
   getYAxis(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: ChartOption
   ): Array<echarts.EChartOption.YAxis>;
 
   /**
@@ -43,7 +44,7 @@ export default interface ChartHandler {
   getSeries(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: ChartOption
   ): Array<echarts.EChartOption.Series>;
 
   /**

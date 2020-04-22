@@ -2,6 +2,7 @@ import { BarConfig } from "./chart-config/Bar";
 import { BarStackConfig } from "./chart-config/BarStack";
 import { BarPercentageConfig } from "./chart-config/BarPercentage";
 import { HBarConfig } from "./chart-config/HBar";
+import { HBarStackConfig } from "./chart-config/HBarStack";
 import { LineConfig } from "./chart-config/Line";
 import { PieConfig } from "./chart-config/Pie";
 import { BiaxialConfig } from "./chart-config/Biaxial";
@@ -33,6 +34,11 @@ export type ChartConfigItem = {
 };
 
 /**
+ * 图表样式
+ */
+export interface ChartOption {}
+
+/**
  * 创建菜单配置
  */
 export type CreateMenuConfig = {
@@ -62,6 +68,9 @@ export default class ChartConfig {
 
     // 条图
     hbar: HBarConfig,
+
+    // 堆积条图
+    hbarStack: HBarStackConfig,
 
     /**
      * 饼图

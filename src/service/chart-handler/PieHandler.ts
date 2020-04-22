@@ -1,4 +1,3 @@
-import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import { SplitedFieldNames } from "../EChartsService";
 import Dashboard from "@/model/view/dashboard/Dashboard";
@@ -6,6 +5,7 @@ import ObjectUtil from "@/util/ObjectUtil";
 import EChartsService from "../EChartsService";
 import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
+import { PieChartOption } from "@/config/chart-config/Pie";
 
 /**
  * 饼图处理
@@ -13,7 +13,8 @@ import EChartDataUtil from "@/util/EChartDataUtil";
 export default class PieHandler implements ChartHandler {
   public getChartHandleResult(
     result: AnalysisResults,
-    dashboard: Dashboard
+    dashboard: Dashboard,
+    sampleStyle: PieChartOption
   ): echarts.EChartOption {
     let style: echarts.EChartOption = {};
 
@@ -33,6 +34,7 @@ export default class PieHandler implements ChartHandler {
 
     return style;
   }
+
   /**
    * 获取X轴数据
    *
@@ -43,7 +45,7 @@ export default class PieHandler implements ChartHandler {
   getXAxis(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: PieChartOption
   ): Array<echarts.EChartOption.XAxis> {
     return [] as Array<echarts.EChartOption.XAxis>;
   }

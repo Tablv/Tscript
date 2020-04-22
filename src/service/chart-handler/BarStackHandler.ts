@@ -1,8 +1,8 @@
+import { BarChartOption } from "@/config/chart-config/Bar";
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
-import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
 import EChartsService from "../EChartsService";
 import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
@@ -15,7 +15,8 @@ import EChartDataUtil from "@/util/EChartDataUtil";
 export default class BarStackHandler implements ChartHandler {
   public getChartHandleResult(
     result: AnalysisResults,
-    dashboard: Dashboard
+    dashboard: Dashboard,
+    sampleStyle: BarChartOption
   ): echarts.EChartOption {
     let style: echarts.EChartOption = {};
 
@@ -28,13 +29,12 @@ export default class BarStackHandler implements ChartHandler {
 
     // 存在数据时，继续处理
     const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
-        result[0],
-        dashboard
-      ),
-      sampleStyle = dashboard.echarts.sampleStyle;
+      result[0],
+      dashboard
+    );
 
     style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
-    style.yAxis = this.getYAxis();
+    style.yAxis = this.getYAxis(fieldNames, result, sampleStyle);
     style.series = this.getSeries(fieldNames, result, sampleStyle);
     style.legend = this.getLegend(fieldNames);
 
@@ -57,7 +57,7 @@ export default class BarStackHandler implements ChartHandler {
   public getXAxis(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.XAxis> {
     let xAxis: Array<echarts.EChartOption.XAxis> = [];
 
@@ -68,8 +68,8 @@ export default class BarStackHandler implements ChartHandler {
         type: "category",
         data: EChartDataUtil.getFieldDataArray(dimensionName, result),
         axisLabel: {
-          interval: sampleStyle.bar ? sampleStyle.bar.axisLabel.interval : 0,
-          rotate: sampleStyle.bar ? sampleStyle.bar.axisLabel.rotate : 0
+          interval: sampleStyle ? sampleStyle.axisLabel.interval : 0,
+          rotate: sampleStyle ? sampleStyle.axisLabel.rotate : 0
         }
       } as echarts.EChartOption.XAxis;
       xAxis.push(axisXData);
@@ -81,7 +81,11 @@ export default class BarStackHandler implements ChartHandler {
   /**
    * 获取Y轴数据
    */
-  public getYAxis(): Array<echarts.EChartOption.YAxis> {
+  public getYAxis(
+    fieldNames: SplitedFieldNames,
+    result: AnalysisResults,
+    sampleStyle: BarChartOption
+  ): Array<echarts.EChartOption.YAxis> {
     return [
       {
         type: "value"
@@ -99,7 +103,7 @@ export default class BarStackHandler implements ChartHandler {
   public getSeries(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series | { data: Array<any> }> = [];
 
@@ -110,7 +114,7 @@ export default class BarStackHandler implements ChartHandler {
         stack: "stack",
         data: EChartDataUtil.getFieldDataArray(measureName, result),
         barWidth: EChartDataUtil.getBarWidth(sampleStyle),
-        label: EChartDataUtil.getSeriesLabel(sampleStyle)
+        label: EChartDataUtil.getBarSeriesLabel(sampleStyle)
       };
       series.push(seriesData);
     });

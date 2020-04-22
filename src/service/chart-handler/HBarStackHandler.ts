@@ -1,15 +1,15 @@
-import { BarChartOption } from "@/config/chart-config/Bar";
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import EChartsService from "../EChartsService";
-import BarHandler from "./BarHandler";
+import BarStackHandler from "./BarStackHandler";
+import { BarChartOption } from "@/config/chart-config/Bar";
 
 /**
- * 条图处理
+ * 堆积条图处理
  */
-export default class HBarHandler extends BarHandler {
+export default class HBarStackHandler extends BarStackHandler {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard,

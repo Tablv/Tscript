@@ -1,14 +1,10 @@
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import ObjectUtil from "@/util/ObjectUtil";
 import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
-import EChartsService from "../EChartsService";
-import warnConfigure from "./configure/WarnConfigure";
-import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 // import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
 import BarStackHandler from "./BarStackHandler";
+import { BarChartOption } from "@/config/chart-config/Bar";
 
 /**
  * 堆积柱图处理
@@ -43,7 +39,7 @@ export default class BarPercentageHandler extends BarStackHandler {
   public getSeries(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series> = [];
 
@@ -54,7 +50,7 @@ export default class BarPercentageHandler extends BarStackHandler {
         stack: "stack",
         data: EChartDataUtil.getPercentageArray(measureName, result),
         barWidth: EChartDataUtil.getBarWidth(sampleStyle),
-        label: EChartDataUtil.getSeriesLabel(sampleStyle)
+        label: EChartDataUtil.getBarSeriesLabel(sampleStyle)
       };
       series.push(seriesData);
     });
