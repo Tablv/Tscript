@@ -27,6 +27,11 @@ export const enum ChartType {
    */
   pie = "pie",
 
+   /**
+   * 环形图
+   */
+  rpie = "rpie",
+
   /**
    * 线图
    */
