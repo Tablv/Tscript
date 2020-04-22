@@ -1,4 +1,4 @@
-import { ChartOption } from '@/config/ChartConfig';
+import { ChartOption } from "@/config/ChartConfig";
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";

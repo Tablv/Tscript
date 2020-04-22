@@ -1,10 +1,11 @@
 import { BarChartOption } from "@/config/chart-config/Bar";
 import { BarStackChartOption } from "@/config/chart-config/BarStack";
 import { HBarChartOption } from "@/config/chart-config/HBar";
-import { HBarStackChartOption } from '@/config/chart-config/HBarStack';
+import { HBarStackChartOption } from "@/config/chart-config/HBarStack";
 import { PieChartOption } from "@/config/chart-config/Pie";
 import { RPieChartOption } from "@/config/chart-config/RPie";
 import { LineChartOption } from "@/config/chart-config/Line";
+import { BarPercentageChartOption } from "@/config/chart-config/BarPercentage";
 import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
 
 /**
@@ -81,6 +82,9 @@ export interface EChartsSampleStyle {
 
   // 堆积柱图
   barStack?: BarStackChartOption;
+
+  // 百分比堆积柱图
+  barPercentage?: BarPercentageChartOption;
 
   // 条图
   hbar?: HBarChartOption;

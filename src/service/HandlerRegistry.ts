@@ -1,6 +1,7 @@
 import ChartHandler from "./interfaces/ChartHandler";
 import BarHandler from "./chart-handler/BarHandler";
 import BarStackHandler from "./chart-handler/BarStackHandler";
+import BarPercentageHandler from "./chart-handler/BarPercentageHandler";
 import HBarHandler from "./chart-handler/HBarHandler";
 import PieHandler from "./chart-handler/PieHandler";
 import RPieHandler from "./chart-handler/RPieHandler";
@@ -12,6 +13,7 @@ const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
    */
   bar: new BarHandler(),
   barStack: new BarStackHandler(),
+  barPercentage: new BarPercentageHandler(),
 
   hbar: new HBarHandler(),
 

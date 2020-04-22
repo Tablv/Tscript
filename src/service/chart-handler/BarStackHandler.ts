@@ -1,4 +1,4 @@
-import { BarChartOption } from '@/config/chart-config/Bar';
+import { BarChartOption } from "@/config/chart-config/Bar";
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
@@ -29,9 +29,9 @@ export default class BarStackHandler implements ChartHandler {
 
     // 存在数据时，继续处理
     const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
-        result[0],
-        dashboard
-      );
+      result[0],
+      dashboard
+    );
 
     style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
     style.yAxis = this.getYAxis(fieldNames, result, sampleStyle);
@@ -105,7 +105,7 @@ export default class BarStackHandler implements ChartHandler {
     result: AnalysisResults,
     sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.Series> {
-    let series: Array<echarts.EChartOption.Series> = [];
+    let series: Array<echarts.EChartOption.Series | { data: Array<any> }> = [];
 
     fieldNames.measures.forEach(measureName => {
       const seriesData = {

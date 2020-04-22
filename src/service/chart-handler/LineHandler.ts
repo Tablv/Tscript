@@ -7,7 +7,7 @@ import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
-import { LineChartOption } from '@/config/chart-config/Line';
+import { LineChartOption } from "@/config/chart-config/Line";
 
 /**
  * 折线图处理
@@ -29,9 +29,9 @@ export default class LineHandler implements ChartHandler {
 
     // 存在数据时，继续处理
     const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
-        result[0],
-        dashboard
-      );
+      result[0],
+      dashboard
+    );
 
     style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
     style.yAxis = this.getYAxis();

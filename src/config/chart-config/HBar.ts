@@ -28,7 +28,7 @@ const menuOptions = ObjectUtil.copy(BarConfig.menuOptions);
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-icon gw-iconfsux_tubiao_zhuzhuangtu",
+  iconClass: "gw-iconfsux_tubiao_zhuzhuangtu",
   title: "条图",
   createType: ChartType.hbar,
   enable: true

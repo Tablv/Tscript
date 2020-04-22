@@ -13,6 +13,10 @@ import "@/dependencies/element-ui.js";
 // Vue-Clipboard
 import "@/dependencies/vue-clipboard";
 
+// Svg Icons
+import "@/assets/font/svg_icon.css";
+import "@/assets/font/svg_icon.js";
+
 // 原型挂载
 Vue.prototype.axiosPath = "/admin";
 

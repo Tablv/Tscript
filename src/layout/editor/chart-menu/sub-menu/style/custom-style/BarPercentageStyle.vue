@@ -5,7 +5,7 @@
     :shadow="boxCardShadow"
   >
     <div slot="header">
-      <span>堆积柱图样式</span>
+      <span>百分比堆积柱图样式</span>
     </div>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
