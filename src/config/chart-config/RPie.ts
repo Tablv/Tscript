@@ -27,7 +27,7 @@ const menuOptions = ObjectUtil.copy(PieConfig.menuOptions);
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-icon gw-iconfsux_tubiao_baifenbihuantu", 
+  iconClass: "gw-iconfsux_tubiao_baifenbihuantu", 
   title: "环形图",
   createType: ChartType.rpie,
   enable: true
