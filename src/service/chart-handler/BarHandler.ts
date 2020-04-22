@@ -8,7 +8,7 @@ import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
-import { BarChartOption } from '@/config/chart-config/Bar';
+import { BarChartOption } from "@/config/chart-config/Bar";
 
 /**
  * 柱图处理
@@ -30,9 +30,9 @@ export default class BarHandler implements ChartHandler {
 
     // 存在数据时，继续处理
     const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
-        result[0],
-        dashboard
-      );
+      result[0],
+      dashboard
+    );
 
     style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
     style.yAxis = this.getYAxis(fieldNames, result, sampleStyle);

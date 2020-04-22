@@ -106,7 +106,8 @@ export default class TitleStyle extends Vue {
      * 柱图
      */
     bar: () => import("./custom-style/BarStyle.vue"),
-    barStack: () => import("./custom-style/BarStyle.vue"),
+    barStack: () => import("./custom-style/BarStackStyle.vue"),
+    barPercentage: () => import("./custom-style/BarStyle.vue"),
     hbar: () => import("./custom-style/BarStyle.vue"),
     hbarStack: () => import("./custom-style/BarStyle.vue"),
 

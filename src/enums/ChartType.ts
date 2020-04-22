@@ -13,6 +13,11 @@ export const enum ChartType {
   barStack = "barStack",
 
   /**
+   * 百分比柱图
+   */
+  barPercentage = "barPercentage",
+
+  /**
    * 条形图
    */
   hbar = "hbar",

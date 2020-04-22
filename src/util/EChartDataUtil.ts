@@ -1,6 +1,6 @@
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
-import { BarChartOption } from '@/config/chart-config/Bar';
+import { BarChartOption } from "@/config/chart-config/Bar";
 
 export default class EChartServiceUtil {
   /**
@@ -22,14 +22,33 @@ export default class EChartServiceUtil {
     return fieldArray;
   }
 
+  public static getPercentageArray(
+    fieldName: string,
+    result: AnalysisResults
+  ): Array<string | number> {
+    let fieldArray: Array<string | number> = [];
+
+    let sumResult = result.reduce(
+      (sum: any, value: any) => sum + value[fieldName],
+      0
+    );
+
+    // result.forEach(data => {
+    //   fieldArray.push(data[fieldName]);
+    // });
+    fieldArray = result.map(
+      (data: any) => (data[fieldName] * 1000) / sumResult
+    );
+
+    return fieldArray;
+  }
+
   /**
    * 获取柱宽
    *
    * @param sampleStyle 样例样式
    */
-  public static getBarWidth(
-    sampleStyle: BarChartOption
-  ): string | undefined {
+  public static getBarWidth(sampleStyle: BarChartOption): string | undefined {
     return sampleStyle
       ? sampleStyle.width.value + sampleStyle.width.unit
       : undefined;

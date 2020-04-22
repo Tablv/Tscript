@@ -3,8 +3,8 @@ import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import EChartsService from "../EChartsService";
-import BarStackHandler from './BarStackHandler';
-import { BarChartOption } from '@/config/chart-config/Bar';
+import BarStackHandler from "./BarStackHandler";
+import { BarChartOption } from "@/config/chart-config/Bar";
 
 /**
  * 堆积条图处理
@@ -15,7 +15,11 @@ export default class HBarStackHandler extends BarStackHandler {
     dashboard: Dashboard,
     sampleStyle: BarChartOption
   ): echarts.EChartOption {
-    let style: echarts.EChartOption = super.getChartHandleResult(result, dashboard, sampleStyle);
+    let style: echarts.EChartOption = super.getChartHandleResult(
+      result,
+      dashboard,
+      sampleStyle
+    );
 
     if (ObjectUtil.isEmpty(result)) {
       return {};
@@ -23,9 +27,9 @@ export default class HBarStackHandler extends BarStackHandler {
 
     // 存在数据时，继续处理
     const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
-        result[0],
-        dashboard
-      );
+      result[0],
+      dashboard
+    );
 
     style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
     style.yAxis = this.getYAxis(fieldNames, result, sampleStyle);

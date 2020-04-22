@@ -1,4 +1,4 @@
-import { ChartOption } from '@/config/ChartConfig';
+import { ChartOption } from "@/config/ChartConfig";
 import ObjectUtil from "@/util/ObjectUtil";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
@@ -15,7 +15,9 @@ export default function handleChart(
     throw new Error("找不到对应图表类型的处理方法");
   }
 
-  const sampleStyle = dashboard.echarts.sampleStyle[dashboard.visualData.type] as ChartOption;
+  const sampleStyle = dashboard.echarts.sampleStyle[
+    dashboard.visualData.type
+  ] as ChartOption;
 
   let styleCustomized = customizedHandler.getChartHandleResult(
       result,

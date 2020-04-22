@@ -1,4 +1,4 @@
-import { BarChartOption } from '@/config/chart-config/Bar';
+import { BarChartOption } from "@/config/chart-config/Bar";
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
@@ -15,7 +15,11 @@ export default class HBarHandler extends BarHandler {
     dashboard: Dashboard,
     sampleStyle: BarChartOption
   ): echarts.EChartOption {
-    let style: echarts.EChartOption = super.getChartHandleResult(result, dashboard, sampleStyle);
+    let style: echarts.EChartOption = super.getChartHandleResult(
+      result,
+      dashboard,
+      sampleStyle
+    );
 
     if (ObjectUtil.isEmpty(result)) {
       return {};
@@ -23,9 +27,9 @@ export default class HBarHandler extends BarHandler {
 
     // 存在数据时，继续处理
     const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
-        result[0],
-        dashboard
-      );
+      result[0],
+      dashboard
+    );
 
     style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
     style.yAxis = this.getYAxis(fieldNames, result, sampleStyle);
