@@ -15,7 +15,7 @@ const templates = {
   echarts: {
     sampleStyle: {
       barPercentage: ObjectUtil.copy(
-        BarStackConfig.templates.echarts.sampleStyle.bar
+        BarStackConfig.templates.echarts.sampleStyle.barStack
       )
     }
   }
