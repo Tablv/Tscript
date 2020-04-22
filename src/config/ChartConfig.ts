@@ -5,8 +5,10 @@ import { HBarConfig } from "./chart-config/HBar";
 import { HBarStackConfig } from "./chart-config/HBarStack";
 import { LineConfig } from "./chart-config/Line";
 import { PieConfig } from "./chart-config/Pie";
+import { RPieConfig } from "./chart-config/RPie"; 
 import { BiaxialConfig } from "./chart-config/Biaxial";
-import { ChartType } from "@/enums/ChartType";
+import { ChartType } from "@/enums/ChartType"; 
+
 
 /**
  * 图表全部配置项
@@ -76,6 +78,11 @@ export default class ChartConfig {
      * 饼图
      */
     pie: PieConfig,
+
+     /**
+     * 环形图
+     */
+    rpie: RPieConfig,
 
     /**
      * 线图
