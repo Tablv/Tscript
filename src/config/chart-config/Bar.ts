@@ -1,10 +1,11 @@
+import { ChartOption } from "@/config/ChartConfig";
 import { ChartConfigItem } from "@/config/ChartConfig";
 import { ChartType } from "@/enums/ChartType";
 
 /**
  * 图表类型
  */
-export type BarChartOption = {
+export type BarChartOption = ChartOption & {
   width: {
     value: number;
     unit: string; // '%'  or  '' (px)
