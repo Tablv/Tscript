@@ -8,6 +8,7 @@ import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
+import { BarChartOption } from '@/config/chart-config/Bar';
 
 /**
  * 柱图处理
@@ -15,7 +16,8 @@ import EChartDataUtil from "@/util/EChartDataUtil";
 export default class BarHandler implements ChartHandler {
   public getChartHandleResult(
     result: AnalysisResults,
-    dashboard: Dashboard
+    dashboard: Dashboard,
+    sampleStyle: BarChartOption
   ): echarts.EChartOption {
     let style: echarts.EChartOption = {};
 
@@ -30,8 +32,7 @@ export default class BarHandler implements ChartHandler {
     const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
         result[0],
         dashboard
-      ),
-      sampleStyle = dashboard.echarts.sampleStyle;
+      );
 
     style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
     style.yAxis = this.getYAxis(fieldNames, result, sampleStyle);
@@ -58,7 +59,7 @@ export default class BarHandler implements ChartHandler {
   public getXAxis(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.XAxis> {
     let xAxis: Array<echarts.EChartOption.XAxis> = [];
 
@@ -69,8 +70,8 @@ export default class BarHandler implements ChartHandler {
         type: "category",
         data: EChartDataUtil.getFieldDataArray(dimensionName, result),
         axisLabel: {
-          interval: sampleStyle.bar ? sampleStyle.bar.axisLabel.interval : 0,
-          rotate: sampleStyle.bar ? sampleStyle.bar.axisLabel.rotate : 0
+          interval: sampleStyle ? sampleStyle.axisLabel.interval : 0,
+          rotate: sampleStyle ? sampleStyle.axisLabel.rotate : 0
         }
       } as echarts.EChartOption.XAxis;
       xAxis.push(axisXData);
@@ -85,7 +86,7 @@ export default class BarHandler implements ChartHandler {
   public getYAxis(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.YAxis> {
     return [
       {
@@ -104,7 +105,7 @@ export default class BarHandler implements ChartHandler {
   public getSeries(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series> = [];
 
@@ -114,7 +115,7 @@ export default class BarHandler implements ChartHandler {
         type: "bar",
         data: EChartDataUtil.getFieldDataArray(measureName, result),
         barWidth: EChartDataUtil.getBarWidth(sampleStyle),
-        label: EChartDataUtil.getSeriesLabel(sampleStyle)
+        label: EChartDataUtil.getBarSeriesLabel(sampleStyle)
       };
       series.push(seriesData);
     });

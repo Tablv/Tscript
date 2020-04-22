@@ -1,5 +1,6 @@
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
+import { BarChartOption } from '@/config/chart-config/Bar';
 
 export default class EChartServiceUtil {
   /**
@@ -27,20 +28,20 @@ export default class EChartServiceUtil {
    * @param sampleStyle 样例样式
    */
   public static getBarWidth(
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: BarChartOption
   ): string | undefined {
-    return sampleStyle.bar
-      ? sampleStyle.bar.width.value + sampleStyle.bar.width.unit
+    return sampleStyle
+      ? sampleStyle.width.value + sampleStyle.width.unit
       : undefined;
   }
 
-  public static getSeriesLabel(
-    sampleStyle: EChartsSampleStyle
+  public static getBarSeriesLabel(
+    sampleStyle: BarChartOption
   ): echarts.EChartOption.SeriesBar["label"] {
-    return sampleStyle.bar
+    return sampleStyle
       ? {
-          show: sampleStyle.bar.label.show,
-          position: sampleStyle.bar.label.position
+          show: sampleStyle.label.show,
+          position: sampleStyle.label.position
         }
       : {};
   }

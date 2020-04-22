@@ -2,12 +2,12 @@ import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
-import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
 import EChartsService from "../EChartsService";
 import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 import ChartHandler from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
+import { LineChartOption } from '@/config/chart-config/Line';
 
 /**
  * 折线图处理
@@ -15,7 +15,8 @@ import EChartDataUtil from "@/util/EChartDataUtil";
 export default class LineHandler implements ChartHandler {
   public getChartHandleResult(
     result: AnalysisResults,
-    dashboard: Dashboard
+    dashboard: Dashboard,
+    sampleStyle: LineChartOption
   ): echarts.EChartOption {
     let style: echarts.EChartOption = {};
 
@@ -30,8 +31,7 @@ export default class LineHandler implements ChartHandler {
     const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
         result[0],
         dashboard
-      ),
-      sampleStyle = dashboard.echarts.sampleStyle;
+      );
 
     style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
     style.yAxis = this.getYAxis();
@@ -58,7 +58,7 @@ export default class LineHandler implements ChartHandler {
   public getXAxis(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: LineChartOption
   ): Array<echarts.EChartOption.XAxis> {
     let xAxis: Array<echarts.EChartOption.XAxis> = [];
 
@@ -67,11 +67,7 @@ export default class LineHandler implements ChartHandler {
       const axisXData = {
         name: dimensionName,
         type: "category",
-        data: EChartDataUtil.getFieldDataArray(dimensionName, result),
-        axisLabel: {
-          interval: sampleStyle.bar ? sampleStyle.bar.axisLabel.interval : 0,
-          rotate: sampleStyle.bar ? sampleStyle.bar.axisLabel.rotate : 0
-        }
+        data: EChartDataUtil.getFieldDataArray(dimensionName, result)
       } as echarts.EChartOption.XAxis;
       xAxis.push(axisXData);
     });
@@ -99,7 +95,7 @@ export default class LineHandler implements ChartHandler {
   public getSeries(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
-    sampleStyle: EChartsSampleStyle
+    sampleStyle: LineChartOption
   ): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series> = [];
 
@@ -107,9 +103,7 @@ export default class LineHandler implements ChartHandler {
       const seriesData = {
         name: measureName,
         type: "line",
-        data: EChartDataUtil.getFieldDataArray(measureName, result),
-        barWidth: EChartDataUtil.getBarWidth(sampleStyle),
-        label: EChartDataUtil.getSeriesLabel(sampleStyle)
+        data: EChartDataUtil.getFieldDataArray(measureName, result)
       };
       series.push(seriesData);
     });

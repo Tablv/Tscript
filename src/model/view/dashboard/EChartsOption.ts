@@ -1,9 +1,10 @@
-import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
-import { PieChartOption } from "@/config/chart-config/Pie";
-import { HBarChartOption } from "@/config/chart-config/HBar";
-import { BarStackChartOption } from "@/config/chart-config/BarStack";
 import { BarChartOption } from "@/config/chart-config/Bar";
+import { BarStackChartOption } from "@/config/chart-config/BarStack";
+import { HBarChartOption } from "@/config/chart-config/HBar";
+import { HBarStackChartOption } from '@/config/chart-config/HBarStack';
+import { PieChartOption } from "@/config/chart-config/Pie";
 import { LineChartOption } from "@/config/chart-config/Line";
+import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
 
 /**
  * ECharts Option
@@ -82,6 +83,9 @@ export interface EChartsSampleStyle {
 
   // 条图
   hbar?: HBarChartOption;
+
+  // 堆积条图
+  hbarStack?: HBarStackChartOption;
 
   // 饼图配置
   pie?: PieChartOption;

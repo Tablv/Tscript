@@ -82,6 +82,7 @@ import { Component, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "@/model/view/dashboard/Dashboard";
+import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
 
 @Component
 export default class TitleStyle extends Vue {
@@ -105,8 +106,9 @@ export default class TitleStyle extends Vue {
      * 柱图
      */
     bar: () => import("./custom-style/BarStyle.vue"),
-    barStack: () => import("./custom-style/BarStackStyle.vue"),
+    barStack: () => import("./custom-style/BarStyle.vue"),
     hbar: () => import("./custom-style/BarStyle.vue"),
+    hbarStack: () => import("./custom-style/BarStyle.vue"),
 
     /**
      * 饼图
@@ -124,11 +126,22 @@ export default class TitleStyle extends Vue {
     biaxial: () => import("./custom-style/LineStyle.vue")
   };
 
-  render(h: CreateElement) {
-    const component = this.componentRegistry[
-      this.currentDashboard.visualData.type
-    ];
-    return h(component);
+  get chartType() {
+    return this.currentDashboard.visualData.type;
+  }
+
+  get sampleStyle() {
+    return this.currentDashboard.echarts.sampleStyle[this.chartType];
+  }
+
+  render(createElement: CreateElement) {
+    // 通过图表类型，获取对应的样式配置
+    const component = this.componentRegistry[this.chartType];
+    return createElement(component, {
+      props: {
+        sampleStyle: this.sampleStyle
+      }
+    });
   }
 }
 </script>
