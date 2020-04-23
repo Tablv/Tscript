@@ -14,7 +14,7 @@ export type HBarStackChartOption = HBarChartOption;
 const templates = {
   echarts: {
     sampleStyle: {
-      hbar: ObjectUtil.copy(HBarConfig.templates.echarts.sampleStyle.bar)
+      hbarStack: ObjectUtil.copy(HBarConfig.templates.echarts.sampleStyle.hbar)
     }
   }
 };

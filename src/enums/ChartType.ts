@@ -28,11 +28,16 @@ export const enum ChartType {
   hbarStack = "hbarStack",
 
   /**
+   * 百分比堆积条图
+   */
+  hbarPercentage = "hbarPercentage",
+
+  /**
    * 饼图
    */
   pie = "pie",
 
-   /**
+  /**
    * 环形图
    */
   rpie = "rpie",

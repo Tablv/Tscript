@@ -15,7 +15,11 @@ export default class RosePieHandler extends PieChartOption {
     dashboard: Dashboard,
     sampleStyle: RosePieChartOption
   ): echarts.EChartOption {
-    let style: echarts.EChartOption = super.getChartHandleResult(result, dashboard, sampleStyle) as echarts.EChartOption;
+    let style: echarts.EChartOption = super.getChartHandleResult(
+      result,
+      dashboard,
+      sampleStyle
+    ) as echarts.EChartOption;
 
     if (ObjectUtil.isEmpty(result)) {
       return {};
@@ -42,11 +46,12 @@ export default class RosePieHandler extends PieChartOption {
     result: AnalysisResults
   ): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series> = [];
-    series = (super.getSeries(fieldNames, result) as Array<echarts.EChartOption.SeriesPie>)
-      .map((seriesData) => {
-        seriesData.roseType = 'radius';
-        return seriesData;
-      });
+    series = (super.getSeries(fieldNames, result) as Array<
+      echarts.EChartOption.SeriesPie
+    >).map(seriesData => {
+      seriesData.roseType = "radius";
+      return seriesData;
+    });
     return series;
   }
 }

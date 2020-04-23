@@ -5,12 +5,12 @@ import { HBarConfig } from "./chart-config/HBar";
 import { HBarStackConfig } from "./chart-config/HBarStack";
 import { LineConfig } from "./chart-config/Line";
 import { PieConfig } from "./chart-config/Pie";
-import { RPieConfig } from "./chart-config/RPie"; 
+import { RPieConfig } from "./chart-config/RPie";
 import { RosePieConfig } from "./chart-config/RosePie";
 import { SunPieConfig } from "./chart-config/SunPie";
 import { BiaxialConfig } from "./chart-config/Biaxial";
-import { ChartType } from "@/enums/ChartType"; 
-
+import { ChartType } from "@/enums/ChartType";
+import { HBarPercentageConfig } from "./chart-config/HBarPercentage";
 
 /**
  * 图表全部配置项
@@ -76,12 +76,15 @@ export default class ChartConfig {
     // 堆积条图
     hbarStack: HBarStackConfig,
 
+    // 百分比堆积条图
+    hbarPercentage: HBarPercentageConfig,
+
     /**
      * 饼图
      */
     pie: PieConfig,
 
-     /**
+    /**
      * 环形图
      */
     rpie: RPieConfig,

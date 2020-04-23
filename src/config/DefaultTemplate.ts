@@ -168,7 +168,6 @@ export default class DefaultTemplate {
         customData,
         true
       );
-
     // 设置图表类型
     defaultConfig.visualData.type = chartType;
 
