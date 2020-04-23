@@ -4,6 +4,7 @@ import { HBarChartOption } from "@/config/chart-config/HBar";
 import { HBarStackChartOption } from "@/config/chart-config/HBarStack";
 import { PieChartOption } from "@/config/chart-config/Pie";
 import { RPieChartOption } from "@/config/chart-config/RPie";
+import { RosePieChartOption } from "@/config/chart-config/RosePie";
 import { LineChartOption } from "@/config/chart-config/Line";
 import { BarPercentageChartOption } from "@/config/chart-config/BarPercentage";
 import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
@@ -98,6 +99,8 @@ export interface EChartsSampleStyle {
   //环形图配置
   rpie?:RPieChartOption;
 
+  //玫瑰图配置
+  rosepie?:RosePieChartOption;
 
   // 线图配置
   line?: LineChartOption;

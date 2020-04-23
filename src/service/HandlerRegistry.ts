@@ -5,6 +5,7 @@ import BarPercentageHandler from "./chart-handler/BarPercentageHandler";
 import HBarHandler from "./chart-handler/HBarHandler";
 import PieHandler from "./chart-handler/PieHandler";
 import RPieHandler from "./chart-handler/RPieHandler";
+import RosePieHandler from "./chart-handler/RosePieHandler";
 import LineHandler from "./chart-handler/LineHandler";
 
 const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
@@ -22,6 +23,7 @@ const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
    */
   pie: new PieHandler(),
   rpie: new RPieHandler(),
+  rosepie: new RosePieHandler(),
 
   /**
    * 折线图
