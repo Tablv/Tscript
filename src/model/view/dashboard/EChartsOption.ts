@@ -3,6 +3,7 @@ import { BarStackChartOption } from "@/config/chart-config/BarStack";
 import { HBarChartOption } from "@/config/chart-config/HBar";
 import { HBarStackChartOption } from "@/config/chart-config/HBarStack";
 import { PieChartOption } from "@/config/chart-config/Pie";
+import { RPieChartOption } from "@/config/chart-config/RPie";
 import { LineChartOption } from "@/config/chart-config/Line";
 import { BarPercentageChartOption } from "@/config/chart-config/BarPercentage";
 import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
@@ -93,6 +94,10 @@ export interface EChartsSampleStyle {
 
   // 饼图配置
   pie?: PieChartOption;
+
+  //环形图配置
+  rpie?:RPieChartOption;
+
 
   // 线图配置
   line?: LineChartOption;

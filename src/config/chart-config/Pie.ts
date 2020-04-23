@@ -26,7 +26,7 @@ const menuOptions = {};
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-icon gw-iconfsux_tubiao_bingtu1",
+  iconClass: "gw-iconfsux_tubiao_bingtu1",
   title: "饼图",
   createType: ChartType.pie,
   enable: true

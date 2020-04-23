@@ -19,18 +19,31 @@
     >
       <div class="chart-btn-group">
         <el-button
-          class="chart-type"
+          class="chart-btn simple-btn"
           v-for="(opt, idx) in chartCreateOptions"
           :key="idx"
-          :chart-type="opt.createType"
+          :disabled="!opt.enable"
+          @click="createChart(opt.createType)"
+        >
+          <svg class="icon-svg" aria-hidden="true">
+            <use :xlink:href="'#' + opt.iconClass"></use>
+          </svg>
+          <div>{{ opt.title }}</div>
+        </el-button>
+
+
+        <!-- <el-button
+          class="chart-btn"
+          v-for="(opt, idx) in chartCreateOptions"
+          :key="idx"
           :disabled="!opt.enable"
           @click="createChart(opt.createType)"
         >
           <div>
-            <i :class="opt.iconClass"></i>
+            <i class="gw-icon" :class="opt.iconClass"></i>
           </div>
           <div>{{ opt.title }}</div>
-        </el-button>
+        </el-button> -->
       </div>
     </el-drawer>
   </div>
@@ -156,12 +169,27 @@ export default class ToolBar extends Vue {
   justify-content: space-between;
   align-items: center;
 
-  .chart-type {
+  .chart-btn {
     flex: 0 0 30%;
     margin-bottom: 15px;
 
     .fa {
       margin: 8px 4px 12px;
+    }
+
+    &.simple-btn {
+      border: 1px solid #DCDFE6;
+      background-color: #f7f8fa;
+      color: #323233;
+      transition: background-color .3s;
+
+      &:hover {
+        background-color: #eef0f4;
+      }
+
+      &:active {
+        background-color: #e4e8ee;
+      }
     }
   }
 }

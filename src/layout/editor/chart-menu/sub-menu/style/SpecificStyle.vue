@@ -115,6 +115,7 @@ export default class TitleStyle extends Vue {
      * 饼图
      */
     pie: () => import("./custom-style/PieStyle.vue"),
+    rpie: () => import("./custom-style/PieStyle.vue"),
 
     /**
      * 折线图

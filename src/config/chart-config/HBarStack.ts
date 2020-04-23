@@ -28,7 +28,7 @@ const menuOptions = ObjectUtil.copy(HBarConfig.menuOptions);
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-icon gw-iconfsux_tubiao_duijizhuzhuangtu1",
+  iconClass: "gw-iconfsux_tubiao_duijizhuzhuangtu1",
   title: "堆积条图",
   createType: ChartType.hbarStack,
   enable: true

@@ -28,7 +28,7 @@ const menuOptions = ObjectUtil.copy(BarConfig.menuOptions);
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-icon gw-iconfsux_tubiao_duijizhuzhuangtu",
+  iconClass: "gw-iconfsux_tubiao_duijizhuzhuangtu",
   title: "堆积柱图",
   createType: ChartType.barStack,
   enable: true

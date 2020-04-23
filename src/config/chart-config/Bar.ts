@@ -72,7 +72,7 @@ const menuOptions = {
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-icon gw-iconfsux_tubiao_zhuzhuangtu1",
+  iconClass: "gw-iconfsux_tubiao_zhuzhuangtu1",
   title: "柱状图",
   createType: ChartType.bar,
   enable: true
