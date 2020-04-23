@@ -59,15 +59,9 @@ export default class EChartServiceUtil {
   ): Array<string | number> {
     let fieldArray: Array<string | number> = [];
 
-    let sumResult = result.reduce(
-      (sum: any, value: any) => sum + value[fieldName],
-      0
+    fieldArray = result.map((item: any) =>
+      Math.round((item[fieldName] / item["sum"]) * 100)
     );
-
-    fieldArray = result.map(
-      (data: any) => (data[fieldName] * 1000) / sumResult
-    );
-
     return fieldArray;
   }
 

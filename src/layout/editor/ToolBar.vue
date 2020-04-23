@@ -31,7 +31,6 @@
           <div>{{ opt.title }}</div>
         </el-button>
 
-
         <!-- <el-button
           class="chart-btn"
           v-for="(opt, idx) in chartCreateOptions"
@@ -178,10 +177,10 @@ export default class ToolBar extends Vue {
     }
 
     &.simple-btn {
-      border: 1px solid #DCDFE6;
+      border: 1px solid #dcdfe6;
       background-color: #f7f8fa;
       color: #323233;
-      transition: background-color .3s;
+      transition: background-color 0.3s;
 
       &:hover {
         background-color: #eef0f4;

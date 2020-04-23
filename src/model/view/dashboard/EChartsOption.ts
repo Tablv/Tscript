@@ -96,8 +96,7 @@ export interface EChartsSampleStyle {
   pie?: PieChartOption;
 
   //环形图配置
-  rpie?:RPieChartOption;
-
+  rpie?: RPieChartOption;
 
   // 线图配置
   line?: LineChartOption;

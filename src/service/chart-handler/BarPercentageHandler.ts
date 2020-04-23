@@ -33,12 +33,11 @@ export default class BarPercentageHandler extends BarStackHandler {
       result[0],
       dashboard
     );
-
     style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
     style.yAxis = this.getYAxis(fieldNames, result, sampleStyle);
     style.series = this.getSeries(fieldNames, result, sampleStyle);
     style.legend = this.getLegend(fieldNames);
-    style.tooltip = this.getToolTip();
+    // style.tooltip = this.getToolTip();
 
     /**
      * 预警处理
@@ -116,7 +115,12 @@ export default class BarPercentageHandler extends BarStackHandler {
     sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series> = [];
-
+    result.forEach(item => {
+      item.sum = fieldNames.measures.reduce(
+        (sum: number, name: any) => sum + Number(item[name]),
+        0
+      );
+    });
     fieldNames.measures.forEach(measureName => {
       const seriesData = {
         name: measureName,
@@ -134,31 +138,23 @@ export default class BarPercentageHandler extends BarStackHandler {
   /**
    * 获取图表提示tooltip
    */
-  public getToolTip(): echarts.EChartOption.Tooltip {
-    return {
-      show: true,
-      trigger: "axis",
-      axisPointer: {
-        type: "shadow",
-        axis: "x",
-        shadowStyle: {
-          shadowBlur: 0,
-          opacity: 0
-        }
-      },
-      backgroundColor: "#fff",
-      textStyle: {
-        color: "#b5b2b2"
-      }
-    };
-  }
-
-  public formatterToolTip(params: any, ticket: any, callback: any) {
-    let tipString = `${params[0].axisValue}<br/>`; // 显示提示文字模板
-    for (let i = 0, length = params.length; i < length; i++) {
-      tipString += `<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background:${params[i].color}"></span>`;
-      tipString += `${params[i].seriesName}: ${params[i].currentData}(${params[i].value}%)<br/>`;
-    }
-    return tipString;
-  }
+  // public getToolTip(): echarts.EChartOption.Tooltip {
+  //   return {
+  //     show: true,
+  //     trigger: "axis",
+  //     axisPointer: {
+  //       type: "shadow",
+  //       axis: "x",
+  //       shadowStyle: {
+  //         shadowBlur: 0,
+  //         opacity: 0
+  //       }
+  //     },
+  //     formatter: "{a0}: {c0}% <br />{a1}: {c1}%",
+  //     backgroundColor: "#fff",
+  //     textStyle: {
+  //       color: "#b5b5b5"
+  //     }
+  //   };
+  // }
 }

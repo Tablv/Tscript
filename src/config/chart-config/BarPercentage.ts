@@ -30,7 +30,7 @@ const menuOptions = ObjectUtil.copy(BarStackConfig.menuOptions);
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-icon gw-iconfsux_tubiao_baifenbiduijizhuzhuangtu",
+  iconClass: "gw-iconfsux_tubiao_baifenbiduijizhuzhuangtu",
   title: "百分比堆积柱图",
   createType: ChartType.barPercentage,
   enable: true
