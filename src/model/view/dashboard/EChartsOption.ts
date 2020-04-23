@@ -5,6 +5,7 @@ import { HBarStackChartOption } from "@/config/chart-config/HBarStack";
 import { PieChartOption } from "@/config/chart-config/Pie";
 import { RPieChartOption } from "@/config/chart-config/RPie";
 import { RosePieChartOption } from "@/config/chart-config/RosePie";
+import { SunPieChartOption } from "@/config/chart-config/SunPie";
 import { LineChartOption } from "@/config/chart-config/Line";
 import { BarPercentageChartOption } from "@/config/chart-config/BarPercentage";
 import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
@@ -101,6 +102,9 @@ export interface EChartsSampleStyle {
 
   //玫瑰图配置
   rosepie?:RosePieChartOption;
+
+  //旭日图配置
+  sunpie?:SunPieChartOption;
 
   // 线图配置
   line?: LineChartOption;

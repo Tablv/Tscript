@@ -43,6 +43,11 @@ export const enum ChartType {
   rosepie = "rosepie",
 
   /**
+   * 旭日图
+   */
+  sunpie="sunpie",
+
+  /**
    * 线图
    */
   line = "line",
