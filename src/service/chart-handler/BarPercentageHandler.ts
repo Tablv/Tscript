@@ -24,7 +24,7 @@ export default class BarPercentageHandler extends BarStackHandler {
       style.xAxis = {};
       style.yAxis = {};
       style.series = [];
-      style.tooltip = {};
+      // style.tooltip = {};
       return {};
     }
 

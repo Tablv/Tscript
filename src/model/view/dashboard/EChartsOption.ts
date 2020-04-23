@@ -8,6 +8,7 @@ import { RosePieChartOption } from "@/config/chart-config/RosePie";
 import { LineChartOption } from "@/config/chart-config/Line";
 import { BarPercentageChartOption } from "@/config/chart-config/BarPercentage";
 import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
+import { HBarPercentageChartOption } from "@/config/chart-config/HBarPercentage";
 
 /**
  * ECharts Option
@@ -92,6 +93,9 @@ export interface EChartsSampleStyle {
 
   // 堆积条图
   hbarStack?: HBarStackChartOption;
+
+  // 百分比堆积条图
+  hbarPercentage?: HBarPercentageChartOption;
 
   // 饼图配置
   pie?: PieChartOption;

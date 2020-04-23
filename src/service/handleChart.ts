@@ -18,7 +18,6 @@ export default function handleChart(
   const sampleStyle = dashboard.echarts.sampleStyle[
     dashboard.visualData.type
   ] as ChartOption;
-
   let styleCustomized = customizedHandler.getChartHandleResult(
       result,
       dashboard,

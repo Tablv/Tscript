@@ -9,6 +9,7 @@ import { RPieConfig } from "./chart-config/RPie";
 import { RosePieConfig } from "./chart-config/RosePie";
 import { BiaxialConfig } from "./chart-config/Biaxial";
 import { ChartType } from "@/enums/ChartType";
+import { HBarPercentageConfig } from "./chart-config/HBarPercentage";
 
 /**
  * 图表全部配置项
@@ -73,6 +74,9 @@ export default class ChartConfig {
 
     // 堆积条图
     hbarStack: HBarStackConfig,
+
+    // 百分比堆积条图
+    hbarPercentage: HBarPercentageConfig,
 
     /**
      * 饼图

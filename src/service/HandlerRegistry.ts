@@ -3,6 +3,8 @@ import BarHandler from "./chart-handler/BarHandler";
 import BarStackHandler from "./chart-handler/BarStackHandler";
 import BarPercentageHandler from "./chart-handler/BarPercentageHandler";
 import HBarHandler from "./chart-handler/HBarHandler";
+import HBarStackHandler from "./chart-handler/HBarStackHandler";
+import HBarPercentageHandler from "./chart-handler/HBarPercentageHandler";
 import PieHandler from "./chart-handler/PieHandler";
 import RPieHandler from "./chart-handler/RPieHandler";
 import RosePieHandler from "./chart-handler/RosePieHandler";
@@ -17,6 +19,8 @@ const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   barPercentage: new BarPercentageHandler(),
 
   hbar: new HBarHandler(),
+  hbarStack: new HBarStackHandler(),
+  hbarPercentage: new HBarPercentageHandler(),
 
   /**
    * 饼图
