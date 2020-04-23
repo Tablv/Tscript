@@ -6,6 +6,7 @@ import { HBarStackConfig } from "./chart-config/HBarStack";
 import { LineConfig } from "./chart-config/Line";
 import { PieConfig } from "./chart-config/Pie";
 import { RPieConfig } from "./chart-config/RPie";
+import { RosePieConfig } from "./chart-config/RosePie";
 import { BiaxialConfig } from "./chart-config/Biaxial";
 import { ChartType } from "@/enums/ChartType";
 
@@ -82,6 +83,11 @@ export default class ChartConfig {
      * 环形图
      */
     rpie: RPieConfig,
+
+    /**
+     * 玫瑰图
+     */
+    rosepie: RosePieConfig,
 
     /**
      * 线图
