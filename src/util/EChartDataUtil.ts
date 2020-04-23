@@ -5,6 +5,7 @@ import { BarChartOption } from "@/config/chart-config/Bar";
 export default class EChartServiceUtil {
   /**
    * 通过字段名，获取结果集内的数据数组
+   * 柱图，堆积柱图, 折线图
    *
    * @param fieldName 字段名
    * @param result 结果集
@@ -22,6 +23,36 @@ export default class EChartServiceUtil {
     return fieldArray;
   }
 
+  /**
+   * 通过字段名，获取结果集内的数据数组
+   * 饼图
+   * @param dimensionName 维度字段名
+   * @param measureName 度量字段名
+   * @param result 结果集
+   */
+  public static getPieFieldDataArray(
+    dimensionName: string,
+    measureName: string,
+    result: AnalysisResults
+  ): echarts.EChartOption.SeriesBar["data"] {
+    let fieldArray: Array<echarts.EChartOption.SeriesBar.DataObject> = [];
+
+    result.forEach(data => {
+      const fieldObj: echarts.EChartOption.SeriesBar.DataObject = {
+        name: data[dimensionName] as string,
+        value: data[measureName] as number
+      };
+      fieldArray.push(fieldObj);
+    });
+
+    return fieldArray;
+  }
+
+  /**
+   * 百分比堆积柱图
+   * @param fieldName 字段名
+   * @param result 结果集
+   */
   public static getPercentageArray(
     fieldName: string,
     result: AnalysisResults
@@ -33,9 +64,6 @@ export default class EChartServiceUtil {
       0
     );
 
-    // result.forEach(data => {
-    //   fieldArray.push(data[fieldName]);
-    // });
     fieldArray = result.map(
       (data: any) => (data[fieldName] * 1000) / sumResult
     );
@@ -63,30 +91,5 @@ export default class EChartServiceUtil {
           position: sampleStyle.label.position
         }
       : {};
-  }
-
-  /**
-   * 通过字段名，获取结果集内的数据数组
-   *
-   * @param dimensionName 维度字段名
-   * @param measureName 度量字段名
-   * @param result 结果集
-   */
-  public static getPieFieldDataArray(
-    dimensionName: string,
-    measureName: string,
-    result: AnalysisResults
-  ): echarts.EChartOption.SeriesBar["data"] {
-    let fieldArray: Array<echarts.EChartOption.SeriesBar.DataObject> = [];
-
-    result.forEach(data => {
-      const fieldObj: echarts.EChartOption.SeriesBar.DataObject = {
-        name: data[dimensionName] as string,
-        value: data[measureName] as number
-      };
-      fieldArray.push(fieldObj);
-    });
-
-    return fieldArray;
   }
 }
