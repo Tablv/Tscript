@@ -1,7 +1,7 @@
 import { ChartType } from "@/enums/ChartType";
 import { ChartConfigItem } from "../ChartConfig";
 import ObjectUtil from "@/util/ObjectUtil";
-import { PieConfig, PieChartOption} from './Pie';
+import { PieConfig, PieChartOption } from './Pie';
 
 /**
  * 图表类型

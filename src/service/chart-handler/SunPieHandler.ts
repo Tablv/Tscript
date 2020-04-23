@@ -19,7 +19,8 @@ export default class SunPieHandler extends PieChartOption {
         let style: echarts.EChartOption = super.getChartHandleResult(
             result,
             dashboard,
-            sampleStyle);
+            sampleStyle
+        );
 
         if (ObjectUtil.isEmpty(result)) {
             return {};
@@ -66,7 +67,6 @@ export default class SunPieHandler extends PieChartOption {
                 series.push(seriesData);
             });
         });
-        console.log(series)
         return series;
     }
 }

@@ -50,7 +50,7 @@ export const enum ChartType {
   /**
    * 旭日图
    */
-  sunpie="sunpie",
+  sunpie = "sunpie",
 
   /**
    * 线图
