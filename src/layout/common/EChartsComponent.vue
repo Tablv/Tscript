@@ -154,9 +154,11 @@ export default class EChartsComponent extends Vue implements ChartUIService {
 
     // 绘制 JSON 静态数据
     if (JSONConfig.enable) {
-      renderChartByJSON(this.$data.echartsInstance, JSONConfig.data).catch(err => {
-        UIUtil.showErrorMessage("解析 JSON 出错，请检查格式");
-      });
+      renderChartByJSON(this.$data.echartsInstance, JSONConfig.data).catch(
+        err => {
+          UIUtil.showErrorMessage("解析 JSON 出错，请检查格式");
+        }
+      );
     } else {
       renderChart(this.$data.echartsInstance, this.thisDashboard).catch(err => {
         console.error(err);
