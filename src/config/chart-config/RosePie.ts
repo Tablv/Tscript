@@ -5,7 +5,7 @@ import { PieConfig, PieChartOption } from "./Pie";
 /**
  * 图表类型
  */
-export type RPieChartOption = PieChartOption;
+export type RosePieChartOption = PieChartOption;
 
 /**
  * 初始化模板
@@ -27,9 +27,9 @@ const menuOptions = ObjectUtil.copy(PieConfig.menuOptions);
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-iconfsux_tubiao_baifenbihuantu",
-  title: "环形图",
-  createType: ChartType.rpie,
+  iconClass: "gw-iconfsux_tubiao_nandingmeiguitu",
+  title: "玫瑰图",
+  createType: ChartType.rosepie,
   enable: true
 };
 
@@ -38,7 +38,7 @@ const createMenuConfig = {
  */
 const config = ObjectUtil.copy(PieConfig.config);
 
-export const RPieConfig: ChartConfigItem = {
+export const RosePieConfig: ChartConfigItem = {
   templates,
   menuOptions,
   createMenuConfig,

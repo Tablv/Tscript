@@ -1,11 +1,12 @@
 import { ChartType } from "@/enums/ChartType";
 import { ChartConfigItem } from "../ChartConfig";
 import ObjectUtil from "@/util/ObjectUtil";
-import { PieConfig, PieChartOption } from "./Pie";
+import { PieConfig, PieChartOption } from './Pie';
+
 /**
  * 图表类型
  */
-export type RPieChartOption = PieChartOption;
+export type SunPieChartOption = PieChartOption;
 
 /**
  * 初始化模板
@@ -27,9 +28,9 @@ const menuOptions = ObjectUtil.copy(PieConfig.menuOptions);
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-iconfsux_tubiao_baifenbihuantu",
-  title: "环形图",
-  createType: ChartType.rpie,
+  iconClass: "gw-iconfsux_tubiao_xuritu",
+  title: "旭日图",
+  createType: ChartType.sunpie,
   enable: true
 };
 
@@ -38,7 +39,7 @@ const createMenuConfig = {
  */
 const config = ObjectUtil.copy(PieConfig.config);
 
-export const RPieConfig: ChartConfigItem = {
+export const SunPieConfig: ChartConfigItem = {
   templates,
   menuOptions,
   createMenuConfig,

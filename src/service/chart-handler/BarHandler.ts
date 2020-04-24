@@ -2,7 +2,6 @@ import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
-import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
 import EChartsService from "../EChartsService";
 import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";

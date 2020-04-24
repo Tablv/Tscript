@@ -4,16 +4,16 @@ import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import PieChartOption from "./PieHandler";
 import EChartsService from "../EChartsService";
-import { RPieChartOption } from "@/config/chart-config/RPie";
+import { RosePieChartOption } from "@/config/chart-config/RosePie";
 
 /**
- * 环图处理
+ * 玫瑰图处理
  */
-export default class RPieHandler extends PieChartOption {
+export default class RosePieHandler extends PieChartOption {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard,
-    sampleStyle: RPieChartOption
+    sampleStyle: RosePieChartOption
   ): echarts.EChartOption {
     let style: echarts.EChartOption = super.getChartHandleResult(
       result,
@@ -49,7 +49,7 @@ export default class RPieHandler extends PieChartOption {
     series = (super.getSeries(fieldNames, result) as Array<
       echarts.EChartOption.SeriesPie
     >).map(seriesData => {
-      seriesData.radius = ["45%", "70%"];
+      seriesData.roseType = "radius";
       return seriesData;
     });
     return series;
