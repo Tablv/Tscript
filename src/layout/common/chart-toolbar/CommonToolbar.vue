@@ -29,7 +29,8 @@
       <detail-toolbar :dashboard.sync="thisDashboard" />
 
       <tool-button
-        icon-class="fa fa-ellipsis-v"
+        class="otherButton"
+        icon-class="fa fa-ellipsis-v otherButton"
         title="更多"
         placement="top"
         slot="reference"
@@ -59,6 +60,7 @@ export default class CommonToolbar extends Vue {
 
   // 菜单打开window添加click监听
   handleShow() {
+    // IE9+
     window.addEventListener("click", this.handlePopver, true);
   }
   // 菜单关闭window移除click监听
@@ -68,7 +70,10 @@ export default class CommonToolbar extends Vue {
 
   // 更多菜单的开关关闭
   handlePopver(event: any) {
-    event.stopPropagation();
+    let classNameFlag = event.target.className.indexOf("otherButton");
+    if (classNameFlag !== -1) {
+      event.stopPropagation();
+    }
     this.isShowDetail = !this.isShowDetail;
   }
 
