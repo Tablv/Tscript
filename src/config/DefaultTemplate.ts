@@ -128,7 +128,7 @@ export const generalDataTemplate: any = {
       },
       data: [],
       right: "10%",
-      top: "10%"
+      top: "30"
     },
     series: []
   }

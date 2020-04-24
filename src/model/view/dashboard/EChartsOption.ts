@@ -108,7 +108,7 @@ export interface EChartsSampleStyle {
   rosepie?: RosePieChartOption;
 
   //旭日图配置
-  sunpie?:SunPieChartOption;
+  sunpie?: SunPieChartOption;
 
   // 线图配置
   line?: LineChartOption;

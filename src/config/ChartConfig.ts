@@ -40,7 +40,7 @@ export type ChartConfigItem = {
 /**
  * 图表样式
  */
-export interface ChartOption { }
+export interface ChartOption {}
 
 /**
  * 创建菜单配置

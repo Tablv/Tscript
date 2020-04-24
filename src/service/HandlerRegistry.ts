@@ -29,7 +29,7 @@ const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   pie: new PieHandler(),
   rpie: new RPieHandler(),
   rosepie: new RosePieHandler(),
-  sunpie:new SunPieHandler(),
+  sunpie: new SunPieHandler(),
 
   /**
    * 折线图
