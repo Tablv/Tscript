@@ -50,7 +50,7 @@ export default class EChartsComponent extends Vue implements ChartUIService {
   setReact!: Function;
 
   // 图表实例
-  echartsInstance: echarts.ECharts | null = null;
+  // echartsInstance: echarts.ECharts | null = null;
 
   /**
    * Getter
@@ -84,9 +84,9 @@ export default class EChartsComponent extends Vue implements ChartUIService {
    */
   public initChart(): void {
     // 存在实例时，忽略初始化
-    if (!this.echartsInstance) {
+    if (!this.$data.echartsInstance) {
       let echartsContainer = this.$refs.echartsContainer as HTMLDivElement;
-      this.echartsInstance = EChartsUtil.init(echartsContainer);
+      this.$data.echartsInstance = EChartsUtil.init(echartsContainer);
     }
   }
 
@@ -94,23 +94,23 @@ export default class EChartsComponent extends Vue implements ChartUIService {
    * 销毁
    */
   public destoryChart(): void {
-    EChartsUtil.destroy(this.echartsInstance);
-    this.echartsInstance = null;
+    EChartsUtil.destroy(this.$data.echartsInstance);
+    this.$data.echartsInstance = null;
   }
 
   /**
    * 清空
    */
   public clearChart(): void {
-    EChartsUtil.clear(this.echartsInstance);
+    EChartsUtil.clear(this.$data.echartsInstance);
   }
 
   /**
    * 调整尺寸
    */
   public resizeChart(): void {
-    if (this.echartsInstance) {
-      EChartsUtil.resize(this.echartsInstance);
+    if (this.$data.echartsInstance) {
+      EChartsUtil.resize(this.$data.echartsInstance);
     }
   }
 
@@ -126,9 +126,9 @@ export default class EChartsComponent extends Vue implements ChartUIService {
 
     // 绑定事件
     triggerCallback &&
-      this.echartsInstance &&
+      this.$data.echartsInstance &&
       bindEvents(
-        this.echartsInstance, // 实例
+        this.$data.echartsInstance, // 实例
         thisEvents, // 事件配置
         triggerCallback, // 回调方法
         this, // 回调上下文
@@ -143,22 +143,22 @@ export default class EChartsComponent extends Vue implements ChartUIService {
     // JSON 配置
     let JSONConfig = this.thisDashboard.staticData.json;
 
-    if (!this.echartsInstance) {
+    if (!this.$data.echartsInstance) {
       this.initChart();
     }
 
-    if (!this.echartsInstance) {
+    if (!this.$data.echartsInstance) {
       UIUtil.showErrorMessage("初始化图表出错");
       return;
     }
 
     // 绘制 JSON 静态数据
     if (JSONConfig.enable) {
-      renderChartByJSON(this.echartsInstance, JSONConfig.data).catch(err => {
+      renderChartByJSON(this.$data.echartsInstance, JSONConfig.data).catch(err => {
         UIUtil.showErrorMessage("解析 JSON 出错，请检查格式");
       });
     } else {
-      renderChart(this.echartsInstance, this.thisDashboard).catch(err => {
+      renderChart(this.$data.echartsInstance, this.thisDashboard).catch(err => {
         console.error(err);
       });
     }
