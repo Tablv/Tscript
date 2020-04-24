@@ -21,6 +21,8 @@
       placement="right-start"
       width="32"
       trigger="click"
+      @show="handleShow"
+      @hide="handleHide"
       popper-class="detail-toolbar-popper"
       :close-delay="0"
     >
@@ -51,17 +53,23 @@ import DetailToolbar from "./DetailToolbar.vue";
 })
 export default class CommonToolbar extends Vue {
   /**
-   * 显示详细菜单
+   * 更多菜单
    */
-  @Model("showDetail")
-  showDetail!: boolean;
+  isShowDetail: boolean = false;
 
-  get isShowDetail() {
-    return this.showDetail;
+  // 菜单打开window添加click监听
+  handleShow() {
+    window.addEventListener("click", this.handlePopver, true);
+  }
+  // 菜单关闭window移除click监听
+  handleHide() {
+    window.removeEventListener("click", this.handlePopver, true);
   }
 
-  set isShowDetail(val: boolean) {
-    this.$emit("showDetail", val);
+  // 更多菜单的开关关闭
+  handlePopver(event: any) {
+    event.stopPropagation();
+    this.isShowDetail = !this.isShowDetail;
   }
 
   /**
