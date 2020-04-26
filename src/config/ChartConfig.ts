@@ -12,6 +12,7 @@ import { RadarConfig } from "./chart-config/Radar";
 import { BiaxialConfig } from "./chart-config/Biaxial";
 import { ChartType } from "@/enums/ChartType";
 import { HBarPercentageConfig } from "./chart-config/HBarPercentage";
+import { GuageConfig } from "./chart-config/Gauge";
 
 /**
  * 图表全部配置项
@@ -41,7 +42,7 @@ export type ChartConfigItem = {
 /**
  * 图表样式
  */
-export interface ChartOption { }
+export interface ChartOption {}
 
 /**
  * 创建菜单配置
@@ -113,7 +114,12 @@ export default class ChartConfig {
     /**
      * 组合图
      */
-    biaxial: BiaxialConfig
+    biaxial: BiaxialConfig,
+
+    /**
+     * 仪表盘
+     */
+    guage: GuageConfig
   };
 
   /**

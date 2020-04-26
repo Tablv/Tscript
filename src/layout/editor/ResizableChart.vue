@@ -16,12 +16,10 @@
         @mousedown="hideDetailBar(true)"
         v-loading="isFetching"
       >
-        <div class="toolbar-box" @click.stop v-show="isCurrent">
-          <chart-toolbar
-            v-model="isShowDetail"
-            :dashboard.sync="thisDashboard"
-          />
+        <div class="toolbar-box" v-show="isCurrent">
+          <chart-toolbar :dashboard.sync="thisDashboard" />
         </div>
+        <!-- v-model="isShowDetail" -->
 
         <!-- 既没有拖入字段，也没有启用静态数据，显示如下 -->
         <div v-show="!showChart">

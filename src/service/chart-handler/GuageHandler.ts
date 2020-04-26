@@ -2,27 +2,23 @@ import { AnalysisResults } from "@/model/types/AnalysisResults";
 import { SplitedFieldNames } from "../EChartsService";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
-import PieChartOption from "./PieHandler";
 import EChartsService from "../EChartsService";
-import { SunPieChartOption } from "@/config/chart-config/SunPie";
-import EChartDataUtil from "@/util/EChartDataUtil";
+import ChartHandler from "../interfaces/ChartHandler";
+import { PieChartOption } from "@/config/chart-config/Pie";
 
 /**
- * 旭日图处理
+ * 仪表盘处理
  */
-export default class SunPieHandler extends PieChartOption {
+export default class GuageHandler implements ChartHandler {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard,
-    sampleStyle: SunPieChartOption
+    sampleStyle: PieChartOption
   ): echarts.EChartOption {
-    let style: echarts.EChartOption = super.getChartHandleResult(
-      result,
-      dashboard,
-      sampleStyle
-    );
+    let style: echarts.EChartOption = {};
 
     if (ObjectUtil.isEmpty(result)) {
+      style.series = [];
       return {};
     }
 
@@ -33,9 +29,11 @@ export default class SunPieHandler extends PieChartOption {
     );
 
     style.series = this.getSeries(fieldNames, result);
+    style.tooltip = this.getTooltips();
 
     return style;
   }
+
   /**
    * 获取Series数据
    *
@@ -47,26 +45,26 @@ export default class SunPieHandler extends PieChartOption {
     result: AnalysisResults
   ): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series> = [];
-    fieldNames.dimensions.forEach(dimensionName => {
-      fieldNames.measures.forEach(measureName => {
-        const seriesData = {
-          type: "sunburst",
-          radius: ["15%", "80%"],
-          sort: null,
-          highlightPolicy: "ancestor",
-          levels: [],
-          label: {
-            rotate: "radial"
-          },
-          data: EChartDataUtil.getPieFieldDataArray(
-            dimensionName,
-            measureName,
-            result
-          )
-        } as echarts.EChartOption.Series;
-        series.push(seriesData);
-      });
+
+    fieldNames.measures.forEach(measures => {
+      const seriesData = {
+        type: "gauge",
+        detail: { formatter: "{value}" },
+        data: result.map(item => ({
+          name: measures,
+          value: item[measures]
+        }))
+      } as echarts.EChartOption.Series;
+      series.push(seriesData);
     });
+
     return series;
+  }
+
+  // 提示信息
+  getTooltips() {
+    return {
+      formatter: "{b} : {c}"
+    };
   }
 }

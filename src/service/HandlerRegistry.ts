@@ -11,6 +11,7 @@ import RosePieHandler from "./chart-handler/RosePieHandler";
 import SunPieHandler from "./chart-handler/SunPieHandler";
 import RadarHandler from "./chart-handler/RadarHandler";
 import LineHandler from "./chart-handler/LineHandler";
+import GuageHandler from "./chart-handler/GuageHandler";
 
 const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   /**
@@ -36,7 +37,12 @@ const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   /**
    * 折线图
    */
-  line: new LineHandler()
+  line: new LineHandler(),
+
+  /**
+   * 折线图
+   */
+  guage: new GuageHandler()
 };
 
 export default HANDLER_REGISTRY;

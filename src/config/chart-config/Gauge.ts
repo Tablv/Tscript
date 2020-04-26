@@ -5,7 +5,7 @@ import { PieConfig, PieChartOption } from "./Pie";
 /**
  * 图表类型
  */
-export type RPieChartOption = PieChartOption;
+export type GaugeChartOption = PieChartOption;
 
 /**
  * 初始化模板
@@ -13,7 +13,7 @@ export type RPieChartOption = PieChartOption;
 const templates = {
   echarts: {
     sampleStyle: {
-      pie: ObjectUtil.copy(PieConfig.templates.echarts.sampleStyle.pie)
+      gauge: ObjectUtil.copy(PieConfig.templates.echarts.sampleStyle.pie)
     }
   }
 };
@@ -27,9 +27,9 @@ const menuOptions = ObjectUtil.copy(PieConfig.menuOptions);
  * 创建菜单配置
  */
 const createMenuConfig = {
-  iconClass: "gw-iconfsux_tubiao_bingtu",
-  title: "环形图",
-  createType: ChartType.rpie,
+  iconClass: "gw-iconfsux_tubiao_yibiaopan",
+  title: "仪表盘",
+  createType: ChartType.guage,
   enable: true
 };
 
@@ -38,7 +38,7 @@ const createMenuConfig = {
  */
 const config = ObjectUtil.copy(PieConfig.config);
 
-export const RPieConfig: ChartConfigItem = {
+export const GuageConfig: ChartConfigItem = {
   templates,
   menuOptions,
   createMenuConfig,
