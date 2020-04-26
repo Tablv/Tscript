@@ -22,7 +22,7 @@
           class="chart-btn simple-btn"
           v-for="(opt, idx) in chartCreateOptions"
           :key="idx"
-          :disabled="!opt.enable"
+          :disabled="!opt.enable || opt.createType === 'sunpie'"
           @click="createChart(opt.createType)"
         >
           <svg class="icon-svg" aria-hidden="true">

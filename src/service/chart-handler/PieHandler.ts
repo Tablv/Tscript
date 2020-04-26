@@ -104,7 +104,7 @@ export default class PieHandler implements ChartHandler {
               formatter: "{b} - {d}%"
             }
           },
-          data: EChartDataUtil.getPieFieldDataArray(
+          data: EChartDataUtil.getDataByAxisName(
             dimensionName,
             measureName,
             result

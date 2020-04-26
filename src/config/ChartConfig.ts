@@ -8,6 +8,7 @@ import { PieConfig } from "./chart-config/Pie";
 import { RPieConfig } from "./chart-config/RPie";
 import { RosePieConfig } from "./chart-config/RosePie";
 import { SunPieConfig } from "./chart-config/SunPie";
+import { RadarConfig } from "./chart-config/Radar";
 import { BiaxialConfig } from "./chart-config/Biaxial";
 import { ChartType } from "@/enums/ChartType";
 import { HBarPercentageConfig } from "./chart-config/HBarPercentage";
@@ -98,6 +99,11 @@ export default class ChartConfig {
      * 旭日图
      */
     sunpie: SunPieConfig,
+
+     /**
+     * 雷达图
+     */
+    radar: RadarConfig,
 
     /**
      * 线图

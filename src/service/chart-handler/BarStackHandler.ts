@@ -27,7 +27,7 @@ export default class BarStackHandler extends BarHandler {
         name: measureName,
         type: "bar",
         stack: "stack",
-        data: EChartDataUtil.getFieldDataArray(measureName, result),
+        data: EChartDataUtil.getDataByFieldName(measureName, result),
         barWidth: EChartDataUtil.getBarWidth(sampleStyle),
         label: EChartDataUtil.getBarSeriesLabel(sampleStyle)
       };

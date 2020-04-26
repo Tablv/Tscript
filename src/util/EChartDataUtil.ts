@@ -5,47 +5,70 @@ import { BarChartOption } from "@/config/chart-config/Bar";
 export default class EChartServiceUtil {
   /**
    * 通过字段名，获取结果集内的数据数组
-   * 柱图，堆积柱图, 折线图
+   * - 柱图，堆积柱图, 折线图
    *
    * @param fieldName 字段名
    * @param result 结果集
    */
-  public static getFieldDataArray(
+  public static getDataByFieldName(
     fieldName: string,
     result: AnalysisResults
   ): Array<string | number> {
-    let fieldArray: Array<string | number> = [];
+    // let fieldArray: Array<string | number> = [];
 
-    result.forEach(data => {
-      fieldArray.push(data[fieldName]);
-    });
+    // result.forEach(data => {
+    //   fieldArray.push(data[fieldName]);
+    // });
 
-    return fieldArray;
+    return result.map(data => data[fieldName]);
   }
 
   /**
    * 通过字段名，获取结果集内的数据数组
-   * 饼图
+   * - 饼图
+   * 
    * @param dimensionName 维度字段名
    * @param measureName 度量字段名
    * @param result 结果集
    */
-  public static getPieFieldDataArray(
+  public static getDataByAxisName(
     dimensionName: string,
     measureName: string,
     result: AnalysisResults
   ): echarts.EChartOption.SeriesBar["data"] {
-    let fieldArray: Array<echarts.EChartOption.SeriesBar.DataObject> = [];
+    // let fieldArray: Array<echarts.EChartOption.SeriesPie.DataObject> = [];
 
-    result.forEach(data => {
-      const fieldObj: echarts.EChartOption.SeriesBar.DataObject = {
+    // result.forEach(data => {
+    //   const fieldObj: echarts.EChartOption.SeriesPie.DataObject = {
+    //     name: data[dimensionName] as string,
+    //     value: data[measureName] as number
+    //   };
+    //   fieldArray.push(fieldObj);
+    // });
+
+    return result.map(data => {
+      const dataObject: echarts.EChartOption.SeriesPie.DataObject = {
         name: data[dimensionName] as string,
         value: data[measureName] as number
       };
-      fieldArray.push(fieldObj);
+      return dataObject;
     });
+  }
 
-    return fieldArray;
+  /**
+   * 通过字段名，获取结果集内的数据数组
+   * 雷达图
+   * @param measureName 度量字段名
+   * @param result 结果集
+   */
+  public static getRadarDataByAxisName(
+    measureName: string,
+    result: AnalysisResults
+  ): echarts.EChartOption.SeriesRadar.DataObject {
+    return {
+      name: measureName,
+      value: result.map(data => data[measureName] as number)
+    };
   }
 
   /**
@@ -57,12 +80,16 @@ export default class EChartServiceUtil {
     fieldName: string,
     result: AnalysisResults
   ): Array<string | number> {
-    let fieldArray: Array<string | number> = [];
+    // let fieldArray: Array<string | number> = [];
 
-    fieldArray = result.map((item: any) =>
+    // fieldArray = result.map((item: any) =>
+    //   Math.round((item[fieldName] / item["sum"]) * 100)
+    // );
+    // return fieldArray;
+
+    return result.map((item: any) =>
       Math.round((item[fieldName] / item["sum"]) * 100)
     );
-    return fieldArray;
   }
 
   /**
@@ -81,9 +108,9 @@ export default class EChartServiceUtil {
   ): echarts.EChartOption.SeriesBar["label"] {
     return sampleStyle
       ? {
-          show: sampleStyle.label.show,
-          position: sampleStyle.label.position
-        }
+        show: sampleStyle.label.show,
+        position: sampleStyle.label.position
+      }
       : {};
   }
 }
