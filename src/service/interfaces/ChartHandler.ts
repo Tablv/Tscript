@@ -19,7 +19,7 @@ export default interface ChartHandler {
    * @param result 分析结果
    * @param sampleStyle 样例样式
    */
-  getXAxis(
+  getXAxis?(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
     sampleStyle: ChartOption
@@ -28,7 +28,7 @@ export default interface ChartHandler {
   /**
    * 获取 Y轴 数据
    */
-  getYAxis(
+  getYAxis?(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
     sampleStyle: ChartOption
@@ -52,7 +52,7 @@ export default interface ChartHandler {
    *
    * @param fieldNames 分析结果划分数据
    */
-  getLegend(
+  getLegend?(
     fieldNames: SplitedFieldNames,
     result?: AnalysisResults
   ): echarts.EChartOption.Legend;

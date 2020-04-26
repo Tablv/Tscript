@@ -11,6 +11,7 @@ import { SunPieConfig } from "./chart-config/SunPie";
 import { BiaxialConfig } from "./chart-config/Biaxial";
 import { ChartType } from "@/enums/ChartType";
 import { HBarPercentageConfig } from "./chart-config/HBarPercentage";
+import { GuageConfig } from "./chart-config/Gauge";
 
 /**
  * 图表全部配置项
@@ -107,7 +108,12 @@ export default class ChartConfig {
     /**
      * 组合图
      */
-    biaxial: BiaxialConfig
+    biaxial: BiaxialConfig,
+
+    /**
+     * 仪表盘
+     */
+    guage: GuageConfig
   };
 
   /**

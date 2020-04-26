@@ -10,6 +10,7 @@ import { LineChartOption } from "@/config/chart-config/Line";
 import { BarPercentageChartOption } from "@/config/chart-config/BarPercentage";
 import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
 import { HBarPercentageChartOption } from "@/config/chart-config/HBarPercentage";
+import { GaugeChartOption } from "@/config/chart-config/Gauge";
 
 /**
  * ECharts Option
@@ -115,4 +116,7 @@ export interface EChartsSampleStyle {
 
   // 组合图配置
   biaxial?: BiaxialChartOption;
+
+  // 仪表盘
+  guage?: GaugeChartOption;
 }

@@ -60,5 +60,10 @@ export const enum ChartType {
   /**
    * 组合图
    */
-  biaxial = "biaxial"
+  biaxial = "biaxial",
+
+  /**
+   * 仪表盘
+   */
+  guage = "guage"
 }

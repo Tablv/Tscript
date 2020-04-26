@@ -128,7 +128,12 @@ export default class TitleStyle extends Vue {
     /**
      * 组合图
      */
-    biaxial: () => import("./custom-style/LineStyle.vue")
+    biaxial: () => import("./custom-style/LineStyle.vue"),
+
+    /**
+     * 仪表盘
+     */
+    guage: () => import("./custom-style/PieStyle.vue")
   };
 
   get chartType() {
