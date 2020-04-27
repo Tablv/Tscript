@@ -102,7 +102,7 @@ export default class ChartConfig {
      */
     sunpie: SunPieConfig,
 
-     /**
+    /**
      * 雷达图
      */
     radar: RadarConfig,

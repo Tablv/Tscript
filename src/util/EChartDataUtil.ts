@@ -26,7 +26,7 @@ export default class EChartServiceUtil {
   /**
    * 通过字段名，获取结果集内的数据数组
    * - 饼图
-   * 
+   *
    * @param dimensionName 维度字段名
    * @param measureName 度量字段名
    * @param result 结果集
@@ -108,9 +108,9 @@ export default class EChartServiceUtil {
   ): echarts.EChartOption.SeriesBar["label"] {
     return sampleStyle
       ? {
-        show: sampleStyle.label.show,
-        position: sampleStyle.label.position
-      }
+          show: sampleStyle.label.show,
+          position: sampleStyle.label.position
+        }
       : {};
   }
 }

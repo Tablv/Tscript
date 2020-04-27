@@ -6,13 +6,23 @@
       </button>
     </el-tooltip>
 
-    <el-tooltip effect="dark" content="选择图表样式" placement="right" :manual='true'>
+    <el-tooltip
+      effect="dark"
+      content="选择图表样式"
+      placement="right"
+      :manual="true"
+    >
       <button class="toolbtn" @click="showCreateChart = true">
         <i class="fa fa-bar-chart"></i>
       </button>
     </el-tooltip>
 
-    <el-drawer title="选择图表样式" :visible.sync="showCreateChart" direction="ltr" size="430px">
+    <el-drawer
+      title="选择图表样式"
+      :visible.sync="showCreateChart"
+      direction="ltr"
+      size="430px"
+    >
       <div class="chart-btn-container">
         <el-row :gutter="20">
           <el-col :span="8" v-for="(opt, idx) in chartCreateOptions" :key="idx">
