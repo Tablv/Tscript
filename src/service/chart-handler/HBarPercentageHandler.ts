@@ -49,7 +49,7 @@ export default class HBarPercentageHandler extends BarPercentageHandler {
       const axisXData = {
         name: dimensionName,
         type: "category",
-        data: EChartDataUtil.getFieldDataArray(dimensionName, result),
+        data: EChartDataUtil.getDataByFieldName(dimensionName, result),
         axisLabel: {
           interval: sampleStyle ? sampleStyle.axisLabel.interval : 0,
           rotate: sampleStyle ? sampleStyle.axisLabel.rotate : 0

@@ -67,7 +67,7 @@ export default class LineHandler implements ChartHandler {
       const axisXData = {
         name: dimensionName,
         type: "category",
-        data: EChartDataUtil.getFieldDataArray(dimensionName, result)
+        data: EChartDataUtil.getDataByFieldName(dimensionName, result)
       } as echarts.EChartOption.XAxis;
       xAxis.push(axisXData);
     });
@@ -103,7 +103,7 @@ export default class LineHandler implements ChartHandler {
       const seriesData = {
         name: measureName,
         type: "line",
-        data: EChartDataUtil.getFieldDataArray(measureName, result)
+        data: EChartDataUtil.getDataByFieldName(measureName, result)
       };
       series.push(seriesData);
     });

@@ -67,7 +67,7 @@ export default class BarHandler implements ChartHandler {
       const axisXData = {
         name: dimensionName,
         type: "category",
-        data: EChartDataUtil.getFieldDataArray(dimensionName, result),
+        data: EChartDataUtil.getDataByFieldName(dimensionName, result),
         axisLabel: {
           interval: sampleStyle ? sampleStyle.axisLabel.interval : 0,
           rotate: sampleStyle ? sampleStyle.axisLabel.rotate : 0
@@ -112,7 +112,7 @@ export default class BarHandler implements ChartHandler {
       const seriesData = {
         name: measureName,
         type: "bar",
-        data: EChartDataUtil.getFieldDataArray(measureName, result),
+        data: EChartDataUtil.getDataByFieldName(measureName, result),
         barWidth: EChartDataUtil.getBarWidth(sampleStyle),
         label: EChartDataUtil.getBarSeriesLabel(sampleStyle)
       };

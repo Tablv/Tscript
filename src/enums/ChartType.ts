@@ -53,6 +53,11 @@ export const enum ChartType {
   sunpie = "sunpie",
 
   /**
+   * 雷达图
+   */
+  radar = "radar",
+
+  /**
    * 线图
    */
   line = "line",

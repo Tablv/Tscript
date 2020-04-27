@@ -6,6 +6,7 @@ import { PieChartOption } from "@/config/chart-config/Pie";
 import { RPieChartOption } from "@/config/chart-config/RPie";
 import { RosePieChartOption } from "@/config/chart-config/RosePie";
 import { SunPieChartOption } from "@/config/chart-config/SunPie";
+import { RadarChartOption } from "@/config/chart-config/Radar";
 import { LineChartOption } from "@/config/chart-config/Line";
 import { BarPercentageChartOption } from "@/config/chart-config/BarPercentage";
 import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
@@ -111,6 +112,9 @@ export interface EChartsSampleStyle {
 
   //旭日图配置
   sunpie?: SunPieChartOption;
+
+  //雷达图配置
+  radar?: RadarChartOption;
 
   // 线图配置
   line?: LineChartOption;
