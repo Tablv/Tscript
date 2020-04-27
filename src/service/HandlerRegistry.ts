@@ -11,6 +11,7 @@ import RosePieHandler from "./chart-handler/RosePieHandler";
 import SunPieHandler from "./chart-handler/SunPieHandler";
 import LineHandler from "./chart-handler/LineHandler";
 import GuageHandler from "./chart-handler/GuageHandler";
+import TargetPieHandler from "./chart-handler/TargetPieHandler";
 
 const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   /**
@@ -31,6 +32,7 @@ const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   rpie: new RPieHandler(),
   rosepie: new RosePieHandler(),
   sunpie: new SunPieHandler(),
+  targetpie: new TargetPieHandler(),
 
   /**
    * 折线图

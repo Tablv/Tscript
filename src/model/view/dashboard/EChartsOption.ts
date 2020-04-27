@@ -11,6 +11,7 @@ import { BarPercentageChartOption } from "@/config/chart-config/BarPercentage";
 import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
 import { HBarPercentageChartOption } from "@/config/chart-config/HBarPercentage";
 import { GaugeChartOption } from "@/config/chart-config/Gauge";
+import { TargetPieChartOption } from "@/config/chart-config/TargetPie";
 
 /**
  * ECharts Option
@@ -119,4 +120,6 @@ export interface EChartsSampleStyle {
 
   // 仪表盘
   guage?: GaugeChartOption;
+
+  targetpie?: TargetPieChartOption;
 }

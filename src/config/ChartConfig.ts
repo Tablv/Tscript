@@ -12,6 +12,7 @@ import { BiaxialConfig } from "./chart-config/Biaxial";
 import { ChartType } from "@/enums/ChartType";
 import { HBarPercentageConfig } from "./chart-config/HBarPercentage";
 import { GuageConfig } from "./chart-config/Gauge";
+import { TargetPieConfig } from "./chart-config/TargetPie";
 
 /**
  * 图表全部配置项
@@ -113,7 +114,12 @@ export default class ChartConfig {
     /**
      * 仪表盘
      */
-    guage: GuageConfig
+    guage: GuageConfig,
+
+    /**
+     * 指示器
+     */
+    targetpie: TargetPieConfig
   };
 
   /**
