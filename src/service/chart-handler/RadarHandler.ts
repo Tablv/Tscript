@@ -84,13 +84,15 @@ export default class RadarHandler implements ChartHandler {
         };
         fieldNames.dimensions.forEach(dimensionName => {
             result.forEach(data => {
-                let radarObj = { name: data[dimensionName] };
+                const radarObj = {
+                    name: data[dimensionName]
+                };
                 radarData.indicator.push(radarObj);
             });
         });
         return radarData as echarts.EChartOption.SeriesRadar.DataObject;
     }
-
+    
     /**
      * 获取Series数据
      *

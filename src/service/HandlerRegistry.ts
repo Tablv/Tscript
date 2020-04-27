@@ -35,6 +35,9 @@ const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   sunpie: new SunPieHandler(),
   targetpie: new TargetPieHandler(),
 
+  /**
+   * 雷达图
+   */
   radar: new RadarHandler(),
 
   /**
@@ -43,7 +46,7 @@ const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   line: new LineHandler(),
 
   /**
-   * 折线图
+   * 仪表盘图
    */
   guage: new GuageHandler()
 };
