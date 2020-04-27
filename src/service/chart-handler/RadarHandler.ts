@@ -69,8 +69,8 @@ export default class RadarHandler implements ChartHandler {
     }
 
     /**
-     * 
-     * @param fieldNames 获取radar坐标
+     * 获取radar坐标
+     * @param fieldNames 
      * @param result 
      * 
      */
@@ -78,17 +78,17 @@ export default class RadarHandler implements ChartHandler {
     getRadar(
         fieldNames: SplitedFieldNames,
         result: AnalysisResults,
-    ): Array<echarts.EChartOption> {
+    ): echarts.EChartOption.SeriesRadar.DataObject {
         let radarData: any = {
             indicator: [],
         };
         fieldNames.dimensions.forEach(dimensionName => {
             result.forEach(data => {
-                let obj = { name: data[dimensionName] };
-                radarData.indicator.push(obj);
+                let radarObj = { name: data[dimensionName] };
+                radarData.indicator.push(radarObj);
             });
         });
-        return radarData;
+        return radarData as echarts.EChartOption.SeriesRadar.DataObject;
     }
 
     /**
@@ -100,7 +100,7 @@ export default class RadarHandler implements ChartHandler {
     public getSeries(
         fieldNames: SplitedFieldNames,
         result: AnalysisResults
-    ): Array<echarts.EChartOption.Series> {
+    ): Array<echarts.EChartOption.SeriesRadar> {
         return [{
             type: "radar",
             data: fieldNames.measures.map(measureName =>
@@ -109,8 +109,7 @@ export default class RadarHandler implements ChartHandler {
                     result
                 )
             )
-        }] as Array<echarts.EChartOption.Series>;
-
+        } as echarts.EChartOption.SeriesRadar.DataObject] as Array<echarts.EChartOption.SeriesRadar>;
     }
 
     /**
