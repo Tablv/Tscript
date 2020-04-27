@@ -58,7 +58,7 @@ export default class SunPieHandler extends PieChartOption {
           label: {
             rotate: "radial"
           },
-          data: EChartDataUtil.getPieFieldDataArray(
+          data: EChartDataUtil.getDataByAxisName(
             dimensionName,
             measureName,
             result

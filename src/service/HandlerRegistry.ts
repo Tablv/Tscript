@@ -32,6 +32,7 @@ const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   rpie: new RPieHandler(),
   rosepie: new RosePieHandler(),
   sunpie: new SunPieHandler(),
+
   radar: new RadarHandler(),
 
   /**

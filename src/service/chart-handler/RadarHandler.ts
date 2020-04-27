@@ -32,10 +32,8 @@ export default class RadarHandler implements ChartHandler {
 
         style.legend = this.getLegend(fieldNames);
         style.series = this.getSeries(fieldNames, result);
-        style.radar = this.getRadar(fieldNames, result, sampleStyle);
-
-        // console.log(JSON.stringify(style));
-
+        style.radar = this.getRadar(fieldNames, result);
+        style.tooltip = this.getTooltips();
 
         return style;
     }
@@ -47,11 +45,7 @@ export default class RadarHandler implements ChartHandler {
      * @param result 分析结果
      * @param sampleStyle 样例样式
      */
-    getXAxis(
-        fieldNames: SplitedFieldNames,
-        result: AnalysisResults,
-        sampleStyle: RadarChartOption
-    ): Array<echarts.EChartOption.XAxis> {
+    getXAxis(): Array<echarts.EChartOption.XAxis> {
         return [] as Array<echarts.EChartOption.XAxis>;
     }
 
@@ -78,13 +72,12 @@ export default class RadarHandler implements ChartHandler {
      * 
      * @param fieldNames 获取radar坐标
      * @param result 
-     * @param sampleStyle 样例样式
+     * 
      */
 
     getRadar(
         fieldNames: SplitedFieldNames,
         result: AnalysisResults,
-        sampleStyle: RadarChartOption
     ): Array<echarts.EChartOption> {
         let radarData: any = {
             indicator: [],
@@ -108,18 +101,22 @@ export default class RadarHandler implements ChartHandler {
         fieldNames: SplitedFieldNames,
         result: AnalysisResults
     ): Array<echarts.EChartOption.Series> {
-        let series: Array<echarts.EChartOption.Series> = [];
-        let seriesData: any = {
+        return [{
             type: "radar",
-            data: []
-        };
-        fieldNames.measures.forEach(measureName => {
-            seriesData.data.push(EChartDataUtil.getRadarDataByAxisName(
-                measureName,
-                result
-            ));
-        });
-        series.push(seriesData);
-        return series;
+            data: fieldNames.measures.map(measureName =>
+                EChartDataUtil.getRadarDataByAxisName(
+                    measureName,
+                    result
+                )
+            )
+        }] as Array<echarts.EChartOption.Series>;
+
+    }
+
+    /**
+     * 获取tooltip
+     */
+    public getTooltips() {
+        return {};
     }
 }
