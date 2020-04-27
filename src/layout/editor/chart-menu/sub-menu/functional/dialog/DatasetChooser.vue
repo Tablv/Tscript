@@ -218,6 +218,7 @@ $datasetDialogHeight: 70vh;
     .el-dialog {
       height: $datasetDialogHeight;
       width: 20%;
+      min-width: 232px;
     }
 
     .el-dialog__body {

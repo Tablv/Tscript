@@ -6,43 +6,41 @@
       </button>
     </el-tooltip>
 
-    <el-tooltip effect="dark" content="选择图表样式" placement="right">
+    <el-tooltip effect="dark" content="选择图表样式" placement="right" :manual='true'>
       <button class="toolbtn" @click="showCreateChart = true">
         <i class="fa fa-bar-chart"></i>
       </button>
     </el-tooltip>
 
-    <el-drawer
-      title="选择图表样式"
-      :visible.sync="showCreateChart"
-      direction="ltr"
-    >
-      <div class="chart-btn-group">
-        <el-button
-          class="chart-btn simple-btn"
-          v-for="(opt, idx) in chartCreateOptions"
-          :key="idx"
-          :disabled="!opt.enable || opt.createType === 'sunpie'"
-          @click="createChart(opt.createType)"
-        >
-          <svg class="icon-svg" aria-hidden="true">
-            <use :xlink:href="'#' + opt.iconClass"></use>
-          </svg>
-          <div>{{ opt.title }}</div>
-        </el-button>
+    <el-drawer title="选择图表样式" :visible.sync="showCreateChart" direction="ltr" size="430px">
+      <div class="chart-btn-container">
+        <el-row :gutter="20">
+          <el-col :span="8" v-for="(opt, idx) in chartCreateOptions" :key="idx">
+            <el-button
+              class="chart-btn simple-btn"
+              :disabled="!opt.enable || opt.createType === 'sunpie'"
+              @click="createChart(opt.createType)"
+            >
+              <svg class="icon-svg" aria-hidden="true">
+                <use :xlink:href="'#' + opt.iconClass" />
+              </svg>
+              <div class="chart-title">{{ opt.title }}</div>
+            </el-button>
 
-        <!-- <el-button
-          class="chart-btn"
-          v-for="(opt, idx) in chartCreateOptions"
-          :key="idx"
-          :disabled="!opt.enable"
-          @click="createChart(opt.createType)"
-        >
-          <div>
-            <i class="gw-icon" :class="opt.iconClass"></i>
-          </div>
-          <div>{{ opt.title }}</div>
-        </el-button> -->
+            <!-- <el-button
+            class="chart-btn"
+            v-for="(opt, idx) in chartCreateOptions"
+            :key="idx"
+            :disabled="!opt.enable"
+            @click="createChart(opt.createType)"
+          >
+            <div>
+              <i class="gw-icon" :class="opt.iconClass"></i>
+            </div>
+            <div>{{ opt.title }}</div>
+            </el-button>-->
+          </el-col>
+        </el-row>
       </div>
     </el-drawer>
   </div>
@@ -160,17 +158,14 @@ export default class ToolBar extends Vue {
   margin-left: 0;
 }
 
-.chart-btn-group {
-  display: flex;
+.chart-btn-container {
   padding: 0 20px;
-  flex: inherit;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: center;
 
   .chart-btn {
-    flex: 0 0 30%;
     margin-bottom: 15px;
+    width: 100%;
+    min-width: 80px;
+    min-height: 80px;
 
     .fa {
       margin: 8px 4px 12px;
@@ -190,12 +185,15 @@ export default class ToolBar extends Vue {
         background-color: #e4e8ee;
       }
     }
+
+    .chart-title {
+      @include oneLineNowrap;
+    }
   }
 }
 
 .toolbar {
   margin-top: 10px;
-
   .toolbtn {
     border: 0;
     height: 40px;
