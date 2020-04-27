@@ -12,6 +12,7 @@ import SunPieHandler from "./chart-handler/SunPieHandler";
 import RadarHandler from "./chart-handler/RadarHandler";
 import LineHandler from "./chart-handler/LineHandler";
 import GuageHandler from "./chart-handler/GuageHandler";
+import TargetPieHandler from "./chart-handler/TargetPieHandler";
 
 const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   /**
@@ -32,6 +33,7 @@ const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
   rpie: new RPieHandler(),
   rosepie: new RosePieHandler(),
   sunpie: new SunPieHandler(),
+  targetpie: new TargetPieHandler(),
 
   radar: new RadarHandler(),
 

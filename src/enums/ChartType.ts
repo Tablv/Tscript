@@ -70,5 +70,10 @@ export const enum ChartType {
   /**
    * 仪表盘
    */
-  guage = "guage"
+  guage = "guage",
+
+  /**
+   * 指示器
+   */
+  targetpie = "targetpie"
 }

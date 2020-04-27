@@ -119,6 +119,7 @@ export default class TitleStyle extends Vue {
     rpie: () => import("./custom-style/PieStyle.vue"),
     rosepie: () => import("./custom-style/PieStyle.vue"),
     sunpie: () => import("./custom-style/PieStyle.vue"),
+    targetpie: () => import("./custom-style/PieStyle.vue"),
     radar: () => import("./custom-style/PieStyle.vue"),
 
     /**
