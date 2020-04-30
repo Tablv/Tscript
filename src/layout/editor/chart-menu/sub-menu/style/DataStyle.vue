@@ -7,19 +7,19 @@
     <template #header>
       <span
         >数据设置
-        <el-tag style="margin-left: 6px;" size="mini" type="danger"
+        <!-- <el-tag style="margin-left: 6px;" size="mini" type="danger"
           >待开发</el-tag
-        >
+        > -->
       </span>
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <el-form-item label="小数位数设置">
-        <el-input-number value="" />
+        <el-input-number v-model="decimals.value" :min="0" />
       </el-form-item>
 
       <el-form-item label="数据单位">
-        <el-input />
+        <el-input v-model="decimals.unit" />
       </el-form-item>
     </el-form>
   </el-card>
@@ -44,6 +44,12 @@ export default class DataStyle extends Vue {
 
   @Inject()
   boxCardShadow!: string;
+
+  get decimals() {
+    const currentDashboard: any = this.currentDashboard as any;
+    const chartType = currentDashboard.visualData.type;
+    return currentDashboard.echarts.sampleStyle[chartType].decimals;
+  }
 }
 </script>
 

@@ -1,42 +1,12 @@
 import { BarChartOption } from "@/config/chart-config/Bar";
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import ObjectUtil from "@/util/ObjectUtil";
-import EChartsService from "../EChartsService";
 import BarHandler from "./BarHandler";
 
 /**
  * 条图处理
  */
 export default class HBarHandler extends BarHandler {
-  public getChartHandleResult(
-    result: AnalysisResults,
-    dashboard: Dashboard,
-    sampleStyle: BarChartOption
-  ): echarts.EChartOption {
-    let style: echarts.EChartOption = super.getChartHandleResult(
-      result,
-      dashboard,
-      sampleStyle
-    );
-
-    if (ObjectUtil.isEmpty(result)) {
-      return {};
-    }
-
-    // 存在数据时，继续处理
-    const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
-      result[0],
-      dashboard
-    );
-
-    style.xAxis = this.getXAxis(fieldNames, result, sampleStyle);
-    style.yAxis = this.getYAxis(fieldNames, result, sampleStyle);
-
-    return style;
-  }
-
   /**
    * 获取X轴数据
    *
@@ -52,9 +22,10 @@ export default class HBarHandler extends BarHandler {
     /*
      * 横向条形图 X轴配置，使用竖向柱状图 Y轴配置
      */
-    return super.getYAxis(fieldNames, result, sampleStyle) as Array<
+    let show = super.getYAxis(fieldNames, result, sampleStyle) as Array<
       echarts.EChartOption.XAxis
     >;
+    return show;
   }
 
   /**
@@ -65,6 +36,9 @@ export default class HBarHandler extends BarHandler {
     result: AnalysisResults,
     sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.YAxis> {
+    /*
+     * 横向条形图 Y轴配置，使用竖向柱状图 X轴配置
+     */
     return super.getXAxis(fieldNames, result, sampleStyle) as Array<
       echarts.EChartOption.YAxis
     >;

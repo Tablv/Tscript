@@ -13,12 +13,34 @@ import { BarChartOption } from "@/config/chart-config/Bar";
  * 柱图处理
  */
 export default class BarHandler implements ChartHandler {
+  /**
+   * 数据设置
+   * 后面有其他的设置也加入到这里
+   */
+  public decimals: any;
+
+  /**
+   * 设置仪表盘配置
+   * @param sampleStyle 仪表盘配置数据
+   */
+  public setSampleStyle(sampleStyle: BarChartOption) {
+    this.decimals = sampleStyle.decimals;
+  }
+
+  /**
+   * 获取图表的处理结果
+   * @param result 数据集
+   * @param dashboard 仪表盘数据
+   * @param sampleStyle 仪表盘简单配置
+   */
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard,
     sampleStyle: BarChartOption
   ): echarts.EChartOption {
     let style: echarts.EChartOption = {};
+
+    this.setSampleStyle(sampleStyle);
 
     if (ObjectUtil.isEmpty(result)) {
       style.xAxis = {};
@@ -75,7 +97,6 @@ export default class BarHandler implements ChartHandler {
       } as echarts.EChartOption.XAxis;
       xAxis.push(axisXData);
     });
-
     return xAxis;
   }
 
@@ -89,7 +110,8 @@ export default class BarHandler implements ChartHandler {
   ): Array<echarts.EChartOption.YAxis> {
     return [
       {
-        type: "value"
+        type: "value",
+        name: this.decimals.unit
       }
     ] as Array<echarts.EChartOption.YAxis>;
   }
@@ -112,7 +134,11 @@ export default class BarHandler implements ChartHandler {
       const seriesData = {
         name: measureName,
         type: "bar",
-        data: EChartDataUtil.getDataByFieldName(measureName, result),
+        data: EChartDataUtil.getDataByFieldName(
+          measureName,
+          result,
+          this.decimals
+        ),
         barWidth: EChartDataUtil.getBarWidth(sampleStyle),
         label: EChartDataUtil.getBarSeriesLabel(sampleStyle)
       };
@@ -121,6 +147,7 @@ export default class BarHandler implements ChartHandler {
 
     return series;
   }
+
   /**
    * 获取图例
    *

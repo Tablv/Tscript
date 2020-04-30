@@ -1,7 +1,6 @@
 import { BarChartOption } from "@/config/chart-config/Bar";
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
-import EChartDataUtil from "@/util/EChartDataUtil";
 import BarHandler from "./BarHandler";
 
 /**
@@ -20,18 +19,11 @@ export default class BarStackHandler extends BarHandler {
     result: AnalysisResults,
     sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.Series> {
-    let series: Array<echarts.EChartOption.Series | { data: Array<any> }> = [];
-
-    fieldNames.measures.forEach(measureName => {
-      const seriesData = {
-        name: measureName,
-        type: "bar",
-        stack: "stack",
-        data: EChartDataUtil.getDataByFieldName(measureName, result),
-        barWidth: EChartDataUtil.getBarWidth(sampleStyle),
-        label: EChartDataUtil.getBarSeriesLabel(sampleStyle)
-      };
-      series.push(seriesData);
+    let series: Array<
+      echarts.EChartOption.Series | { data: Array<any> }
+    > = super.getSeries(fieldNames, result, sampleStyle);
+    series.forEach(item => {
+      (item as any).stack = "stack";
     });
 
     return series;

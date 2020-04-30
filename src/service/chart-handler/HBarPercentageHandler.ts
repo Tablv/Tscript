@@ -1,13 +1,14 @@
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
-import EChartDataUtil from "@/util/EChartDataUtil";
 import { BarChartOption } from "@/config/chart-config/Bar";
-import BarPercentageHandler from "./BarPercentageHandler";
+import ObjectUtil from "@/util/ObjectUtil";
+import HBarStackHandler from "./HBarStackHandler";
+import EChartDataUtil from "@/util/EChartDataUtil";
 
 /**
  * 百分比堆积条图处理
  */
-export default class HBarPercentageHandler extends BarPercentageHandler {
+export default class HBarPercentageHandler extends HBarStackHandler {
   /**
    * 获取X轴数据
    *
@@ -21,43 +22,51 @@ export default class HBarPercentageHandler extends BarPercentageHandler {
     sampleStyle: BarChartOption
   ): Array<echarts.EChartOption.XAxis> {
     let xAxis: Array<echarts.EChartOption.XAxis> = [];
-    return [
-      {
-        type: "value",
-        min: 0,
-        max: 100,
-        axisLabel: {
-          show: true,
-          formatter: "{value} %"
-        },
-        show: true
-      }
-    ] as Array<echarts.EChartOption.XAxis>;
+    return super
+      .getXAxis(fieldNames, result, sampleStyle)
+      .map((xaxis: echarts.EChartOption.XAxis) => {
+        return ObjectUtil.merge(xaxis, {
+          min: 0,
+          max: 100,
+          axisLabel: {
+            show: true,
+            formatter: "{value} %"
+          },
+          show: true
+        });
+      });
   }
 
   /**
-   * 获取Y轴数据
+   * 获取Series数据
+   *
+   * @param fieldNames 分析结果划分数据
+   * @param result 分析结果
+   * @param sampleStyle 样例样式
    */
-  public getYAxis(
+  public getSeries(
     fieldNames: SplitedFieldNames,
     result: AnalysisResults,
     sampleStyle: BarChartOption
-  ): Array<echarts.EChartOption.YAxis> {
-    let yAxis: Array<echarts.EChartOption.YAxis> = [];
-    // 遍历生成X轴
-    fieldNames.dimensions.forEach(dimensionName => {
-      const axisXData = {
-        name: dimensionName,
-        type: "category",
-        data: EChartDataUtil.getDataByFieldName(dimensionName, result),
-        axisLabel: {
-          interval: sampleStyle ? sampleStyle.axisLabel.interval : 0,
-          rotate: sampleStyle ? sampleStyle.axisLabel.rotate : 0
-        }
-      } as echarts.EChartOption.YAxis;
-      yAxis.push(axisXData);
+  ): Array<echarts.EChartOption.Series> {
+    let series: Array<echarts.EChartOption.Series> = [];
+    result.forEach(item => {
+      item.sum = fieldNames.measures.reduce(
+        (sum: number, name: any) => sum + Number(item[name]),
+        0
+      );
     });
-
-    return yAxis;
+    fieldNames.measures.forEach(measureName => {
+      const seriesData = {
+        name: measureName,
+        type: "bar",
+        stack: "hbarPercentage",
+        data: EChartDataUtil.getPercentageArray(measureName, result),
+        barWidth: EChartDataUtil.getBarWidth(sampleStyle),
+        label: EChartDataUtil.getBarSeriesLabel(sampleStyle)
+      };
+      series.push(seriesData);
+    });
+    return series;
   }
 }

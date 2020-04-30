@@ -18,6 +18,10 @@ export type BarChartOption = ChartOption & {
     interval: 0;
     rotate: 0;
   };
+  decimals: {
+    value: number;
+    unit: String | number;
+  };
 };
 
 /**
@@ -38,6 +42,10 @@ const templates = {
         axisLabel: {
           interval: 0,
           rotate: 0
+        },
+        decimals: {
+          value: 0,
+          unit: ""
         }
       }
     }

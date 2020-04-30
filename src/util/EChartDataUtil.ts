@@ -1,5 +1,4 @@
 import { AnalysisResults } from "@/model/types/AnalysisResults";
-import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
 import { BarChartOption } from "@/config/chart-config/Bar";
 
 export default class EChartServiceUtil {
@@ -12,15 +11,20 @@ export default class EChartServiceUtil {
    */
   public static getDataByFieldName(
     fieldName: string,
-    result: AnalysisResults
+    result: AnalysisResults,
+    decimals?: any
   ): Array<string | number> {
-    // let fieldArray: Array<string | number> = [];
-
+    let fieldArray: Array<string | number> = [];
     // result.forEach(data => {
     //   fieldArray.push(data[fieldName]);
     // });
+    fieldArray = result.map((data: any) => {
+      return decimals
+        ? Number(data[fieldName]).toFixed(decimals.value)
+        : data[fieldName];
+    });
 
-    return result.map(data => data[fieldName]);
+    return fieldArray;
   }
 
   /**
