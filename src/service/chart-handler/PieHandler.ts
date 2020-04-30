@@ -76,7 +76,12 @@ export default class PieHandler implements ChartHandler {
       fieldNames.measures.forEach(measureName => {
         const seriesData = {
           type: "pie",
+          radius: "25%",
           label: {
+            // position: "outer",
+            // alignTo: "edge",
+            // margin: "25%",
+            // formatter: "{b} - {d}%"
             normal: {
               show: true,
               formatter: "{b} - {d}%"

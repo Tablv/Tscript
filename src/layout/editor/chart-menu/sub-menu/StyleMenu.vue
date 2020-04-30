@@ -14,7 +14,7 @@
     <mark-style />
 
     <!-- 数据 -->
-    <data-style />
+    <data-style v-if="decimals" />
 
     <!-- 标签 -->
     <grid-style />
@@ -23,6 +23,8 @@
 
 <script lang="ts">
 import { Component, Vue, Model } from "vue-property-decorator";
+import { CommonStore } from "@/store/modules-model";
+import Dashboard from "@/model/view/dashboard/Dashboard";
 import SpecificStyle from "./style/SpecificStyle.vue";
 import TitleStyle from "./style/TitleStyle.vue";
 import GridStyle from "./style/GridStyle.vue";
@@ -40,7 +42,16 @@ import LegendStyle from "./style/LegendStyle.vue";
     GridStyle
   }
 })
-export default class StyleMenu extends Vue {}
+export default class StyleMenu extends Vue {
+  @CommonStore.Getter("currentDashboard")
+  currentDashboard!: Dashboard;
+
+  get decimals() {
+    const currentDashboard: any = this.currentDashboard as any;
+    const chartType = currentDashboard.visualData.type;
+    return currentDashboard.echarts.sampleStyle[chartType].decimals;
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -4,7 +4,12 @@ import { ChartConfigItem } from "../ChartConfig";
 /**
  * 图表类型
  */
-export type LineChartOption = {};
+export type LineChartOption = {
+  decimals: {
+    value: number;
+    unit: String | number;
+  };
+};
 
 /**
  * 初始化模板
@@ -12,7 +17,12 @@ export type LineChartOption = {};
 const templates = {
   echarts: {
     sampleStyle: {
-      line: {}
+      line: {
+        decimals: {
+          value: 0,
+          unit: ""
+        }
+      }
     }
   }
 };

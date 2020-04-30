@@ -4,7 +4,12 @@ import { ChartConfigItem } from "../ChartConfig";
 /**
  * 图表类型
  */
-export type PieChartOption = {};
+export type PieChartOption = {
+  decimals: {
+    value: number;
+    unit: String | number;
+  };
+};
 
 /**
  * 初始化模板
