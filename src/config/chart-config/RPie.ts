@@ -13,7 +13,7 @@ export type RPieChartOption = PieChartOption;
 const templates = {
   echarts: {
     sampleStyle: {
-      pie: ObjectUtil.copy(PieConfig.templates.echarts.sampleStyle.pie)
+      rpie: ObjectUtil.copy(PieConfig.templates.echarts.sampleStyle.pie)
     }
   }
 };

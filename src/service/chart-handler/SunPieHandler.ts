@@ -2,7 +2,7 @@ import { AnalysisResults } from "@/model/types/AnalysisResults";
 import { SplitedFieldNames } from "../EChartsService";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
-import PieChartOption from "./PieHandler";
+import PieHandler from "./PieHandler";
 import EChartsService from "../EChartsService";
 import { SunPieChartOption } from "@/config/chart-config/SunPie";
 import EChartDataUtil from "@/util/EChartDataUtil";
@@ -10,7 +10,7 @@ import EChartDataUtil from "@/util/EChartDataUtil";
 /**
  * 旭日图处理
  */
-export default class SunPieHandler extends PieChartOption {
+export default class SunPieHandler extends PieHandler {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard,

@@ -2,14 +2,14 @@ import { AnalysisResults } from "@/model/types/AnalysisResults";
 import { SplitedFieldNames } from "../EChartsService";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
-import PieChartOption from "./PieHandler";
 import EChartsService from "../EChartsService";
 import { RPieChartOption } from "@/config/chart-config/RPie";
+import PieHandler from "./PieHandler";
 
 /**
  * 环图处理
  */
-export default class RPieHandler extends PieChartOption {
+export default class RPieHandler extends PieHandler {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard,

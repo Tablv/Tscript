@@ -76,7 +76,7 @@ export default class PieHandler implements ChartHandler {
       fieldNames.measures.forEach(measureName => {
         const seriesData = {
           type: "pie",
-          radius: "25%",
+          radius: "50%",
           label: {
             // position: "outer",
             // alignTo: "edge",
@@ -87,6 +87,7 @@ export default class PieHandler implements ChartHandler {
               formatter: "{b} - {d}%"
             }
           },
+          animation: false,
           data: EChartDataUtil.getDataByAxisName(
             dimensionName,
             measureName,

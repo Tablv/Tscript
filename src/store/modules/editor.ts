@@ -85,7 +85,6 @@ const actions: ActionTree<any, any> = {
       state.tables = [];
       return;
     }
-
     UIUtil.showLoading();
 
     return await Promise.all([
