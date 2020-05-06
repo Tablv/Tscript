@@ -77,17 +77,14 @@ export default class PieHandler implements ChartHandler {
         const seriesData = {
           type: "pie",
           radius: "50%",
+          center: ["50%", "50%"],
           label: {
-            // position: "outer",
-            // alignTo: "edge",
-            // margin: "25%",
-            // formatter: "{b} - {d}%"
+            margin: "25%",
             normal: {
               show: true,
               formatter: "{b} - {d}%"
             }
           },
-          animation: false,
           data: EChartDataUtil.getDataByAxisName(
             dimensionName,
             measureName,

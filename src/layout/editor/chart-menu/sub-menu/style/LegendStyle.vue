@@ -16,46 +16,47 @@
         />
       </el-form-item>
 
-      <el-form-item label="布局朝向">
-        <el-select v-model="currentDashboard.echarts.legend.orient">
-          <el-option
-            v-for="(sel, idx) in styleSelection.legend.orient.selection"
-            :key="idx"
-            :label="sel.text"
-            :value="sel.value"
-          />
-        </el-select>
-      </el-form-item>
+      <div v-show="currentDashboard.echarts.legend.show">
+        <el-form-item label="布局朝向">
+          <el-select v-model="currentDashboard.echarts.legend.orient">
+            <el-option
+              v-for="(sel, idx) in styleSelection.legend.orient.selection"
+              :key="idx"
+              :label="sel.text"
+              :value="sel.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="字体大小">
+          <el-select
+            v-model="currentDashboard.echarts.legend.textStyle.fontSize"
+          >
+            <el-option
+              v-for="(sel, idx) in styleSelection.legend.fontSize.selection"
+              :key="idx"
+              :label="sel.text"
+              :value="sel.value"
+            />
+          </el-select>
+        </el-form-item>
 
-      <el-form-item label="字体大小">
-        <el-select v-model="currentDashboard.echarts.legend.textStyle.fontSize">
-          <el-option
-            v-for="(sel, idx) in styleSelection.legend.fontSize.selection"
-            :key="idx"
-            :label="sel.text"
-            :value="sel.value"
-          />
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="位置">
-        <el-row>
-          <el-col :span="11">
-            <el-input
-              placeholder="X轴"
-              :disabled="!currentDashboard.echarts.legend.show"
-              v-model="currentDashboard.echarts.legend.left"
-            ></el-input>
-          </el-col>
-          <el-col :span="12" :offset="1">
-            <el-input
-              placeholder="Y轴"
-              :disabled="!currentDashboard.echarts.legend.show"
-              v-model="currentDashboard.echarts.legend.top"
-            ></el-input>
-          </el-col>
-        </el-row>
-      </el-form-item>
+        <el-form-item label="位置">
+          <el-row>
+            <el-col :span="11">
+              <el-input
+                placeholder="X轴"
+                v-model="currentDashboard.echarts.legend.right"
+              ></el-input>
+            </el-col>
+            <el-col :span="12" :offset="1">
+              <el-input
+                placeholder="Y轴"
+                v-model="currentDashboard.echarts.legend.top"
+              ></el-input>
+            </el-col>
+          </el-row>
+        </el-form-item>
+      </div>
     </el-form>
   </el-card>
 </template>
