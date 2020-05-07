@@ -31,10 +31,13 @@ export default class RadarHandler implements ChartHandler {
     );
 
     style.legend = this.getLegend(fieldNames);
-    style.series = this.getSeries(fieldNames, result);
+    style.series = this.getSeries(fieldNames, result, sampleStyle);
     style.radar = this.getRadar(fieldNames, result);
-    style.tooltip = this.getTooltips();
-
+    
+    console.log(JSON.stringify(style));
+    
+    
+    
     return style;
   }
 
@@ -83,22 +86,24 @@ export default class RadarHandler implements ChartHandler {
    */
   public getSeries(
     fieldNames: SplitedFieldNames,
-    result: AnalysisResults
+    result: AnalysisResults,
+    sampleStyle: RadarChartOption
   ): Array<echarts.EChartOption.SeriesRadar> {
     return [
       {
         type: "radar",
+        label: {
+          show:sampleStyle.label.show,
+          position: sampleStyle.label.position,
+          color:sampleStyle.label.color,
+          fontSize:sampleStyle.label.fontSize,
+          fontFamily:sampleStyle.label.fontFamily
+        },
         data: fieldNames.measures.map(measureName =>
           EChartDataUtil.getRadarDataByAxisName(measureName, result)
         )
-      } as echarts.EChartOption.SeriesRadar.DataObject
+      }
     ] as Array<echarts.EChartOption.SeriesRadar>;
   }
 
-  /**
-   * 获取tooltip
-   */
-  public getTooltips() {
-    return {};
-  }
 }

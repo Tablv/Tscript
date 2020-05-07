@@ -106,6 +106,11 @@ export default class EChartServiceUtil {
       : {};
   }
 
+  /**
+   * 获取饼图label样式
+   *
+   * @param sampleStyle 样例样式
+   */
   public static getPieSeriesLabel(
     sampleStyle: PieChartOption
   ): echarts.EChartOption.SeriesPie["label"] {
@@ -123,7 +128,7 @@ export default class EChartServiceUtil {
         }
       : {
           margin: "25%",
-          normal:{
+          normal: {
             show: 'true',
             formatter: "{b} - {d}%"
           }

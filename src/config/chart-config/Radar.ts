@@ -39,6 +39,7 @@ const createMenuConfig = {
  */
 const config = ObjectUtil.copy(PieConfig.config);
 
+
 export const RadarConfig: ChartConfigItem = {
   templates,
   menuOptions,
