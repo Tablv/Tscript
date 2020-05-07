@@ -20,28 +20,28 @@ export default class EChartsService {
   /**
    * 将结果数据，解析为 ECharts 的 Option
    *
-   * @param result 分析结果
+   * @param resultData 分析结果数据
    * @param dashboard 仪表盘
    *
    */
   public static getResultStyle(
-    result: AnalysisResults,
+    resultData: AnalysisResults,
     dashboard: Dashboard
   ): EChartsOption {
     // 获取当前的style对象
-    if (ObjectUtil.isEmpty(result)) {
+    if (ObjectUtil.isEmpty(resultData)) {
       console.error("分析结果返回值为空");
       return new Object() as EChartsOption;
     }
 
-    const resultStyle = ChartHandler(result, dashboard);
+    const resultStyle = ChartHandler(resultData, dashboard);
 
     return resultStyle as EChartsOption;
   }
 
   /**
    * 将图表数据的样式与分析结果合并为 ECharts 的 Option
-   *
+   * @param dashboard {Dashboard} 仪表板的实例数据
    */
   public static mergEChartstyle(dashboard: Dashboard): echarts.EChartOption {
     let style: EChartsOption = ObjectUtil.copy(dashboard.echarts),
@@ -220,7 +220,8 @@ export function renderChart(
   try {
     let echartsOption = EChartsService.mergEChartstyle(thisDashboard);
     EChartsUtil.setOption(chartInstace, echartsOption);
-    return Promise.resolve();
+    console.log(echartsOption)
+    return Promise.resolve(echartsOption);
   } catch (err) {
     return Promise.reject(err);
   }

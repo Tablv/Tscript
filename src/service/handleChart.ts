@@ -9,15 +9,16 @@ export default function handleChart(
   result: AnalysisResults,
   dashboard: Dashboard
 ) {
-  const customizedHandler = handlerRegistry[dashboard.visualData.type];
+  // 仪表板类型
+  const chartType = dashboard.visualData.type;
+  // 仪表板对应的处理对象
+  const customizedHandler = handlerRegistry[chartType];
 
   if (!customizedHandler) {
     throw new Error("找不到对应图表类型的处理方法");
   }
 
-  const sampleStyle = dashboard.echarts.sampleStyle[
-    dashboard.visualData.type
-  ] as ChartOption;
+  const sampleStyle = dashboard.echarts.sampleStyle[chartType] as ChartOption;
   let styleCustomized = customizedHandler.getChartHandleResult(
       result,
       dashboard,

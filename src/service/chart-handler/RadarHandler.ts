@@ -33,7 +33,6 @@ export default class RadarHandler implements ChartHandler {
     style.legend = this.getLegend(fieldNames);
     style.series = this.getSeries(fieldNames, result);
     style.radar = this.getRadar(fieldNames, result);
-    style.tooltip = this.getTooltips();
 
     return style;
   }
@@ -93,12 +92,5 @@ export default class RadarHandler implements ChartHandler {
         )
       } as echarts.EChartOption.SeriesRadar.DataObject
     ] as Array<echarts.EChartOption.SeriesRadar>;
-  }
-
-  /**
-   * 获取tooltip
-   */
-  public getTooltips() {
-    return {};
   }
 }

@@ -160,7 +160,9 @@ export default class EChartsComponent extends Vue implements ChartUIService {
         }
       );
     } else {
-      renderChart(this.$data.echartsInstance, this.thisDashboard).catch(err => {
+      renderChart(this.$data.echartsInstance, this.thisDashboard).then((result) => {
+        console.log(result);
+      }).catch(err => {
         console.error(err);
       });
     }

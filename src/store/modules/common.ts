@@ -148,7 +148,7 @@ const mutations: MutationTree<any> = {
     result.forEach(dashboard => {
       let chartType = dashboard.visualData.type,
         defaultConfig = DefaultTemplates.getDefaultConfig(chartType);
-
+      console.error(defaultConfig);
       ObjectUtil.merge(dashboard, defaultConfig);
     });
 
@@ -214,7 +214,7 @@ const actions: ActionTree<any, any> = {
       .then(resultData => {
         // 清空联动条件
         commit("resetReactWhere");
-
+        console.log(resultData)
         // 保存仪表盘
         commit("setDashboards", resultData);
 

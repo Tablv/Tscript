@@ -79,6 +79,10 @@ export default class GridStyle extends Vue {
 
   @Inject()
   elFormLabelWidth!: string;
+
+  mounted() {
+    console.error(this.currentDashboard);
+  }
 }
 </script>
 
