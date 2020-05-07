@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Model } from "vue-property-decorator";
+import { Component, Vue, Model, Provide } from "vue-property-decorator";
 import { CommonStore } from "@/store/modules-model";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import SpecificStyle from "./style/SpecificStyle.vue";
@@ -45,6 +45,15 @@ import LegendStyle from "./style/LegendStyle.vue";
 export default class StyleMenu extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
+
+  @Provide()
+  getSpecificStyle() {
+    return this.currentDashboard.echarts.sampleStyle[this.chartType];
+  }
+  
+  get chartType() {
+    return this.currentDashboard.visualData.type;
+  }
 
   get decimals() {
     const currentDashboard: any = this.currentDashboard as any;

@@ -9,6 +9,13 @@ export type PieChartOption = {
     value: number;
     unit: String | number;
   };
+  label:{
+    show:boolean;
+    position:String;
+    color:String;
+    fontSize:number;
+    fontFamily:String;
+  }
 };
 
 /**
@@ -17,9 +24,18 @@ export type PieChartOption = {
 const templates = {
   echarts: {
     sampleStyle: {
-      pie: {}
+      pie: {
+        label: {
+          show: false,
+          position: 'top',
+          color: '#000',
+          fontSize: 12,
+          fontFamily: 'Microsoft YaHei'
+        }
+      }
     }
-  }
+  },
+  
 };
 
 /**

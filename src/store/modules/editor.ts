@@ -126,6 +126,7 @@ const actions: ActionTree<any, any> = {
     }
 
     state.styleSelection = ObjectUtil.copy(chartStyleOptions);
+    console.log('currentDashboard',currentDashboard)
     state.functionalOptions = ObjectUtil.copy(chartFunctionalOptions);
 
     return Promise.resolve();
