@@ -107,6 +107,7 @@ export const generalDataTemplate: any = {
         }
       }
     },
+    animation: false,
     title: {
       text: "图表",
       left: "left",
@@ -127,7 +128,7 @@ export const generalDataTemplate: any = {
         fontSize: 12
       },
       data: [],
-      right: "10%",
+      right: "10",
       top: "30"
     },
     tooltip:{

@@ -39,24 +39,6 @@ export default class RadarHandler implements ChartHandler {
   }
 
   /**
-   * 获取X轴数据
-   *
-   * @param fieldNames 列数据
-   * @param result 分析结果
-   * @param sampleStyle 样例样式
-   */
-  getXAxis(): Array<echarts.EChartOption.XAxis> {
-    return [] as Array<echarts.EChartOption.XAxis>;
-  }
-
-  /**
-   * 获取Y轴数据
-   */
-  getYAxis(): Array<echarts.EChartOption.YAxis> {
-    return [] as Array<echarts.EChartOption.YAxis>;
-  }
-
-  /**
    * 获取图例
    *
    * @param fieldNames 分析结果划分数据

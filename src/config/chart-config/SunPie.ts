@@ -14,7 +14,7 @@ export type SunPieChartOption = PieChartOption;
 const templates = {
   echarts: {
     sampleStyle: {
-      pie: ObjectUtil.copy(PieConfig.templates.echarts.sampleStyle.pie)
+      sunpie: ObjectUtil.copy(PieConfig.templates.echarts.sampleStyle.pie)
     }
   }
 };

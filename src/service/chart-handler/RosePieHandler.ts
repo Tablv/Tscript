@@ -2,14 +2,14 @@ import { AnalysisResults } from "@/model/types/AnalysisResults";
 import { SplitedFieldNames } from "../EChartsService";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
-import PieChartOption from "./PieHandler";
+import PieHandler from "./PieHandler";
 import EChartsService from "../EChartsService";
 import { RosePieChartOption } from "@/config/chart-config/RosePie";
 
 /**
  * 玫瑰图处理
  */
-export default class RosePieHandler extends PieChartOption {
+export default class RosePieHandler extends PieHandler {
   public getChartHandleResult(
     result: AnalysisResults,
     dashboard: Dashboard,

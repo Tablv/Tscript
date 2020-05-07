@@ -58,7 +58,7 @@ export default class StyleMenu extends Vue {
   get decimals() {
     const currentDashboard: any = this.currentDashboard as any;
     const chartType = currentDashboard.visualData.type;
-    return currentDashboard.echarts.sampleStyle[chartType].decimals;
+    return currentDashboard.echarts.sampleStyle[chartType].decimals || false;
   }
 }
 </script>

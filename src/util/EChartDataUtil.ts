@@ -111,6 +111,7 @@ export default class EChartServiceUtil {
   ): echarts.EChartOption.SeriesPie["label"] {
     return sampleStyle
       ? {
+          margin: "25%",
           normal: {
             show: sampleStyle.label.show,
             position: sampleStyle.label.position,
@@ -121,6 +122,7 @@ export default class EChartServiceUtil {
           }
         }
       : {
+          margin: "25%",
           normal:{
             show: 'true',
             formatter: "{b} - {d}%"

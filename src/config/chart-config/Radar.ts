@@ -14,7 +14,7 @@ export type RadarChartOption = PieChartOption;
 const templates = {
   echarts: {
     sampleStyle: {
-      pie: ObjectUtil.copy(PieConfig.templates.echarts.sampleStyle.pie)
+      radar: ObjectUtil.copy(PieConfig.templates.echarts.sampleStyle.pie)
     }
   }
 };
