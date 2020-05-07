@@ -49,7 +49,7 @@ import {
   WarnConfig,
   WarnBuilder
 } from "@/model/view/Warn";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import UUID from "@/util/UUID";

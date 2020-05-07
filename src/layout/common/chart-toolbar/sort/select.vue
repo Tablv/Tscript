@@ -63,7 +63,7 @@ import { CommonStore } from "@/store/modules-model";
 
 import ObjectUtil from "@/util/ObjectUtil";
 import { SORT_DEFAULT_VALUE, SortDatapack } from "@/model/view/Sort";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 
 @Component

@@ -63,7 +63,7 @@ import { CommonStore } from "@/store/modules-model";
 
 import ObjectUtil from "@/util/ObjectUtil";
 import { WarnDatapack, WARN_DEFAULT_VALUE } from "@/model/view/Warn";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 
 @Component

@@ -76,7 +76,7 @@ import Dashboard from "@/model/view/dashboard/Dashboard";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import ObjectUtil from "@/util/ObjectUtil";
 import { FILTER_DEFAULT_VALUE, FilterDatapack } from "@/model/view/Filter";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import UUID from "@/util/UUID";
 

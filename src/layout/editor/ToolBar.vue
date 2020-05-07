@@ -17,6 +17,7 @@
       </button>
     </el-tooltip>
 
+    <!-- 实际抽屉 -->
     <el-drawer
       title="选择图表样式"
       :visible.sync="showCreateChart"
@@ -36,19 +37,6 @@
               </svg>
               <div class="chart-title">{{ opt.title }}</div>
             </el-button>
-
-            <!-- <el-button
-            class="chart-btn"
-            v-for="(opt, idx) in chartCreateOptions"
-            :key="idx"
-            :disabled="!opt.enable"
-            @click="createChart(opt.createType)"
-          >
-            <div>
-              <i class="gw-icon" :class="opt.iconClass"></i>
-            </div>
-            <div>{{ opt.title }}</div>
-            </el-button>-->
           </el-col>
         </el-row>
       </div>
@@ -66,7 +54,7 @@ import UIUtil, { MessageType } from "@/util/UIUtil";
 import { chartCreateOptions } from "@/config/EditorOptions";
 import { EditorStore, CommonStore } from "@/store/modules-model";
 import DashboardSet from "@/model/view/DashboardSet";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import { SortType } from "@/enums/SortType";
 import { generalDataTemplate } from "@/config/DefaultTemplate";
 
@@ -101,6 +89,7 @@ export default class ToolBar extends Vue {
    */
   createChart(chartType: ChartType): void {
     this.showCreateChart = false;
+    // 创建新的仪表
     setTimeout(() => {
       this.createDashboard(chartType);
     }, 500);
@@ -157,7 +146,10 @@ export default class ToolBar extends Vue {
       );
     });
 
-    return await AxiosRequest.dashboard.save(this.setId, serializedDashboards);
+    return await AxiosRequest.dashboardRequest.save(
+      this.setId,
+      serializedDashboards
+    );
   }
 }
 </script>

@@ -49,7 +49,7 @@
 import { Component, Vue, Watch, Provide } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { boxCardBodyStyle } from "@/config/CommonOptions";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 
 // 左侧菜单
 import FloatingMenu from "@/components/FloatingMenu.vue";

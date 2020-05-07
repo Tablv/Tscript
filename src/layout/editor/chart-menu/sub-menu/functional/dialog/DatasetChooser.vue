@@ -49,7 +49,7 @@ import TableVO from "@/model/results/TableVO";
 import TableInfoVO from "@/model/results/TableInfoVO";
 import UIUtil, { MessageType, ConfirmType } from "@/util/UIUtil";
 import UUID from "@/util/UUID";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import ObjectUtil from "@/util/ObjectUtil";
 
 @Component

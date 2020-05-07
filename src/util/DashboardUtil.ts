@@ -1,4 +1,4 @@
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import { Properties } from "csstype";
 import JoinRelation from "@/model/params/JoinRelation";
 import TableVO from "@/model/results/TableVO";
@@ -19,25 +19,27 @@ import { AnalysisResult } from "@/model/types/AnalysisResults";
 
 export default class DashboardUtil {
   /**
-   * 根据配置，获取初始化数据
-   *
+   * 根据配置，初始化数据
+   * @param currentLength {number} 当前存在仪表数量
+   * @param type {ChartType} 创建的仪表类型
    */
   public static getInitDashboard(
     currentLength: number,
     type: ChartType
   ): Dashboard | undefined {
-    // 根据模板创建出来的数据
-    let templateData = DefaultTemplate.getInitData(type);
+    // 获取默认公共模板数据
+    let templateData = DefaultTemplate.getDefaultConfig(type);
     if (templateData === undefined) {
-      console.error("Template Not Found...");
+      console.error("未找到公共模板");
       return undefined;
     }
 
     // 对模板对象进行深拷贝
     let createdData: Dashboard = JSON.parse(JSON.stringify(templateData));
 
-    // 创建默认配置项
+    // 赋予唯一id
     createdData.id = UUID.generate();
+    // 确定新建仪表的定位位置
     createdData.visualData.position = {
       x: currentLength * 10,
       y: currentLength * 10,

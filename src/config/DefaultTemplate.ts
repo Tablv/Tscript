@@ -3,7 +3,6 @@ import { WarnDisplayType } from "@/enums/WarnType";
 import { SortType } from "@/enums/SortType";
 import { ChartType } from "@/enums/ChartType";
 import ObjectUtil from "@/util/ObjectUtil";
-import UUID from "@/util/UUID";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import DashboardSet from "@/model/view/DashboardSet";
 import { BackgroundType } from "@/enums/DashboardSet";
@@ -176,18 +175,5 @@ export default class DefaultTemplate {
     this.configCache.set(chartType, defaultConfig);
 
     return defaultConfig;
-  }
-
-  /**
-   * 获取仪表盘可选配置
-   *
-   * @param chartType 图表类型
-   */
-  public static getInitData(chartType: ChartType): Dashboard {
-    let initData = this.getDefaultConfig(chartType);
-
-    initData.id = UUID.generate();
-
-    return initData;
   }
 }

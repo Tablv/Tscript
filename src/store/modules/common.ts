@@ -6,7 +6,7 @@ import DefaultTemplates from "@/config/DefaultTemplate";
 import ReactWhere from "@/model/view/ReactWhere";
 import { defaultDashboardSet } from "@/config/DefaultTemplate";
 import DashboardSet from "@/model/view/DashboardSet";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import { ChartType } from "@/enums/ChartType";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
@@ -45,7 +45,7 @@ const getters: GetterTree<any, any> = {
 const mutations: MutationTree<any> = {
   /**
    * 创建仪表盘
-   *
+   * @param chartType {ChartType} 仪表类型
    */
   createDashboard(state: any, chartType: ChartType): void {
     // 当前存在的数据
@@ -56,7 +56,6 @@ const mutations: MutationTree<any> = {
       currentDataLength,
       chartType
     );
-
     if (initData === undefined) {
       UIUtil.showErrorMessage("创建初始化数据出错");
       throw "创建初始化数据出错";
@@ -144,14 +143,17 @@ const mutations: MutationTree<any> = {
   },
 
   // 设置仪表盘数据
-  setDashboards(state, result: Array<Dashboard>): void {
-    result.forEach(dashboard => {
-      let chartType = dashboard.visualData.type,
-        defaultConfig = DefaultTemplates.getDefaultConfig(chartType);
-      console.error(defaultConfig);
-      ObjectUtil.merge(dashboard, defaultConfig);
-    });
+  // setDashboards(state, result: Array<Dashboard>): void {
+  //   result.forEach(dashboard => {
+  //     let chartType = dashboard.visualData.type,
+  //       defaultConfig = DefaultTemplates.getDefaultConfig(chartType);
+  //     console.error(defaultConfig);
+  //     ObjectUtil.merge(dashboard, defaultConfig);
+  //   });
 
+  //   state.dashboards = result;
+  // },
+  setDashboards(state, result: Array<Dashboard>): void {
     state.dashboards = result;
   },
 
@@ -209,12 +211,11 @@ const actions: ActionTree<any, any> = {
    * 加载仪表盘配置
    */
   async loadDashboards({ state, commit }): Promise<void> {
-    return await AxiosRequest.dashboard
+    return await AxiosRequest.dashboardRequest
       .find(state.dashboardSetId)
       .then(resultData => {
         // 清空联动条件
         commit("resetReactWhere");
-        console.log(resultData)
         // 保存仪表盘
         commit("setDashboards", resultData);
 

@@ -53,7 +53,7 @@ import { FilterType } from "@/enums/FilterType";
 import ObjectUtil from "@/util/ObjectUtil";
 import TableVO from "@/model/results/TableVO";
 import TableInfoVO from "@/model/results/TableInfoVO";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import WhereDTO from "@/model/params/WhereDTO";

@@ -7,7 +7,7 @@ import { ChartType } from "@/enums/ChartType";
 import UIUtil from "@/util/UIUtil";
 import MenuOptions from "@/config/MenuOptions";
 import ObjectUtil from "@/util/ObjectUtil";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import { customDataTemplates } from "@/config/DefaultTemplate";
 
 const state = {
@@ -60,6 +60,7 @@ const mutations: MutationTree<any> = {
   },
 
   // 设置当前激活的快捷键区域
+  // type 全局或网格部分
   setActiveShortcutType(state: any, type: ShortcutType): void {
     state.activeShortcutType = type;
   },

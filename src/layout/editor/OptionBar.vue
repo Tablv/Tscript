@@ -160,7 +160,7 @@ import {
 import { ShareType } from "@/enums/ShareType";
 import ShareVO from "@/model/results/ShareVO";
 import UIUtil from "@/util/UIUtil";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import {
   ElUploadInternalRawFile,
   ElUploadInternalFileDetail

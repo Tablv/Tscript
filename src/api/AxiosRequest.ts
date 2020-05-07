@@ -1,3 +1,6 @@
+/**
+ * 路由以及交互封装
+ */
 import AxiosUtil from "@/util/AxiosUtil";
 import ObjectUtil from "@/util/ObjectUtil";
 
@@ -159,7 +162,7 @@ export const AxiosRequest = {
   /**
    * 仪表盘
    */
-  dashboard: {
+  dashboardRequest: {
     // 加载仪表盘
     find: async (setId: string) =>
       await AxiosUtil.get(API.findDashboard + "/" + setId)

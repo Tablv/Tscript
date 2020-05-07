@@ -6,7 +6,7 @@ import EChartsOption from "@/model/view/dashboard/EChartsOption";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import { FieldType } from "@/enums/FieldType";
 import AnalysisData from "@/model/view/dashboard/AnalysisData";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 import EChartsUtil from "@/util/EChartsUtil";
 import EventsConfig from "@/model/view/dashboard/EventsConfig";
 import ChartUIService from "@/service/interfaces/ChartUIService";
@@ -220,8 +220,7 @@ export function renderChart(
   try {
     let echartsOption = EChartsService.mergEChartstyle(thisDashboard);
     EChartsUtil.setOption(chartInstace, echartsOption);
-    console.log(echartsOption)
-    return Promise.resolve(echartsOption);
+    return Promise.resolve();
   } catch (err) {
     return Promise.reject(err);
   }

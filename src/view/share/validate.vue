@@ -34,7 +34,7 @@ import UIUtil, { MessageType } from "@/util/UIUtil";
 import ObjectUtil from "@/util/ObjectUtil";
 import { CommonStore } from "@/store/modules-model";
 import RequestUtil from "@/util/RequestUtil";
-import { AxiosRequest } from "@/config/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 
 @Component
 export default class Preview extends Vue {

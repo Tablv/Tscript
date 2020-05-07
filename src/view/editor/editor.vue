@@ -133,12 +133,17 @@ export default class Editor extends Vue {
     }
   }
 
+  /**
+   * 加载数据
+   * 并对加载失败的结果进行处理
+   */
   loadData(setId: string): void {
     let loadingInstance = UIUtil.showLoading();
     this.setDashboardSetId(setId);
 
     Promise.all([this.loadDashboardSet(), this.loadDashboards()])
       .then(resArr => {
+        // 关闭loading
         UIUtil.closeLoading(loadingInstance);
       })
       .catch(errArr => {
