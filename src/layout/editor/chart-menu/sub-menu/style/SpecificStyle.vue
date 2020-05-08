@@ -142,18 +142,10 @@ export default class TitleStyle extends Vue {
     return this.currentDashboard.visualData.type;
   }
 
-  get sampleStyle() {
-    return this.currentDashboard.echarts.sampleStyle[this.chartType];
-  }
-
   render(createElement: CreateElement) {
     // 通过图表类型，获取对应的样式配置
     const component = this.componentRegistry[this.chartType];
-    return createElement(component, {
-      props: {
-        sampleStyle: this.sampleStyle
-      }
-    });
+    return createElement(component);
   }
 }
 </script>

@@ -30,7 +30,7 @@ export default class PieHandler implements ChartHandler {
     );
 
     style.legend = this.getLegend(fieldNames, result);
-    style.series = this.getSeries(fieldNames, result);
+    style.series = this.getSeries(fieldNames, result,sampleStyle);
 
     return style;
   }
@@ -68,7 +68,8 @@ export default class PieHandler implements ChartHandler {
    */
   public getSeries(
     fieldNames: SplitedFieldNames,
-    result: AnalysisResults
+    result: AnalysisResults,
+    sampleStyle: PieChartOption
   ): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series> = [];
 
@@ -78,13 +79,14 @@ export default class PieHandler implements ChartHandler {
           type: "pie",
           radius: "50%",
           center: ["50%", "50%"],
-          label: {
-            margin: "25%",
-            normal: {
-              show: true,
-              formatter: "{b} - {d}%"
-            }
-          },
+          // label: {
+          //   margin: "25%",
+          //   normal: {
+          //     show: true,
+          //     formatter: "{b} - {d}%"
+          //   }
+          // },
+          label:EChartDataUtil.getPieSeriesLabel(sampleStyle),
           data: EChartDataUtil.getDataByAxisName(
             dimensionName,
             measureName,

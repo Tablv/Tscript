@@ -58,6 +58,13 @@ export default class LineHandler extends BarHandler {
       const seriesData = {
         name: measureName,
         type: "line",
+        label:{
+          show:sampleStyle.label.show,
+          position: sampleStyle.label.position,
+          color:sampleStyle.label.color,
+          fontSize:sampleStyle.label.fontSize,
+          fontFamily:sampleStyle.label.fontFamily
+        },
         data: EChartDataUtil.getDataByFieldName(measureName, result)
       };
       series.push(seriesData);

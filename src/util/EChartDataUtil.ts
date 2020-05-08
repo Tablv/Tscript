@@ -1,5 +1,6 @@
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import { BarChartOption } from "@/config/chart-config/Bar";
+import { PieChartOption } from "@/config/chart-config/Pie";
 
 export default class EChartServiceUtil {
   /**
@@ -15,9 +16,7 @@ export default class EChartServiceUtil {
     decimals?: any
   ): Array<string | number> {
     let fieldArray: Array<string | number> = [];
-    // result.forEach(data => {
-    //   fieldArray.push(data[fieldName]);
-    // });
+
     fieldArray = result.map((data: any) => {
       return decimals
         ? Number(data[fieldName]).toFixed(decimals.value)
@@ -40,21 +39,13 @@ export default class EChartServiceUtil {
     measureName: string,
     result: AnalysisResults
   ): echarts.EChartOption.SeriesBar["data"] {
-    // let fieldArray: Array<echarts.EChartOption.SeriesPie.DataObject> = [];
-
-    // result.forEach(data => {
-    //   const fieldObj: echarts.EChartOption.SeriesPie.DataObject = {
-    //     name: data[dimensionName] as string,
-    //     value: data[measureName] as number
-    //   };
-    //   fieldArray.push(fieldObj);
-    // });
 
     return result.map(data => {
       const dataObject: echarts.EChartOption.SeriesPie.DataObject = {
         name: data[dimensionName] as string,
         value: data[measureName] as number
       };
+
       return dataObject;
     });
   }
@@ -84,12 +75,6 @@ export default class EChartServiceUtil {
     fieldName: string,
     result: AnalysisResults
   ): Array<string | number> {
-    // let fieldArray: Array<string | number> = [];
-
-    // fieldArray = result.map((item: any) =>
-    //   Math.round((item[fieldName] / item["sum"]) * 100)
-    // );
-    // return fieldArray;
 
     return result.map((item: any) =>
       Math.round((item[fieldName] / item["sum"]) * 100)
@@ -113,8 +98,40 @@ export default class EChartServiceUtil {
     return sampleStyle
       ? {
           show: sampleStyle.label.show,
-          position: sampleStyle.label.position
+          position: sampleStyle.label.position,
+          color:sampleStyle.label.color,
+          fontFamily: sampleStyle.label.fontFamily,
+          fontSize: sampleStyle.label.fontSize,
         }
       : {};
+  }
+
+  /**
+   * 获取饼图label样式
+   *
+   * @param sampleStyle 样例样式
+   */
+  public static getPieSeriesLabel(
+    sampleStyle: PieChartOption
+  ): echarts.EChartOption.SeriesPie["label"] {
+    return sampleStyle
+      ? {
+          margin: "25%",
+          normal: {
+            show: sampleStyle.label.show,
+            position: sampleStyle.label.position,
+            color:sampleStyle.label.color,
+            fontFamily: sampleStyle.label.fontFamily,
+            fontSize: sampleStyle.label.fontSize,
+            formatter: "{b} - {d}%"
+          }
+        }
+      : {
+          margin: "25%",
+          normal: {
+            show: 'true',
+            formatter: "{b} - {d}%"
+          }
+    };
   }
 }

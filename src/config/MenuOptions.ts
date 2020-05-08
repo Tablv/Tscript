@@ -171,7 +171,41 @@ export const generalMenuOptions: any = {
         { text: "穿透", value: "jump" }
       ]
     }
-  }
+  },
+  label: {
+    size: {
+      selection: [
+        { text: "12", value: 12 },
+        { text: "13", value: 13 },
+        { text: "14", value: 14 },
+        { text: "15", value: 15 },
+        { text: "16", value: 16 },
+        { text: "17", value: 17 },
+        { text: "18", value: 18 }
+      ]
+    },
+    fontFamily: {
+      selection: [
+        { text: "微软雅黑", value: "Microsoft YaHei" },
+        { text: "黑体", value: "SimHei" },
+        { text: "宋体", value: "SimSun" }
+      ]
+    },
+    color: {
+      selection: [
+        { text: "黑色", value: "#000" },
+        { text: "红色", value: "#f00" },
+        { text: "绿色", value: "#0f0" },
+        { text: "蓝色", value: "#00f" }
+      ]
+    },
+    position: {
+      selection: [
+        { text: "顶部", value: "top" },
+        { text: "内部", value: "inside" }
+      ]
+    }
+  },
 };
 
 /**

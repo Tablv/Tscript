@@ -13,6 +13,9 @@ export type BarChartOption = ChartOption & {
   label: {
     show: boolean;
     position: string; // 'top' 'left' 'right' 'bottom' 'inside'
+    color:string,
+    fontSize:number,
+    fontFamily:string
   };
   axisLabel: {
     interval: 0;
@@ -37,7 +40,10 @@ const templates = {
         },
         label: {
           show: false,
-          position: "top"
+          position: "top",
+          color: "#000",
+          fontFamily: "Microsoft YaHei",
+          fontSize: 12
         },
         axisLabel: {
           interval: 0,

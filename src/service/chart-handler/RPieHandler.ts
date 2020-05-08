@@ -31,7 +31,7 @@ export default class RPieHandler extends PieHandler {
       dashboard
     );
 
-    style.series = this.getSeries(fieldNames, result);
+    style.series = this.getSeries(fieldNames, result, sampleStyle);
 
     return style;
   }
@@ -43,10 +43,11 @@ export default class RPieHandler extends PieHandler {
    */
   public getSeries(
     fieldNames: SplitedFieldNames,
-    result: AnalysisResults
+    result: AnalysisResults,
+    sampleStyle: RPieChartOption
   ): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series> = [];
-    series = (super.getSeries(fieldNames, result) as Array<
+    series = (super.getSeries(fieldNames, result, sampleStyle) as Array<
       echarts.EChartOption.SeriesPie
     >).map(seriesData => {
       seriesData.radius = ["45%", "70%"];
