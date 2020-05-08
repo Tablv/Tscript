@@ -36,10 +36,6 @@
           :item="thisDashboard"
           :index="index"
         />
-        <!-- :style="{
-            width: thisDashboard.visualData.width + 'px',
-            height: thisDashboard.visualData.height + 'px'
-          }" -->
       </div>
     </vdr>
   </div>
@@ -330,7 +326,7 @@ export default class ResizableElement extends Vue {
     if (!this.isCurrent || this.menuLoading) {
       return;
     }
-
+    console.log('nihao')
     this.chartComponent?.renderChart();
   }
 
@@ -406,7 +402,6 @@ export default class ResizableElement extends Vue {
    */
   fetchToShow(): void {
     this.isFetching = true;
-
     // 获取数据
     this.chartComponent
       ?.fetchData()
