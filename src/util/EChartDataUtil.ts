@@ -39,7 +39,6 @@ export default class EChartServiceUtil {
     measureName: string,
     result: AnalysisResults
   ): echarts.EChartOption.SeriesBar["data"] {
-
     return result.map(data => {
       const dataObject: echarts.EChartOption.SeriesPie.DataObject = {
         name: data[dimensionName] as string,
@@ -75,7 +74,6 @@ export default class EChartServiceUtil {
     fieldName: string,
     result: AnalysisResults
   ): Array<string | number> {
-
     return result.map((item: any) =>
       Math.round((item[fieldName] / item["sum"]) * 100)
     );
@@ -99,9 +97,9 @@ export default class EChartServiceUtil {
       ? {
           show: sampleStyle.label.show,
           position: sampleStyle.label.position,
-          color:sampleStyle.label.color,
+          color: sampleStyle.label.color,
           fontFamily: sampleStyle.label.fontFamily,
-          fontSize: sampleStyle.label.fontSize,
+          fontSize: sampleStyle.label.fontSize
         }
       : {};
   }
@@ -120,7 +118,7 @@ export default class EChartServiceUtil {
           normal: {
             show: sampleStyle.label.show,
             position: sampleStyle.label.position,
-            color:sampleStyle.label.color,
+            color: sampleStyle.label.color,
             fontFamily: sampleStyle.label.fontFamily,
             fontSize: sampleStyle.label.fontSize,
             formatter: "{b} - {d}%"
@@ -129,9 +127,9 @@ export default class EChartServiceUtil {
       : {
           margin: "25%",
           normal: {
-            show: 'true',
+            show: "true",
             formatter: "{b} - {d}%"
           }
-    };
+        };
   }
 }

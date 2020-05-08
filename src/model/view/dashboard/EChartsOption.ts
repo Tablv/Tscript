@@ -42,7 +42,6 @@ export default interface EChartsOption {
   yAxis: Array<ChartSeries>;
 
   series: Array<ChartSeries>;
-
 }
 
 /**

@@ -66,7 +66,7 @@ export default class BarHandler implements ChartHandler {
     if (dashboard.analysis.warn.id !== WARN_DEFAULT_VALUE) {
       warnConfigure(dashboard, style);
     }
-    
+
     return style;
   }
 

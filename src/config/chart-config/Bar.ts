@@ -13,9 +13,9 @@ export type BarChartOption = ChartOption & {
   label: {
     show: boolean;
     position: string; // 'top' 'left' 'right' 'bottom' 'inside'
-    color:string,
-    fontSize:number,
-    fontFamily:string
+    color: string;
+    fontSize: number;
+    fontFamily: string;
   };
   axisLabel: {
     interval: 0;

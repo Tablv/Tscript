@@ -88,11 +88,11 @@ export default class RadarHandler implements ChartHandler {
       {
         type: "radar",
         label: {
-          show:sampleStyle.label.show,
+          show: sampleStyle.label.show,
           position: sampleStyle.label.position,
-          color:sampleStyle.label.color,
-          fontSize:sampleStyle.label.fontSize,
-          fontFamily:sampleStyle.label.fontFamily
+          color: sampleStyle.label.color,
+          fontSize: sampleStyle.label.fontSize,
+          fontFamily: sampleStyle.label.fontFamily
         },
         data: fieldNames.measures.map(measureName =>
           EChartDataUtil.getRadarDataByAxisName(measureName, result)

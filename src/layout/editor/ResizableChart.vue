@@ -326,7 +326,6 @@ export default class ResizableElement extends Vue {
     if (!this.isCurrent || this.menuLoading) {
       return;
     }
-    console.log('nihao')
     this.chartComponent?.renderChart();
   }
 

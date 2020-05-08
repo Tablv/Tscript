@@ -50,7 +50,7 @@ export default class StyleMenu extends Vue {
   getSpecificStyle() {
     return this.currentDashboard.echarts.sampleStyle[this.chartType];
   }
-  
+
   get chartType() {
     return this.currentDashboard.visualData.type;
   }

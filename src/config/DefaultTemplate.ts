@@ -130,11 +130,10 @@ export const generalDataTemplate: any = {
       right: "10",
       top: "30"
     },
-    tooltip:{
-      show:false
+    tooltip: {
+      show: false
     },
-    series: [],
-    
+    series: []
   }
 };
 
