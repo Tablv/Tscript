@@ -10,11 +10,11 @@ export type PieChartOption = {
     unit: String | number;
   };
   label:{
-    show:boolean;
-    position:String;
-    color:String;
-    fontSize:number;
-    fontFamily:String;
+    show: boolean;
+    position: String;
+    color: String;
+    fontSize: number;
+    fontFamily: String;
   }
 };
 
@@ -34,14 +34,23 @@ const templates = {
         }
       }
     }
-  },
-  
+  }
 };
 
 /**
  * 菜单选项
  */
-const menuOptions = {};
+const menuOptions = {
+  label: {
+    position: {
+      selection: [
+        { text: "外侧", value: "top" },
+        { text: "内部", value: "inside" },
+        { text: "中心", value: "center" }
+      ]
+    }
+  }
+};
 
 /**
  * 创建菜单配置
