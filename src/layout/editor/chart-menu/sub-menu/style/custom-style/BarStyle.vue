@@ -16,11 +16,7 @@
       <el-form-item label="柱宽">
         <el-row>
           <el-col :span="12">
-            <el-slider
-              v-model="specificStyle.width.value"
-              :max="30"
-              :min="1"
-            />
+            <el-slider v-model="specificStyle.width.value" :max="30" :min="1" />
           </el-col>
           <el-col :span="10" :offset="2">
             <el-select
@@ -49,7 +45,12 @@
               active-color="#13ce66"
             />
           </el-col>
-          <el-col v-if="specificStyle.label.show" :span="10"  :offset="2" style="position: relative;">
+          <el-col
+            v-if="specificStyle.label.show"
+            :span="10"
+            :offset="2"
+            style="position: relative;"
+          >
             <span class="position-lable">位置</span>
             <el-select
               v-model="specificStyle.label.position"
@@ -57,7 +58,8 @@
               placeholder="位置"
             >
               <el-option
-                v-for="(unit, index) in styleSelection.series.barLabel.position.selection"
+                v-for="(unit, index) in styleSelection.series.barLabel.position
+                  .selection"
                 :key="index"
                 :label="unit.text"
                 :value="unit.value"
@@ -90,7 +92,7 @@ import { Properties } from "csstype";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ColorOption from "../common/ColorOption.vue";
 import { BarChartOption } from "@/config/chart-config/Bar";
-import { ChartOption } from '@/config/ChartConfig';
+import { ChartOption } from "@/config/ChartConfig";
 
 @Component({
   components: {
@@ -123,8 +125,8 @@ export default class BarStyle extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.position-lable{
-  position:absolute;
+.position-lable {
+  position: absolute;
   z-index: 10;
   left: -34px;
   font-size: 13px;

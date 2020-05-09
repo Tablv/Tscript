@@ -30,7 +30,7 @@ export default class PieHandler implements ChartHandler {
     );
 
     style.legend = this.getLegend(fieldNames, result);
-    style.series = this.getSeries(fieldNames, result,sampleStyle);
+    style.series = this.getSeries(fieldNames, result, sampleStyle);
 
     return style;
   }
@@ -86,7 +86,7 @@ export default class PieHandler implements ChartHandler {
           //     formatter: "{b} - {d}%"
           //   }
           // },
-          label:EChartDataUtil.getPieSeriesLabel(sampleStyle),
+          label: EChartDataUtil.getPieSeriesLabel(sampleStyle),
           data: EChartDataUtil.getDataByAxisName(
             dimensionName,
             measureName,

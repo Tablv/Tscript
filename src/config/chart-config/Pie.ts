@@ -9,13 +9,13 @@ export type PieChartOption = {
     value: number;
     unit: String | number;
   };
-  label:{
+  label: {
     show: boolean;
     position: String;
     color: String;
     fontSize: number;
     fontFamily: String;
-  }
+  };
 };
 
 /**
@@ -27,10 +27,10 @@ const templates = {
       pie: {
         label: {
           show: false,
-          position: 'top',
-          color: '#000',
+          position: "top",
+          color: "#000",
           fontSize: 12,
-          fontFamily: 'Microsoft YaHei'
+          fontFamily: "Microsoft YaHei"
         }
       }
     }

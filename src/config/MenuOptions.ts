@@ -205,7 +205,7 @@ export const generalMenuOptions: any = {
         { text: "内部", value: "inside" }
       ]
     }
-  },
+  }
 };
 
 /**

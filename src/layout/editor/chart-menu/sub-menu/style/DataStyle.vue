@@ -5,12 +5,7 @@
     :shadow="boxCardShadow"
   >
     <template #header>
-      <span
-        >数据设置
-        <!-- <el-tag style="margin-left: 6px;" size="mini" type="danger"
-          >待开发</el-tag
-        > -->
-      </span>
+      <span>数据设置</span>
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
