@@ -72,13 +72,12 @@ export default class PieHandler implements ChartHandler {
     sampleStyle: PieChartOption
   ): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series> = [];
-
     fieldNames.dimensions.forEach(dimensionName => {
       fieldNames.measures.forEach(measureName => {
         const seriesData = {
           type: "pie",
           radius: "50%",
-          center: ["50%", "50%"],
+          center: Object.values(sampleStyle.centerConfig),
           // label: {
           //   margin: "25%",
           //   normal: {

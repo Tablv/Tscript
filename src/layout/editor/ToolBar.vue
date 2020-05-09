@@ -132,7 +132,6 @@ export default class ToolBar extends Vue {
    */
   async saveDashboards(): Promise<void> {
     let serializedDashboards = ObjectUtil.copy(this.dashboards);
-
     // 保存前处理
     serializedDashboards.forEach((serializedDashboard: Dashboard) => {
       // 置为默认过滤器配置

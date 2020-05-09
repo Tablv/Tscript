@@ -143,16 +143,6 @@ const mutations: MutationTree<any> = {
   },
 
   // 设置仪表盘数据
-  // setDashboards(state, result: Array<Dashboard>): void {
-  //   result.forEach(dashboard => {
-  //     let chartType = dashboard.visualData.type,
-  //       defaultConfig = DefaultTemplates.getDefaultConfig(chartType);
-  //     console.error(defaultConfig);
-  //     ObjectUtil.merge(dashboard, defaultConfig);
-  //   });
-
-  //   state.dashboards = result;
-  // },
   setDashboards(state, result: Array<Dashboard>): void {
     state.dashboards = result;
   },

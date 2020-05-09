@@ -12,8 +12,8 @@
       <el-col :span="10" :offset="1">
         <el-select v-model="unitVal" size="small" placeholder="单位">
           <el-option
-            v-for="(unit, index) in selection"
-            :key="index"
+            v-for="unit in selection"
+            :key="unit.text"
             :label="unit.text"
             :value="unit.value"
           />
@@ -39,17 +39,14 @@ export default class ValueUnitOption extends Vue {
 
   isValIniting = true;
   isUnitIniting = true;
+  settimeId = 0;
 
   get valueVal() {
     return this.valueUnit.value;
   }
 
   set valueVal(value) {
-    if (this.isValIniting) {
-      this.isValIniting = false;
-      return;
-    }
-
+    if (value === this.valueVal) return;
     this.updateEmit(value, this.unitVal);
   }
 
@@ -58,16 +55,15 @@ export default class ValueUnitOption extends Vue {
   }
 
   set unitVal(unit) {
-    if (this.isUnitIniting) {
-      this.isUnitIniting = false;
-      return;
-    }
-
     this.updateEmit(this.valueVal, unit);
   }
 
   updateEmit(value: number, unit: string): void {
     this.$emit("valueUnit", {
+      value,
+      unit
+    });
+    this.$emit("change", {
       value,
       unit
     });

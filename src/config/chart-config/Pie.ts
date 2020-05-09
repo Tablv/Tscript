@@ -16,6 +16,10 @@ export type PieChartOption = {
     fontSize: number;
     fontFamily: String;
   };
+  centerConfig: {
+    xAxias: string;
+    yAxias: string;
+  };
 };
 
 /**
@@ -31,6 +35,10 @@ const templates = {
           color: "#000",
           fontSize: 12,
           fontFamily: "Microsoft YaHei"
+        },
+        centerConfig: {
+          xAxias: "50%",
+          yAxias: "50%"
         }
       }
     }

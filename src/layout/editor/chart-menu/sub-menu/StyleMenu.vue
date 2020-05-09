@@ -50,15 +50,22 @@ export default class StyleMenu extends Vue {
   getSpecificStyle() {
     return this.currentDashboard.echarts.sampleStyle[this.chartType];
   }
+  @Provide()
+  setSpecificStyle(val: object) {
+    (this.currentDashboard.echarts.sampleStyle[
+      this.chartType
+    ] as any).centerConfig = val;
+  }
 
   get chartType() {
     return this.currentDashboard.visualData.type;
   }
 
   get decimals() {
-    const currentDashboard: any = this.currentDashboard as any;
-    const chartType = currentDashboard.visualData.type;
-    return currentDashboard.echarts.sampleStyle[chartType].decimals || false;
+    return (
+      (this.currentDashboard.echarts.sampleStyle[this.chartType] as any)
+        .decimals || false
+    );
   }
 }
 </script>

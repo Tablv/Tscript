@@ -32,7 +32,7 @@ export default class RadarHandler implements ChartHandler {
 
     style.legend = this.getLegend(fieldNames);
     style.series = this.getSeries(fieldNames, result, sampleStyle);
-    style.radar = this.getRadar(fieldNames, result);
+    style.radar = this.getRadar(fieldNames, result, sampleStyle);
     return style;
   }
 
@@ -57,10 +57,12 @@ export default class RadarHandler implements ChartHandler {
 
   getRadar(
     fieldNames: SplitedFieldNames,
-    result: AnalysisResults
+    result: AnalysisResults,
+    sampleStyle: RadarChartOption
   ): echarts.EChartOption.SeriesRadar.DataObject {
     let radarData: any = {
-      indicator: []
+      indicator: [],
+      center: Object.values(sampleStyle.centerConfig)
     };
     fieldNames.dimensions.forEach(dimensionName => {
       result.forEach(data => {

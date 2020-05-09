@@ -13,24 +13,28 @@
         form-label="顶部"
         v-model="currentDashboard.echarts.sampleStyle.global.grid.top"
         :selection="styleSelection.grid.unit.selection"
+        @change="handlerAxias($event, 'yAxias')"
       />
 
       <value-unit-option
         form-label="底部"
         v-model="currentDashboard.echarts.sampleStyle.global.grid.bottom"
         :selection="styleSelection.grid.unit.selection"
+        v-show="!this.specificStyle.centerConfig"
       />
 
       <value-unit-option
         form-label="左侧"
         v-model="currentDashboard.echarts.sampleStyle.global.grid.left"
         :selection="styleSelection.grid.unit.selection"
+        @change="handlerAxias($event, 'xAxias')"
       />
 
       <value-unit-option
         form-label="右侧"
         v-model="currentDashboard.echarts.sampleStyle.global.grid.right"
         :selection="styleSelection.grid.unit.selection"
+        v-show="!this.specificStyle.centerConfig"
       />
 
       <el-form-item label="显示网格">
@@ -80,8 +84,21 @@ export default class GridStyle extends Vue {
   @Inject()
   elFormLabelWidth!: string;
 
-  mounted() {
-    console.error(this.currentDashboard);
+  @Inject()
+  getSpecificStyle!: Function;
+
+  @Inject()
+  setSpecificStyle!: Function;
+
+  get specificStyle() {
+    return this.getSpecificStyle();
+  }
+
+  handlerAxias(conObj: { value: string; unit: string }, fieldName: string) {
+    if (!this.specificStyle.centerConfig) return;
+    let config = Object.assign(this.specificStyle.centerConfig);
+    config[fieldName] = Object.values(conObj).join("");
+    this.setSpecificStyle(config);
   }
 }
 </script>
