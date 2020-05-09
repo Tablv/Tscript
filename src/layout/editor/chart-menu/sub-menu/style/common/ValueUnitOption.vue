@@ -55,6 +55,7 @@ export default class ValueUnitOption extends Vue {
   }
 
   set unitVal(unit) {
+    if (unit === this.unitVal) return;
     this.updateEmit(this.valueVal, unit);
   }
 

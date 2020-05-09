@@ -3,6 +3,7 @@
     class="box-card"
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
+    v-if="specificStyle.decimals"
   >
     <template #header>
       <span>数据设置</span>
@@ -39,6 +40,13 @@ export default class DataStyle extends Vue {
 
   @Inject()
   boxCardShadow!: string;
+
+  @Inject()
+  getSpecificStyle!: Function;
+
+  get specificStyle() {
+    return this.getSpecificStyle();
+  }
 
   get decimals() {
     const currentDashboard: any = this.currentDashboard as any;

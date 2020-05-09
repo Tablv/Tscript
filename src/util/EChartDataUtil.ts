@@ -28,6 +28,26 @@ export default class EChartServiceUtil {
 
   /**
    * 通过字段名，获取结果集内的数据数组
+   * 百分比堆积柱图
+   * @param fieldName 字段名
+   * @param result 结果集
+   */
+  public static getPercentageArray(
+    fieldName: string,
+    result: AnalysisResults,
+    decimals?: any
+  ): Array<string | number> {
+    return result.map((item: any) => {
+      const dec = decimals?.value || 0;
+      const value = Number(
+        ((item[fieldName] / item["sum"]) * 100).toFixed(dec)
+      );
+      return value;
+    });
+  }
+
+  /**
+   * 通过字段名，获取结果集内的数据数组
    * - 饼图
    *
    * @param dimensionName 维度字段名
@@ -63,20 +83,6 @@ export default class EChartServiceUtil {
       name: measureName,
       value: result.map(data => data[measureName] as number)
     };
-  }
-
-  /**
-   * 百分比堆积柱图
-   * @param fieldName 字段名
-   * @param result 结果集
-   */
-  public static getPercentageArray(
-    fieldName: string,
-    result: AnalysisResults
-  ): Array<string | number> {
-    return result.map((item: any) =>
-      Math.round((item[fieldName] / item["sum"]) * 100)
-    );
   }
 
   /**

@@ -56,7 +56,11 @@ export default class BarPercentageHandler extends BarStackHandler {
         name: measureName,
         type: "bar",
         stack: "barPercentage",
-        data: EChartDataUtil.getPercentageArray(measureName, result),
+        data: EChartDataUtil.getPercentageArray(
+          measureName,
+          result,
+          this.decimals
+        ),
         barWidth: EChartDataUtil.getBarWidth(sampleStyle),
         label: EChartDataUtil.getBarSeriesLabel(sampleStyle)
       };

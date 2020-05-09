@@ -14,7 +14,7 @@
     <mark-style />
 
     <!-- 数据 -->
-    <data-style v-if="decimals" />
+    <data-style />
 
     <!-- 标签 -->
     <grid-style />
@@ -59,13 +59,6 @@ export default class StyleMenu extends Vue {
 
   get chartType() {
     return this.currentDashboard.visualData.type;
-  }
-
-  get decimals() {
-    return (
-      (this.currentDashboard.echarts.sampleStyle[this.chartType] as any)
-        .decimals || false
-    );
   }
 }
 </script>

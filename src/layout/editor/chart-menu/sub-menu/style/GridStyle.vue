@@ -37,7 +37,7 @@
         v-show="!this.specificStyle.centerConfig"
       />
 
-      <el-form-item label="显示网格">
+      <el-form-item label="显示网格" v-show="!this.specificStyle.centerConfig">
         <el-switch
           v-model="currentDashboard.echarts.grid.show"
           active-color="#13ce66"
