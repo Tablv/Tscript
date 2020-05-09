@@ -22,7 +22,17 @@ const templates = {
 /**
  * 菜单选项
  */
-const menuOptions = ObjectUtil.copy(PieConfig.menuOptions);
+// const menuOptions = ObjectUtil.copy(PieConfig.menuOptions);
+const menuOptions = {
+  label: {
+    position: {
+      selection: [
+        { text: "顶部", value: "top" },
+        { text: "内部", value: "inside" }
+      ]
+    }
+  }
+};
 
 /**
  * 创建菜单配置

@@ -13,7 +13,7 @@ export type GaugeChartOption = PieChartOption;
 const templates = {
   echarts: {
     sampleStyle: {
-      gauge: ObjectUtil.copy(PieConfig.templates.echarts.sampleStyle.pie)
+      guage: ObjectUtil.copy(PieConfig.templates.echarts.sampleStyle.pie)
     }
   }
 };
