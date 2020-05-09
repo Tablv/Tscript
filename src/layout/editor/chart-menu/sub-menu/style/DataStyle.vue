@@ -11,11 +11,11 @@
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <el-form-item label="小数位数设置">
-        <el-input-number v-model="decimals.value" :min="0" />
+        <el-input-number v-model="specificStyle.decimals.value" :min="0" />
       </el-form-item>
 
       <el-form-item label="数据单位">
-        <el-input v-model="decimals.unit" />
+        <el-input v-model="specificStyle.decimals.unit" />
       </el-form-item>
     </el-form>
   </el-card>
@@ -46,12 +46,6 @@ export default class DataStyle extends Vue {
 
   get specificStyle() {
     return this.getSpecificStyle();
-  }
-
-  get decimals() {
-    const currentDashboard: any = this.currentDashboard as any;
-    const chartType = currentDashboard.visualData.type;
-    return currentDashboard.echarts.sampleStyle[chartType].decimals;
   }
 }
 </script>
