@@ -47,7 +47,7 @@ module.exports = {
     port: 3000,
     proxy: {
       "/admin": {
-        target: "http://127.0.0.1:8090/admin",
+        target: "http://127.0.0.1:8080/admin",
         changeOrigin: true,
         pathRewrite: {
           "^/admin": ""

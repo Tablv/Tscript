@@ -142,8 +142,8 @@ const mutations: MutationTree<any> = {
   },
 
   // 设置仪表盘数据
-  setDashboards(state, result: Array<Dashboard>): void {
-    state.dashboards = result;
+  setDashboards(state, dashboards: Array<Dashboard>): void {
+    state.dashboards = dashboards;
   },
 
   // 设置当前选中仪表盘
@@ -182,35 +182,23 @@ const actions: ActionTree<any, any> = {
   /**
    * 加载仪表盘配置
    */
-  async loadDashboardSet({ state, commit }): Promise<void> {
-    return await AxiosRequest.dashboardSet
+  loadDashboardSet({ state, commit }): Promise<void> {
+    return AxiosRequest.dashboardSet
       .find(state.dashboardSetId)
-      .then(settings => {
-        state.dashboardSet = ObjectUtil.merge(
-          settings,
-          state.dashboardSet
-        );
+      .then(({ container, dashboards }) => {
+        // 清空联动条件
+        commit("resetReactWhere");
+
+        // 设置仪表盘集
+        commit("setDashboardSet", container);
+        
+        // 设置仪表盘
+        commit("setDashboards", dashboards);
+        
         return Promise.resolve();
       })
       .catch(err => Promise.reject(err));
   },
-
-  /**
-   * 加载仪表盘配置
-   */
-  async loadDashboards({ state, commit }): Promise<void> {
-    return await AxiosRequest.dashboardRequest
-      .find(state.dashboardSetId)
-      .then(resultData => {
-        // 清空联动条件
-        commit("resetReactWhere");
-        // 保存仪表盘
-        commit("setDashboards", resultData);
-
-        return Promise.resolve();
-      })
-      .catch(err => Promise.reject(err));
-  }
 };
 
 const module: Module<any, any> = {

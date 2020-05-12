@@ -30,6 +30,8 @@ import UIUtil, { MessageType } from "@/util/UIUtil";
 import ObjectUtil from "@/util/ObjectUtil";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import RequestUtil from "@/util/RequestUtil";
+import Dashboard from '../../model/view/dashboard/Dashboard';
+import DashboardSet from '../../model/view/DashboardSet';
 
 @Component({
   components: {
@@ -59,10 +61,6 @@ export default class Editor extends Vue {
   // 加载仪表盘集
   @CommonStore.Action("loadDashboardSet")
   loadDashboardSet!: Function;
-
-  // 加载仪表盘
-  @CommonStore.Action("loadDashboards")
-  loadDashboards!: Function;
 
   // 当前选中仪表盘下标
   @CommonStore.State("dashboardIndex")
@@ -141,13 +139,13 @@ export default class Editor extends Vue {
     let loadingInstance = UIUtil.showLoading();
     this.setDashboardSetId(setId);
 
-    Promise.all([this.loadDashboardSet(), this.loadDashboards()])
-      .then(resArr => {
+    this.loadDashboardSet()
+      .then(() => {
         // 关闭loading
         UIUtil.closeLoading(loadingInstance);
       })
-      .catch(errArr => {
-        console.error(errArr);
+      .catch((err: Error) => {
+        console.error(err);
         UIUtil.closeLoading(loadingInstance);
         UIUtil.showLoading({
           text: "加载仪表盘出错",

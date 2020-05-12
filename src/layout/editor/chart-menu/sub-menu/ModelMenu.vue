@@ -1,9 +1,8 @@
 <template>
   <floating-menu title="数据模型">
     <template #tool>
-      <el-button type="text" @click="openDatasetChooser">
-        <i class="fa fa-cog"></i>
-      </el-button>
+      <!-- 选择数据集 -->
+      <dataset-chooser />
     </template>
 
     <ul class="fields-box">
@@ -43,9 +42,6 @@
         </draggable>
       </li>
     </ul>
-
-    <!-- 选择数据集 -->
-    <dataset-chooser ref="chooser" />
   </floating-menu>
 </template>
 
@@ -79,14 +75,6 @@ export default class ModelMenu extends Vue {
   // 数据模型
   @EditorStore.State("tables")
   tables!: Array<TableVO>;
-
-  /**
-   * 打开数据集选择器
-   */
-  openDatasetChooser(): void {
-    let chooser = this.$refs.chooser as DatasetChooser;
-    chooser.openDatasetChooser();
-  }
 
   /**
    * 数组拖拽事件

@@ -46,12 +46,14 @@ export default class ObjectUtil<T> {
    * @param json JSON 数据
    */
   public static parseJSON(json: string): Promise<Object> {
-    try {
-      let object = JSON.parse(json);
-      return Promise.resolve(object);
-    } catch (error) {
-      return Promise.reject(error);
-    }
+    return new Promise((resolve, reject) => {
+      try {
+        const obj = JSON.parse(json);
+        resolve(obj);
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 
   /**
