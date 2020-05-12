@@ -19,8 +19,8 @@ export default class BarPercentageHandler extends BarStackHandler {
   ): Array<echarts.EChartOption.YAxis> {
     return super
       .getYAxis(fieldNames, result, sampleStyle)
-      .map((yaxis: echarts.EChartOption.YAxis) => {
-        return ObjectUtil.merge(yaxis, {
+      .map((yAxis: echarts.EChartOption.YAxis) => {
+        return ObjectUtil.merge(yAxis, {
           min: 0,
           max: 100,
           axisLabel: {

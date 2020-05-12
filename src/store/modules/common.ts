@@ -137,8 +137,7 @@ const mutations: MutationTree<any> = {
   setDashboardSet(state, dashboardSet: DashboardSet): void {
     state.dashboardSet = ObjectUtil.merge(
       dashboardSet,
-      state.dashboardSet,
-      true
+      state.dashboardSet
     );
   },
 
@@ -189,8 +188,7 @@ const actions: ActionTree<any, any> = {
       .then(settings => {
         state.dashboardSet = ObjectUtil.merge(
           settings,
-          state.dashboardSet,
-          true
+          state.dashboardSet
         );
         return Promise.resolve();
       })

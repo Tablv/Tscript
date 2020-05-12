@@ -79,8 +79,7 @@ export default class UIUtil {
     if (customOptions) {
       loadingOptions = ObjectUtil.merge(
         customOptions,
-        loadingDefaultOptions,
-        true
+        loadingDefaultOptions
       );
     }
 
