@@ -1,6 +1,6 @@
 const common = {
     templatePath: "src/view/template.html",
-    serverSidePath: "/admin/dragger/"
+    serverSidePath: "/admin/dashboard/visual-core/"
   },
   publicPath =
     process.env.NODE_ENV === "production" ? common.serverSidePath : "./",
