@@ -30,8 +30,8 @@ import UIUtil, { MessageType } from "@/util/UIUtil";
 import ObjectUtil from "@/util/ObjectUtil";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import RequestUtil from "@/util/RequestUtil";
-import Dashboard from '../../model/view/dashboard/Dashboard';
-import DashboardSet from '../../model/view/DashboardSet';
+import Dashboard from "../../model/view/dashboard/Dashboard";
+import DashboardSet from "../../model/view/DashboardSet";
 
 @Component({
   components: {

@@ -2,10 +2,10 @@
  * 数据集
  */
 export default interface DatasetVO {
-	/**
+  /**
    * - 数据集名称
    */
-	name: string;
+  name: string;
 
   /**
    * - 关联storage中的schema，如果有多个用逗号拼接

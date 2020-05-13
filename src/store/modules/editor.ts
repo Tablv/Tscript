@@ -85,7 +85,8 @@ const actions: ActionTree<any, any> = {
       state.tables = [];
       return;
     }
-    return AxiosRequest.table.find(datasetId)
+    return AxiosRequest.table
+      .find(datasetId)
       .then((tables: TableVO) => {
         // 赋值
         state.tables = tables;

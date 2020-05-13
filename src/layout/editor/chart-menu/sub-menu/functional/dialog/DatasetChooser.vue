@@ -18,7 +18,6 @@
       >
       </el-tree>
     </div>
-
   </el-popover>
 </template>
 
@@ -61,7 +60,10 @@ export default class DatasetChooser extends Vue {
     return this.datasetData
       .filter((dataset: DatasetGroupVO) => dataset.parentId === "0")
       .map((datasetPack: DatasetGroupVO) => {
-        const children = this.datasetData.filter((childDataset: DatasetGroupVO) => childDataset.parentId === datasetPack.id);
+        const children = this.datasetData.filter(
+          (childDataset: DatasetGroupVO) =>
+            childDataset.parentId === datasetPack.id
+        );
 
         datasetPack.children = children.length ? children : [];
         return datasetPack;
@@ -123,9 +125,11 @@ export default class DatasetChooser extends Vue {
   // 加载数据集树
   loadTablesTree(): Promise<any> {
     // 请求数据集
-    return AxiosRequest.dataset.findGroup().then((datasets: Array<DatasetGroupVO>) => {
-      this.datasetData = datasets;
-    });
+    return AxiosRequest.dataset
+      .findGroup()
+      .then((datasets: Array<DatasetGroupVO>) => {
+        this.datasetData = datasets;
+      });
   }
 
   // 关闭数据集选择器
@@ -135,7 +139,7 @@ export default class DatasetChooser extends Vue {
 
   // 选择数据集
   async chooseDataset(datasetGroup: DatasetGroupVO) {
-debugger
+    debugger;
     const dataset = await AxiosRequest.dataset.find(datasetGroup.id);
 
     this.currentDashboard.analysis.datasetId = dataset.id;
@@ -162,7 +166,6 @@ debugger
         // 关闭加载提示
         loadingInstance.close();
       });
-
   }
 
   /**

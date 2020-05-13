@@ -88,7 +88,7 @@ export const AxiosRequest = {
     // 查找数据集
     findGroup: () =>
       AxiosUtil.get(API.findDatasetGroup)
-        .then(res => 
+        .then(res =>
           res.success
             ? Promise.resolve(res.result)
             : Promise.reject("加载数据集出错")
@@ -97,13 +97,13 @@ export const AxiosRequest = {
 
     // 查找数据集
     find: (groupId: string) =>
-    AxiosUtil.get(API.findDataset, { groupId })
-      .then(res => 
-        res.success
-          ? Promise.resolve(res.result)
-          : Promise.reject("加载数据集出错")
-      )
-      .catch(err => Promise.reject(err)),
+      AxiosUtil.get(API.findDataset, { groupId })
+        .then(res =>
+          res.success
+            ? Promise.resolve(res.result)
+            : Promise.reject("加载数据集出错")
+        )
+        .catch(err => Promise.reject(err))
   },
 
   /**
@@ -119,7 +119,7 @@ export const AxiosRequest = {
             ? Promise.resolve(res.result)
             : Promise.reject("加载表信息失败");
         })
-        .catch(err => Promise.reject(err)),
+        .catch(err => Promise.reject(err))
 
     // 查找表关系
     // findRelation: (datasetId: string) =>
@@ -173,7 +173,7 @@ export const AxiosRequest = {
         .then(res => {
           if (res.result && !ObjectUtil.isEmptyString(res.result.settings)) {
             const { settings, dashboards } = res.result;
-            return ObjectUtil.parseJSON(settings).then((dashboardSet) => {
+            return ObjectUtil.parseJSON(settings).then(dashboardSet => {
               return {
                 container: dashboardSet,
                 dashboards
@@ -187,11 +187,15 @@ export const AxiosRequest = {
             dashboards: []
           });
         })
-        .catch(err => Promise.reject(err))
+        .catch(err => Promise.reject(err));
     },
 
     // 保存仪表盘集
-    save: (setId: string, dashboardSet: DashboardSet, dashboards: Array<Dashboard>) =>
+    save: (
+      setId: string,
+      dashboardSet: DashboardSet,
+      dashboards: Array<Dashboard>
+    ) =>
       AxiosUtil.post(API.saveDashboardSet, {
         id: setId,
         settings: JSON.stringify(dashboardSet)

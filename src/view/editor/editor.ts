@@ -16,7 +16,7 @@ import "@/dependencies/vue-clipboard";
 import "@/assets/font/svg_icon.css";
 import "@/assets/font/svg_icon.js";
 
-import AxiosUtil from '@/util/AxiosUtil';
+import AxiosUtil from "@/util/AxiosUtil";
 
 // 设置API上下文
 AxiosUtil.setBasePath("/admin");

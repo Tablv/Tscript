@@ -13,7 +13,6 @@ interface ResultJSON {
 }
 
 export default class AxiosUtil {
-
   private static basePath: string = "";
 
   /**

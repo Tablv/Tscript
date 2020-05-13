@@ -62,10 +62,7 @@ export default class ObjectUtil<T> {
    * @param targetObj 目标对象
    * @param sourceObj 源对象
    */
-  public static merge<T>(
-    targetObj: T,
-    sourceObj: T
-  ): T {
+  public static merge<T>(targetObj: T, sourceObj: T): T {
     if (targetObj && sourceObj) {
       return _.merge(targetObj, sourceObj);
     }
