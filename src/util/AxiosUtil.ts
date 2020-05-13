@@ -1,4 +1,3 @@
-import Vue from "vue";
 import qs from "qs";
 // qs是一个url参数转化（parse和stringify）的js库
 import axios, { Method, AxiosResponse } from "axios";
@@ -13,7 +12,10 @@ interface ResultJSON {
   result: any;
 }
 
-export default class AxiosUtil extends Vue {
+export default class AxiosUtil {
+
+  private static basePath: string = "";
+
   /**
    * Get请求
    * @param url {string} 请求地址
@@ -75,6 +77,10 @@ export default class AxiosUtil extends Vue {
 
   // 获取基础路径
   public static getBasePath(): string {
-    return super.prototype.axiosPath;
+    return AxiosUtil.basePath;
+  }
+
+  public static setBasePath(basePath: string) {
+    AxiosUtil.basePath = basePath;
   }
 }
