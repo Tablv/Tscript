@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { newVue } from "@/dependencies/vue-instance";
 import Editor from "./editor.vue";
 
@@ -17,8 +16,10 @@ import "@/dependencies/vue-clipboard";
 import "@/assets/font/svg_icon.css";
 import "@/assets/font/svg_icon.js";
 
-// 原型挂载
-Vue.prototype.axiosPath = "/admin";
+import AxiosUtil from "@/util/AxiosUtil";
+
+// 设置API上下文
+AxiosUtil.setBasePath("/admin");
 
 // Vue 实例
 newVue(Editor, "#app");

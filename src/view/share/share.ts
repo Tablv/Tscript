@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { newVue } from "@/dependencies/vue-instance";
 import Share from "./share.vue";
 
@@ -9,8 +8,10 @@ import "animate.css";
 // Element-UI
 import "@/dependencies/element-ui.js";
 
-// 原型挂载
-Vue.prototype.axiosPath = "/admin";
+import AxiosUtil from "@/util/AxiosUtil";
+
+// 设置API上下文
+AxiosUtil.setBasePath("/admin");
 
 // Vue 实例
 newVue(Share, "#app");

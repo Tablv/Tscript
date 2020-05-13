@@ -18,7 +18,6 @@
       >
       </el-tree>
     </div>
-
   </el-popover>
 </template>
 
@@ -27,7 +26,7 @@ import { Component, Vue, Model } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { treeConfig } from "@/config/CommonOptions";
 import Dashboard from "@/model/view/dashboard/Dashboard";
-import DatasetVO from "@/model/results/DatasetVO";
+import DatasetGroupVO from "@/model/results/DatasetGroupVO";
 import { DatasetType } from "@/enums/DatasetType";
 import TableVO from "@/model/results/TableVO";
 import TableInfoVO from "@/model/results/TableInfoVO";
@@ -47,21 +46,24 @@ export default class DatasetChooser extends Vue {
   /**
    * 数据集部分
    */
-  @EditorStore.Action("loadDataset")
-  loadDataset!: Function;
+  @EditorStore.Action("loadTables")
+  loadTables!: Function;
 
   // 是否打开 数据集选择器
   chooserVisible = false;
 
   // 数据集
-  datasetData: Array<DatasetVO> = [];
+  datasetData: Array<DatasetGroupVO> = [];
 
   get datasetTreeData(): any {
     // 转为树结构
     return this.datasetData
-      .filter((dataset: DatasetVO) => dataset.parentId === "0")
-      .map((datasetPack: DatasetVO) => {
-        const children = this.datasetData.filter((childDataset: DatasetVO) => childDataset.parentId === datasetPack.id);
+      .filter((dataset: DatasetGroupVO) => dataset.parentId === "0")
+      .map((datasetPack: DatasetGroupVO) => {
+        const children = this.datasetData.filter(
+          (childDataset: DatasetGroupVO) =>
+            childDataset.parentId === datasetPack.id
+        );
 
         datasetPack.children = children.length ? children : [];
         return datasetPack;
@@ -80,7 +82,7 @@ export default class DatasetChooser extends Vue {
       target: ".dataset-tree-box"
     });
 
-    this.loadDatasetTree()
+    this.loadTablesTree()
       .catch(err => {
         UIUtil.showErrorMessage("数据集加载出错");
         console.error(err);
@@ -92,7 +94,7 @@ export default class DatasetChooser extends Vue {
   }
 
   // 点击树节点
-  datasetTreeClick(dataset: DatasetVO): void {
+  datasetTreeClick(dataset: DatasetGroupVO): void {
     // 当选择数据包时，跳转页面
     if (dataset.type === DatasetType.data) {
       // 加载数据
@@ -101,7 +103,7 @@ export default class DatasetChooser extends Vue {
   }
 
   // 点击具体数据集
-  datasetDetailTreeClick(dataset: DatasetVO): void {
+  datasetDetailTreeClick(dataset: DatasetGroupVO): void {
     if (
       ObjectUtil.isEmptyArray(this.currentDashboard.analysis.dimensions) &&
       ObjectUtil.isEmptyArray(this.currentDashboard.analysis.measures)
@@ -121,11 +123,13 @@ export default class DatasetChooser extends Vue {
   }
 
   // 加载数据集树
-  loadDatasetTree(): Promise<any> {
+  loadTablesTree(): Promise<any> {
     // 请求数据集
-    return AxiosRequest.dataset.find().then((datasets: Array<DatasetVO>) => {
-      this.datasetData = datasets;
-    });
+    return AxiosRequest.dataset
+      .findGroup()
+      .then((datasets: Array<DatasetGroupVO>) => {
+        this.datasetData = datasets;
+      });
   }
 
   // 关闭数据集选择器
@@ -134,9 +138,11 @@ export default class DatasetChooser extends Vue {
   }
 
   // 选择数据集
-  chooseDataset(data: any): void {
-    // 为对象赋值数据集ID
-    this.currentDashboard.analysis.datasetId = data.id;
+  async chooseDataset(datasetGroup: DatasetGroupVO) {
+    debugger;
+    const dataset = await AxiosRequest.dataset.find(datasetGroup.id);
+
+    this.currentDashboard.analysis.datasetId = dataset.id;
 
     // 清空X、Y轴数据
     this.emptyAxisData();
@@ -147,7 +153,7 @@ export default class DatasetChooser extends Vue {
     });
 
     // 加载数据集
-    this.loadDataset()
+    this.loadTables()
       .then(() => {
         // 关闭数据集选择器
         this.closeDatasetChooser();
@@ -160,7 +166,6 @@ export default class DatasetChooser extends Vue {
         // 关闭加载提示
         loadingInstance.close();
       });
-
   }
 
   /**

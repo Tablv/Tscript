@@ -114,8 +114,8 @@ export default class ChartMenu extends Vue {
   loadOptions!: Function;
 
   // 加载数据集
-  @EditorStore.Action("loadDataset")
-  loadDataset!: Function;
+  @EditorStore.Action("loadTables")
+  loadTables!: Function;
 
   // 数据加载是否完成
   loadComplated = false;
@@ -154,7 +154,7 @@ export default class ChartMenu extends Vue {
     this.setMenuLoading();
 
     // 加载数据集
-    this.loadDataset()
+    this.loadTables()
       .then(() => {
         // 加载样式配置
         return this.loadOptions();
@@ -190,6 +190,7 @@ $chartsMenuBgc: #e9e9e9;
   display: flex;
   background-color: #fff;
   overflow: hidden;
+  box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.3);
 
   // 动画调速
   animation-duration: 0.3s;

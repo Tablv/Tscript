@@ -135,10 +135,7 @@ const mutations: MutationTree<any> = {
 
   // 设置仪表盘集数据
   setDashboardSet(state, dashboardSet: DashboardSet): void {
-    state.dashboardSet = ObjectUtil.merge(
-      dashboardSet,
-      state.dashboardSet
-    );
+    state.dashboardSet = ObjectUtil.merge(dashboardSet, state.dashboardSet);
   },
 
   // 设置仪表盘数据
@@ -191,14 +188,14 @@ const actions: ActionTree<any, any> = {
 
         // 设置仪表盘集
         commit("setDashboardSet", container);
-        
+
         // 设置仪表盘
         commit("setDashboards", dashboards);
-        
+
         return Promise.resolve();
       })
       .catch(err => Promise.reject(err));
-  },
+  }
 };
 
 const module: Module<any, any> = {

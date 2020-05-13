@@ -1,38 +1,39 @@
-import { DatasetType } from '@/enums/DatasetType'
-
+/**
+ * 数据集
+ */
 export default interface DatasetVO {
   /**
-   * ID
-   */
-  id: string;
-
-  /**
-   * 数据集名称
+   * - 数据集名称
    */
   name: string;
 
   /**
-   * 父节点ID
+   * - 关联storage中的schema，如果有多个用逗号拼接
    */
-  parentId: string;
+  schemas: string;
 
   /**
-   * 层级
+   * - schema类型(R/F)
    */
-  lvl: number;
+  schemasType: string;
 
   /**
-   * 是否是叶子节点 (0: TRUE/1: FALSE)
+   * - 配置信息(关联)
    */
-  isLeaf: 0 | 1;
+  settings: string;
 
   /**
-   * 类型 (0: 分组 / 1: 数据）
+   * - 分组ID(在分组中的ID)
    */
-  type: DatasetType;
+  groupId: string;
 
   /**
-   * 子节点
+   * - 属于哪个分组文件夹
    */
-  children?: Array<DatasetVO>;
+  folderId: string;
+
+  /**
+   * - 主表
+   */
+  pkTable: string;
 }

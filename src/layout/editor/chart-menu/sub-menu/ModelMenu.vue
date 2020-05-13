@@ -14,7 +14,7 @@
 
         <draggable
           class="drag-area"
-          v-model="table.children"
+          v-model="table.columns"
           :animation="200"
           :sort="false"
           :group="{ put: false, pull: 'clone' }"
@@ -24,7 +24,7 @@
           <transition-group>
             <div
               class="fields-item"
-              v-for="tableColumn in table.children"
+              v-for="tableColumn in table.columns"
               :key="tableColumn.id"
               :title="tableColumn.alias"
             >
