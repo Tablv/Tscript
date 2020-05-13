@@ -77,41 +77,22 @@ const mutations: MutationTree<any> = {
 const actions: ActionTree<any, any> = {
   /**
    * 加载数据集
-   *
    */
   async loadDataset({ state, rootGetters }): Promise<void> {
+    debugger
     const currentDashboard = rootGetters["common/currentDashboard"],
       datasetId = currentDashboard.analysis.datasetId;
     if (datasetId === null) {
       state.tables = [];
       return;
     }
-    UIUtil.showLoading();
-
-    return await Promise.all([
-      AxiosRequest.table.find(datasetId),
-      AxiosRequest.table.findRelation(datasetId)
-    ])
-      .then(resArr => {
-        let tableResMap = resArr[0],
-          relationRes = resArr[1];
-
+    return AxiosRequest.table.find(datasetId)
+      .then((tables: TableVO) => {
         // 赋值
-        currentDashboard.analysis.fromTable = tableResMap.from;
-        state.tables = tableResMap.tables;
-
-        currentDashboard.analysis.joinRelation = relationRes;
-
+        state.tables = tables;
         return Promise.resolve();
       })
-      .catch(err => {
-        UIUtil.showErrorMessage("加载表信息失败");
-        console.error(err);
-        return Promise.reject();
-      })
-      .finally(() => {
-        UIUtil.closeLoading();
-      });
+      .catch(err => Promise.reject(err));
   },
 
   // 加载图表选项

@@ -39,4 +39,9 @@ export default interface Dashboard {
    * 事件
    */
   events: EventsConfig;
+
+  /**
+   * 是否新创建
+   */
+  newCreated: boolean;
 }

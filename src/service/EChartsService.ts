@@ -57,8 +57,7 @@ export default class EChartsService {
 
     const mergedStyle = ObjectUtil.merge(
       resultStyle,
-      style,
-      true
+      style
     ) as echarts.EChartOption;
 
     return mergedStyle;

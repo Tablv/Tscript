@@ -24,8 +24,8 @@ export default class HBarPercentageHandler extends HBarStackHandler {
     let xAxis: Array<echarts.EChartOption.XAxis> = [];
     return super
       .getXAxis(fieldNames, result, sampleStyle)
-      .map((xaxis: echarts.EChartOption.XAxis) => {
-        return ObjectUtil.merge(xaxis, {
+      .map((xAxis: echarts.EChartOption.XAxis) => {
+        return ObjectUtil.merge(xAxis, {
           min: 0,
           max: 100,
           axisLabel: {

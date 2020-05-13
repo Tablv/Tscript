@@ -1,25 +1,17 @@
 <template>
-  <el-dialog
-    class="dataset-dialog"
-    append-to-body
-    :visible.sync="showDatasetChooser"
+  <el-popover
+    v-model="chooserVisible"
+    placement="bottom-end"
+    width="400"
+    trigger="click"
+    @show="onChooserOpen"
   >
-    <!-- title -->
-    <template #title>
-      <div v-show="showDatasetTree">
-        <div class="el-page-header__content">选择数据包</div>
-      </div>
+    <el-button type="text" slot="reference">
+      <i class="fa fa-cog"></i>
+    </el-button>
 
-      <div v-show="!showDatasetTree">
-        <el-page-header @back="showDatasetTree = true" content="选择数据集">
-        </el-page-header>
-      </div>
-    </template>
-
-    <!-- content -->
-    <div v-show="showDatasetTree">
+    <div class="dataset-tree-box">
       <el-tree
-        class="dataset-tree"
         :data="datasetTreeData"
         :props="treeProps"
         @node-click="datasetTreeClick"
@@ -27,16 +19,7 @@
       </el-tree>
     </div>
 
-    <div v-show="!showDatasetTree">
-      <el-tree
-        class="dataset-detail-tree"
-        :data="datasetDetailData"
-        :props="treeProps"
-        @node-click="datasetDetailTreeClick"
-      >
-      </el-tree>
-    </div>
-  </el-dialog>
+  </el-popover>
 </template>
 
 <script lang="ts">
@@ -44,6 +27,7 @@ import { Component, Vue, Model } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { treeConfig } from "@/config/CommonOptions";
 import Dashboard from "@/model/view/dashboard/Dashboard";
+import DatasetVO from "@/model/results/DatasetVO";
 import { DatasetType } from "@/enums/DatasetType";
 import TableVO from "@/model/results/TableVO";
 import TableInfoVO from "@/model/results/TableInfoVO";
@@ -67,115 +51,86 @@ export default class DatasetChooser extends Vue {
   loadDataset!: Function;
 
   // 是否打开 数据集选择器
-  showDatasetChooser = false;
+  chooserVisible = false;
 
-  // 是否显示 数据集树
-  //   - true 为树形节点
-  //   - false 为具体数据
-  showDatasetTree = true;
+  // 数据集
+  datasetData: Array<DatasetVO> = [];
 
-  // 树形节点数据
-  datasetTreeData = [];
+  get datasetTreeData(): any {
+    // 转为树结构
+    return this.datasetData
+      .filter((dataset: DatasetVO) => dataset.parentId === "0")
+      .map((datasetPack: DatasetVO) => {
+        const children = this.datasetData.filter((childDataset: DatasetVO) => childDataset.parentId === datasetPack.id);
 
-  // 具体数据
-  datasetDetailData = [];
+        datasetPack.children = children.length ? children : [];
+        return datasetPack;
+      });
+  }
 
   /**
-   * 选择数据集
+   * 数据集打开事件
    */
-  openDatasetChooser(): void {
-    // 打开时，展示树
-    this.showDatasetTree = true;
+  onChooserOpen(): void {
+    // 重置数据集
+    this.datasetData = [];
 
-    // 加载数据
-    UIUtil.showLoading();
+    // 加载提示
+    const loadingInstance = UIUtil.showLoading({
+      target: ".dataset-tree-box"
+    });
 
     this.loadDatasetTree()
-      .then(datasets => {
-        // 赋值
-        this.datasetTreeData = datasets;
-
-        // 打开Dialog
-        this.showDatasetChooser = true;
-      })
       .catch(err => {
         UIUtil.showErrorMessage("数据集加载出错");
         console.error(err);
       })
       .finally(() => {
-        UIUtil.closeLoading();
+        // 关闭加载提示
+        loadingInstance.close();
       });
   }
 
   // 点击树节点
-  datasetTreeClick(data: any): void {
+  datasetTreeClick(dataset: DatasetVO): void {
     // 当选择数据包时，跳转页面
-    if (data.type === DatasetType.pack) {
-      // 加载提示
-      const loadingInstance = UIUtil.showLoading({
-        target: ".el-dialog__body"
-      });
-
+    if (dataset.type === DatasetType.data) {
       // 加载数据
-      this.loadDatasetDetailTree(data.id)
-        .then(datasetDetails => {
-          this.datasetDetailData = datasetDetails;
-        })
-        .catch(err => {
-          UIUtil.showErrorMessage("数据集加载出错");
-          console.error(err);
-        });
-
-      // 关闭加载提示
-      loadingInstance.close();
-
-      // 显示detail
-      this.showDatasetTree = false;
+      this.datasetDetailTreeClick(dataset);
     }
   }
 
-  // 点击详情树节点
-  datasetDetailTreeClick(data: any): void {
+  // 点击具体数据集
+  datasetDetailTreeClick(dataset: DatasetVO): void {
     if (
       ObjectUtil.isEmptyArray(this.currentDashboard.analysis.dimensions) &&
       ObjectUtil.isEmptyArray(this.currentDashboard.analysis.measures)
     ) {
-      this.chooseDataset(data);
+      this.chooseDataset(dataset);
     } else {
-      let chooseConfirm = UIUtil.confirm(
+      UIUtil.confirm(
         ConfirmType.warning,
         "选择数据集时，将清空此前拖入的维度和度量字段，请确认是否选择该数据集？",
         "警告"
-      );
-      chooseConfirm
+      )
         .then(() => {
-          this.chooseDataset(data);
+          this.chooseDataset(dataset);
         })
         .catch(() => {});
     }
   }
 
   // 加载数据集树
-  async loadDatasetTree(): Promise<any> {
-    // 置空
-    this.datasetTreeData = [];
-
+  loadDatasetTree(): Promise<any> {
     // 请求数据集
-    return await AxiosRequest.dataset.find();
-  }
-
-  // 加载数据集详情
-  async loadDatasetDetailTree(groupId: string): Promise<any> {
-    // 置空
-    this.datasetDetailData = [];
-
-    // 请求数据集详情
-    return await AxiosRequest.dataset.findDetail(groupId);
+    return AxiosRequest.dataset.find().then((datasets: Array<DatasetVO>) => {
+      this.datasetData = datasets;
+    });
   }
 
   // 关闭数据集选择器
   closeDatasetChooser(): void {
-    this.showDatasetChooser = false;
+    this.chooserVisible = false;
   }
 
   // 选择数据集
@@ -186,11 +141,26 @@ export default class DatasetChooser extends Vue {
     // 清空X、Y轴数据
     this.emptyAxisData();
 
-    // 加载数据集
-    this.loadDataset();
+    // 加载提示
+    const loadingInstance = UIUtil.showLoading({
+      target: ".dataset-tree-box"
+    });
 
-    // 关闭数据集选择器
-    this.closeDatasetChooser();
+    // 加载数据集
+    this.loadDataset()
+      .then(() => {
+        // 关闭数据集选择器
+        this.closeDatasetChooser();
+      })
+      .catch((err: Error) => {
+        UIUtil.showErrorMessage("加载数据集失败");
+        console.error(err);
+      })
+      .finally(() => {
+        // 关闭加载提示
+        loadingInstance.close();
+      });
+
   }
 
   /**
@@ -206,37 +176,7 @@ export default class DatasetChooser extends Vue {
 </script>
 
 <style lang="scss" scoped>
-/** 
- * 数据集
- */
-
-$datasetDialogHeight: 70vh;
-
-// Dialog
-.dataset-dialog {
-  ::v-deep {
-    .el-dialog {
-      height: $datasetDialogHeight;
-      width: 20%;
-      min-width: 232px;
-    }
-
-    .el-dialog__body {
-      overflow: auto;
-      padding: 20px;
-      height: calc(#{$datasetDialogHeight} - 94px);
-    }
-  }
-
-  .footer-btn-group {
-    text-align: right;
-  }
-}
-
-// Tree
-.dataset-tree,
-.dataset-detail-tree {
-  width: 100%;
-  height: 100%;
+.dataset-tree-box {
+  padding: 10px;
 }
 </style>

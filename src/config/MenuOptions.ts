@@ -243,7 +243,7 @@ export default class MenuOptions {
     // 合并选项
     let generalOptions = generalMenuOptions,
       customOptions = customMenuOptions[chartType],
-      options = ObjectUtil.merge(customOptions, generalOptions, true);
+      options = ObjectUtil.merge(customOptions, generalOptions);
 
     // 保存缓存
     this.optionCache.set(chartType, options);

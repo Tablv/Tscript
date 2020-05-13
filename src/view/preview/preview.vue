@@ -34,9 +34,6 @@ export default class Preview extends Vue {
   @CommonStore.Action("loadDashboardSet")
   loadDashboardSet!: Function;
 
-  @CommonStore.Action("loadDashboards")
-  loadDashboards!: Function;
-
   canvasStyle: Properties = {};
 
   /**
@@ -89,9 +86,7 @@ export default class Preview extends Vue {
    * 加载数据
    */
   async loadData(): Promise<void> {
-    return await Promise.all([this.loadDashboardSet(), this.loadDashboards()])
-      .then(resArr => Promise.resolve())
-      .catch(err => Promise.reject(err));
+    return this.loadDashboardSet();
   }
 
   @Watch("dashboardSet")

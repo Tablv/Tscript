@@ -25,7 +25,7 @@ export default function handleChart(
       sampleStyle
     ),
     styleGlobal = GlobalHandler(result, dashboard),
-    resultStyle = ObjectUtil.merge(styleCustomized, styleGlobal, true);
+    resultStyle = ObjectUtil.merge(styleCustomized, styleGlobal);
 
   return resultStyle;
 }

@@ -16,7 +16,7 @@ export default interface AnalysisDTO {
    * 主表信息
    */
   from: TableRelation | null;
-
+  
   /**
    * join 查询
    */

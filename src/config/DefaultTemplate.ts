@@ -134,7 +134,8 @@ export const generalDataTemplate: any = {
       show: false
     },
     series: []
-  }
+  },
+  newCreated: true
 };
 
 /**
@@ -168,8 +169,7 @@ export default class DefaultTemplate {
       customData = customDataTemplates[chartType],
       defaultConfig: Dashboard = ObjectUtil.merge(
         generalData,
-        customData,
-        true
+        customData
       );
     // 设置图表类型
     defaultConfig.visualData.type = chartType;

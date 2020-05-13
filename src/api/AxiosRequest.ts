@@ -1,5 +1,5 @@
 /**
- * 路由以及交互封装
+ * Axios 请求
  */
 import AxiosUtil from "@/util/AxiosUtil";
 import ObjectUtil from "@/util/ObjectUtil";
@@ -19,14 +19,13 @@ const API = {
   /**
    * 数据集
    */
-  findDataset: "/datasetGroup/findAllChild",
+  findDataset: "/datasetGroup/findAll",
   findDatasetDetail: "/dataset/list",
 
   /**
    * 表关系
    */
-  findTables: "/dataset/operat/findTables",
-  findRelation: "/relation/findRelation",
+  findTables: "/dataset/table/findTableAndColumns",
 
   /**
    * 分析
@@ -45,7 +44,7 @@ const API = {
   /**
    * 仪表盘集
    */
-  findDashboardSet: "/dashboardSet/selectone",
+  findDashboardSet: "/dashboard/container",
   saveDashboardSet: "/dashboardSet/update",
 
   /**
@@ -87,16 +86,14 @@ export const AxiosRequest = {
    */
   dataset: {
     // 查找数据集
-    find: async () =>
-      await AxiosUtil.get(API.findDataset)
-        .then(res => Promise.resolve(res))
+    find: () =>
+      AxiosUtil.get(API.findDataset)
+        .then(res => 
+          res.success
+            ? Promise.resolve(res.result)
+            : Promise.reject("加载数据集出错")
+        )
         .catch(err => Promise.reject(err)),
-
-    // 查找数据集具体数据
-    findDetail: async (groupId: string) =>
-      await AxiosUtil.get(API.findDatasetDetail, { groupId })
-        .then(res => Promise.resolve(res.result.list))
-        .catch(err => Promise.reject(err))
   },
 
   /**
@@ -104,28 +101,25 @@ export const AxiosRequest = {
    */
   table: {
     // 查找表信息
-    find: async (datasetId: string) =>
-      await AxiosUtil.get(API.findTables, { datasetId })
+    find: (datasetId: string) =>
+      AxiosUtil.get(API.findTables, { datasetId })
         .then(res => {
-          let loadSuccess = res.success && res.result.from && res.result.tables;
+          let loadSuccess = res.success && res.result;
           return loadSuccess
-            ? Promise.resolve({
-                from: res.result.from,
-                tables: res.result.tables
-              })
+            ? Promise.resolve(res.result)
             : Promise.reject("加载表信息失败");
         })
         .catch(err => Promise.reject(err)),
 
     // 查找表关系
-    findRelation: async (datasetId: string) =>
-      await AxiosUtil.get(API.findRelation, { datasetId })
-        .then(res =>
-          res.success
-            ? Promise.resolve(res.result)
-            : Promise.reject("加载关系失败")
-        )
-        .catch(err => Promise.reject(err))
+    // findRelation: (datasetId: string) =>
+    //   AxiosUtil.get(API.findRelation, { datasetId })
+    //     .then(res =>
+    //       res.success
+    //         ? Promise.resolve(res.result)
+    //         : Promise.reject("加载关系失败")
+    //     )
+    //     .catch(err => Promise.reject(err))
   },
 
   /**
@@ -133,8 +127,8 @@ export const AxiosRequest = {
    */
   analysis: {
     // 获取分析结果
-    fetch: async (analysisDTO: AnalysisDTO) => {
-      return await AxiosUtil.post(
+    fetch: (analysisDTO: AnalysisDTO) => {
+      return AxiosUtil.post(
         API.analysis.build,
         JSON.stringify(analysisDTO),
         true
@@ -148,8 +142,8 @@ export const AxiosRequest = {
     },
 
     // 获取 SQL 查询结果
-    fetchSQL: async (sql: string) => {
-      return await AxiosUtil.post(API.analysis.sql, { sql })
+    fetchSQL: (sql: string) => {
+      return AxiosUtil.post(API.analysis.sql, { sql })
         .then(res =>
           res.success && res.result !== null
             ? Promise.resolve(res.result)
@@ -164,8 +158,8 @@ export const AxiosRequest = {
    */
   dashboardRequest: {
     // 加载仪表盘
-    find: async (setId: string) =>
-      await AxiosUtil.get(API.findDashboard + "/" + setId)
+    find: (setId: string) =>
+      AxiosUtil.get(API.findDashboard + "/" + setId)
         .then(res =>
           res.result
             ? Promise.resolve(ObjectUtil.deserialize(res.result))
@@ -174,8 +168,8 @@ export const AxiosRequest = {
         .catch(err => Promise.reject(err)),
 
     // 保存仪表盘
-    save: async (setId: string, dashboards: Array<Dashboard>) =>
-      await AxiosUtil.post(API.saveDashboard, { setId, dashboards }, true)
+    save: (setId: string, dashboards: Array<Dashboard>) =>
+      AxiosUtil.post(API.saveDashboard, { setId, dashboards }, true)
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("保存仪表盘错误")
         )
@@ -187,20 +181,32 @@ export const AxiosRequest = {
    */
   dashboardSet: {
     // 加载仪表盘集
-    find: async (setId: string) =>
-      await AxiosUtil.get(API.findDashboardSet, { id: setId })
+    find: (setId: string) => {
+      return AxiosUtil.get(`${API.findDashboardSet}/${setId}`)
         .then(res => {
-          if (res.result && !ObjectUtil.isEmptyString(res.result.settings)) {
-            return ObjectUtil.parseJSON(res.result.settings);
+          const { settings, dashboards } = res.result;
+
+          if (!ObjectUtil.isEmptyString(settings)) {
+            return ObjectUtil.parseJSON(settings).then((dashboardSet) => {
+              return {
+                container: dashboardSet,
+                dashboards: dashboards
+              };
+            });
           }
+
           // 仪表盘集为空，使用默认配置
-          return Promise.resolve({});
+          return Promise.resolve({
+            container: {},
+            dashboards: dashboards
+          });
         })
-        .catch(err => Promise.reject(err)),
+        .catch(err => Promise.reject(err))
+    },
 
     // 保存仪表盘集
-    save: async (setId: string, dashboardSet: DashboardSet) =>
-      await AxiosUtil.post(API.saveDashboardSet, {
+    save: (setId: string, dashboardSet: DashboardSet) =>
+      AxiosUtil.post(API.saveDashboardSet, {
         id: setId,
         settings: JSON.stringify(dashboardSet)
       })
@@ -215,8 +221,8 @@ export const AxiosRequest = {
    */
   share: {
     // 获取分享
-    find: async (setId: string, shareType: ShareType) =>
-      await AxiosUtil.get(API.findShare, { id: setId, type: shareType })
+    find: (setId: string, shareType: ShareType) =>
+      AxiosUtil.get(API.findShare, { id: setId, type: shareType })
         .then(res =>
           res.result
             ? Promise.resolve(res.result)
@@ -225,8 +231,8 @@ export const AxiosRequest = {
         .catch(err => Promise.reject(err)),
 
     // 保存分享
-    save: async (shareVO: ShareVO) =>
-      await AxiosUtil.post(API.saveShare, shareVO, true)
+    save: (shareVO: ShareVO) =>
+      AxiosUtil.post(API.saveShare, shareVO, true)
         .then(res =>
           res.result
             ? Promise.resolve()
@@ -240,8 +246,8 @@ export const AxiosRequest = {
    */
   filterConfig: {
     // 加载过滤器配置
-    find: async (dashboardId: string) =>
-      await AxiosUtil.get(API.filterConfig, {
+    find: (dashboardId: string) =>
+      AxiosUtil.get(API.filterConfig, {
         dashboardId
       })
         .then(res =>
@@ -252,16 +258,16 @@ export const AxiosRequest = {
         .catch(err => Promise.reject(err)),
 
     // 保存过滤器配置
-    save: async (filterDatapack: FilterDatapack) =>
-      await AxiosUtil.request(API.filterConfig, filterDatapack, "PUT", true)
+    save: (filterDatapack: FilterDatapack) =>
+      AxiosUtil.request(API.filterConfig, filterDatapack, "PUT", true)
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("保存过滤器配置异常")
         )
         .catch(err => Promise.reject(err)),
 
     // 删除过滤器配置
-    remove: async (datapackId: string) =>
-      await AxiosUtil.request(
+    remove: (datapackId: string) =>
+      AxiosUtil.request(
         API.filterConfig,
         {
           filterId: datapackId
@@ -279,8 +285,8 @@ export const AxiosRequest = {
    */
   sortConfig: {
     // 加载排序配置
-    find: async (dashboardId: string) =>
-      await AxiosUtil.get(API.sortConfig, {
+    find: (dashboardId: string) =>
+      AxiosUtil.get(API.sortConfig, {
         dashboardId
       })
         .then(res =>
@@ -291,16 +297,16 @@ export const AxiosRequest = {
         .catch(err => Promise.reject(err)),
 
     // 保存排序配置
-    save: async (sortDatapack: SortDatapack) =>
-      await AxiosUtil.request(API.sortConfig, sortDatapack, "PUT", true)
+    save: (sortDatapack: SortDatapack) =>
+      AxiosUtil.request(API.sortConfig, sortDatapack, "PUT", true)
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("保存排序配置异常")
         )
         .catch(err => Promise.reject(err)),
 
     // 删除排序配置
-    remove: async (datapackId: string) =>
-      await AxiosUtil.request(
+    remove: (datapackId: string) =>
+      AxiosUtil.request(
         API.sortConfig,
         {
           id: datapackId
@@ -318,8 +324,8 @@ export const AxiosRequest = {
    */
   warnConfig: {
     // 加载预警配置
-    find: async (dashboardId: string) =>
-      await AxiosUtil.get(API.warnConfig, {
+    find: (dashboardId: string) =>
+      AxiosUtil.get(API.warnConfig, {
         dashboardId
       })
         .then(res =>
@@ -330,16 +336,16 @@ export const AxiosRequest = {
         .catch(err => Promise.reject(err)),
 
     // 保存预警配置
-    save: async (warnDatapack: WarnDatapack) =>
-      await AxiosUtil.request(API.warnConfig, warnDatapack, "PUT", true)
+    save: (warnDatapack: WarnDatapack) =>
+      AxiosUtil.request(API.warnConfig, warnDatapack, "PUT", true)
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("保存预警配置异常")
         )
         .catch(err => Promise.reject(err)),
 
     // 删除预警配置
-    remove: async (datapackId: string) =>
-      await AxiosUtil.request(
+    remove: (datapackId: string) =>
+      AxiosUtil.request(
         API.warnConfig,
         {
           id: datapackId
@@ -359,8 +365,8 @@ export const AxiosRequest = {
     // 分享
     share: {
       // 验证分享
-      validate: async (shareId: string, sharePwd: string) =>
-        await AxiosUtil.post(API.public.judgeShare, {
+      validate: (shareId: string, sharePwd: string) =>
+        AxiosUtil.post(API.public.judgeShare, {
           id: shareId,
           password: sharePwd
         })
@@ -370,8 +376,8 @@ export const AxiosRequest = {
           .catch(err => Promise.reject(err)),
 
       // 加载分享数据
-      find: async (shareId: string) =>
-        await AxiosUtil.post(API.public.findShareData, { shareId })
+      find: (shareId: string) =>
+        AxiosUtil.post(API.public.findShareData, { shareId })
           .then(res => {
             if (
               res.result &&

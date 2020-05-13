@@ -3,8 +3,8 @@
  */
 export enum DatasetType {
   // 分组
-  group = 1,
+  group = 0,
 
-  // 数据包
-  pack = 2
+  // 数据
+  data = 1
 }

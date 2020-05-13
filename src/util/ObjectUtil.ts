@@ -37,7 +37,6 @@ export default class ObjectUtil<T> {
    * @param obj 对象
    */
   public static copy<T>(obj: T): T {
-    // return JSON.parse(JSON.stringify(obj));
     return _.cloneDeep(obj);
   }
 
@@ -47,12 +46,14 @@ export default class ObjectUtil<T> {
    * @param json JSON 数据
    */
   public static parseJSON(json: string): Promise<Object> {
-    try {
-      let object = JSON.parse(json);
-      return Promise.resolve(object);
-    } catch (error) {
-      return Promise.reject(error);
-    }
+    return new Promise((resolve, reject) => {
+      try {
+        const obj = JSON.parse(json);
+        resolve(obj);
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 
   /**
@@ -63,33 +64,13 @@ export default class ObjectUtil<T> {
    */
   public static merge<T>(
     targetObj: T,
-    sourceObj: T,
-    objectIsolation?: boolean
+    sourceObj: T
   ): T {
-    if (objectIsolation) {
-      targetObj = ObjectUtil.copy(targetObj);
-      sourceObj = ObjectUtil.copy(sourceObj);
-    }
-
     if (targetObj && sourceObj) {
-      this.mergeRecursive(targetObj, sourceObj);
+      return _.merge(targetObj, sourceObj);
     }
 
     return targetObj;
-  }
-
-  // 递归合并参数
-  private static mergeRecursive(targetObj: any, sourceObj: any): void {
-    for (let key in sourceObj) {
-      if (targetObj[key] === undefined) {
-        targetObj[key] = sourceObj[key];
-      } else if (
-        targetObj[key] instanceof Array ||
-        targetObj[key] instanceof Object
-      ) {
-        this.mergeRecursive(targetObj[key], sourceObj[key]);
-      }
-    }
   }
 
   public static serialize(

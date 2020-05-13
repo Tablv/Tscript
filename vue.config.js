@@ -1,6 +1,6 @@
 const common = {
     templatePath: "src/view/template.html",
-    serverSidePath: "/admin/dragger/"
+    serverSidePath: "/admin/dashboard/visual-core/"
   },
   publicPath =
     process.env.NODE_ENV === "production" ? common.serverSidePath : "./",
@@ -47,7 +47,7 @@ module.exports = {
     port: 3000,
     proxy: {
       "/admin": {
-        target: "http://127.0.0.1:8090/admin",
+        target: "http://127.0.0.1:8080/admin",
         changeOrigin: true,
         pathRewrite: {
           "^/admin": ""
