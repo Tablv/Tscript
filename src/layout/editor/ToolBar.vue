@@ -107,7 +107,7 @@ export default class ToolBar extends Vue {
       throw "DashboardSetId 不存在";
     }
 
-    Promise.all([this.saveDashboardSet(), this.saveDashboards()])
+    this.saveDashboards()
       .then(() => {
         UIUtil.showMessage("保存成功", MessageType.success);
       })
@@ -115,16 +115,6 @@ export default class ToolBar extends Vue {
         console.error(err);
         UIUtil.showMessage("系统保存失败，请稍后重试", MessageType.error);
       });
-  }
-
-  /**
-   * 保存仪表盘集
-   */
-  async saveDashboardSet(): Promise<void> {
-    let dashboardSet: DashboardSet = ObjectUtil.copy(this.dashboardSet);
-    delete dashboardSet.tempParams;
-
-    return await AxiosRequest.dashboardSet.save(this.setId, dashboardSet);
   }
 
   /**
@@ -145,8 +135,13 @@ export default class ToolBar extends Vue {
       );
     });
 
-    return await AxiosRequest.dashboardRequest.save(
+    // 仪表盘集
+    let dashboardSet: DashboardSet = ObjectUtil.copy(this.dashboardSet);
+    delete dashboardSet.tempParams;
+
+    return await AxiosRequest.dashboardSet.save(
       this.setId,
+      dashboardSet,
       serializedDashboards
     );
   }

@@ -79,7 +79,6 @@ const actions: ActionTree<any, any> = {
    * 加载数据集
    */
   async loadDataset({ state, rootGetters }): Promise<void> {
-    debugger
     const currentDashboard = rootGetters["common/currentDashboard"],
       datasetId = currentDashboard.analysis.datasetId;
     if (datasetId === null) {

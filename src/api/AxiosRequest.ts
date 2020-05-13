@@ -154,29 +154,6 @@ export const AxiosRequest = {
   },
 
   /**
-   * 仪表盘
-   */
-  dashboardRequest: {
-    // 加载仪表盘
-    find: (setId: string) =>
-      AxiosUtil.get(API.findDashboard + "/" + setId)
-        .then(res =>
-          res.result
-            ? Promise.resolve(ObjectUtil.deserialize(res.result))
-            : Promise.reject("加载仪表盘失败")
-        )
-        .catch(err => Promise.reject(err)),
-
-    // 保存仪表盘
-    save: (setId: string, dashboards: Array<Dashboard>) =>
-      AxiosUtil.post(API.saveDashboard, { setId, dashboards }, true)
-        .then(res =>
-          res.success ? Promise.resolve() : Promise.reject("保存仪表盘错误")
-        )
-        .catch(err => Promise.reject(err))
-  },
-
-  /**
    * 仪表盘集
    */
   dashboardSet: {
@@ -184,13 +161,12 @@ export const AxiosRequest = {
     find: (setId: string) => {
       return AxiosUtil.get(`${API.findDashboardSet}/${setId}`)
         .then(res => {
-          const { settings, dashboards } = res.result;
-
-          if (!ObjectUtil.isEmptyString(settings)) {
+          if (res.result && !ObjectUtil.isEmptyString(res.result.settings)) {
+            const { settings, dashboards } = res.result;
             return ObjectUtil.parseJSON(settings).then((dashboardSet) => {
               return {
                 container: dashboardSet,
-                dashboards: dashboards
+                dashboards
               };
             });
           }
@@ -198,14 +174,14 @@ export const AxiosRequest = {
           // 仪表盘集为空，使用默认配置
           return Promise.resolve({
             container: {},
-            dashboards: dashboards
+            dashboards: []
           });
         })
         .catch(err => Promise.reject(err))
     },
 
     // 保存仪表盘集
-    save: (setId: string, dashboardSet: DashboardSet) =>
+    save: (setId: string, dashboardSet: DashboardSet, dashboards: Array<Dashboard>) =>
       AxiosUtil.post(API.saveDashboardSet, {
         id: setId,
         settings: JSON.stringify(dashboardSet)
