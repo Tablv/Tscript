@@ -114,8 +114,8 @@ export default class ChartMenu extends Vue {
   loadOptions!: Function;
 
   // 加载数据集
-  @EditorStore.Action("loadDataset")
-  loadDataset!: Function;
+  @EditorStore.Action("loadTables")
+  loadTables!: Function;
 
   // 数据加载是否完成
   loadComplated = false;
@@ -154,7 +154,7 @@ export default class ChartMenu extends Vue {
     this.setMenuLoading();
 
     // 加载数据集
-    this.loadDataset()
+    this.loadTables()
       .then(() => {
         // 加载样式配置
         return this.loadOptions();

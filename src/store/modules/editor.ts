@@ -78,7 +78,7 @@ const actions: ActionTree<any, any> = {
   /**
    * 加载数据集
    */
-  async loadDataset({ state, rootGetters }): Promise<void> {
+  async loadTables({ state, rootGetters }): Promise<void> {
     const currentDashboard = rootGetters["common/currentDashboard"],
       datasetId = currentDashboard.analysis.datasetId;
     if (datasetId === null) {
@@ -95,7 +95,7 @@ const actions: ActionTree<any, any> = {
   },
 
   // 加载图表选项
-  loadOptions({ state, rootGetters }: any): Promise<void> {
+  loadOptions({ state, rootGetters }): Promise<void> {
     const currentDashboard: Dashboard = rootGetters["common/currentDashboard"],
       type = currentDashboard.visualData.type as ChartType,
       chartStyleOptions = MenuOptions.getChartStyleOptions(type),

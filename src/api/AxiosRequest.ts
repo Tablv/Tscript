@@ -19,8 +19,8 @@ const API = {
   /**
    * 数据集
    */
-  findDataset: "/datasetGroup/findAll",
-  findDatasetDetail: "/dataset/list",
+  findDatasetGroup: "/datasetGroup/findAll",
+  findDataset: "/dataset/findOne",
 
   /**
    * 表关系
@@ -86,14 +86,24 @@ export const AxiosRequest = {
    */
   dataset: {
     // 查找数据集
-    find: () =>
-      AxiosUtil.get(API.findDataset)
+    findGroup: () =>
+      AxiosUtil.get(API.findDatasetGroup)
         .then(res => 
           res.success
             ? Promise.resolve(res.result)
             : Promise.reject("加载数据集出错")
         )
         .catch(err => Promise.reject(err)),
+
+    // 查找数据集
+    find: (groupId: string) =>
+    AxiosUtil.get(API.findDataset, { groupId })
+      .then(res => 
+        res.success
+          ? Promise.resolve(res.result)
+          : Promise.reject("加载数据集出错")
+      )
+      .catch(err => Promise.reject(err)),
   },
 
   /**
