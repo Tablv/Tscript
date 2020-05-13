@@ -190,6 +190,7 @@ $chartsMenuBgc: #e9e9e9;
   display: flex;
   background-color: #fff;
   overflow: hidden;
+  box-shadow: 0 -10px 10px rgba(0,0,0,.3);
 
   // 动画调速
   animation-duration: 0.3s;
