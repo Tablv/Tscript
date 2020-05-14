@@ -1,4 +1,4 @@
-import ChartHandler from "./interfaces/ChartHandler";
+import { CharthandlerConstructor } from "./interfaces/ChartHandler";
 import BarHandler from "./chart-handler/BarHandler";
 import BarStackHandler from "./chart-handler/BarStackHandler";
 import BarPercentageHandler from "./chart-handler/BarPercentageHandler";
@@ -14,41 +14,41 @@ import LineHandler from "./chart-handler/LineHandler";
 import GuageHandler from "./chart-handler/GuageHandler";
 import TargetPieHandler from "./chart-handler/TargetPieHandler";
 
-const HANDLER_REGISTRY: { [key: string]: ChartHandler } = {
+const HANDLER_REGISTRY: { [key: string]: CharthandlerConstructor } = {
   /**
    * 柱图
    */
-  bar: new BarHandler(),
-  barStack: new BarStackHandler(),
-  barPercentage: new BarPercentageHandler(),
+  bar: BarHandler,
+  barStack: BarStackHandler,
+  barPercentage: BarPercentageHandler,
 
-  hbar: new HBarHandler(),
-  hbarStack: new HBarStackHandler(),
-  hbarPercentage: new HBarPercentageHandler(),
+  hbar: HBarHandler,
+  hbarStack: HBarStackHandler,
+  hbarPercentage: HBarPercentageHandler,
 
   /**
    * 饼图
    */
-  pie: new PieHandler(),
-  rpie: new RPieHandler(),
-  rosepie: new RosePieHandler(),
-  sunpie: new SunPieHandler(),
-  targetpie: new TargetPieHandler(),
+  pie: PieHandler,
+  rpie: RPieHandler,
+  rosepie: RosePieHandler,
+  sunpie: SunPieHandler,
+  targetpie: TargetPieHandler,
 
   /**
    * 雷达图
    */
-  radar: new RadarHandler(),
+  radar: RadarHandler,
 
   /**
    * 折线图
    */
-  line: new LineHandler(),
+  line: LineHandler,
 
   /**
    * 仪表盘图
    */
-  guage: new GuageHandler()
+  guage: GuageHandler
 };
 
 export default HANDLER_REGISTRY;

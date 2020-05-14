@@ -1,59 +1,64 @@
-import { ChartOption } from "@/config/ChartConfig";
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
+import { ChartOption } from "@/config/ChartConfig";
 
 /**
  * 图表通用处理 接口
  */
-export default interface ChartHandler {
-  getChartHandleResult(
+export interface CharthandlerConstructor {
+  new (
     result: AnalysisResults,
     dashboard: Dashboard,
-    sampleStyle: ChartOption
-  ): echarts.EChartOption;
+    sampleStyle: any
+  ): ChartHandler;
+}
+
+/**
+ * 图表数据处理接口
+ */
+export interface ChartHandler {
+  /**
+   * 分析结果
+   */
+  result: AnalysisResults;
+
+  /**
+   * 仪表盘数据
+   */
+  dashboard: Dashboard;
+
+  /**
+   * 样例样式
+   */
+  sampleStyle: any;
+
+  /**
+   * 分析字段
+   */
+  fieldNames: SplitedFieldNames;
+
+  /**
+   * 获取计算后的结果样式
+   */
+  getStyle(): echarts.EChartOption;
   /**
    * 获取 X轴 数据
-   *
-   * @param fieldNames 列数据
-   * @param result 分析结果
-   * @param sampleStyle 样例样式
    */
-  getXAxis?(
-    fieldNames: SplitedFieldNames,
-    result: AnalysisResults,
-    sampleStyle: ChartOption
-  ): Array<echarts.EChartOption.XAxis>;
+  getXAxis?(): Array<echarts.EChartOption.XAxis>;
 
   /**
    * 获取 Y轴 数据
    */
-  getYAxis?(
-    fieldNames: SplitedFieldNames,
-    result: AnalysisResults,
-    sampleStyle: ChartOption
-  ): Array<echarts.EChartOption.YAxis>;
+  getYAxis?(): Array<echarts.EChartOption.YAxis>;
 
   /**
    * 获取 Series 数据
-   *
-   * @param fieldNames 分析结果划分数据
-   * @param result 分析结果
-   * @param sampleStyle 样例样式
    */
-  getSeries(
-    fieldNames: SplitedFieldNames,
-    result: AnalysisResults,
-    sampleStyle: ChartOption
-  ): Array<echarts.EChartOption.Series>;
+  getSeries(): Array<echarts.EChartOption.Series>;
 
   /**
    * 获取图例
-   *
-   * @param fieldNames 分析结果划分数据
    */
-  getLegend?(
-    fieldNames: SplitedFieldNames,
-    result?: AnalysisResults
-  ): echarts.EChartOption.Legend;
+  getLegend?(): echarts.EChartOption.Legend;
 }

@@ -1,37 +1,13 @@
-import { AnalysisResults } from "@/model/types/AnalysisResults";
-import { SplitedFieldNames } from "../EChartsService";
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import ObjectUtil from "@/util/ObjectUtil";
-import EChartsService from "../EChartsService";
-import { RPieChartOption } from "@/config/chart-config/RPie";
 import PieHandler from "./PieHandler";
 
 /**
  * 环图处理
  */
 export default class RPieHandler extends PieHandler {
-  public getChartHandleResult(
-    result: AnalysisResults,
-    dashboard: Dashboard,
-    sampleStyle: RPieChartOption
-  ): echarts.EChartOption {
-    let style: echarts.EChartOption = super.getChartHandleResult(
-      result,
-      dashboard,
-      sampleStyle
-    ) as echarts.EChartOption;
+  public getStyle(): echarts.EChartOption {
+    let style: echarts.EChartOption = super.getStyle() as echarts.EChartOption;
 
-    if (ObjectUtil.isEmpty(result)) {
-      return {};
-    }
-
-    // 存在数据时，继续处理
-    const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
-      result[0],
-      dashboard
-    );
-
-    style.series = this.getSeries(fieldNames, result, sampleStyle);
+    style.series = this.getSeries();
 
     return style;
   }
@@ -39,20 +15,15 @@ export default class RPieHandler extends PieHandler {
    * 获取Series数据
    *
    * @param fieldNames 分析结果划分数据
-   * @param result 分析结果
    */
-  public getSeries(
-    fieldNames: SplitedFieldNames,
-    result: AnalysisResults,
-    sampleStyle: RPieChartOption
-  ): Array<echarts.EChartOption.Series> {
+  public getSeries(): Array<echarts.EChartOption.Series> {
     let series: Array<echarts.EChartOption.Series> = [];
-    series = (super.getSeries(fieldNames, result, sampleStyle) as Array<
-      echarts.EChartOption.SeriesPie
-    >).map(seriesData => {
-      seriesData.radius = ["45%", "70%"];
-      return seriesData;
-    });
+    series = (super.getSeries() as Array<echarts.EChartOption.SeriesPie>).map(
+      seriesData => {
+        seriesData.radius = ["45%", "70%"];
+        return seriesData;
+      }
+    );
     return series;
   }
 }

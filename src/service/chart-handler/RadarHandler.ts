@@ -3,7 +3,7 @@ import { SplitedFieldNames } from "../EChartsService";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import EChartsService from "../EChartsService";
-import ChartHandler from "../interfaces/ChartHandler";
+import { ChartHandler } from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
 import { RadarChartOption } from "@/config/chart-config/Radar";
 
@@ -11,61 +11,64 @@ import { RadarChartOption } from "@/config/chart-config/Radar";
  * 雷达图处理
  */
 export default class RadarHandler implements ChartHandler {
-  public getChartHandleResult(
-    result: AnalysisResults,
-    dashboard: Dashboard,
-    sampleStyle: RadarChartOption
-  ): echarts.EChartOption {
+  /**
+   * 分析字段
+   */
+  public fieldNames: SplitedFieldNames;
+
+  /**
+   * 数据设置
+   * 后面有其他的设置也加入到这里
+   * @param result 分析结果
+   * @param dashboard 仪表盘数据
+   * @param sampleStyle 样例样式
+   */
+  constructor(
+    public result: AnalysisResults,
+    public dashboard: Dashboard,
+    public sampleStyle: RadarChartOption
+  ) {
+    this.fieldNames = EChartsService.splitFieldNames(
+      this.result[0],
+      this.dashboard
+    );
+  }
+
+  public getStyle(): echarts.EChartOption {
     let style: echarts.EChartOption = {};
 
-    if (ObjectUtil.isEmpty(result)) {
+    if (ObjectUtil.isEmpty(this.result)) {
       style.series = [];
       style.radar = {};
       return {};
     }
 
-    // 存在数据时，继续处理
-    const fieldNames: SplitedFieldNames = EChartsService.splitFieldNames(
-      result[0],
-      dashboard
-    );
-
-    style.legend = this.getLegend(fieldNames);
-    style.series = this.getSeries(fieldNames, result, sampleStyle);
-    style.radar = this.getRadar(fieldNames, result, sampleStyle);
+    style.legend = this.getLegend();
+    style.series = this.getSeries();
+    style.radar = this.getRadar();
     return style;
   }
 
   /**
    * 获取图例
-   *
-   * @param fieldNames 分析结果划分数据
    */
-  public getLegend(fieldNames: SplitedFieldNames): echarts.EChartOption.Legend {
+  public getLegend(): echarts.EChartOption.Legend {
     const legend = {
-      data: fieldNames.measures
+      data: this.fieldNames.measures
     };
     return legend;
   }
 
   /**
    * 获取radar坐标
-   * @param fieldNames
-   * @param result
-   *
    */
-
-  getRadar(
-    fieldNames: SplitedFieldNames,
-    result: AnalysisResults,
-    sampleStyle: RadarChartOption
-  ): echarts.EChartOption.SeriesRadar.DataObject {
+  getRadar(): echarts.EChartOption.SeriesRadar.DataObject {
     let radarData: any = {
       indicator: [],
-      center: Object.values(sampleStyle.centerConfig)
+      center: Object.values(this.sampleStyle.centerConfig)
     };
-    fieldNames.dimensions.forEach(dimensionName => {
-      result.forEach(data => {
+    this.fieldNames.dimensions.forEach(dimensionName => {
+      this.result.forEach(data => {
         const radarObj = {
           name: data[dimensionName]
         };
@@ -77,27 +80,20 @@ export default class RadarHandler implements ChartHandler {
 
   /**
    * 获取Series数据
-   *
-   * @param fieldNames 分析结果划分数据
-   * @param result 分析结果
    */
-  public getSeries(
-    fieldNames: SplitedFieldNames,
-    result: AnalysisResults,
-    sampleStyle: RadarChartOption
-  ): Array<echarts.EChartOption.SeriesRadar> {
+  public getSeries(): Array<echarts.EChartOption.SeriesRadar> {
     return [
       {
         type: "radar",
         label: {
-          show: sampleStyle.label.show,
-          position: sampleStyle.label.position,
-          color: sampleStyle.label.color,
-          fontSize: sampleStyle.label.fontSize,
-          fontFamily: sampleStyle.label.fontFamily
+          show: this.sampleStyle.label.show,
+          position: this.sampleStyle.label.position,
+          color: this.sampleStyle.label.color,
+          fontSize: this.sampleStyle.label.fontSize,
+          fontFamily: this.sampleStyle.label.fontFamily
         },
-        data: fieldNames.measures.map(measureName =>
-          EChartDataUtil.getRadarDataByAxisName(measureName, result)
+        data: this.fieldNames.measures.map(measureName =>
+          EChartDataUtil.getRadarDataByAxisName(measureName, this.result)
         )
       }
     ] as Array<echarts.EChartOption.SeriesRadar>;
