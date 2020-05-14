@@ -1,12 +1,7 @@
 import ObjectUtil from "@/util/ObjectUtil";
-import { HBarStackConfig, HBarStackChartOption } from "./HBarStack";
+import HBarStackConfig from "./HBarStack";
 import { ChartType } from "@/enums/ChartType";
 import { ChartConfigItem } from "../ChartConfig";
-
-/**
- * 图表类型 百分比堆积条图
- */
-export type HBarPercentageChartOption = HBarStackChartOption;
 
 /**
  * 初始化模板
@@ -41,9 +36,11 @@ const createMenuConfig = {
  */
 const config = ObjectUtil.copy(HBarStackConfig.config);
 
-export const HBarPercentageConfig: ChartConfigItem = {
+const HBarPercentageConfig: ChartConfigItem = {
   templates,
   menuOptions,
   createMenuConfig,
   config
 };
+
+export default HBarPercentageConfig;

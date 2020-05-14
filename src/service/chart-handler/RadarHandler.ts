@@ -5,7 +5,7 @@ import ObjectUtil from "@/util/ObjectUtil";
 import EChartsService from "../EChartsService";
 import { ChartHandler } from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
-import { RadarChartOption } from "@/config/chart-config/Radar";
+import { RadarChartOption } from "@/config/ChartOption";
 
 /**
  * 雷达图处理

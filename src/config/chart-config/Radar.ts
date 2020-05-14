@@ -1,12 +1,7 @@
 import { ChartType } from "@/enums/ChartType";
 import { ChartConfigItem } from "../ChartConfig";
 import ObjectUtil from "@/util/ObjectUtil";
-import { PieConfig, PieChartOption } from "./Pie";
-
-/**
- * 图表类型
- */
-export type RadarChartOption = PieChartOption;
+import PieConfig from "./Pie";
 
 /**
  * 初始化模板
@@ -49,9 +44,11 @@ const createMenuConfig = {
  */
 const config = ObjectUtil.copy(PieConfig.config);
 
-export const RadarConfig: ChartConfigItem = {
+const RadarConfig: ChartConfigItem = {
   templates,
   menuOptions,
   createMenuConfig,
   config
 };
+
+export default RadarConfig;

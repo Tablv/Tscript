@@ -1,19 +1,20 @@
-import { BarChartOption } from "@/config/chart-config/Bar";
-import { BarStackChartOption } from "@/config/chart-config/BarStack";
-import { HBarChartOption } from "@/config/chart-config/HBar";
-import { HBarStackChartOption } from "@/config/chart-config/HBarStack";
-import { PieChartOption } from "@/config/chart-config/Pie";
-import { RPieChartOption } from "@/config/chart-config/RPie";
-import { RosePieChartOption } from "@/config/chart-config/RosePie";
-import { SunPieChartOption } from "@/config/chart-config/SunPie";
-import { RadarChartOption } from "@/config/chart-config/Radar";
-import { LineChartOption } from "@/config/chart-config/Line";
-import { BarPercentageChartOption } from "@/config/chart-config/BarPercentage";
-import { BiaxialChartOption } from "@/config/chart-config/Biaxial";
-import { HBarPercentageChartOption } from "@/config/chart-config/HBarPercentage";
-import { GaugeChartOption } from "@/config/chart-config/Gauge";
-import { TargetPieChartOption } from "@/config/chart-config/TargetPie";
-
+import {
+  BarChartOption,
+  BarStackChartOption,
+  BarPercentageChartOption,
+  HBarChartOption,
+  HBarStackChartOption,
+  LineChartOption,
+  PieChartOption,
+  RPieChartOption,
+  RosePieChartOption,
+  SunPieChartOption,
+  RadarChartOption,
+  BiaxialChartOption,
+  HBarPercentageChartOption,
+  GaugeChartOption,
+  TargetPieChartOption
+} from "@/config/ChartOption";
 /**
  * ECharts Option
  */

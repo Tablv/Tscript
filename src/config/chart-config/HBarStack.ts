@@ -1,12 +1,7 @@
 import ObjectUtil from "@/util/ObjectUtil";
-import { HBarConfig, HBarChartOption } from "./HBar";
+import HBarConfig from "./HBar";
 import { ChartType } from "@/enums/ChartType";
 import { ChartConfigItem } from "../ChartConfig";
-
-/**
- * 图表类型
- */
-export type HBarStackChartOption = HBarChartOption;
 
 /**
  * 初始化模板
@@ -39,9 +34,11 @@ const createMenuConfig = {
  */
 const config = ObjectUtil.copy(HBarConfig.config);
 
-export const HBarStackConfig: ChartConfigItem = {
+const HBarStackConfig: ChartConfigItem = {
   templates,
   menuOptions,
   createMenuConfig,
   config
 };
+
+export default HBarStackConfig;

@@ -4,7 +4,7 @@ import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import EChartsService from "../EChartsService";
 import { ChartHandler } from "../interfaces/ChartHandler";
-import { PieChartOption } from "@/config/chart-config/Pie";
+import { PieChartOption } from "@/config/ChartOption";
 
 /**
  * 仪表盘处理

@@ -2,23 +2,6 @@ import { ChartType } from "@/enums/ChartType";
 import { ChartConfigItem } from "../ChartConfig";
 
 /**
- * 图表类型
- */
-export type LineChartOption = {
-  decimals: {
-    value: number;
-    unit: String | number;
-  };
-  label: {
-    show: boolean;
-    position: String;
-    color: String;
-    fontSize: number;
-    fontFamily: String;
-  };
-};
-
-/**
  * 初始化模板
  */
 const templates = {
@@ -64,9 +47,11 @@ const config = {
   changeLimit: []
 };
 
-export const LineConfig: ChartConfigItem = {
+const LineConfig: ChartConfigItem = {
   templates,
   menuOptions,
   createMenuConfig,
   config
 };
+
+export default LineConfig;

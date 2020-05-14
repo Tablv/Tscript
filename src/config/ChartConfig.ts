@@ -1,19 +1,19 @@
-import { BarConfig } from "./chart-config/Bar";
-import { BarStackConfig } from "./chart-config/BarStack";
-import { BarPercentageConfig } from "./chart-config/BarPercentage";
-import { HBarConfig } from "./chart-config/HBar";
-import { HBarStackConfig } from "./chart-config/HBarStack";
-import { LineConfig } from "./chart-config/Line";
-import { PieConfig } from "./chart-config/Pie";
-import { RPieConfig } from "./chart-config/RPie";
-import { RosePieConfig } from "./chart-config/RosePie";
-import { SunPieConfig } from "./chart-config/SunPie";
-import { RadarConfig } from "./chart-config/Radar";
-import { BiaxialConfig } from "./chart-config/Biaxial";
+import BarConfig from "./chart-config/Bar";
+import BarStackConfig from "./chart-config/BarStack";
+import BarPercentageConfig from "./chart-config/BarPercentage";
+import HBarConfig from "./chart-config/HBar";
+import HBarStackConfig from "./chart-config/HBarStack";
+import LineConfig from "./chart-config/Line";
+import PieConfig from "./chart-config/Pie";
+import RPieConfig from "./chart-config/RPie";
+import RosePieConfig from "./chart-config/RosePie";
+import SunPieConfig from "./chart-config/SunPie";
+import RadarConfig from "./chart-config/Radar";
+import BiaxialConfig from "./chart-config/Biaxial";
 import { ChartType } from "@/enums/ChartType";
-import { HBarPercentageConfig } from "./chart-config/HBarPercentage";
-import { GuageConfig } from "./chart-config/Gauge";
-import { TargetPieConfig } from "./chart-config/TargetPie";
+import HBarPercentageConfig from "./chart-config/HBarPercentage";
+import GuageConfig from "./chart-config/Gauge";
+import TargetPieConfig from "./chart-config/TargetPie";
 
 /**
  * 图表全部配置项
@@ -39,11 +39,6 @@ export type ChartConfigItem = {
    */
   config: any;
 };
-
-/**
- * 图表样式
- */
-export interface ChartOption {}
 
 /**
  * 创建菜单配置

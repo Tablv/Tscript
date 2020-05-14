@@ -1,31 +1,5 @@
-import { ChartOption } from "@/config/ChartConfig";
 import { ChartConfigItem } from "@/config/ChartConfig";
 import { ChartType } from "@/enums/ChartType";
-
-/**
- * 图表类型
- */
-export type BarChartOption = ChartOption & {
-  width: {
-    value: number;
-    unit: string; // '%'  or  '' (px)
-  };
-  label: {
-    show: boolean;
-    position: string; // 'top' 'left' 'right' 'bottom' 'inside'
-    color: string;
-    fontSize: number;
-    fontFamily: string;
-  };
-  axisLabel: {
-    interval: 0;
-    rotate: 0;
-  };
-  decimals: {
-    value: number;
-    unit: String | number;
-  };
-};
 
 /**
  * 初始化模板
@@ -100,9 +74,10 @@ const config = {
   changeLimit: []
 };
 
-export const BarConfig: ChartConfigItem = {
+const BarConfig: ChartConfigItem = {
   templates,
   menuOptions,
   config,
   createMenuConfig
 };
+export default BarConfig;

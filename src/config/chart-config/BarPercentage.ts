@@ -1,12 +1,7 @@
-import { BarStackConfig, BarStackChartOption } from "./BarStack";
+import BarStackConfig from "./BarStack";
 import ObjectUtil from "@/util/ObjectUtil";
 import { ChartType } from "@/enums/ChartType";
 import { ChartConfigItem } from "../ChartConfig";
-
-/**
- * 图表类型
- */
-export type BarPercentageChartOption = BarStackChartOption;
 
 /**
  * 初始化模板
@@ -41,9 +36,11 @@ const createMenuConfig = {
  */
 const config = ObjectUtil.copy(BarStackConfig.config);
 
-export const BarPercentageConfig: ChartConfigItem = {
+const BarPercentageConfig: ChartConfigItem = {
   templates,
   menuOptions,
   createMenuConfig,
   config
 };
+
+export default BarPercentageConfig;

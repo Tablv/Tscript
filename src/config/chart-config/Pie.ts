@@ -2,27 +2,6 @@ import { ChartType } from "@/enums/ChartType";
 import { ChartConfigItem } from "../ChartConfig";
 
 /**
- * 图表类型
- */
-export type PieChartOption = {
-  decimals: {
-    value: number;
-    unit: String | number;
-  };
-  label: {
-    show: boolean;
-    position: String;
-    color: String;
-    fontSize: number;
-    fontFamily: String;
-  };
-  centerConfig: {
-    xAxias: string;
-    yAxias: string;
-  };
-};
-
-/**
  * 初始化模板
  */
 const templates = {
@@ -78,9 +57,11 @@ const config = {
   changeLimit: []
 };
 
-export const PieConfig: ChartConfigItem = {
+const PieConfig: ChartConfigItem = {
   templates,
   menuOptions,
   createMenuConfig,
   config
 };
+
+export default PieConfig;

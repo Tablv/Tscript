@@ -1,11 +1,6 @@
 import { ChartConfigItem } from "../ChartConfig";
 
 /**
- * 图表类型
- */
-export type BiaxialChartOption = {};
-
-/**
  * 初始化模板
  */
 const templates = {
@@ -29,8 +24,10 @@ const config = {
   changeLimit: []
 };
 
-export const BiaxialConfig: ChartConfigItem = {
+const BiaxialConfig: ChartConfigItem = {
   templates,
   menuOptions,
   config
 };
+
+export default BiaxialConfig;

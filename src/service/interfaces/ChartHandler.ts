@@ -1,7 +1,7 @@
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
-import { ChartOption } from "@/config/ChartConfig";
+import { ChartOption } from "@/config/ChartOption";
 
 /**
  * 图表通用处理 接口
@@ -10,7 +10,7 @@ export interface CharthandlerConstructor {
   new (
     result: AnalysisResults,
     dashboard: Dashboard,
-    sampleStyle: any
+    sampleStyle: ChartOption
   ): ChartHandler;
 }
 
