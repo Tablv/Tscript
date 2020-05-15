@@ -1,6 +1,5 @@
 import { AnalysisResults } from "@/model/types/AnalysisResults";
-import { BarChartOption } from "@/config/chart-config/Bar";
-import { PieChartOption } from "@/config/chart-config/Pie";
+import { BarChartOption, PieChartOption } from "@/config/ChartOption";
 
 export default class EChartServiceUtil {
   /**

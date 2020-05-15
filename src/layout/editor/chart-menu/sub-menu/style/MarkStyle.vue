@@ -96,7 +96,7 @@ import { Component, Prop, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "@/model/view/dashboard/Dashboard";
-import { ChartOption } from "@/config/ChartConfig";
+import { ChartOption } from "@/config/ChartOption";
 import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
 
 @Component
