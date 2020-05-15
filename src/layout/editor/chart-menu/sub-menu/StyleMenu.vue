@@ -51,10 +51,10 @@ export default class StyleMenu extends Vue {
     return this.currentDashboard.echarts.sampleStyle[this.chartType];
   }
   @Provide()
-  setSpecificStyle(val: object) {
+  setSpecificStyle(config: object) {
     (this.currentDashboard.echarts.sampleStyle[
       this.chartType
-    ] as any).centerConfig = val;
+    ] as any).centerConfig = config;
   }
 
   get chartType() {

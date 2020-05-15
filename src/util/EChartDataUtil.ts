@@ -8,11 +8,15 @@ export default class EChartServiceUtil {
    *
    * @param fieldName 字段名
    * @param result 结果集
+   * @param decimals 数据设置
    */
   public static getDataByFieldName(
     fieldName: string,
     result: AnalysisResults,
-    decimals?: any
+    decimals?: {
+      value: number;
+      unit: string | number;
+    }
   ): Array<string | number> {
     let fieldArray: Array<string | number> = [];
 
@@ -34,7 +38,10 @@ export default class EChartServiceUtil {
   public static getPercentageArray(
     fieldName: string,
     result: AnalysisResults,
-    decimals?: any
+    decimals?: {
+      value: number;
+      unit: string | number;
+    }
   ): Array<string | number> {
     return result.map((item: any) => {
       const dec = decimals?.value || 0;
@@ -95,6 +102,10 @@ export default class EChartServiceUtil {
       : undefined;
   }
 
+  /**
+   * 获取柱图label样式
+   * @param sampleStyle 样例样式
+   */
   public static getBarSeriesLabel(
     sampleStyle: BarChartOption
   ): echarts.EChartOption.SeriesBar["label"] {

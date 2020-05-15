@@ -96,7 +96,7 @@ export default class GridStyle extends Vue {
 
   handlerAxias(conObj: { value: string; unit: string }, fieldName: string) {
     if (!this.specificStyle.centerConfig) return;
-    let config = Object.assign(this.specificStyle.centerConfig);
+    let config = Object.assign({}, this.specificStyle.centerConfig);
     config[fieldName] = Object.values(conObj).join("");
     this.setSpecificStyle(config);
   }
