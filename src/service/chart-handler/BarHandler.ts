@@ -7,7 +7,7 @@ import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
 import { ChartHandler } from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
-import { BarChartOption } from "@/config/ChartOption";
+import { BarChartOption } from "@/model/view/dashboard/ChartOption";
 
 /**
  * 柱图处理

@@ -1,4 +1,4 @@
-import { ChartOption } from "@/config/ChartOption";
+import { ChartOption } from "@/model/view/dashboard/ChartOption";
 import ObjectUtil from "@/util/ObjectUtil";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";

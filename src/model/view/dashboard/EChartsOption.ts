@@ -14,7 +14,7 @@ import {
   HBarPercentageChartOption,
   GaugeChartOption,
   TargetPieChartOption
-} from "@/config/ChartOption";
+} from "@/model/view/dashboard/ChartOption";
 /**
  * ECharts Option
  */

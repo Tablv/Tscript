@@ -1,7 +1,7 @@
 import { SplitedFieldNames } from "../EChartsService";
 import { AnalysisResults } from "@/model/types/AnalysisResults";
 import Dashboard from "@/model/view/dashboard/Dashboard";
-import { ChartOption } from "@/config/ChartOption";
+import { ChartOption } from "@/model/view/dashboard/ChartOption";
 
 /**
  * 图表通用处理 接口
