@@ -91,7 +91,10 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import ColorOption from "../common/ColorOption.vue";
-import { BarChartOption, ChartOption } from "@/config/ChartOption";
+import {
+  BarChartOption,
+  ChartOption
+} from "@/model/view/dashboard/ChartOption";
 
 @Component({
   components: {

@@ -25,7 +25,8 @@ const API = {
   /**
    * 表关系
    */
-  findTables: "/dataset/table/findTableAndColumns",
+  // findTables: "/dataset/table/findTableAndColumns",
+  findTables: "/dashboard/container/loadCube",
 
   /**
    * 分析

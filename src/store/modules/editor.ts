@@ -87,7 +87,7 @@ const actions: ActionTree<any, any> = {
     }
     return AxiosRequest.table
       .find(datasetId)
-      .then((tables: TableVO) => {
+      .then(({ tables }) => {
         // 赋值
         state.tables = tables;
         return Promise.resolve();

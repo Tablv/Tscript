@@ -57,8 +57,9 @@ export default class DatasetChooser extends Vue {
 
   get datasetTreeData(): any {
     // 转为树结构
+    // return this.datasetData.filter()
     return this.datasetData
-      .filter((dataset: DatasetGroupVO) => dataset.parentId === "0")
+      .filter((dataset: DatasetGroupVO) => !dataset.parentId)
       .map((datasetPack: DatasetGroupVO) => {
         const children = this.datasetData.filter(
           (childDataset: DatasetGroupVO) =>
@@ -81,7 +82,6 @@ export default class DatasetChooser extends Vue {
     const loadingInstance = UIUtil.showLoading({
       target: ".dataset-tree-box"
     });
-
     this.loadTablesTree()
       .catch(err => {
         UIUtil.showErrorMessage("数据集加载出错");
@@ -139,7 +139,6 @@ export default class DatasetChooser extends Vue {
 
   // 选择数据集
   async chooseDataset(datasetGroup: DatasetGroupVO) {
-    debugger;
     const dataset = await AxiosRequest.dataset.find(datasetGroup.id);
 
     this.currentDashboard.analysis.datasetId = dataset.id;
