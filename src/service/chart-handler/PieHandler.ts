@@ -5,7 +5,7 @@ import ObjectUtil from "@/util/ObjectUtil";
 import EChartsService from "../EChartsService";
 import { ChartHandler } from "../interfaces/ChartHandler";
 import EChartDataUtil from "@/util/EChartDataUtil";
-import { PieChartOption } from "@/config/ChartOption";
+import { PieChartOption } from "@/model/view/dashboard/ChartOption";
 
 /**
  * 饼图处理

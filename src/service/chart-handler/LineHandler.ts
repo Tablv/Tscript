@@ -4,7 +4,7 @@ import { SplitedFieldNames } from "../EChartsService";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import EChartsService from "../EChartsService";
 import { ChartHandler } from "../interfaces/ChartHandler";
-import { LineChartOption } from "@/config/ChartOption";
+import { LineChartOption } from "@/model/view/dashboard/ChartOption";
 import ObjectUtil from "@/util/ObjectUtil";
 import warnConfigure from "./configure/WarnConfigure";
 import { WARN_DEFAULT_VALUE } from "@/model/view/Warn";
