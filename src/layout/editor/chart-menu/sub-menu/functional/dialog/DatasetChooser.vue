@@ -58,9 +58,16 @@ export default class DatasetChooser extends Vue {
   get datasetTreeData(): any {
     // 转为树结构
     // return this.datasetData.filter()
-    return this.datasetData
-      .filter((dataset: DatasetGroupVO) => !dataset.parentId)
-      .map((datasetPack: DatasetGroupVO) => {
+    const result = this.datasetData.filter(
+      (dataset: DatasetGroupVO) => dataset.parentId === "0" || !dataset.parentId
+    );
+    if (!result.length) {
+      return this.datasetData.map(item => {
+        item.children = [];
+        return item;
+      });
+    } else {
+      return result.map((datasetPack: DatasetGroupVO) => {
         const children = this.datasetData.filter(
           (childDataset: DatasetGroupVO) =>
             childDataset.parentId === datasetPack.id
@@ -69,6 +76,7 @@ export default class DatasetChooser extends Vue {
         datasetPack.children = children.length ? children : [];
         return datasetPack;
       });
+    }
   }
 
   /**
