@@ -57,7 +57,7 @@
           </el-dropdown>
         </div>
       </transition-group>
-      <template #footer class="tips">拖入字段</template>
+      <div slot="footer" class="tips">拖入字段</div>
     </draggable>
 
     <!-- 条件过滤对话框 -->
