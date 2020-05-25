@@ -30,12 +30,13 @@
             >
               <i class="fa fa-file-o"></i>
               <div class="field-content">
-                <span>{{ tableColumn.columnName }}</span>
+                <span>{{ tableColumn.alias || tableColumn.columnName }}</span>
+                <!-- <span>{{ tableColumn.columnName }}</span>
                 <span
                   v-if="tableColumn.alias !== null && tableColumn.alias !== ''"
                 >
                   - {{ tableColumn.alias }}</span
-                >
+                > -->
               </div>
             </div>
           </transition-group>

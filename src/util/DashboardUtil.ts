@@ -80,20 +80,27 @@ export default class DashboardUtil {
    * @param currentDashboard 当前仪表盘
    */
   public static getAnalysisDTO(currentDashboard: Dashboard): AnalysisDTO {
-    let fromDTO = currentDashboard.analysis.fromTable
-        ? {
-            schema: currentDashboard.analysis.fromTable.schema,
-            tableName: currentDashboard.analysis.fromTable.name,
-            alias: currentDashboard.analysis.fromTable.alias
-          }
-        : null,
+    // let fromDTO = currentDashboard.analysis.fromTable
+    //     ? {
+    //         schema: currentDashboard.analysis.fromTable.schema,
+    //         tableName: currentDashboard.analysis.fromTable.name,
+    //         alias: currentDashboard.analysis.fromTable.alias
+    //       }
+    //     : null,
+    const viewNameList = currentDashboard.analysis.viewName.split(".");
+    let fromDTO = {
+        schema: viewNameList[0] + "." + viewNameList[1],
+        tableName: viewNameList[2],
+        alias: viewNameList[2]
+      },
       analysisDTO: AnalysisDTO = {
         dashboardId: currentDashboard.id,
         from: fromDTO,
         join: currentDashboard.analysis.joinRelation,
         fields: [],
         where: currentDashboard.analysis.where,
-        order: []
+        order: [],
+        viewName: currentDashboard.analysis.viewName
       };
 
     // 拷贝分析DTO
@@ -102,11 +109,17 @@ export default class DashboardUtil {
     // 追加维度、度量数据
     DashboardUtil.pushFieldDTO(
       analysisDTO.fields,
-      currentDashboard.analysis.dimensions
+      currentDashboard.analysis.dimensions.map(dime => {
+        dime.tableAlias = viewNameList[2];
+        return dime;
+      })
     );
     DashboardUtil.pushFieldDTO(
       analysisDTO.fields,
-      currentDashboard.analysis.measures
+      currentDashboard.analysis.measures.map(meas => {
+        meas.tableAlias = viewNameList[2];
+        return meas;
+      })
     );
 
     // 追加过滤
@@ -269,7 +282,8 @@ export default class DashboardUtil {
         join: joinRelations,
         fields: [],
         where: [],
-        order: []
+        order: [],
+        viewName: ""
       };
 
     // 字段追加去重

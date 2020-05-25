@@ -87,9 +87,12 @@ const actions: ActionTree<any, any> = {
     }
     return AxiosRequest.table
       .find(datasetId)
-      .then(({ tables }) => {
+      .then(({ tables, cube }) => {
         // 赋值
         state.tables = tables;
+        if (cube) {
+          currentDashboard.analysis.viewName = cube.viewname;
+        }
         return Promise.resolve();
       })
       .catch(err => Promise.reject(err));
