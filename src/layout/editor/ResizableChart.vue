@@ -5,7 +5,6 @@
       @resizestop="onResizeStop"
       :w="thisDashboard.visualData.width"
       :h="thisDashboard.visualData.height"
-      :grid="thisDashboard.visualData.grid"
       :x="thisDashboard.visualData.position.x"
       :y="thisDashboard.visualData.position.y"
       :z="thisDashboard.visualData.position.z"
@@ -33,8 +32,8 @@
         <chart-component
           v-show="showChart"
           ref="chartComponent"
-          :item="thisDashboard"
-          :index="index"
+          :dashboard.sync="thisDashboard"
+          :anslysisdata.sync="resultTmp"
         />
       </div>
     </vdr>
@@ -42,21 +41,35 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from "vue-property-decorator";
-
+import { Component, Prop, Watch, Vue, Provide } from "vue-property-decorator";
+import ChartComponent from "glaway-bi-component/src/components/ChartComponent";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import ChartUIService from "glaway-bi-component/src/interfaces/ChartUIService";
 // Vue-Draggable-Resizable
 import vdr from "vue-draggable-resizable-gorkys";
 import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 import { CommonStore, EditorStore } from "@/store/modules-model";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+// import Dashboard from "@/model/view/dashboard/Dashboard";
 import { ChartType } from "@/enums/ChartType";
-import ReactWhere from "@/model/view/ReactWhere";
-import ChartUIService from "@/service/interfaces/ChartUIService";
-import { reactUpdate } from "@/service/EChartsService";
-import ChartComponent from "@/layout/common/EChartsComponent.vue";
+// import ReactWhere from "@/model/view/ReactWhere";
+// import ChartUIService from "@/service/interfaces/ChartUIService";
+// import ChartComponent from "@/layout/common/EChartsComponent.vue";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import ChartToolbar from "@/layout/common/chart-toolbar/CommonToolbar.vue";
+import { AnalysisResults, AnalysisResult } from '../../model/types/AnalysisResults';
+import ReactWhere from "@/model/view/ReactWhere";
+import { SortType } from "@/enums/SortType";
+import EChartsService, {
+  reactUpdate,
+  fetchAnalysisData,
+  bindEvents,
+  renderChart,
+  renderChartByJSON,
+  fetchSqlData
+} from "@/service/EChartsService";
+import FieldDTO from '../../model/params/FieldDTO';
+import EChartsUtil from '../../util/EChartsUtil';
 
 @Component({
   components: {
@@ -98,6 +111,8 @@ export default class ResizableElement extends Vue {
   // 是否显示详细工具栏
   isShowDetail = false;
 
+  resultTmp: AnalysisResults = [];
+
   /**
    * 仪表盘部分
    */
@@ -136,7 +151,7 @@ export default class ResizableElement extends Vue {
   }
 
   get thisChartType(): ChartType {
-    return this.thisDashboard.visualData.type;
+    return (this.thisDashboard.visualData as any).type;
   }
 
   get thisEchartsOption() {
@@ -189,6 +204,7 @@ export default class ResizableElement extends Vue {
 
   /**
    * 是否不存在拖入字段
+   * isEmptyArray 是不是空数组
    */
   get noField(): boolean {
     let options = this.thisDashboard.analysis;
@@ -211,7 +227,7 @@ export default class ResizableElement extends Vue {
   }
 
   /**
-   * 需要获取数据
+   * 是否需要获取数据
    */
   get needFetchData(): boolean {
     return !this.noField || this.thisStatic.sql.enable;
@@ -219,12 +235,15 @@ export default class ResizableElement extends Vue {
 
   mounted() {
     if (!this.chartComponent) return;
-
     // 初始化
     this.chartComponent.initChart();
 
     // 绑定事件
     this.chartComponent.bindChartEvents(false, this.thisEvents);
+
+    // this.chartComponent.resizeChart();
+
+    // this.chartComponent.renderChart();
 
     // 获取数据
     if (this.needFetchData) {
@@ -293,7 +312,7 @@ export default class ResizableElement extends Vue {
     immediate: true
   })
   onReactWhereUpdate(): void {
-    reactUpdate(this.thisDashboard, this.reactWhere, this.fetchToShow);
+    reactUpdate(this.thisDashboard as any, this.reactWhere, this.fetchToShow);
   }
 
   @Watch("thisAnalysis", {
@@ -315,6 +334,15 @@ export default class ResizableElement extends Vue {
     this.fetchToShow();
   }
 
+  @Watch("resultTmp", {
+    deep: true,
+    immediate: false
+  })
+  onResultTmpChange(): void {
+    this.chartComponent.resizeChart();
+    this.chartComponent.renderChart(this.resultTmp);
+  }
+
   @Watch("thisEchartsOption", {
     deep: true,
     immediate: true
@@ -326,6 +354,7 @@ export default class ResizableElement extends Vue {
     if (!this.isCurrent || this.menuLoading) {
       return;
     }
+    this.chartComponent.getDashBoard();
     this.chartComponent?.renderChart();
   }
 
@@ -397,35 +426,88 @@ export default class ResizableElement extends Vue {
   }
 
   /**
+   * 自定义排序
+   */
+  private doCustomOrder(
+    dataArray: AnalysisResults,
+    dashboard: Dashboard
+  ): AnalysisResults {
+    let sort = dashboard.analysis.sort;
+    if (sort.type !== SortType.customOrder) return dataArray;
+
+    // 复制数组
+    dataArray = ObjectUtil.copy(dataArray);
+    // 排序后的数组
+    let sortedData: AnalysisResults = [],
+      fieldAlias: Array<string> = dashboard.analysis.dimensions.flatMap(
+        (fieldDTO: FieldDTO) => fieldDTO.alias
+      );
+
+    /**
+     * 符合排序要求的存入 sortedData
+     * 其他存入 tempData 待遍历完成后一并存入 sortedData
+     */
+    sort.custom.map((fieldValue: string) => {
+      for (let i = 0; i < dataArray.length; i++) {
+        let data: AnalysisResult = dataArray[i];
+
+        fieldAlias.map((columnName: string) => {
+          if (
+            data.hasOwnProperty(columnName) &&
+            data[columnName] === fieldValue
+          ) {
+            sortedData.push(ObjectUtil.copy(data));
+            // 复制后 删除源数组对应的值
+            dataArray.splice(i--, 1);
+          }
+        });
+      }
+    });
+
+    // 排序的数组 与剩余值的数组合并 返回新数组
+    return sortedData.concat(dataArray);
+  }
+
+  /**
+   * 获取数据
+   */
+  public async fetchData(): Promise<AnalysisResults> {
+    // 判断是否为 SQL
+    let fetchPromise: Promise<AnalysisResults> = this.isSqlEnable
+      ? fetchSqlData(this.thisDashboard.staticData.sql.data)
+      : fetchAnalysisData(this.thisDashboard as any, this.reactWhere);
+    return fetchPromise
+      .then((data: AnalysisResults) => {
+        data = this.doCustomOrder(data, this.thisDashboard);
+        return Promise.resolve(data);
+      })
+      .catch(err => {
+        this.chartComponent.clearChart();
+        return Promise.reject(err);
+      });
+  }
+
+  /**
    * 获取数据，展示图表
    */
   fetchToShow(): void {
     this.isFetching = true;
-    // 获取数据
-    this.chartComponent
-      ?.fetchData()
+    this.fetchData()
       .then(data => {
         if (this.thisStatic.sql.enable) {
           UIUtil.showMessage("暂不支持 SQL 查询", MessageType.warning);
           this.chartComponent.clearChart();
           return;
         }
-
         // 分析成功
         this.analysisSuccess = true;
 
         // 防止无限循环监听，此时忽略监听Analysis属性
         this.setSavingAnalysis(true);
-        this.thisAnalysis.resultTmp = data;
 
-        // 不存在时，初始化图表
-        this.chartComponent.initChart();
-
-        // 调整尺寸
-        this.chartComponent.resizeChart();
-
-        // 绘制图表
-        this.chartComponent.renderChart();
+        // (that.thisAnalysis as any).resultTmp = data;
+        this.$set(this.thisAnalysis, "resultTmp", data);
+        this.resultTmp = data;
       })
       .catch(err => {
         // 分析失败
@@ -436,6 +518,41 @@ export default class ResizableElement extends Vue {
       .finally(() => {
         this.isFetching = false;
       });
+    // 获取数据
+    // this.chartComponent
+    //   ?.fetchData()
+    //   .then(data => {
+    //     if (this.thisStatic.sql.enable) {
+    //       UIUtil.showMessage("暂不支持 SQL 查询", MessageType.warning);
+    //       this.chartComponent.clearChart();
+    //       return;
+    //     }
+
+    //     // 分析成功
+    //     this.analysisSuccess = true;
+
+    //     // 防止无限循环监听，此时忽略监听Analysis属性
+    //     this.setSavingAnalysis(true);
+    //     this.thisAnalysis.resultTmp = data;
+
+    //     // 不存在时，初始化图表
+    //     this.chartComponent.initChart();
+
+    //     // 调整尺寸
+    //     this.chartComponent.resizeChart();
+
+    //     // 绘制图表
+    //     this.chartComponent.renderChart();
+    //   })
+    //   .catch(err => {
+    //     // 分析失败
+    //     this.analysisSuccess = false;
+    //     UIUtil.showErrorMessage("分析出错，请稍后重试");
+    //     console.error(err);
+    //   })
+    //   .finally(() => {
+    //     this.isFetching = false;
+    //   });
   }
 }
 </script>

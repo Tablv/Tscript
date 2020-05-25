@@ -12,6 +12,7 @@ import EventsConfig from "@/model/view/dashboard/EventsConfig";
 import ChartUIService from "@/service/interfaces/ChartUIService";
 
 import ChartHandler from "./handleChart";
+import { AxiosReq } from '@/api/mock';
 
 /**
  * ECharts 业务层
@@ -131,7 +132,7 @@ export default class EChartsService {
  * 请求后端，分析维度度量数据
  * 返回Promise 分析结果
  */
-export async function fetchAnalysisData(
+export function fetchAnalysisData(
   thisDashboard: Dashboard,
   reactWhere: ReactWhere
 ): Promise<AnalysisResults> {
@@ -143,7 +144,8 @@ export async function fetchAnalysisData(
     DashboardUtil.pushReactWhere(analysisDTO.where, reactWhere);
   }
 
-  return await AxiosRequest.analysis.fetch(analysisDTO);
+  // return await AxiosRequest.analysis.fetch(analysisDTO);
+  return AxiosReq.analysis.fetch(analysisDTO);
 }
 
 /**

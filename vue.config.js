@@ -43,8 +43,19 @@ module.exports = {
       title: "图表分享验证"
     }
   },
+  configureWebpack: config => {
+    config.devtool = "cheap-module-eval-source-map";
+    Object.assign(config, {
+      externals: {
+        vue: "Vue"
+      }
+    });
+  },
   devServer: {
     port: 3000,
+    watchOptions: {
+      ignored: ["node_modules"]
+    },
     proxy: {
       "/admin": {
         target: "http://127.0.0.1:8080/admin",

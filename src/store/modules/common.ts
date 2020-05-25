@@ -4,9 +4,10 @@ import Dashboard from "@/model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import DefaultTemplates from "@/config/DefaultTemplate";
 import ReactWhere from "@/model/view/ReactWhere";
-import { defaultDashboardSet } from "@/config/DefaultTemplate";
+import DefaultTemplate, { defaultDashboardSet } from "@/config/DefaultTemplate";
 import DashboardSet from "@/model/view/DashboardSet";
 import { AxiosRequest } from "@/api/AxiosRequest";
+import { AxiosReq } from "@/api/mock";
 import { ChartType } from "@/enums/ChartType";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
@@ -153,7 +154,6 @@ const mutations: MutationTree<any> = {
    * @param index {number} 激活图表下标
    */
   setDashboardChartZIndex(state, index: number): void {
-    // state.currentDashboard.visualData.position.z = zIndex;
     const maxZIndex = state.dashboards.length - 1;
     const oldZIndex = state.dashboards[index].visualData.position.z;
     state.dashboards.forEach((dashboard: Dashboard) => {
@@ -180,9 +180,10 @@ const actions: ActionTree<any, any> = {
    * 加载仪表盘配置
    */
   loadDashboardSet({ state, commit }): Promise<void> {
-    return AxiosRequest.dashboardSet
+    return AxiosReq.dashboardSet
       .find(state.dashboardSetId)
-      .then(({ container, dashboards }) => {
+      .then(res => {
+        const { container, dashboards } = res;
         // 清空联动条件
         commit("resetReactWhere");
 
@@ -191,10 +192,35 @@ const actions: ActionTree<any, any> = {
 
         // 设置仪表盘
         commit("setDashboards", dashboards);
-
+        // console.error(res);
         return Promise.resolve();
       })
       .catch(err => Promise.reject(err));
+    // AxiosRequest.dashboardSet
+    //   .find(state.dashboardSetId)
+    //   .then(({ container, dashboards }) => {
+    //     // 清空联动条件
+    //     commit("resetReactWhere");
+
+    //     // 设置仪表盘集
+    //     commit("setDashboardSet", container);
+
+    //     // 设置仪表盘
+    //     dashboards = state.dashboards.map(dashbard => {
+    //       const chartType = dashbard.visualData.type;
+    //       dashbard = ObjectUtil.merge(
+    //         dashbard,
+    //         DefaultTemplate.getDefaultConfig(chartType)
+    //       );
+
+    //       return dashbard;
+    //     });
+    //     // commit("setDashboards", dashboards);
+    //     // commit("setDashboards", dashboards);
+
+    //     return Promise.resolve();
+    //   })
+    //   .catch(err => Promise.reject(err));
   }
 };
 

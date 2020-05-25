@@ -120,7 +120,6 @@ export default class DashboardUtil {
       analysisDTO.order,
       currentDashboard.analysis.sort.data
     );
-
     return analysisDTO;
   }
 
