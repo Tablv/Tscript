@@ -80,13 +80,20 @@ export default class DashboardUtil {
    * @param currentDashboard 当前仪表盘
    */
   public static getAnalysisDTO(currentDashboard: Dashboard): AnalysisDTO {
-    let fromDTO = currentDashboard.analysis.fromTable
-        ? {
-            schema: currentDashboard.analysis.fromTable.schema,
-            tableName: currentDashboard.analysis.fromTable.name,
-            alias: currentDashboard.analysis.fromTable.alias
-          }
-        : null,
+    debugger
+    // let fromDTO = currentDashboard.analysis.fromTable
+    //     ? {
+    //         schema: currentDashboard.analysis.fromTable.schema,
+    //         tableName: currentDashboard.analysis.fromTable.name,
+    //         alias: currentDashboard.analysis.fromTable.alias
+    //       }
+    //     : null,
+    let viewNameList = currentDashboard.analysis.viewName.split(".");
+    let fromDTO = {
+        schema: viewNameList[0] + "." + viewNameList[1],
+        tableName: viewNameList[2],
+        alias: viewNameList[2]
+      },
       analysisDTO: AnalysisDTO = {
         dashboardId: currentDashboard.id,
         from: fromDTO,
@@ -102,11 +109,17 @@ export default class DashboardUtil {
     // 追加维度、度量数据
     DashboardUtil.pushFieldDTO(
       analysisDTO.fields,
-      currentDashboard.analysis.dimensions
+      currentDashboard.analysis.dimensions.map(item => {
+        item.tableAlias = viewNameList[2];
+        return item;
+      })
     );
     DashboardUtil.pushFieldDTO(
       analysisDTO.fields,
-      currentDashboard.analysis.measures
+      currentDashboard.analysis.measures.map(item => {
+        item.tableAlias = viewNameList[2];
+        return item;
+      })
     );
 
     // 追加过滤

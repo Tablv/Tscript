@@ -180,6 +180,7 @@ const actions: ActionTree<any, any> = {
    * 加载仪表盘配置
    */
   loadDashboardSet({ state, commit }): Promise<void> {
+    // AxiosRequest.dashboardSet
     return AxiosReq.dashboardSet
       .find(state.dashboardSetId)
       .then(res => {
@@ -196,31 +197,6 @@ const actions: ActionTree<any, any> = {
         return Promise.resolve();
       })
       .catch(err => Promise.reject(err));
-    // AxiosRequest.dashboardSet
-    //   .find(state.dashboardSetId)
-    //   .then(({ container, dashboards }) => {
-    //     // 清空联动条件
-    //     commit("resetReactWhere");
-
-    //     // 设置仪表盘集
-    //     commit("setDashboardSet", container);
-
-    //     // 设置仪表盘
-    //     dashboards = state.dashboards.map(dashbard => {
-    //       const chartType = dashbard.visualData.type;
-    //       dashbard = ObjectUtil.merge(
-    //         dashbard,
-    //         DefaultTemplate.getDefaultConfig(chartType)
-    //       );
-
-    //       return dashbard;
-    //     });
-    //     // commit("setDashboards", dashboards);
-    //     // commit("setDashboards", dashboards);
-
-    //     return Promise.resolve();
-    //   })
-    //   .catch(err => Promise.reject(err));
   }
 };
 

@@ -32,8 +32,8 @@ const API = {
    * 分析
    */
   analysis: {
-    build: "/api/v1/build",
-    sql: "/api/v1/s"
+    build: "/api/adhoc/build",
+    sql: "/api/adhoc/s"
   },
 
   /**

@@ -32,6 +32,11 @@ export default interface AnalysisData {
   fromTable: TableVO | null;
 
   /**
+   * 视图名称
+   */
+  viewName: string;
+
+  /**
    * 表关联字段信息
    */
   joinRelation: Array<JoinRelation>;

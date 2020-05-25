@@ -137,15 +137,16 @@ export function fetchAnalysisData(
   reactWhere: ReactWhere
 ): Promise<AnalysisResults> {
   // 分析参数
+  debugger
   let analysisDTO = DashboardUtil.getAnalysisDTO(thisDashboard);
 
   // 判断数据集是否一致
   if (thisDashboard.analysis.datasetId === reactWhere.datasetId) {
     DashboardUtil.pushReactWhere(analysisDTO.where, reactWhere);
   }
-
-  // return await AxiosRequest.analysis.fetch(analysisDTO);
-  return AxiosReq.analysis.fetch(analysisDTO);
+  debugger
+  return AxiosRequest.analysis.fetch(analysisDTO);
+  // return AxiosReq.analysis.fetch(analysisDTO);
 }
 
 /**

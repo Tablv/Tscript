@@ -181,8 +181,9 @@ export default class Dimensions extends Vue {
 
   // 字段(列名) 格式化
   columnNameFormatter(column: FieldDTO): string {
-    let suffix = column.alias ? ` - ${column.alias}` : "";
-    return `${column.columnName}${suffix}`;
+    // let suffix = column.alias ? ` - ${column.alias}` : "";
+    // return `${column.columnName}${suffix}`;
+    return column.alias || column.columnName;
   }
 
   /**
