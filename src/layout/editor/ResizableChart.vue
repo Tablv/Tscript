@@ -2,10 +2,12 @@
   <div class="resizable-chart">
     <vdr
       @dragstop="onDragStop"
+      @dragging="onDrageding"
       @resizestop="onResizeStop"
       :w="thisDashboard.visualData.width"
       :h="thisDashboard.visualData.height"
       :x="thisDashboard.visualData.position.x"
+      :grid="thisDashboard.visualData.grid"
       :y="thisDashboard.visualData.position.y"
       :z="thisDashboard.visualData.position.z"
       :class="{ activeElement: index === activeIndex }"
@@ -15,7 +17,7 @@
         @mousedown="hideDetailBar(true)"
         v-loading="isFetching"
       >
-        <div class="toolbar-box" v-show="isCurrent">
+        <div class="toolbar-box">
           <chart-toolbar :dashboard.sync="thisDashboard" />
         </div>
         <!-- v-model="isShowDetail" -->
@@ -28,12 +30,12 @@
           <div v-else class="no-chart-text">分析出错，请稍后重试</div>
           <div class="no-chart-img"></div>
         </div>
-
         <chart-component
           v-show="showChart"
           ref="chartComponent"
-          :dashboard.sync="thisDashboard"
-          :anslysisdata.sync="resultTmp"
+          :dashboard="thisDashboard"
+          :anslysisdata="resultTmp"
+          :key="index"
         />
       </div>
     </vdr>
@@ -245,7 +247,6 @@ export default class ResizableElement extends Vue {
     // this.chartComponent.resizeChart();
 
     // this.chartComponent.renderChart();
-
     // 获取数据
     if (this.needFetchData) {
       this.fetchToShow();
@@ -331,7 +332,6 @@ export default class ResizableElement extends Vue {
     if (!this.isCurrent || this.menuLoading || this.noField) {
       return;
     }
-
     this.fetchToShow();
   }
 
@@ -355,7 +355,6 @@ export default class ResizableElement extends Vue {
     if (!this.isCurrent || this.menuLoading) {
       return;
     }
-    this.chartComponent.getDashBoard();
     this.chartComponent?.renderChart();
   }
 
@@ -368,7 +367,6 @@ export default class ResizableElement extends Vue {
     if (!this.isCurrent || !this.chartComponent) {
       return;
     }
-
     this.chartComponent.bindChartEvents(true, this.thisEvents);
   }
 
@@ -378,9 +376,12 @@ export default class ResizableElement extends Vue {
    */
   onDragStop(x: number, y: number): void {
     // 防止出现非当前下标的元素被操作的问题
-    console.log('zheli')
     this.setActiveIndex(this.index);
+  }
+
+  onDrageding(x: number, y: number) {
     this.setPosition(x, y);
+    this.chartComponent.resizeChart();
   }
 
   /**
@@ -388,22 +389,19 @@ export default class ResizableElement extends Vue {
    * 调整结束
    */
   onResizeStop(x: number, y: number, width: number, height: number): void {
-    console.log(this.activeIndex)
     if (this.activeIndex === -1) return;
     // 防止出现非当前下标的元素被操作的问题
-    // this.setActiveIndex(this.index);
+    this.setActiveIndex(this.index);
 
-    // this.setPosition(x, y);
-    // this.setSize(width, height);
-
-    // console.log(this.$store)
+    this.setPosition(x, y);
+    this.setSize(width, height);
 
     // 如果类型为 Echarts 图表，则调用 resize 方法
-    // setTimeout(() => {
-    //   this.chartComponent?.resizeChart();
-    // }, 500);
+    setTimeout(() => {
+      this.chartComponent?.resizeChart();
+    }, 500);
 
-    // this.hideDetailBar(true);
+    this.hideDetailBar(true);
   }
 
   /**
@@ -691,42 +689,42 @@ $shadow: 0 0 6px $shadowColor;
 
     // topLeft
     .handle-tl {
-      @include topAndLeft(-2px, -2px);
+      @include topAndLeft(3px, 3px);
     }
 
     // topMiddle
     .handle-tm {
-      @include topAndLeft(-3px, -5px);
+      @include topAndLeft(2px, -5px);
     }
 
     // topRight
     .handle-tr {
-      @include topAndLeft(-2px, -8px);
+      @include topAndLeft(3px, -6px);
     }
 
     // middleLeft
     .handle-ml {
-      @include topAndLeft(-5px, -3px);
+      @include topAndLeft(-5px, 2px);
     }
 
     // middleRight
     .handle-mr {
-      @include topAndLeft(-5px, -7px);
+      @include topAndLeft(-5px, -5px);
     }
 
     // bottomLeft
     .handle-bl {
-      @include topAndLeft(-8px, -2px);
+      @include topAndLeft(-6px, 3px);
     }
 
     // bottomMiddle
     .handle-bm {
-      @include topAndLeft(-7px, -5px);
+      @include topAndLeft(-5px, -5px);
     }
 
     // bottomRight
     .handle-br {
-      @include topAndLeft(-8px, -8px);
+      @include topAndLeft(-6px, -6px);
     }
   }
 }
