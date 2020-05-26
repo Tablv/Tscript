@@ -7,7 +7,7 @@ import ObjectUtil from "@/util/ObjectUtil";
 import AnalysisDTO from "@/model/params/AnalysisDTO";
 import DashboardSet from "@/model/view/DashboardSet";
 import Dashboard from "@/model/view/dashboard/Dashboard";
-import { BackgroundType } from '@/enums/DashboardSet';
+import { BackgroundType } from "@/enums/DashboardSet";
 
 const API = {
   /**
@@ -337,7 +337,8 @@ export const AxiosReq = {
           tempParams: {
             ratio: 80, // 1 : 80px
             zoom: 1
-          }},
+          }
+        },
         dashboards: mockList
       });
       // AxiosUtil.get(`${API.findDashboardSet}/${setId}`)

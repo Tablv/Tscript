@@ -12,7 +12,7 @@ import EventsConfig from "@/model/view/dashboard/EventsConfig";
 import ChartUIService from "@/service/interfaces/ChartUIService";
 
 import ChartHandler from "./handleChart";
-import { AxiosReq } from '@/api/mock';
+import { AxiosReq } from "@/api/mock";
 
 /**
  * ECharts 业务层
@@ -137,14 +137,12 @@ export function fetchAnalysisData(
   reactWhere: ReactWhere
 ): Promise<AnalysisResults> {
   // 分析参数
-  debugger
   let analysisDTO = DashboardUtil.getAnalysisDTO(thisDashboard);
 
   // 判断数据集是否一致
   if (thisDashboard.analysis.datasetId === reactWhere.datasetId) {
     DashboardUtil.pushReactWhere(analysisDTO.where, reactWhere);
   }
-  debugger
   return AxiosRequest.analysis.fetch(analysisDTO);
   // return AxiosReq.analysis.fetch(analysisDTO);
 }

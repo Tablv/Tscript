@@ -13,7 +13,7 @@ import "@/dependencies/element-ui.js";
 import "@/dependencies/vue-clipboard";
 
 // BI 依赖
-import "@/dependencies/glaway-bi"
+import "@/dependencies/glaway-bi";
 
 // Svg Icons
 import "@/assets/font/svg_icon.css";

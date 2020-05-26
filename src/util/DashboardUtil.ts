@@ -80,7 +80,6 @@ export default class DashboardUtil {
    * @param currentDashboard 当前仪表盘
    */
   public static getAnalysisDTO(currentDashboard: Dashboard): AnalysisDTO {
-    debugger
     // let fromDTO = currentDashboard.analysis.fromTable
     //     ? {
     //         schema: currentDashboard.analysis.fromTable.schema,
@@ -88,7 +87,7 @@ export default class DashboardUtil {
     //         alias: currentDashboard.analysis.fromTable.alias
     //       }
     //     : null,
-    let viewNameList = currentDashboard.analysis.viewName.split(".");
+    let viewNameList = currentDashboard.analysis.viewName?.split(".") || [];
     let fromDTO = {
         schema: viewNameList[0] + "." + viewNameList[1],
         tableName: viewNameList[2],
