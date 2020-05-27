@@ -91,7 +91,7 @@ const actions: ActionTree<any, any> = {
         // 赋值
         state.tables = tables;
         if (cube) {
-          currentDashboard.analysis.viewName = cube.viewname;
+          currentDashboard.analysis.viewName = cube?.viewname || null;
         }
         return Promise.resolve();
       })

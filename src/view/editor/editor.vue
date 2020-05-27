@@ -93,26 +93,26 @@ export default class Editor extends Vue {
     // 加载数据
     const { dashboardSetId, debuggerMode } = RequestUtil.getRequestParams();
 
-    if (debuggerMode === "true") {
-      // 不加载数据
-      return;
-    }
+    // if (debuggerMode === "true") {
+    //   // 不加载数据
+    //   return;
+    // }
 
-    if (ObjectUtil.isEmptyString(dashboardSetId)) {
-      UIUtil.showLoading({
-        text: "仪表盘参数错误",
-        spinner: "el-icon-error"
-      });
-      UIUtil.showMessage(
-        "仪表盘参数错误，系统无法正常加载数据",
-        MessageType.error,
-        false,
-        0
-      );
-      return;
-    }
+    // if (ObjectUtil.isEmptyString(dashboardSetId)) {
+    //   UIUtil.showLoading({
+    //     text: "仪表盘参数错误",
+    //     spinner: "el-icon-error"
+    //   });
+    //   UIUtil.showMessage(
+    //     "仪表盘参数错误，系统无法正常加载数据",
+    //     MessageType.error,
+    //     false,
+    //     0
+    //   );
+    //   return;
+    // }
 
-    // 加载数据
+    // // 加载数据
     this.loadData(dashboardSetId);
   }
 
