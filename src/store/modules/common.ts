@@ -191,11 +191,8 @@ const actions: ActionTree<any, any> = {
 
         const result = dashboards.map(dashboard => {
           const type = (dashboard as any).visualData.type;
-          return Object.assign(
-            {},
-            DefaultTemplate.getDefaultConfig(type),
-            dashboard
-          );
+          const ooo = ObjectUtil.copy(DefaultTemplate.getDefaultConfig(type));
+          return ObjectUtil.merge(ooo, dashboard);
         });
 
         // 设置仪表盘

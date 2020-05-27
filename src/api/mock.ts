@@ -290,7 +290,22 @@ export const AxiosRequest = {
   analysis: {
     // 获取分析结果
     fetch: (analysisDTO: AnalysisDTO) => {
-      return Promise.resolve(Object.assign([], mockData));
+      const fields = analysisDTO.fields;
+      if (fields.length > 1) {
+        return Promise.resolve(
+          Object.assign(
+            [],
+            mockData.map(item => {
+              let obj: any = {};
+              obj[fields[0].alias] = item.BIANZHI;
+              obj[fields[1].alias] = item.ID;
+              return obj;
+            })
+          )
+        );
+      } else {
+        return Promise.resolve([]);
+      }
       // return AxiosUtil.post(
       //   API.analysis.build,
       //   JSON.stringify(analysisDTO),
