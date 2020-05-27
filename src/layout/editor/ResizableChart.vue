@@ -328,7 +328,6 @@ export default class ResizableElement extends Vue {
       this.setSavingAnalysis(false);
       return;
     }
-    debugger
 
     // 非当前仪表盘 || 正在打开菜单 || 不存在字段
     if (!this.isCurrent || this.menuLoading || this.noField) {

@@ -293,30 +293,16 @@ export const AxiosRequest = {
       const fields = analysisDTO.fields;
       if (fields.length > 1) {
         return Promise.resolve(
-          Object.assign(
-            [],
-            mockData.map(item => {
-              let obj: any = {};
-              obj[fields[0].alias] = item.BIANZHI;
-              obj[fields[1].alias] = item.ID;
-              return obj;
-            })
-          )
+          mockData.map(item => {
+            let obj: any = {};
+            obj[fields[0].alias] = item.BIANZHI;
+            obj[fields[1].alias] = item.ID;
+            return obj;
+          })
         );
       } else {
         return Promise.resolve([]);
       }
-      // return AxiosUtil.post(
-      //   API.analysis.build,
-      //   JSON.stringify(analysisDTO),
-      //   true
-      // )
-      //   .then(res =>
-      //     res.success && res.result !== null
-      //       ? Promise.resolve(res.result)
-      //       : Promise.reject("分析API返回值异常")
-      //   )
-      //   .catch(err => Promise.reject(err));
     },
 
     // 获取 SQL 查询结果
