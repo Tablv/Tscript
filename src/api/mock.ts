@@ -232,7 +232,7 @@ let mockData = [
   }
 ];
 
-export const AxiosReq = {
+export const AxiosRequest = {
   /**
    * 数据集
    */
@@ -290,7 +290,7 @@ export const AxiosReq = {
   analysis: {
     // 获取分析结果
     fetch: (analysisDTO: AnalysisDTO) => {
-      return Promise.resolve(mockData);
+      return Promise.resolve(Object.assign([], mockData));
       // return AxiosUtil.post(
       //   API.analysis.build,
       //   JSON.stringify(analysisDTO),
@@ -339,7 +339,7 @@ export const AxiosReq = {
             zoom: 1
           }
         },
-        dashboards: mockList
+        dashboards: Object.assign([], mockList)
       });
       // AxiosUtil.get(`${API.findDashboardSet}/${setId}`)
       //   .then(res => {

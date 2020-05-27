@@ -6,13 +6,13 @@ import EChartsOption from "@/model/view/dashboard/EChartsOption";
 import Dashboard from "@/model/view/dashboard/Dashboard";
 import { FieldType } from "@/enums/FieldType";
 import AnalysisData from "@/model/view/dashboard/AnalysisData";
-import { AxiosRequest } from "@/api/AxiosRequest";
+// import { AxiosRequest } from "@/api/AxiosRequest";
 import EChartsUtil from "@/util/EChartsUtil";
 import EventsConfig from "@/model/view/dashboard/EventsConfig";
 import ChartUIService from "@/service/interfaces/ChartUIService";
 
 import ChartHandler from "./handleChart";
-import { AxiosReq } from "@/api/mock";
+import { AxiosRequest } from "@/api/mock";
 
 /**
  * ECharts 业务层

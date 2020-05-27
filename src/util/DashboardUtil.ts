@@ -1,6 +1,6 @@
 import { AxiosRequest } from "@/api/AxiosRequest";
 import { Properties } from "csstype";
-import JoinRelation from "@/model/params/JoinRelation";
+import JoinRelation, { TableRelation } from "@/model/params/JoinRelation";
 import TableVO from "@/model/results/TableVO";
 import DashboardSet from "@/model/view/DashboardSet";
 import { ChartType } from "@/enums/ChartType";
@@ -87,20 +87,28 @@ export default class DashboardUtil {
     //         alias: currentDashboard.analysis.fromTable.alias
     //       }
     //     : null,
-    let viewNameList = currentDashboard.analysis.viewName?.split(".") || [];
-    let fromDTO = {
+    let viewNameList: string[] = [],
+      fromDTO: TableRelation = {
+        schema: "",
+        tableName: "",
+        alias: ""
+      };
+    if (currentDashboard.analysis.viewName) {
+      viewNameList = currentDashboard.analysis.viewName.split(".");
+      fromDTO = {
         schema: viewNameList[0] + "." + viewNameList[1],
         tableName: viewNameList[2],
         alias: viewNameList[2]
-      },
-      analysisDTO: AnalysisDTO = {
-        dashboardId: currentDashboard.id,
-        from: fromDTO,
-        join: currentDashboard.analysis.joinRelation,
-        fields: [],
-        where: currentDashboard.analysis.where,
-        order: []
       };
+    }
+    let analysisDTO: AnalysisDTO = {
+      dashboardId: currentDashboard.id,
+      from: fromDTO,
+      join: currentDashboard.analysis.joinRelation,
+      fields: [],
+      where: currentDashboard.analysis.where,
+      order: []
+    };
 
     // 拷贝分析DTO
     analysisDTO = ObjectUtil.copy(analysisDTO);
@@ -109,14 +117,14 @@ export default class DashboardUtil {
     DashboardUtil.pushFieldDTO(
       analysisDTO.fields,
       currentDashboard.analysis.dimensions.map(item => {
-        item.tableAlias = viewNameList[2];
+        item.tableAlias = viewNameList[2] || "";
         return item;
       })
     );
     DashboardUtil.pushFieldDTO(
       analysisDTO.fields,
       currentDashboard.analysis.measures.map(item => {
-        item.tableAlias = viewNameList[2];
+        item.tableAlias = viewNameList[2] || "";
         return item;
       })
     );

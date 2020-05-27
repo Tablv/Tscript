@@ -6,8 +6,8 @@ import DefaultTemplates from "@/config/DefaultTemplate";
 import ReactWhere from "@/model/view/ReactWhere";
 import DefaultTemplate, { defaultDashboardSet } from "@/config/DefaultTemplate";
 import DashboardSet from "@/model/view/DashboardSet";
-import { AxiosRequest } from "@/api/AxiosRequest";
-import { AxiosReq } from "@/api/mock";
+// import { AxiosRequest } from "@/api/AxiosRequest";
+import { AxiosRequest } from "@/api/mock";
 import { ChartType } from "@/enums/ChartType";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
@@ -61,7 +61,6 @@ const mutations: MutationTree<any> = {
       UIUtil.showErrorMessage("创建初始化数据出错");
       throw "创建初始化数据出错";
     }
-
     // 添加仪表盘
     state.dashboards.push(initData);
   },
@@ -180,8 +179,7 @@ const actions: ActionTree<any, any> = {
    * 加载仪表盘配置
    */
   loadDashboardSet({ state, commit }): Promise<void> {
-    // AxiosRequest.dashboardSet
-    return AxiosReq.dashboardSet
+    return AxiosRequest.dashboardSet
       .find(state.dashboardSetId)
       .then(res => {
         const { container, dashboards } = res;
@@ -191,9 +189,17 @@ const actions: ActionTree<any, any> = {
         // 设置仪表盘集
         commit("setDashboardSet", container);
 
+        const result = dashboards.map(dashboard => {
+          const type = (dashboard as any).visualData.type;
+          return Object.assign(
+            {},
+            DefaultTemplate.getDefaultConfig(type),
+            dashboard
+          );
+        });
+
         // 设置仪表盘
-        commit("setDashboards", dashboards);
-        // console.error(res);
+        commit("setDashboards", result);
         return Promise.resolve();
       })
       .catch(err => Promise.reject(err));

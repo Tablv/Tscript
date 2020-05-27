@@ -33,7 +33,7 @@
         <chart-component
           v-show="showChart"
           ref="chartComponent"
-          :dashboard="thisDashboard"
+          :dashboard.sync="thisDashboard"
           :anslysisdata="resultTmp"
           :key="index"
         />
@@ -52,7 +52,6 @@ import vdr from "vue-draggable-resizable-gorkys";
 import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { ChartType } from "@/enums/ChartType";
-// import ReactWhere from "@/model/view/ReactWhere";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import ChartToolbar from "@/layout/common/chart-toolbar/CommonToolbar.vue";
@@ -70,8 +69,8 @@ import EChartsService, {
 } from "glaway-bi-component/src/service/EChartsService";
 import FieldDTO from "../../model/params/FieldDTO";
 import EChartsUtil from "../../util/EChartsUtil";
-import { AxiosRequest } from "../../api/AxiosRequest";
-import { AxiosReq } from "../../api/mock";
+// import { AxiosRequest } from "../../api/AxiosRequest";
+import { AxiosRequest } from "../../api/mock";
 import DashboardUtil from "../../util/DashboardUtil";
 
 @Component({
@@ -116,6 +115,8 @@ export default class ResizableElement extends Vue {
 
   resultTmp: AnalysisResults = [];
 
+  defaultConfig: any;
+
   /**
    * 仪表盘部分
    */
@@ -150,7 +151,7 @@ export default class ResizableElement extends Vue {
   }
 
   set thisDashboard(dashboard: Dashboard) {
-    this.item = dashboard;
+    this.$emit("update:item", dashboard);
   }
 
   get thisChartType(): ChartType {
@@ -479,14 +480,14 @@ export default class ResizableElement extends Vue {
     reactWhere: ReactWhere
   ): Promise<AnalysisResults> {
     // 分析参数
-    let analysisDTO = DashboardUtil.getAnalysisDTO(thisDashboard);
+    let analysisDTO = DashboardUtil.getAnalysisDTO(thisDashboard as any);
 
     // 判断数据集是否一致
     if (thisDashboard.analysis.datasetId === reactWhere.datasetId) {
       DashboardUtil.pushReactWhere(analysisDTO.where, reactWhere);
     }
-    // return AxiosRequest.analysis.fetch(analysisDTO);
-    return AxiosReq.analysis.fetch(analysisDTO);
+    return AxiosRequest.analysis.fetch(analysisDTO);
+    // return AxiosReq.analysis.fetch(analysisDTO);
   }
 
   /**
