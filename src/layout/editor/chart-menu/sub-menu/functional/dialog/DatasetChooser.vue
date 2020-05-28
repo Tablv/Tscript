@@ -190,5 +190,13 @@ export default class DatasetChooser extends Vue {
 <style lang="scss" scoped>
 .dataset-tree-box {
   padding: 10px;
+  .el-loading-mask {
+    .el-loading-spinner {
+      .circular {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
 }
 </style>

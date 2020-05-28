@@ -240,7 +240,7 @@ export default class ResizableElement extends Vue {
     if (!this.chartComponent) return;
 
     // 初始化
-    this.chartComponent.initChart();
+    this.chartComponent?.initChart();
 
     // 绑定事件
     this.chartComponent.bindChartEvents(false, this.thisEvents);
@@ -338,8 +338,8 @@ export default class ResizableElement extends Vue {
     immediate: false
   })
   onResultTmpChange(): void {
-    this.chartComponent.resizeChart();
-    this.chartComponent.renderChart(this.resultTmp);
+    this.chartComponent?.resizeChart();
+    this.chartComponent?.renderChart(this.resultTmp);
   }
 
   @Watch("thisEchartsOption", {
@@ -379,7 +379,7 @@ export default class ResizableElement extends Vue {
 
   onDrageding(x: number, y: number) {
     this.setPosition(x, y);
-    this.chartComponent.resizeChart();
+    this.chartComponent?.resizeChart();
   }
 
   /**
@@ -456,7 +456,7 @@ export default class ResizableElement extends Vue {
         // this.chartComponent.initChart();
 
         // 调整尺寸
-        this.chartComponent.resizeChart();
+        this.chartComponent?.resizeChart();
 
         // 绘制图表
         //     this.chartComponent.renderChart();

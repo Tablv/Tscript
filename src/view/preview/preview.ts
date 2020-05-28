@@ -8,6 +8,8 @@ import "animate.css";
 // Element-UI
 import "@/dependencies/element-ui.js";
 
+import "@/dependencies/glaway-bi.ts";
+
 import AxiosUtil from "@/util/AxiosUtil";
 
 // 设置API上下文
