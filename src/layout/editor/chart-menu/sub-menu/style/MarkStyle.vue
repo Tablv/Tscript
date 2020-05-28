@@ -95,9 +95,9 @@
 import { Component, Prop, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import { ChartOption } from "@/model/view/dashboard/ChartOption";
-import { EChartsSampleStyle } from "@/model/view/dashboard/EChartsOption";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import { ChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
+import { EChartsSampleStyle } from "glaway-bi-model/view/dashboard/EChartsOption";
 
 @Component
 export default class MarkStyle extends Vue {

@@ -11,7 +11,7 @@ import UIUtil, { MessageType } from "@/util/UIUtil";
 import ObjectUtil from "@/util/ObjectUtil";
 import { CommonStore } from "@/store/modules-model";
 import RequestUtil from "@/util/RequestUtil";
-import DashboardSet from "@/model/view/DashboardSet";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import DashboardUtil from "@/util/DashboardUtil";
 import { Properties } from "csstype";
 

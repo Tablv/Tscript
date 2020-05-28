@@ -46,17 +46,17 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { ChartType } from "@/enums/ChartType";
-import { DatasetType } from "@/enums/DatasetType";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import { ChartType } from "glaway-bi-model/enums/ChartType";
+import { DatasetType } from "glaway-bi-model/enums/DatasetType";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import { chartCreateOptions } from "@/config/EditorOptions";
 import { EditorStore, CommonStore } from "@/store/modules-model";
-import DashboardSet from "@/model/view/DashboardSet";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import { AxiosRequest } from "@/api/AxiosRequest";
-import { SortType } from "@/enums/SortType";
-import { generalDataTemplate } from "@/config/DefaultTemplate";
+import { SortType } from "glaway-bi-model/enums/SortType";
+import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
 
 @Component({
   components: {}

@@ -4,10 +4,10 @@
 import AxiosUtil from "@/util/AxiosUtil";
 import ObjectUtil from "@/util/ObjectUtil";
 
-import AnalysisDTO from "@/model/params/AnalysisDTO";
-import DashboardSet from "@/model/view/DashboardSet";
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import { BackgroundType } from "@/enums/DashboardSet";
+import AnalysisDTO from "glaway-bi-model/params/AnalysisDTO";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import { BackgroundType } from "glaway-bi-model/enums/DashboardSet";
 
 const API = {
   /**

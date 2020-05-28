@@ -46,12 +46,12 @@
 import { Component, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import AxisWidget from "../widget/AxisWidget.vue";
 import "@/assets/draggable.scss";
 import MenuOptions from "@/config/MenuOptions";
-import FieldDTO from "@/model/params/FieldDTO";
-import { FieldType } from "@/enums/FieldType";
+import FieldDTO from "glaway-bi-model/params/FieldDTO";
+import { FieldType } from "glaway-bi-model/enums/FieldType";
 
 @Component({
   components: {

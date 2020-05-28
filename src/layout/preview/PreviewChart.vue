@@ -1,26 +1,27 @@
 <template>
   <div class="preview-element" :style="sizeStyle">
-    <chart-component :item="item" :index="index" ref="chartComponent" />
+    <bi-component
+      :dashboard="item"
+      :anslysisdata="resultTmp"
+      :index="index"
+      ref="chartComponent"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue } from "vue-property-decorator";
 import { CommonStore } from "@/store/modules-model";
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import ReactWhere from "@/model/view/ReactWhere";
-import DashboardSet from "@/model/view/DashboardSet";
-import { reactUpdate } from "@/service/EChartsService";
-import ChartUIService from "@/service/interfaces/ChartUIService";
-import ChartComponent from "@/layout/common/EChartsComponent.vue";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import ReactWhere from "glaway-bi-model/view/ReactWhere";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
+import { reactUpdate } from "glaway-bi-component/src/service/EChartsService";
+import ChartUIService from "glaway-bi-component/src/interfaces/ChartUIService";
 import ViewUtil from "@/util/ViewUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
+import ComponentUtil from "../../util/ComponentUtil";
 
-@Component({
-  components: {
-    ChartComponent
-  }
-})
+@Component
 export default class PreviewChart extends Vue {
   /**
    * 仪表盘数组
@@ -47,6 +48,8 @@ export default class PreviewChart extends Vue {
   // 尺寸样式类
   sizeStyle: SizeStyle | any = {};
 
+  resultTmp: any = {};
+
   /**
    * Getter
    */
@@ -60,6 +63,10 @@ export default class PreviewChart extends Vue {
 
   get thisStatic() {
     return this.thisDashboard.staticData;
+  }
+
+  get isSqlEnable(): boolean {
+    return this.thisStatic.sql.enable;
   }
 
   get thisEvents() {
@@ -94,6 +101,11 @@ export default class PreviewChart extends Vue {
     reactUpdate(this.thisDashboard, this.reactWhere, this.fetchToShow);
   }
 
+  @Watch("resultTmp", { deep: true })
+  onResultTmpChange(): void {
+    this.chartComponent.renderChart(this.resultTmp);
+  }
+
   /**
    * 设置图表显示比例
    */
@@ -118,13 +130,20 @@ export default class PreviewChart extends Vue {
   }
 
   fetchToShow(): void {
-    this.chartComponent.fetchData().then(data => {
-      if (this.thisStatic.sql.enable) {
+    // this.chartComponent.fetchData()
+    ComponentUtil.fetchData(
+      this.isSqlEnable,
+      this.thisDashboard,
+      this.reactWhere,
+      this.chartComponent
+    ).then(data => {
+      if (this.isSqlEnable) {
         UIUtil.showMessage("暂不支持 SQL 查询", MessageType.warning);
         return;
       }
-      this.thisAnalysis.resultTmp = data;
-      this.chartComponent.renderChart();
+      this.resultTmp = data;
+      // this.chartComponent.initChart();
+      // this.chartComponent.renderChart();
       this.chartComponent.bindChartEvents(true, this.thisEvents);
     });
   }

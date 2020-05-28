@@ -1,21 +1,24 @@
 import { AxiosRequest } from "@/api/AxiosRequest";
 import { Properties } from "csstype";
-import JoinRelation, { TableRelation } from "@/model/params/JoinRelation";
-import TableVO from "@/model/results/TableVO";
-import DashboardSet from "@/model/view/DashboardSet";
-import { ChartType } from "@/enums/ChartType";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import JoinRelation, {
+  TableRelation
+} from "glaway-bi-model/params/JoinRelation";
+import TableVO from "glaway-bi-model/results/TableVO";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
+import { ChartType } from "glaway-bi-model/enums/ChartType";
+// import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import UUID from "./UUID";
-import DefaultTemplate from "@/config/DefaultTemplate";
-import TableInfoVO from "@/model/results/TableInfoVO";
-import AnalysisDTO from "@/model/params/AnalysisDTO";
-import FieldDTO, { FieldDTOBuilder } from "@/model/params/FieldDTO";
-import WhereDTO from "@/model/params/WhereDTO";
-import ReactWhere from "@/model/view/ReactWhere";
+import DefaultTemplate from "glaway-bi-component/src/config/DefaultTemplate";
+import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
+import AnalysisDTO from "glaway-bi-model/params/AnalysisDTO";
+import FieldDTO, { FieldDTOBuilder } from "glaway-bi-model/params/FieldDTO";
+import WhereDTO from "glaway-bi-model/params/WhereDTO";
+import ReactWhere from "glaway-bi-model/view/ReactWhere";
 import ObjectUtil from "./ObjectUtil";
-import { BackgroundType } from "@/enums/DashboardSet";
-import OrderDTO from "@/model/params/OrderDTO";
-import { AnalysisResult } from "@/model/types/AnalysisResults";
+import { BackgroundType } from "glaway-bi-model/enums/DashboardSet";
+import OrderDTO from "glaway-bi-model/params/OrderDTO";
+import { AnalysisResult } from "glaway-bi-model/types/AnalysisResults";
 
 export default class DashboardUtil {
   /**

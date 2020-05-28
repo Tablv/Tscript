@@ -61,12 +61,12 @@ import AdvanceMenu from "./sub-menu/AdvanceMenu.vue";
 import ModelMenu from "./sub-menu/ModelMenu.vue";
 
 import UIUtil, { MessageType, ConfirmType } from "@/util/UIUtil";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import DashboardUtil from "@/util/DashboardUtil";
-import FieldDTO from "@/model/params/FieldDTO";
+import FieldDTO from "glaway-bi-model/params/FieldDTO";
 import UUID from "@/util/UUID";
-import WhereDTO, { WhereColumnDTO } from "@/model/params/WhereDTO";
+import WhereDTO, { WhereColumnDTO } from "glaway-bi-model/params/WhereDTO";
 
 @Component({
   components: {

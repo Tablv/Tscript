@@ -1,8 +1,8 @@
-import { AnalysisResults } from "@/model/types/AnalysisResults";
+import { AnalysisResults } from "glaway-bi-model/types/AnalysisResults";
 import {
   BarChartOption,
   PieChartOption
-} from "@/model/view/dashboard/ChartOption";
+} from "glaway-bi-model/view/dashboard/chart/ChartOption";
 
 export default class EChartServiceUtil {
   /**

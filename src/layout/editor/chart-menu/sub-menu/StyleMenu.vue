@@ -24,7 +24,7 @@
 <script lang="ts">
 import { Component, Vue, Model, Provide } from "vue-property-decorator";
 import { CommonStore } from "@/store/modules-model";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import SpecificStyle from "./style/SpecificStyle.vue";
 import TitleStyle from "./style/TitleStyle.vue";
 import GridStyle from "./style/GridStyle.vue";

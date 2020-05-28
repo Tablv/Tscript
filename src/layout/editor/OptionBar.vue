@@ -149,16 +149,16 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { ChartType } from "@/enums/ChartType";
-import { DatasetType } from "@/enums/DatasetType";
+import { ChartType } from "glaway-bi-model/enums/ChartType";
+import { DatasetType } from "glaway-bi-model/enums/DatasetType";
 import { EditorStore, CommonStore } from "@/store/modules-model";
-import DashboardSet from "@/model/view/DashboardSet";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import {
   chartCreateOptions,
   dashboardSetOptions
 } from "@/config/EditorOptions";
-import { ShareType } from "@/enums/ShareType";
-import ShareVO from "@/model/results/ShareVO";
+import { ShareType } from "glaway-bi-model/enums/ShareType";
+import ShareVO from "glaway-bi-model/results/ShareVO";
 import UIUtil from "@/util/UIUtil";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import {

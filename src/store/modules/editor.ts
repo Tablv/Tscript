@@ -1,14 +1,14 @@
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import TableVO from "@/model/results/TableVO";
-import TableInfoVO from "@/model/results/TableInfoVO";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import TableVO from "glaway-bi-model/results/TableVO";
+import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import { Module, GetterTree, MutationTree, ActionTree } from "vuex";
-import { ShortcutType } from "@/enums/ShortcutType";
-import { ChartType } from "@/enums/ChartType";
+import { ShortcutType } from "glaway-bi-model/enums/ShortcutType";
+import { ChartType } from "glaway-bi-model/enums/ChartType";
 import UIUtil from "@/util/UIUtil";
 import MenuOptions from "@/config/MenuOptions";
 import ObjectUtil from "@/util/ObjectUtil";
 import { AxiosRequest } from "@/api/AxiosRequest";
-import { customDataTemplates } from "@/config/DefaultTemplate";
+import { customDataTemplates } from "glaway-bi-component/src/config/DefaultTemplate";
 
 const state = {
   /**

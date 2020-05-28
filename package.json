@@ -19,6 +19,7 @@
     "element-ui": "^2.13.2",
     "font-awesome": "^4.7.0",
     "glaway-bi-component": "0.0.5",
+    "glaway-bi-model": "0.0.5",
     "lodash": "^4.17.15",
     "qs": "^6.9.0",
     "vue": "2.6.10",
@@ -32,7 +33,7 @@
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "7.10.0",
     "@types/echarts": "^4.4.4",
     "@types/lodash": "^4.14.152",
     "@types/qs": "^6.9.3",
@@ -47,7 +48,6 @@
     "eslint": "^5.16.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^5.0.0",
-    "glaway-bi-model": "0.0.5",
     "increase-memory-limit": "^1.0.7",
     "node-sass": "^4.13.0",
     "prettier": "^1.19.1",

@@ -21,10 +21,10 @@
 import { Component, Watch, Vue } from "vue-property-decorator";
 
 import ResizableChart from "@/layout/editor/ResizableChart.vue";
-import { ShortcutType } from "@/enums/ShortcutType";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import { ShortcutType } from "glaway-bi-model/enums/ShortcutType";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore, EditorStore } from "@/store/modules-model";
-import DashboardSet from "@/model/view/DashboardSet";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import DashboardUtil from "@/util/DashboardUtil";
 
 @Component({

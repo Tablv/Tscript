@@ -50,12 +50,12 @@
 import draggable from "vuedraggable";
 import { Component, Vue, Inject, Watch } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import FloatingMenu from "@/components/FloatingMenu.vue";
-import TableVO from "@/model/results/TableVO";
-import FieldDTO, { FieldDTOBuilder } from "@/model/params/FieldDTO";
+import TableVO from "glaway-bi-model/results/TableVO";
+import FieldDTO, { FieldDTOBuilder } from "glaway-bi-model/params/FieldDTO";
 import DashboardUtil from "@/util/DashboardUtil";
-import TableInfoVO from "@/model/results/TableInfoVO";
+import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import DatasetChooser from "./functional/dialog/DatasetChooser.vue";
 
 @Component({

@@ -78,8 +78,8 @@
 <script lang="ts">
 import { Component, Vue, Model, Prop, Emit } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import WhereDTO, { WhereColumnDTO } from "@/model/params/WhereDTO";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import WhereDTO, { WhereColumnDTO } from "glaway-bi-model/params/WhereDTO";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import UUID from "@/util/UUID";
 

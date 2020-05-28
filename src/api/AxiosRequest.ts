@@ -4,16 +4,16 @@
 import AxiosUtil from "@/util/AxiosUtil";
 import ObjectUtil from "@/util/ObjectUtil";
 
-import AnalysisDTO from "@/model/params/AnalysisDTO";
-import DashboardSet from "@/model/view/DashboardSet";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import AnalysisDTO from "glaway-bi-model/params/AnalysisDTO";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 
-import { ShareType } from "@/enums/ShareType";
-import ShareVO from "@/model/results/ShareVO";
+import { ShareType } from "glaway-bi-model/enums/ShareType";
+import ShareVO from "glaway-bi-model/results/ShareVO";
 
-import { FilterDatapack } from "@/model/view/Filter";
-import { SortDatapack } from "@/model/view/Sort";
-import { WarnDatapack } from "@/model/view/Warn";
+import { FilterDatapack } from "glaway-bi-model/view/Filter";
+import { SortDatapack } from "glaway-bi-model/view/Sort";
+import { WarnDatapack } from "glaway-bi-model/view/Warn";
 
 const API = {
   /**

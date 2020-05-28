@@ -1,7 +1,7 @@
 import ObjectUtil from "@/util/ObjectUtil";
-import { ChartType } from "@/enums/ChartType";
-import { ComparableSymbol } from "@/enums/ComparableSymbol";
-import ChartConfig from "./ChartConfig";
+import { ChartType } from "glaway-bi-model/enums/ChartType";
+import { ComparableSymbol } from "glaway-bi-model/enums/ComparableSymbol";
+import ChartConfig from "glaway-bi-component/src/config/ChartConfig";
 
 /**
  * 菜单通用可选配置
