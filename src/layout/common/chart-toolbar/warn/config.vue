@@ -110,16 +110,16 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from "vue-property-decorator";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 
 import {
   WarnDisplayTypeMapping,
   WarnSymbolTypeMapping
-} from "@/enums/WarnType";
+} from "glaway-bi-model/enums/WarnType";
 import ObjectUtil from "@/util/ObjectUtil";
-import FieldDTO from "@/model/params/FieldDTO";
-import { WarnDatapack, WarnConfig, WarnBuilder } from "@/model/view/Warn";
+import FieldDTO from "glaway-bi-model/params/FieldDTO";
+import { WarnDatapack, WarnConfig, WarnBuilder } from "glaway-bi-model/view/Warn";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 
 @Component

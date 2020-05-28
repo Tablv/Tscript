@@ -41,25 +41,25 @@ import DialogButton from "../toolkit/DialogButton.vue";
 import FilterSelectView from "./select.vue";
 import FilterConfigView from "./config.vue";
 
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import { generalDataTemplate } from "@/config/DefaultTemplate";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
 import {
   FILTER_DEFAULT_VALUE,
   FilterDatapack,
   FilterConfig,
   FilterBuilder
-} from "@/model/view/Filter";
-import { FilterType } from "@/enums/FilterType";
+} from "glaway-bi-model/view/Filter";
+import { FilterType } from "glaway-bi-model/enums/FilterType";
 import ObjectUtil from "@/util/ObjectUtil";
-import TableVO from "@/model/results/TableVO";
-import TableInfoVO from "@/model/results/TableInfoVO";
+import TableVO from "glaway-bi-model/results/TableVO";
+import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
-import WhereDTO from "@/model/params/WhereDTO";
+import WhereDTO from "glaway-bi-model/params/WhereDTO";
 import UUID from "@/util/UUID";
-import { WhereType } from "@/enums/WhereType";
-import AnalysisData from "@/model/view/dashboard/AnalysisData";
+import { WhereType } from "glaway-bi-model/enums/WhereType";
+import AnalysisData from "glaway-bi-model/view/dashboard/AnalysisData";
 
 /**
  * 定义 过滤器 标准类型的 Map

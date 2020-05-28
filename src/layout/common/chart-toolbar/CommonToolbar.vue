@@ -42,7 +42,7 @@
 <script lang="ts">
 import { Component, Vue, Model, Watch, Prop } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ToolButton from "@/components/ToolButton.vue";
 import DetailToolbar from "./DetailToolbar.vue";
 

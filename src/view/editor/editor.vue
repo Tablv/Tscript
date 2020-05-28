@@ -25,13 +25,13 @@ import ToolBar from "@/layout/editor/ToolBar.vue";
 import DraggableMenu from "@/layout/editor/chart-menu/ChartMenu.vue";
 import ResizableGrid from "@/layout/editor/ResizableGrid.vue";
 import OptionBar from "@/layout/editor/OptionBar.vue";
-import { ShortcutType } from "@/enums/ShortcutType";
+import { ShortcutType } from "glaway-bi-model/enums/ShortcutType";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import ObjectUtil from "@/util/ObjectUtil";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import RequestUtil from "@/util/RequestUtil";
-import Dashboard from "../../model/view/dashboard/Dashboard";
-import DashboardSet from "../../model/view/DashboardSet";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
 
 @Component({
   components: {

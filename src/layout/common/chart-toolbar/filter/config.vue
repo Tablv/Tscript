@@ -109,17 +109,17 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Inject } from "vue-property-decorator";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { EditorStore, CommonStore } from "@/store/modules-model";
-import { FilterType } from "@/enums/FilterType";
+import { FilterType } from "glaway-bi-model/enums/FilterType";
 import ObjectUtil from "@/util/ObjectUtil";
-import TableInfoVO from "@/model/results/TableInfoVO";
+import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import {
   FilterDatapack,
   FilterConfig,
   FilterBuilder
-} from "@/model/view/Filter";
-import { WhereType, WhereTypeMapping } from "@/enums/WhereType";
+} from "glaway-bi-model/view/Filter";
+import { WhereType, WhereTypeMapping } from "glaway-bi-model/enums/WhereType";
 import UIUtil from "@/util/UIUtil";
 import { StandardsMap } from "./main.vue";
 

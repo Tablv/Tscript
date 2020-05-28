@@ -181,22 +181,22 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from "vue-property-decorator";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 
 import draggable from "vuedraggable";
 import TabPane from "element-ui/types/tab-pane";
-import { SortType } from "@/enums/SortType";
+import { SortType } from "glaway-bi-model/enums/SortType";
 import ObjectUtil from "@/util/ObjectUtil";
-import TableInfoVO from "@/model/results/TableInfoVO";
+import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import {
   SortDatapack,
   SortConfig,
   ResultOrder,
   CustomField,
   SortBuilder
-} from "@/model/view/Sort";
-import { OrderType, OrderTypeMapping } from "@/enums/OrderType";
+} from "glaway-bi-model/view/Sort";
+import { OrderType, OrderTypeMapping } from "glaway-bi-model/enums/OrderType";
 import UIUtil from "@/util/UIUtil";
 import { SortTab } from "./main.vue";
 

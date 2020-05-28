@@ -46,13 +46,13 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore } from "@/store/modules-model";
 import ToolButton from "@/components/ToolButton.vue";
 import FilterDialog from "./filter/main.vue";
 import SortDialog from "./sort/main.vue";
 import WarnDialog from "./warn/main.vue";
-import { ChartType } from "@/enums/ChartType";
+import { ChartType } from "glaway-bi-model/enums/ChartType";
 import MenuOptions from "@/config/MenuOptions";
 
 /**

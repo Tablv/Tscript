@@ -30,7 +30,7 @@
           <div v-else class="no-chart-text">分析出错，请稍后重试</div>
           <div class="no-chart-img"></div>
         </div>
-        <bi-component
+        <chart-component
           v-show="showChart"
           ref="chartComponent"
           :dashboard.sync="thisDashboard"
@@ -44,40 +44,41 @@
 
 <script lang="ts">
 import { Component, Prop, Watch, Vue, Provide } from "vue-property-decorator";
-// import ChartComponent from "glaway-bi-component/src/components/ChartComponent";
+import ChartComponent from "glaway-bi-component/src/components/ChartComponent";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ChartUIService from "glaway-bi-component/src/interfaces/ChartUIService";
 // Vue-Draggable-Resizable
 import vdr from "vue-draggable-resizable-gorkys";
 import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 import { CommonStore, EditorStore } from "@/store/modules-model";
-import { ChartType } from "@/enums/ChartType";
+import { ChartType } from "glaway-bi-model/enums/ChartType";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import ChartToolbar from "@/layout/common/chart-toolbar/CommonToolbar.vue";
 import {
   AnalysisResults,
   AnalysisResult
-} from "../../model/types/AnalysisResults";
-import ReactWhere from "@/model/view/ReactWhere";
-import { SortType } from "@/enums/SortType";
+} from "glaway-bi-model/types/AnalysisResults";
+import ReactWhere from "glaway-bi-model/view/ReactWhere";
+import { SortType } from "glaway-bi-model/enums/SortType";
 import EChartsService, {
   reactUpdate,
   bindEvents,
   renderChart,
   renderChartByJSON
 } from "glaway-bi-component/src/service/EChartsService";
-import FieldDTO from "../../model/params/FieldDTO";
+import FieldDTO from "glaway-bi-model/params/FieldDTO";
 import EChartsUtil from "../../util/EChartsUtil";
 // import { AxiosRequest } from "../../api/AxiosRequest";
 import { AxiosRequest } from "../../api/mock";
 import DashboardUtil from "../../util/DashboardUtil";
+import ComponentUtil from "../../util/ComponentUtil";
 
 @Component({
   components: {
     vdr,
-    ChartToolbar
-    // ChartComponent
+    ChartToolbar,
+    ChartComponent
   }
 })
 export default class ResizableElement extends Vue {
@@ -239,15 +240,13 @@ export default class ResizableElement extends Vue {
 
   mounted() {
     if (!this.chartComponent) return;
+
     // 初始化
     this.chartComponent.initChart();
 
     // 绑定事件
     this.chartComponent.bindChartEvents(false, this.thisEvents);
 
-    // this.chartComponent.resizeChart();
-
-    // this.chartComponent.renderChart();
     // 获取数据
     if (this.needFetchData) {
       this.fetchToShow();
@@ -429,101 +428,17 @@ export default class ResizableElement extends Vue {
   }
 
   /**
-   * 自定义排序
-   */
-  doCustomOrder(
-    dataArray: AnalysisResults,
-    dashboard: Dashboard
-  ): AnalysisResults {
-    let sort = dashboard.analysis.sort;
-    if (sort.type !== SortType.customOrder) return dataArray;
-
-    // 复制数组
-    dataArray = ObjectUtil.copy(dataArray);
-    // 排序后的数组
-    let sortedData: AnalysisResults = [],
-      fieldAlias: Array<string> = dashboard.analysis.dimensions.flatMap(
-        (fieldDTO: FieldDTO) => fieldDTO.alias
-      );
-
-    /**
-     * 符合排序要求的存入 sortedData
-     * 其他存入 tempData 待遍历完成后一并存入 sortedData
-     */
-    sort.custom.map((fieldValue: string) => {
-      for (let i = 0; i < dataArray.length; i++) {
-        let data: AnalysisResult = dataArray[i];
-
-        fieldAlias.map((columnName: string) => {
-          if (
-            data.hasOwnProperty(columnName) &&
-            data[columnName] === fieldValue
-          ) {
-            sortedData.push(ObjectUtil.copy(data));
-            // 复制后 删除源数组对应的值
-            dataArray.splice(i--, 1);
-          }
-        });
-      }
-    });
-
-    // 排序的数组 与剩余值的数组合并 返回新数组
-    return sortedData.concat(dataArray);
-  }
-
-  /**
-   * 请求后端，分析维度度量数据
-   * 返回Promise 分析结果
-   */
-  fetchAnalysisData(
-    thisDashboard: Dashboard,
-    reactWhere: ReactWhere
-  ): Promise<AnalysisResults> {
-    // 分析参数
-    let analysisDTO = DashboardUtil.getAnalysisDTO(thisDashboard as any);
-
-    // 判断数据集是否一致
-    if (thisDashboard.analysis.datasetId === reactWhere.datasetId) {
-      DashboardUtil.pushReactWhere(analysisDTO.where, reactWhere);
-    }
-    return AxiosRequest.analysis.fetch(analysisDTO);
-    // return AxiosReq.analysis.fetch(analysisDTO);
-  }
-
-  /**
-   * 请求后端，查询 SQL
-   * 返回Promise 分析结果
-   */
-  fetchSqlData(sql: string): Promise<any> {
-    return AxiosRequest.analysis.fetchSQL(sql);
-  }
-
-  /**
-   * 获取数据
-   */
-  async fetchData(): Promise<AnalysisResults> {
-    // 判断是否为 SQL
-    let fetchPromise: Promise<AnalysisResults> = this.isSqlEnable
-      ? this.fetchSqlData(this.thisDashboard.staticData.sql.data)
-      : this.fetchAnalysisData(this.thisDashboard as any, this.reactWhere);
-    return fetchPromise
-      .then((data: AnalysisResults) => {
-        data = this.doCustomOrder(data, this.thisDashboard);
-        return Promise.resolve(data);
-      })
-      .catch(err => {
-        this.chartComponent.clearChart();
-        return Promise.reject(err);
-      });
-  }
-
-  /**
    * 获取数据，展示图表
    */
   fetchToShow(): void {
     this.isFetching = true;
     // 获取数据
-    this.fetchData()
+    ComponentUtil.fetchData(
+      this.isSqlEnable,
+      this.thisDashboard as any,
+      this.reactWhere,
+      this.chartComponent
+    )
       .then(data => {
         if (this.thisStatic.sql.enable) {
           UIUtil.showMessage("暂不支持 SQL 查询", MessageType.warning);
@@ -536,23 +451,16 @@ export default class ResizableElement extends Vue {
         // 防止无限循环监听，此时忽略监听Analysis属性
         this.setSavingAnalysis(true);
 
-        // (that.thisAnalysis as any).resultTmp = data;
         this.$set(this.thisAnalysis, "resultTmp", data);
         this.resultTmp = data;
-        // 分析成功
-        //     this.analysisSuccess = true;
 
-        //     // 防止无限循环监听，此时忽略监听Analysis属性
-        //     this.setSavingAnalysis(true);
-        //     this.thisAnalysis.resultTmp = data;
+        // 不存在时，初始化图表
+        // this.chartComponent.initChart();
 
-        //     // 不存在时，初始化图表
-        //     this.chartComponent.initChart();
-
-        //     // 调整尺寸
+        // 调整尺寸
         //     this.chartComponent.resizeChart();
 
-        //     // 绘制图表
+        // 绘制图表
         //     this.chartComponent.renderChart();
       })
       .catch(err => {

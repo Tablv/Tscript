@@ -58,11 +58,11 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from "vue-property-decorator";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore } from "@/store/modules-model";
 
 import ObjectUtil from "@/util/ObjectUtil";
-import { WarnDatapack, WARN_DEFAULT_VALUE } from "@/model/view/Warn";
+import { WarnDatapack, WARN_DEFAULT_VALUE } from "glaway-bi-model/view/Warn";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 

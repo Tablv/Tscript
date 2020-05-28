@@ -39,21 +39,24 @@ import DialogButton from "../toolkit/DialogButton.vue";
 import WarnSelectView from "./select.vue";
 import WarnConfigView from "./config.vue";
 
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import { generalDataTemplate } from "@/config/DefaultTemplate";
-import { WarnDisplayType, WarnSymbolType } from "@/enums/WarnType";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
+import {
+  WarnDisplayType,
+  WarnSymbolType
+} from "glaway-bi-model/enums/WarnType";
 import ObjectUtil from "@/util/ObjectUtil";
 import {
   WARN_DEFAULT_VALUE,
   WarnDatapack,
   WarnConfig,
   WarnBuilder
-} from "@/model/view/Warn";
+} from "glaway-bi-model/view/Warn";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import UUID from "@/util/UUID";
-import AnalysisData from "@/model/view/dashboard/AnalysisData";
+import AnalysisData from "glaway-bi-model/view/dashboard/AnalysisData";
 
 @Component({
   components: {

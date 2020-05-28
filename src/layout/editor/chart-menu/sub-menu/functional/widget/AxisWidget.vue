@@ -63,13 +63,13 @@
 <script lang="ts">
 import { Component, Vue, Model, Prop, Emit } from "vue-property-decorator";
 import { CommonStore } from "@/store/modules-model";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import draggable from "vuedraggable";
 import "@/assets/draggable.scss";
-import FieldDTO, { FieldDTOBuilder } from "@/model/params/FieldDTO";
+import FieldDTO, { FieldDTOBuilder } from "glaway-bi-model/params/FieldDTO";
 import ObjectUtil from "@/util/ObjectUtil";
-import TableInfoVO from "@/model/results/TableInfoVO";
-import { FieldType } from "@/enums/FieldType";
+import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
+import { FieldType } from "glaway-bi-model/enums/FieldType";
 
 /**
  * 维度、度量 下拉菜单类

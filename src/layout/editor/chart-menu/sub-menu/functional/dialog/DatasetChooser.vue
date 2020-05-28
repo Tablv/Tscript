@@ -25,11 +25,11 @@
 import { Component, Vue, Model } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { treeConfig } from "@/config/CommonOptions";
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import DatasetGroupVO from "@/model/results/DatasetGroupVO";
-import { DatasetType } from "@/enums/DatasetType";
-import TableVO from "@/model/results/TableVO";
-import TableInfoVO from "@/model/results/TableInfoVO";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import DatasetGroupVO from "glaway-bi-model/results/DatasetGroupVO";
+import { DatasetType } from "glaway-bi-model/enums/DatasetType";
+import TableVO from "glaway-bi-model/results/TableVO";
+import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import UIUtil, { MessageType, ConfirmType } from "@/util/UIUtil";
 import UUID from "@/util/UUID";
 import { AxiosRequest } from "@/api/AxiosRequest";

@@ -78,10 +78,10 @@ import { Properties } from "csstype";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import ObjectUtil from "@/util/ObjectUtil";
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import WhereDTO, { WhereColumnDTO } from "@/model/params/WhereDTO";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import WhereDTO, { WhereColumnDTO } from "glaway-bi-model/params/WhereDTO";
 import WhereDialog from "../dialog/WhereDialog.vue";
-import TableInfoVO from "@/model/results/TableInfoVO";
+import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 
 @Component({
   components: {

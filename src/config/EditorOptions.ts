@@ -1,4 +1,4 @@
-import ChartConfig from "./ChartConfig";
+import ChartConfig from "glaway-bi-component/src/config/ChartConfig";
 
 /**
  * 编辑器部分

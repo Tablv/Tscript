@@ -42,11 +42,11 @@ import DialogButton from "../toolkit/DialogButton.vue";
 import SortSelectView from "./select.vue";
 import SortConfigView from "./config.vue";
 
-import Dashboard from "@/model/view/dashboard/Dashboard";
-import { generalDataTemplate } from "@/config/DefaultTemplate";
-import { SortType } from "@/enums/SortType";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
+import { SortType } from "glaway-bi-model/enums/SortType";
 import ObjectUtil from "@/util/ObjectUtil";
-import TableInfoVO from "@/model/results/TableInfoVO";
+import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import {
   SORT_DEFAULT_VALUE,
   SortDatapack,
@@ -55,14 +55,14 @@ import {
   CustomOrder,
   SortBuilder,
   CustomField
-} from "@/model/view/Sort";
-import { OrderType } from "@/enums/OrderType";
+} from "glaway-bi-model/view/Sort";
+import { OrderType } from "glaway-bi-model/enums/OrderType";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import UUID from "@/util/UUID";
-import OrderDTO from "@/model/params/OrderDTO";
-import AnalysisData from "@/model/view/dashboard/AnalysisData";
+import OrderDTO from "glaway-bi-model/params/OrderDTO";
+import AnalysisData from "glaway-bi-model/view/dashboard/AnalysisData";
 
 /**
  * 排序 标签页

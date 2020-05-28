@@ -43,6 +43,13 @@ module.exports = {
       title: "图表分享验证"
     }
   },
+  configureWebpack: config => {
+    Object.assign(config, {
+      externals: {
+        vue: "Vue"
+      }
+    });
+  },
   devServer: {
     port: 3000,
     proxy: {

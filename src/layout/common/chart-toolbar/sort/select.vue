@@ -58,11 +58,11 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from "vue-property-decorator";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore } from "@/store/modules-model";
 
 import ObjectUtil from "@/util/ObjectUtil";
-import { SORT_DEFAULT_VALUE, SortDatapack } from "@/model/view/Sort";
+import { SORT_DEFAULT_VALUE, SortDatapack } from "glaway-bi-model/view/Sort";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 

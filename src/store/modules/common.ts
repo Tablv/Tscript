@@ -1,14 +1,15 @@
 import UUID from "@/util/UUID";
 import { Module, GetterTree, MutationTree, ActionTree } from "vuex";
-import Dashboard from "@/model/view/dashboard/Dashboard";
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
-import DefaultTemplates from "@/config/DefaultTemplate";
-import ReactWhere from "@/model/view/ReactWhere";
-import DefaultTemplate, { defaultDashboardSet } from "@/config/DefaultTemplate";
-import DashboardSet from "@/model/view/DashboardSet";
+import ReactWhere from "glaway-bi-model/view/ReactWhere";
+import DefaultTemplate, {
+  defaultDashboardSet
+} from "glaway-bi-component/src/config/DefaultTemplate";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
 // import { AxiosRequest } from "@/api/AxiosRequest";
 import { AxiosRequest } from "@/api/mock";
-import { ChartType } from "@/enums/ChartType";
+import { ChartType } from "glaway-bi-model/enums/ChartType";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
 
