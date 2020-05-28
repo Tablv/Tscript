@@ -36,6 +36,7 @@
           :dashboard.sync="thisDashboard"
           :anslysisdata="resultTmp"
           :key="index"
+          @error="doHandleError"
         />
       </div>
     </vdr>
@@ -470,6 +471,13 @@ export default class ResizableElement extends Vue {
       .finally(() => {
         this.isFetching = false;
       });
+  }
+
+  /**
+   * 处理biComponent错误信息
+   */
+  doHandleError(errMessge: { errorPart: string; error: Error }) {
+    UIUtil.showErrorMessage(errMessge.error.message);
   }
 }
 </script>
