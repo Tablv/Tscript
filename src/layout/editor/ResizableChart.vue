@@ -458,7 +458,7 @@ export default class ResizableElement extends Vue {
         // this.chartComponent.initChart();
 
         // 调整尺寸
-        //     this.chartComponent.resizeChart();
+        this.chartComponent.resizeChart();
 
         // 绘制图表
         //     this.chartComponent.renderChart();
