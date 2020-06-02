@@ -2,7 +2,7 @@ import {
   AnalysisResults,
   AnalysisResult
 } from "glaway-bi-model/types/AnalysisResults";
-import { AxiosRequest } from "@/api/mock";
+// import { AxiosRequest } from "@/api/mock";
 // import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ReactWhere from "glaway-bi-model/view/ReactWhere";
@@ -10,7 +10,7 @@ import DashboardUtil from "./DashboardUtil";
 import { SortType } from "glaway-bi-model/enums/SortType";
 import FieldDTO from "glaway-bi-model/params/FieldDTO";
 import ObjectUtil from "./ObjectUtil";
-// import { AxiosRequest } from "@/api/AxiosRequest";
+import { AxiosRequest } from "@/api/AxiosRequest";
 
 export default class ComponentUtil {
   /**

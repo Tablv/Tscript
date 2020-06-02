@@ -13,7 +13,7 @@
       :manual="true"
     >
       <button class="toolbtn" @click="showCreateChart = true">
-        <i class="fa fa-bar-chart"></i>
+        <i class="fa fa-chart-bar"></i>
       </button>
     </el-tooltip>
 
@@ -189,31 +189,26 @@ export default class ToolBar extends Vue {
 }
 
 .toolbar {
-  margin-top: 10px;
   .toolbtn {
     border: 0;
-    height: 40px;
-    width: 40px;
-    color: #ddd;
+    height: 84px;
+    width: 83px;
+    color: #666;
+    font-size: 22px;
+    background: #f1f3f6;
     cursor: pointer;
-    border-radius: 6px;
-    background-color: #555;
     @include select(none);
 
     &:hover {
-      background-color: #444;
+      background-color: #e6e9ec;
     }
 
     &:active {
-      background-color: #333;
+      background-color: #e6e9ec;
     }
 
     &:focus {
       outline: none;
-    }
-
-    & + .toolbtn {
-      margin-top: 10px;
     }
   }
 }

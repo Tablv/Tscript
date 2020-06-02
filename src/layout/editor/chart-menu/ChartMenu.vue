@@ -181,6 +181,7 @@ $modelMenuWidth: 42%;
 
 // 颜色定义
 $chartsMenuBgc: #e9e9e9;
+$backgroundColor: #f9f9f9;
 
 .chart-menu {
   position: absolute;
@@ -188,9 +189,9 @@ $chartsMenuBgc: #e9e9e9;
   right: 0;
   width: $menuTotalWidth;
   display: flex;
-  background-color: #fff;
+  background-color: $backgroundColor;
   overflow: hidden;
-  box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.3);
+  // box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.3);
 
   // 动画调速
   animation-duration: 0.3s;
@@ -212,8 +213,13 @@ $chartsMenuBgc: #e9e9e9;
         padding: 0 10px;
       }
       .el-tabs__content {
-        height: calc(100% - 39px);
+        height: calc(100% - 40px);
         overflow: auto;
+        .el-card {
+          .el-switch__label {
+            color: #666666;
+          }
+        }
       }
       .menu-content {
         overflow: hidden;

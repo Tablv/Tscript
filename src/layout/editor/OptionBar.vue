@@ -99,7 +99,7 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button icon="fa fa-share-square-o" @click="openShare" />
+        <el-button icon="fa fa-share-square" @click="openShare" />
       </el-form-item>
     </el-form>
 

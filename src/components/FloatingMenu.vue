@@ -31,7 +31,19 @@ $headerHeight: 40px;
 
 .menu {
   user-select: none;
-  border-left: 1px solid #ccc;
+  // border-left: 1px solid #ccc;
+  padding-right: 3px;
+  ::-webkit-scrollbar {
+    width: 6px;
+    margin-left: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #bfbfbf;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #afafaf;
+  }
 
   .menu-header {
     @include select(none);
@@ -53,7 +65,7 @@ $headerHeight: 40px;
 
   .menu-content {
     width: 100%;
-    height: calc(100% - #{$headerHeight});
+    height: calc(100% - #{$headerHeight} - 60px);
     overflow: auto;
   }
 }

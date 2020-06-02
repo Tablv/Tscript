@@ -97,7 +97,9 @@ export default class DatasetChooser extends Vue {
       })
       .finally(() => {
         // 关闭加载提示
-        loadingInstance.close();
+        setTimeout(() => {
+          loadingInstance.close();
+        }, 500);
       });
   }
 
@@ -155,11 +157,11 @@ export default class DatasetChooser extends Vue {
     this.emptyAxisData();
 
     // 加载提示
-    const loadingInstance = UIUtil.showLoading({
-      target: ".dataset-tree-box"
-    });
+    // const loadingInstance = UIUtil.showLoading({
+    //   target: ".dataset-tree-box"
+    // });
 
-    // 加载数据集
+    // // 加载数据集
     this.loadTables()
       .then(() => {
         // 关闭数据集选择器
@@ -168,11 +170,15 @@ export default class DatasetChooser extends Vue {
       .catch((err: Error) => {
         UIUtil.showErrorMessage("加载数据集失败");
         console.error(err);
-      })
-      .finally(() => {
-        // 关闭加载提示
-        loadingInstance.close();
       });
+    //   .finally(() => {
+    //     // 关闭加载提示
+    //     // loadingInstance.close();
+    //     setTimeout(() => {
+    //       // loadingInstance.close();
+    //       // console.log('jieshule===============2')
+    //     }, 6000);
+    //   });
   }
 
   /**
@@ -187,7 +193,7 @@ export default class DatasetChooser extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .dataset-tree-box {
   padding: 10px;
   .el-loading-mask {

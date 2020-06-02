@@ -7,8 +7,8 @@ import DefaultTemplate, {
   defaultDashboardSet
 } from "glaway-bi-component/src/config/DefaultTemplate";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
-// import { AxiosRequest } from "@/api/AxiosRequest";
-import { AxiosRequest } from "@/api/mock";
+import { AxiosRequest } from "@/api/AxiosRequest";
+// import { AxiosRequest } from "@/api/mock";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
@@ -190,8 +190,8 @@ const actions: ActionTree<any, any> = {
         // 设置仪表盘集
         commit("setDashboardSet", container);
 
-        const result = dashboards.map(dashboard => {
-          const type = (dashboard as any).visualData.type;
+        const result = dashboards.map((dashboard: any) => {
+          const type = dashboard.visualData.type;
           const defaultConfig = ObjectUtil.copy(
             DefaultTemplate.getDefaultConfig(type)
           );

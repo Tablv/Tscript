@@ -69,8 +69,8 @@ import EChartsService, {
 } from "glaway-bi-component/src/service/EChartsService";
 import FieldDTO from "glaway-bi-model/params/FieldDTO";
 import EChartsUtil from "../../util/EChartsUtil";
-// import { AxiosRequest } from "../../api/AxiosRequest";
-import { AxiosRequest } from "../../api/mock";
+import { AxiosRequest } from "../../api/AxiosRequest";
+// import { AxiosRequest } from "../../api/mock";
 import DashboardUtil from "../../util/DashboardUtil";
 import ComponentUtil from "../../util/ComponentUtil";
 

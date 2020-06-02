@@ -1,5 +1,27 @@
 <template>
+  <!-- <el-container class="home">
+    <el-header class="header">
+      <span class="title-text">仪表盘</span>
+    </el-header>
+    <el-container>
+      <el-aside class="left" width="84px" @click="activeArea('global')">
+        <tool-bar />
+      </el-aside>
+      <el-main class="center">
+        <resizable-grid />
+      </el-main>
+      <div class="right hidden" ref="rightMenu" @click="activeArea('global')">
+        <draggable-menu />
+      </div>
+    </el-container>
+    <el-footer class="bottom">
+      <option-bar />
+    </el-footer>
+  </el-container> -->
   <div class="home">
+    <div class="header el-header">
+      <span class="title-text">仪表盘</span>
+    </div>
     <div class="left" @click="activeArea('global')">
       <tool-bar />
     </div>
@@ -197,9 +219,11 @@ export default class Editor extends Vue {
 </script>
 
 <style lang="scss" scoped>
-$toolbarWidth: 60px;
+$toolbarWidth: 84px;
 $floatMenuWidth: 560px;
 $bottomHeight: 50px;
+$backgroundColor: #f1f3f6;
+$borderColor: #e6e6e6;
 
 .hidden {
   visibility: hidden;
@@ -211,8 +235,8 @@ $bottomHeight: 50px;
 }
 
 .left {
-  background-color: #666;
-  border-right: 1px solid #aaa;
+  background-color: $backgroundColor;
+  border-right: 1px solid $borderColor;
   width: $toolbarWidth;
   box-sizing: border-box;
   text-align: center;
@@ -234,9 +258,9 @@ $bottomHeight: 50px;
 }
 
 .center {
-  background-color: #f5f5f5;
   display: inline-block;
   position: absolute;
+  background-color: $backgroundColor;
   width: calc(100vw - #{$toolbarWidth});
   overflow: auto;
   @include select(none);
@@ -255,8 +279,8 @@ $bottomHeight: 50px;
 }
 
 .bottom {
-  background-color: #eaeaea;
-  border-top: 1px solid #dcdcdc;
+  background-color: $backgroundColor;
+  border-top: 1px solid $borderColor;
   box-sizing: border-box;
   position: absolute;
   left: $toolbarWidth;
@@ -265,5 +289,16 @@ $bottomHeight: 50px;
   width: calc(100% - #{$toolbarWidth});
   height: $bottomHeight;
   overflow: hidden;
+  z-index: 7000;
+}
+.header {
+  position: relative;
+  height: 60px;
+  line-height: 60px;
+  z-index: 7000;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  .title-text {
+    color: #666;
+  }
 }
 </style>

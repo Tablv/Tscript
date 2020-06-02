@@ -40,13 +40,15 @@ const API = {
    * 仪表盘
    */
   findDashboard: "/dashboard/findBySetId",
-  saveDashboard: "/dashboard/save",
+  // saveDashboard: "/dashboard/save",
+  saveDashboard: "/dashboard/container/save",
 
   /**
    * 仪表盘集
    */
   findDashboardSet: "/dashboard/container",
-  saveDashboardSet: "/dashboardSet/update",
+  // saveDashboardSet: "/dashboardSet/update",
+  saveDashboardSet: "/dashboard/container/save",
 
   /**
    * 分享
@@ -198,11 +200,16 @@ export const AxiosRequest = {
       dashboards: Array<Dashboard>
     ) =>
       AxiosUtil.post(API.saveDashboardSet, {
-        id: setId,
-        settings: JSON.stringify(dashboardSet)
+        // id: setId,
+        // settings: JSON.stringify(dashboardSet)
+        // 调整接口
+        containerId: setId,
+        containerOptions: JSON.stringify(dashboardSet),
+        dashboardOptions: JSON.stringify(dashboards)
       })
         .then(res =>
-          res.result ? Promise.resolve() : Promise.reject("保存仪表盘集错误")
+          // res.result ? Promise.resolve() : Promise.reject("保存仪表盘集错误")
+          res.success ? Promise.resolve() : Promise.reject("保存仪表盘集错误")
         )
         .catch(err => Promise.reject(err))
   },

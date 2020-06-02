@@ -10,13 +10,13 @@
 
     <!-- 排序配置 -->
     <sort-dialog
-      icon-class="fa fa-sort-alpha-asc"
+      icon-class="fa fa-sort-alpha-down"
       title="排序"
       v-model="visibles.sort"
       @close="closeSortDialog"
     />
 
-    <tool-button icon-class="fa fa-sort-amount-asc" title="排名" />
+    <tool-button icon-class="fa fa-sort-amount-down-alt" title="排名" />
 
     <tool-button
       icon-class="fa fa-tasks"
@@ -26,14 +26,14 @@
 
     <warn-dialog
       v-if="isWarnable"
-      icon-class="fa fa-warning"
+      icon-class="fa fa-exclamation-triangle"
       title="预警设置"
       v-model="visibles.warn"
       @close="closeWarnDialog"
     />
 
     <tool-button
-      icon-class="fa fa-exchange"
+      icon-class="fa fa-exchange-alt"
       title="图表切换"
       @click="chartTypeChange"
     />
