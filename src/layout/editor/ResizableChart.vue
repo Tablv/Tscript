@@ -211,11 +211,13 @@ export default class ResizableElement extends Vue {
    * isEmptyArray 是不是空数组
    */
   get noField(): boolean {
-    let options = this.thisDashboard.analysis;
     return (
-      ObjectUtil.isEmptyArray(options.dimensions) &&
-      ObjectUtil.isEmptyArray(options.measures)
+      this.noDimensions && ObjectUtil.isEmptyArray(this.thisAnalysis.measures)
     );
+  }
+
+  get noDimensions(): boolean {
+    return ObjectUtil.isEmptyArray(this.thisAnalysis.dimensions);
   }
 
   /**
@@ -247,9 +249,9 @@ export default class ResizableElement extends Vue {
     this.chartComponent.bindChartEvents(false, this.thisEvents);
 
     // 获取数据
-    if (this.needFetchData) {
+    if (this.needFetchData && !this.noDimensions) {
       this.fetchToShow();
-    } else if (this.isJsonEnable) {
+    } else if (this.isJsonEnable && !this.noDimensions) {
       this.chartComponent.renderChart();
     }
   }
@@ -283,9 +285,8 @@ export default class ResizableElement extends Vue {
      *  - 未开启 JSON 时，刷新渲染视图
      *  - 开启 JSON 时，判断是否为空，不为空 则渲染
      */
-    if (!this.isJsonEnable) {
-      this.fetchToShow();
-      return;
+    if (!this.isJsonEnable && !this.noDimensions) {
+      return this.fetchToShow();
     }
 
     if (ObjectUtil.isEmptyString(this.jsonData)) {
@@ -328,8 +329,16 @@ export default class ResizableElement extends Vue {
     }
 
     // 非当前仪表盘 || 正在打开菜单 || 不存在字段
-    if (!this.isCurrent || this.menuLoading || this.noField) {
+    if (
+      !this.isCurrent ||
+      this.menuLoading ||
+      this.noField ||
+      this.isSqlEnable
+    ) {
       return;
+    }
+    if (this.noDimensions) {
+      return this.chartComponent.clearChart();
     }
     this.fetchToShow();
   }
@@ -349,9 +358,9 @@ export default class ResizableElement extends Vue {
   })
   onEchartsOptionUpdate(): void {
     /**
-     * 非当前仪表盘 || 正在打开菜单
+     * 非当前仪表盘 || 正在打开菜单 || 没有维度字段
      */
-    if (!this.isCurrent || this.menuLoading) {
+    if (!this.isCurrent || this.menuLoading || this.noDimensions) {
       return;
     }
     this.chartComponent?.renderChart();

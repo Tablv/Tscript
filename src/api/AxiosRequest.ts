@@ -46,7 +46,8 @@ const API = {
   /**
    * 仪表盘集
    */
-  findDashboardSet: "/dashboard/container",
+  // findDashboardSet: "/dashboard/container",
+  findDashboardSet: "/dashboard/findDashboard",
   // saveDashboardSet: "/dashboardSet/update",
   saveDashboardSet: "/dashboard/container/save",
 
@@ -174,14 +175,20 @@ export const AxiosRequest = {
     find: (setId: string) => {
       return AxiosUtil.get(`${API.findDashboardSet}/${setId}`)
         .then(res => {
-          if (res.result && !ObjectUtil.isEmptyString(res.result.settings)) {
-            const { settings, dashboards } = res.result;
-            return ObjectUtil.parseJSON(settings).then(dashboardSet => {
-              return {
-                container: dashboardSet,
-                dashboards
-              };
-            });
+          // if (res.result && !ObjectUtil.isEmptyString(res.result.settings)) {
+          // const { settings, dashboards } = res.result;
+          // return ObjectUtil.parseJSON(settings).then(dashboardSet => {
+          //   return {
+          //     container: dashboardSet,
+          //     dashboards
+          //   };
+          // });
+          // }
+          if (res.result) {
+            return {
+              container: {},
+              dashboards: ObjectUtil.deserialize(res.result)
+            };
           }
 
           // 仪表盘集为空，使用默认配置

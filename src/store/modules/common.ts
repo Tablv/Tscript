@@ -189,12 +189,14 @@ const actions: ActionTree<any, any> = {
 
         // 设置仪表盘集
         commit("setDashboardSet", container);
-
+        // 处理老旧数据，合并最近的公共配置
         const result = dashboards.map((dashboard: any) => {
+          dashboard = JSON.parse(JSON.stringify(dashboard));
           const type = dashboard.visualData.type;
           const defaultConfig = ObjectUtil.copy(
             DefaultTemplate.getDefaultConfig(type)
           );
+          dashboard.analysis.datasetId = state.dashboardSetId;
           return ObjectUtil.merge(defaultConfig, dashboard);
         });
 
