@@ -259,7 +259,6 @@ export default class FilterViewIndex extends Vue {
    */
   loadAllDatapack(): void {
     let dashboardId = this.currentDashboard.id;
-
     AxiosRequest.filterConfig
       .find(dashboardId)
       .then((datapacks: Array<FilterDatapack>) => {

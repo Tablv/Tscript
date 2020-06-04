@@ -277,11 +277,18 @@ export const AxiosRequest = {
 
     // 保存过滤器配置
     save: (filterDatapack: FilterDatapack) => {
-      filterDatapack.config = JSON.stringify(filterDatapack.config) as any;
-      return AxiosUtil.post(API.filterConfig.save, filterDatapack)
-        .then(res =>
-          res.success ? Promise.resolve() : Promise.reject("保存过滤器配置异常")
-        )
+      const request = {
+        id: filterDatapack.id,
+        name: filterDatapack.name,
+        dashboardId: filterDatapack.dashboardId,
+        config: JSON.stringify(filterDatapack.config)
+      };
+      return AxiosUtil.post(API.filterConfig.save, request)
+        .then(res => {
+          res.success
+            ? Promise.resolve()
+            : Promise.reject("保存过滤器配置异常");
+        })
         .catch(err => Promise.reject(err));
     },
 
@@ -312,8 +319,13 @@ export const AxiosRequest = {
 
     // 保存排序配置
     save: (sortDatapack: SortDatapack) => {
-      sortDatapack.config = JSON.stringify(sortDatapack.config) as any;
-      return AxiosUtil.post(API.sortConfig.save, sortDatapack)
+      const request = {
+        id: sortDatapack.id,
+        name: sortDatapack.name,
+        dashboardId: sortDatapack.dashboardId,
+        config: JSON.stringify(sortDatapack.config)
+      };
+      return AxiosUtil.post(API.sortConfig.save, request)
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("保存排序配置异常")
         )
@@ -347,8 +359,13 @@ export const AxiosRequest = {
 
     // 保存预警配置
     save: (warnDatapack: WarnDatapack) => {
-      warnDatapack.config = JSON.stringify(warnDatapack.config) as any;
-      return AxiosUtil.post(API.warnConfig.save, warnDatapack)
+      const request = {
+        id: warnDatapack.id,
+        name: warnDatapack.name,
+        dashboardId: warnDatapack.dashboardId,
+        config: JSON.stringify(warnDatapack.config)
+      };
+      return AxiosUtil.post(API.warnConfig.save, request)
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("保存预警配置异常")
         )

@@ -6,7 +6,6 @@ import JoinRelation, {
 import TableVO from "glaway-bi-model/results/TableVO";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
-// import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import UUID from "./UUID";
 import DefaultTemplate from "glaway-bi-component/src/config/DefaultTemplate";
@@ -83,13 +82,6 @@ export default class DashboardUtil {
    * @param currentDashboard 当前仪表盘
    */
   public static getAnalysisDTO(currentDashboard: Dashboard): AnalysisDTO {
-    // let fromDTO = currentDashboard.analysis.fromTable
-    //     ? {
-    //         schema: currentDashboard.analysis.fromTable.schema,
-    //         tableName: currentDashboard.analysis.fromTable.name,
-    //         alias: currentDashboard.analysis.fromTable.alias
-    //       }
-    //     : null,
     let viewNameList: string[] = [],
       fromDTO: TableRelation = {
         schema: "",
@@ -209,8 +201,7 @@ export default class DashboardUtil {
    */
   public static pushReactWhere(
     whereArray: Array<WhereDTO>,
-    reactWhere: ReactWhere,
-    thisDashboard: Dashboard
+    reactWhere: ReactWhere
   ): void {
     if (reactWhere.dashboardId && reactWhere.datasetId && reactWhere.where) {
       // 获取联动判断条件

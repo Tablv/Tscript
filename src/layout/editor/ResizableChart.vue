@@ -71,7 +71,6 @@ import EChartsService, {
 import FieldDTO from "glaway-bi-model/params/FieldDTO";
 import EChartsUtil from "../../util/EChartsUtil";
 import { AxiosRequest } from "../../api/AxiosRequest";
-// import { AxiosRequest } from "../../api/mock";
 import DashboardUtil from "../../util/DashboardUtil";
 import ComponentUtil from "../../util/ComponentUtil";
 
@@ -220,6 +219,9 @@ export default class ResizableElement extends Vue {
     );
   }
 
+  /**
+   * 是不是不存在分析字段
+   */
   get noDimensions(): boolean {
     return ObjectUtil.isEmptyArray(this.thisAnalysis.dimensions);
   }
@@ -264,6 +266,9 @@ export default class ResizableElement extends Vue {
    * 监听数据
    */
 
+  /**
+   * 图表类型
+   */
   @Watch("thisChartType")
   onChartTypeChange(newType: ChartType, oldType: ChartType) {
     this.changeChartType({ newType, oldType })

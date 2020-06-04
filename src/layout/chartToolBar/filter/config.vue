@@ -14,9 +14,8 @@
       <div
         class="config-inline"
         v-for="(filterConfig, configIndex) in currentFilterPack.config"
-        :key="configIndex"
+        :key="filterConfig.id"
       >
-        <!-- :key="filterConfig.id" -->
         <el-button size="mini" plain icon="el-icon-plus" @click="addFilter" />
 
         <el-button

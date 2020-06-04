@@ -2,8 +2,6 @@ import {
   AnalysisResults,
   AnalysisResult
 } from "glaway-bi-model/types/AnalysisResults";
-// import { AxiosRequest } from "@/api/mock";
-// import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ReactWhere from "glaway-bi-model/view/ReactWhere";
 import DashboardUtil from "./DashboardUtil";
@@ -70,11 +68,7 @@ export default class ComponentUtil {
 
     // 判断数据集是否一致
     if (thisDashboard.analysis.datasetId === reactWhere.datasetId) {
-      DashboardUtil.pushReactWhere(
-        analysisDTO.where,
-        reactWhere,
-        thisDashboard
-      );
+      DashboardUtil.pushReactWhere(analysisDTO.where, reactWhere);
     }
     return AxiosRequest.analysis.fetch(analysisDTO);
   }
