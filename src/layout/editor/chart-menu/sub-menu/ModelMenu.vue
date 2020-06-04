@@ -28,7 +28,7 @@
               :key="tableColumn.id"
               :title="tableColumn.alias"
             >
-              <i class="fa fa-file-o"></i>
+              <i class="fa fa-file"></i>
               <div class="field-content">
                 <span>{{ tableColumn.alias || tableColumn.columnName }}</span>
                 <!-- <span>{{ tableColumn.columnName }}</span>
@@ -136,7 +136,7 @@ $fieldColor: #409eff;
 // 字段选项
 .fields-item {
   font-size: 13px;
-  padding: 1px 0 1px 16px;
+  padding: 4px 0 4px 16px;
   border: 1px solid transparent;
   border-radius: 4px;
   cursor: grab;

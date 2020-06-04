@@ -37,6 +37,7 @@
           :anslysisdata="resultTmp"
           :key="index"
           @error="doHandleError"
+          @setReact="setReactHandle"
         />
       </div>
     </vdr>
@@ -132,6 +133,9 @@ export default class ResizableElement extends Vue {
 
   @CommonStore.State("reactWhere")
   reactWhere!: ReactWhere;
+
+  @CommonStore.Mutation("setReactWhere")
+  setReactHandle!: Function;
 
   @EditorStore.Action("changeChartType")
   changeChartType!: Function;

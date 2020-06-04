@@ -12,7 +12,7 @@ import { ShareType } from "glaway-bi-model/enums/ShareType";
 import ShareVO from "glaway-bi-model/results/ShareVO";
 
 import { FilterDatapack } from "glaway-bi-model/view/Filter";
-import { SortDatapack } from "glaway-bi-model/view/Sort";
+import { SortDatapack, SortConfig } from "glaway-bi-model/view/Sort";
 import { WarnDatapack } from "glaway-bi-model/view/Warn";
 
 const API = {
@@ -60,17 +60,32 @@ const API = {
   /**
    * 过滤器配置 (Restful)
    */
-  filterConfig: "/filterDatapack",
+  // filterConfig: "/filterDatapack",
+  filterConfig: {
+    find: "/dashboard/ops/filter",
+    save: "/dashboard/ops/filter/save",
+    remove: "/dashboard/ops/filter/remove"
+  },
 
   /**
    * 排序配置 (Restful)
    */
-  sortConfig: "/sortDatapack",
+  sortConfig: {
+    find: "/dashboard/ops/sort",
+    save: "/dashboard/ops/sort/save",
+    remove: "/dashboard/ops/sort/remove"
+  },
+  // "/sortDatapack",
 
   /**
    * 预警配置 (Restful)
    */
-  warnConfig: "/warnDatapack",
+  warnConfig: {
+    find: "/dashboard/ops/warn",
+    save: "/dashboard/ops/warn/save",
+    remove: "/dashboard/ops/warn/remove"
+  },
+  // "/warnDatapack",
 
   /**
    * 公共API
@@ -252,9 +267,7 @@ export const AxiosRequest = {
   filterConfig: {
     // 加载过滤器配置
     find: (dashboardId: string) =>
-      AxiosUtil.get(API.filterConfig, {
-        dashboardId
-      })
+      AxiosUtil.get(`${API.filterConfig.find}/${dashboardId}`)
         .then(res =>
           res.success
             ? Promise.resolve(ObjectUtil.deserialize(res.result))
@@ -263,22 +276,20 @@ export const AxiosRequest = {
         .catch(err => Promise.reject(err)),
 
     // 保存过滤器配置
-    save: (filterDatapack: FilterDatapack) =>
-      AxiosUtil.request(API.filterConfig, filterDatapack, "PUT", true)
+    save: (filterDatapack: FilterDatapack) => {
+      filterDatapack.config = JSON.stringify(filterDatapack.config) as any;
+      return AxiosUtil.post(API.filterConfig.save, filterDatapack)
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("保存过滤器配置异常")
         )
-        .catch(err => Promise.reject(err)),
+        .catch(err => Promise.reject(err));
+    },
 
     // 删除过滤器配置
     remove: (datapackId: string) =>
-      AxiosUtil.request(
-        API.filterConfig,
-        {
-          filterId: datapackId
-        },
-        "DELETE"
-      )
+      AxiosUtil.post(`${API.filterConfig.remove}/${datapackId}`, {
+        filterId: datapackId
+      })
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("删除过滤器配置异常")
         )
@@ -291,9 +302,7 @@ export const AxiosRequest = {
   sortConfig: {
     // 加载排序配置
     find: (dashboardId: string) =>
-      AxiosUtil.get(API.sortConfig, {
-        dashboardId
-      })
+      AxiosUtil.get(`${API.sortConfig.find}/${dashboardId}`)
         .then(res =>
           res.success
             ? Promise.resolve(ObjectUtil.deserialize(res.result))
@@ -302,22 +311,20 @@ export const AxiosRequest = {
         .catch(err => Promise.reject(err)),
 
     // 保存排序配置
-    save: (sortDatapack: SortDatapack) =>
-      AxiosUtil.request(API.sortConfig, sortDatapack, "PUT", true)
+    save: (sortDatapack: SortDatapack) => {
+      sortDatapack.config = JSON.stringify(sortDatapack.config) as any;
+      return AxiosUtil.post(API.sortConfig.save, sortDatapack)
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("保存排序配置异常")
         )
-        .catch(err => Promise.reject(err)),
+        .catch(err => Promise.reject(err));
+    },
 
     // 删除排序配置
     remove: (datapackId: string) =>
-      AxiosUtil.request(
-        API.sortConfig,
-        {
-          id: datapackId
-        },
-        "DELETE"
-      )
+      AxiosUtil.post(`${API.sortConfig.remove}/${datapackId}`, {
+        sortId: datapackId
+      })
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("删除排序配置异常")
         )
@@ -330,9 +337,7 @@ export const AxiosRequest = {
   warnConfig: {
     // 加载预警配置
     find: (dashboardId: string) =>
-      AxiosUtil.get(API.warnConfig, {
-        dashboardId
-      })
+      AxiosUtil.get(`${API.warnConfig.find}/${dashboardId}`)
         .then(res =>
           res.success
             ? Promise.resolve(ObjectUtil.deserialize(res.result))
@@ -341,22 +346,20 @@ export const AxiosRequest = {
         .catch(err => Promise.reject(err)),
 
     // 保存预警配置
-    save: (warnDatapack: WarnDatapack) =>
-      AxiosUtil.request(API.warnConfig, warnDatapack, "PUT", true)
+    save: (warnDatapack: WarnDatapack) => {
+      warnDatapack.config = JSON.stringify(warnDatapack.config) as any;
+      return AxiosUtil.post(API.warnConfig.save, warnDatapack)
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("保存预警配置异常")
         )
-        .catch(err => Promise.reject(err)),
+        .catch(err => Promise.reject(err));
+    },
 
     // 删除预警配置
     remove: (datapackId: string) =>
-      AxiosUtil.request(
-        API.warnConfig,
-        {
-          id: datapackId
-        },
-        "DELETE"
-      )
+      AxiosUtil.post(`${API.warnConfig.remove}/${datapackId}`, {
+        warnId: datapackId
+      })
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("删除预警配置异常")
         )

@@ -8,15 +8,15 @@
         <el-form-item label="预警颜色">
           <el-row>
             <el-col :span="12">
-              <el-input v-model="currentWarnPack.warnColor" />
+              <el-input v-model="currentWarnPack.config.warnColor" />
             </el-col>
             <el-col :span="8" :offset="1" class="color-picker-box">
-              <el-color-picker v-model="currentWarnPack.warnColor" />
+              <el-color-picker v-model="currentWarnPack.config.warnColor" />
             </el-col>
           </el-row>
         </el-form-item>
         <el-form-item label="显示类型">
-          <el-radio-group v-model="currentWarnPack.warnDisplayType">
+          <el-radio-group v-model="currentWarnPack.config.warnDisplayType">
             <el-radio-button
               v-for="mapping in warnDisplayTypeMapping"
               :key="mapping.value"
@@ -32,20 +32,22 @@
       <!-- 各字段配置 -->
       <div
         class="config-inline"
-        v-for="config in currentWarnPack.config"
+        v-for="config in currentWarnPack.config.warnConfigList"
         :key="config.id"
       >
         <el-row type="flex" justify="space-between" align="center">
           <el-radio
-            v-model="currentWarnPack.appliedConfigId"
+            v-model="currentWarnPack.config.appliedConfigId"
             :label="config.id"
           >
-            <span>{{ columnNameFormatter(config.warnField.data) }}</span>
+            <span>{{
+              config.warnField ? config.warnField.data.alias : ""
+            }}</span>
           </el-radio>
 
           <!-- 更多（配置条件） -->
           <el-popover
-            v-show="currentWarnPack.appliedConfigId === config.id"
+            v-show="currentWarnPack.config.appliedConfigId === config.id"
             placement="right"
             width="450"
             trigger="click"
@@ -154,8 +156,8 @@ export default class ConfigView extends Vue {
   // 当前应用的配置
   getAppliedConfig(): WarnConfig | null {
     return (
-      this.currentWarnPack?.config.filter(
-        config => config.id === this.currentWarnPack?.appliedConfigId
+      this.currentWarnPack?.config.warnConfigList.filter(
+        config => config.id === this.currentWarnPack?.config.appliedConfigId
       )[0] || null
     );
   }

@@ -4,7 +4,6 @@ import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import { Module, GetterTree, MutationTree, ActionTree } from "vuex";
 import { ShortcutType } from "glaway-bi-model/enums/ShortcutType";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
-import UIUtil from "@/util/UIUtil";
 import MenuOptions from "@/config/MenuOptions";
 import ObjectUtil from "@/util/ObjectUtil";
 import { AxiosRequest } from "@/api/AxiosRequest";
@@ -49,7 +48,7 @@ const getters: GetterTree<any, any> = {
    * 获取所有字段
    */
   allColumns(state): Array<TableInfoVO> {
-    return state.tables.flatMap((table: TableVO) => table.children);
+    return state.tables.flatMap((table: TableVO) => table.columns);
   }
 };
 

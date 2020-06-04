@@ -1,8 +1,19 @@
 <template>
   <div class="option-bar">
-    <!-- 左侧菜单 -->
-    <el-form :inline="true">
-      <el-form-item label="终端">
+    <!-- 主体button -->
+    <!-- 菜单 -->
+    <el-popover
+      popper-class="option-bar-popover"
+      placement="top"
+      width="260"
+      :offset="50"
+      trigger="click"
+      visible-arrow
+    >
+      <el-card shadow="never">
+        <div slot="header">
+          <span>终端</span>
+        </div>
         <el-select v-model="dashboardSet.terminalType">
           <el-option
             v-for="(sel, idx) in dashboardSetOptions.terminalType.selection"
@@ -11,8 +22,11 @@
             :value="sel.value"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="宽高比">
+      </el-card>
+      <el-card shadow="never">
+        <div slot="header">
+          <span>宽高比</span>
+        </div>
         <el-input-number
           class="ratio-input"
           v-model="dashboardSet.widthRatio"
@@ -26,82 +40,57 @@
           :controls="false"
           :min="1"
         />
-      </el-form-item>
-      <el-form-item>
-        <!-- 画布设置 -->
-        <el-popover placement="top" width="300" v-model="canvasSettingVisible">
-          <el-form label-width="80px">
-            <!-- 背景设置 -->
-            <el-form-item label="背景类型">
-              <el-radio-group
-                v-model="dashboardSet.canvasSetting.background.type"
-              >
-                <el-radio :label="0">背景色</el-radio>
-                <el-radio :label="1">背景图片</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <!-- 具体设置 -->
-            <el-form-item
-              v-if="dashboardSet.canvasSetting.background.type === 0"
-            >
-              <el-row :gutter="20">
-                <el-col :span="10">
-                  <label>拾取背景色</label>
-                </el-col>
-                <el-col :span="14" style="height: 32px;">
-                  <el-color-picker
-                    v-model="dashboardSet.canvasSetting.background.color"
-                  />
-                </el-col>
-              </el-row>
-            </el-form-item>
-            <el-form-item
-              v-if="dashboardSet.canvasSetting.background.type === 1"
-            >
-              <el-upload
-                class="bg-uploader"
-                action="/admin/dashboardSet/updateBackground"
-                :show-file-list="false"
-                :on-success="uploadBgSuccess"
-                :on-error="uploadBgError"
-                :before-upload="bgValidate"
-              >
-                <img
-                  v-if="dashboardSet.canvasSetting.background.url"
-                  :src="dashboardSet.canvasSetting.background.url"
-                  class="background-img"
-                />
-                <i v-else class="el-icon-plus"></i>
-              </el-upload>
-            </el-form-item>
-            <!-- 其他设置 -->
-            <!-- <el-form-item label="背景类型">
-              <el-radio-group v-model="dashboardSet.canvasSetting.background.type">
-                <el-radio :label="0">背景色</el-radio>
-                <el-radio :label="1">背景图片</el-radio>
-              </el-radio-group>
-            </el-form-item> -->
-          </el-form>
-          <el-button slot="reference">画布设置</el-button>
-        </el-popover>
-      </el-form-item>
-    </el-form>
-
-    <!-- 右侧菜单 -->
-    <el-form :inline="true">
-      <el-form-item label="缩放" class="zoom-slider">
+      </el-card>
+      <el-card shadow="never">
+        <div slot="header">
+          <span>背景类型</span>
+        </div>
+        <el-radio-group v-model="dashboardSet.canvasSetting.background.type">
+          <el-radio :label="0">背景色</el-radio>
+          <el-radio :label="1">背景图片</el-radio>
+        </el-radio-group>
+        <div
+          v-if="dashboardSet.canvasSetting.background.type === 0"
+          class="select-color"
+        >
+          <span class="label-text">拾取背景色</span>
+          <el-color-picker
+            v-model="dashboardSet.canvasSetting.background.color"
+          />
+        </div>
+        <div v-if="dashboardSet.canvasSetting.background.type === 1">
+          <el-upload
+            action="/admin/dashboardSet/updateBackground"
+            class="bg-uploader"
+            :show-file-list="false"
+            :on-success="uploadBgSuccess"
+            :on-error="uploadBgError"
+            :before-upload="bgValidate"
+          >
+            <img
+              v-if="dashboardSet.canvasSetting.background.url"
+              :src="dashboardSet.canvasSetting.background.url"
+              class="background-img"
+            />
+            <i v-else class="el-icon-plus"></i>
+          </el-upload>
+        </div>
+      </el-card>
+      <el-card shadow="never">
+        <div slot="header">
+          <span>缩放</span>
+        </div>
         <el-slider
           show-input
+          input-size="mini"
           v-model="screenZoom"
           :min="50"
           :max="200"
           :step="10"
         />
-      </el-form-item>
-      <el-form-item>
-        <el-button icon="fa fa-share-square" @click="openShare" />
-      </el-form-item>
-    </el-form>
+      </el-card>
+      <el-button slot="reference" icon="fa fa-cog" class="option-button" />
+    </el-popover>
 
     <!-- 分享 Dialog -->
     <el-dialog
@@ -316,76 +305,33 @@ export default class OptionBar extends Vue {
 <style lang="scss" scoped>
 .option-bar {
   @include select(none);
-
-  padding: 8px 0;
-  min-width: 1000px;
   display: flex;
   justify-content: space-around;
 
-  .el-form-item {
-    margin-bottom: 0;
-  }
-
-  .ratio-input {
-    width: 90px;
-  }
-
-  .ratio-seperator {
-    padding: 0 6px;
-  }
-
-  // 画布设置
-  .bg-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
+  .option-button {
+    border: 0;
+    height: 84px;
+    width: 83px;
+    color: #666;
+    font-size: 22px;
+    background: #f1f3f6;
+    border-radius: 0;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
+    @include select(none);
 
     &:hover {
-      border-color: #409eff;
+      background-color: #e6e9ec;
     }
 
-    // 上传图标
-    i {
-      font-size: 28px;
-      color: #8c939d;
-      width: 178px;
-      height: 178px;
-      line-height: 178px;
-      text-align: center;
+    &:active {
+      background-color: #e6e9ec;
     }
 
-    // 背景图片
-    .background-img {
-      width: 178px;
-      height: 178px;
-      display: block;
-    }
-  }
-
-  .zoom-slider {
-    margin-right: 20px;
-
-    ::v-deep {
-      .el-slider__input {
-        margin-top: 0;
-      }
-      .el-slider__runway {
-        margin-top: 13px;
-        margin-bottom: 0;
-        background-color: #d4d4d4;
-      }
-      .el-slider__runway.show-input {
-        margin-right: 140px;
-      }
-      .el-form-item__content {
-        width: 260px;
-      }
+    &:focus {
+      outline: none;
     }
   }
 }
-
 .share-dialog {
   .title {
     padding: 10px 0 20px;
@@ -400,6 +346,80 @@ export default class OptionBar extends Vue {
   ::v-deep {
     .el-dialog__body {
       padding: 0 40px;
+    }
+  }
+}
+</style>
+<style lang="scss">
+.option-bar-popover {
+  left: 30px !important;
+  box-shadow: 0 0px 10px 3px rgba(0, 0, 0, 0.1);
+  .el-card {
+    border: none;
+    border-radius: 0;
+    background: #f1f2f6;
+    .el-card__header {
+      border-bottom: none;
+      padding-top: 10px;
+    }
+    .el-card__body {
+      padding: 10px;
+      padding-top: 0;
+      .select-color {
+        padding-top: 8px;
+        .label-text {
+          color: #666;
+        }
+        .el-color-picker--small {
+          margin-left: 20px;
+          transform: translateY(7px);
+          .el-color-picker__trigger {
+            height: 20px;
+            width: 20px;
+          }
+        }
+      }
+      .el-slider__input {
+        width: 100px;
+      }
+      .el-slider__runway.show-input {
+        margin-right: 120px;
+      }
+    }
+  }
+  .ratio-input {
+    width: 100px;
+  }
+  .ratio-seperator {
+    padding: 0 6px;
+  }
+  .bg-uploader .el-upload {
+    margin-top: 8px;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      border-color: #409eff;
+    }
+
+    // 上传图标
+    i {
+      font-size: 28px;
+      color: #8c939d;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+    }
+
+    // 背景图片
+    .background-img {
+      width: 30px;
+      height: 30px;
+      display: block;
     }
   }
 }

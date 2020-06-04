@@ -111,7 +111,7 @@ export default class DashboardUtil {
       fields: [],
       where: currentDashboard.analysis.where,
       order: [],
-      viewName: ""
+      viewName: currentDashboard.analysis.viewName
     };
 
     // 拷贝分析DTO
@@ -136,13 +136,19 @@ export default class DashboardUtil {
     // 追加过滤
     DashboardUtil.pushWhereDTO(
       analysisDTO.where,
-      currentDashboard.analysis.filter.data
+      currentDashboard.analysis.filter.data.map(item => {
+        item.tableAlias = viewNameList[2] || "";
+        return item;
+      })
     );
 
     // 追加排序
     DashboardUtil.pushOrderDTO(
       analysisDTO.order,
-      currentDashboard.analysis.sort.data
+      currentDashboard.analysis.sort.data.map(item => {
+        item.tableAlias = viewNameList[2] || "";
+        return item;
+      })
     );
     return analysisDTO;
   }
@@ -160,9 +166,10 @@ export default class DashboardUtil {
     let fetchValuesDTO = this.getFetchValuesDTO(
       dashboard.analysis.fromTable as TableVO,
       dashboard.analysis.joinRelation,
-      tableInfo
+      tableInfo,
+      dashboard
     );
-    return await AxiosRequest.analysis
+    return AxiosRequest.analysis
       .fetch(fetchValuesDTO)
       .then(result => {
         // 返回结果为空 直接返回
@@ -202,7 +209,8 @@ export default class DashboardUtil {
    */
   public static pushReactWhere(
     whereArray: Array<WhereDTO>,
-    reactWhere: ReactWhere
+    reactWhere: ReactWhere,
+    thisDashboard: Dashboard
   ): void {
     if (reactWhere.dashboardId && reactWhere.datasetId && reactWhere.where) {
       // 获取联动判断条件
@@ -217,7 +225,6 @@ export default class DashboardUtil {
           whereArray.splice(i--, 1);
         }
       }
-
       whereArray.push(reactWhere.where);
     }
   }
@@ -279,25 +286,39 @@ export default class DashboardUtil {
   public static getFetchValuesDTO(
     fromTable: TableVO,
     joinRelations: Array<JoinRelation>,
-    tableInfo: TableInfoVO
+    tableInfo: TableInfoVO,
+    currentDashboard: Dashboard
   ): AnalysisDTO {
+    let viewNameList: string[] = [],
+      dashboardId: string = "",
+      fromDTO: TableRelation = {
+        schema: "",
+        tableName: "",
+        alias: ""
+      };
+    if (currentDashboard?.analysis.viewName) {
+      viewNameList = currentDashboard.analysis.viewName.split(".");
+      dashboardId = currentDashboard.id;
+      fromDTO = {
+        schema: viewNameList[0] + "." + viewNameList[1],
+        tableName: viewNameList[2],
+        alias: viewNameList[2]
+      };
+    }
     let fieldDTO = FieldDTOBuilder.buildFieldDTO(tableInfo),
       analysisDTO: AnalysisDTO = {
-        dashboardId: "",
-        from: {
-          schema: fromTable.schema,
-          tableName: fromTable.name,
-          alias: fromTable.alias
-        },
+        dashboardId,
+        from: fromDTO,
         join: joinRelations,
         fields: [],
         where: [],
         order: [],
-        viewName: ""
+        viewName: currentDashboard.analysis.viewName || ""
       };
 
     // 字段追加去重
     fieldDTO.func = ["distinct"];
+    fieldDTO.tableAlias = viewNameList[2];
 
     // 加入过滤DTO
     analysisDTO.fields.push(fieldDTO);

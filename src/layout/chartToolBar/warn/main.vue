@@ -187,16 +187,13 @@ export default class WarnIndexView extends Vue {
    * 编辑预警数据包
    */
   doEdit(datapackIndex: number) {
-    this.getDatapack(datapackIndex)
-      .then((datapack: WarnDatapack) => {
-        this.currentWarnPack = datapack;
-
-        // 切换到配置页面
-        this.setConfigMode();
-      })
-      .catch(() => {
-        UIUtil.showErrorMessage("无法编辑预警配置");
-      });
+    const datapack = this.getDatapack(datapackIndex);
+    if (datapack) {
+      this.currentWarnPack = datapack;
+      this.setConfigMode();
+    } else {
+      UIUtil.showErrorMessage("无法编辑预警配置");
+    }
   }
 
   /**
@@ -219,11 +216,9 @@ export default class WarnIndexView extends Vue {
   /**
    * 获取指定预警数据包
    */
-  getDatapack(datapackIndex: number): Promise<WarnDatapack> {
+  getDatapack(datapackIndex: number): WarnDatapack | null {
     let datapack = this.warnDatapacks[datapackIndex];
-    return datapack
-      ? Promise.resolve(ObjectUtil.copy(datapack))
-      : Promise.reject();
+    return datapack ? ObjectUtil.copy(datapack) : null;
   }
 
   /**
@@ -272,8 +267,8 @@ export default class WarnIndexView extends Vue {
     const datapack = this.warnDatapacks.filter(
       (datapack: WarnDatapack) => datapack.id === datapackId
     )[0];
-    const appliedConfig = datapack?.config.filter(
-      config => config.id === datapack.appliedConfigId
+    const appliedConfig = datapack.config.warnConfigList.filter(
+      config => config.id === datapack.config.appliedConfigId
     )[0];
 
     // 数据包不存在
@@ -288,8 +283,8 @@ export default class WarnIndexView extends Vue {
 
     return Promise.resolve({
       id: datapack.id,
-      color: datapack.warnColor,
-      displayType: datapack.warnDisplayType,
+      color: datapack.config.warnColor,
+      displayType: datapack.config.warnDisplayType,
       value: appliedConfig.conditions.map(condition => {
         return {
           seriesName: appliedConfig.warnField.data.alias,

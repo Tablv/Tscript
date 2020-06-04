@@ -1,26 +1,11 @@
 <template>
-  <!-- <el-container class="home">
-    <el-header class="header">
-      <span class="title-text">仪表盘</span>
-    </el-header>
-    <el-container>
-      <el-aside class="left" width="84px" @click="activeArea('global')">
-        <tool-bar />
-      </el-aside>
-      <el-main class="center">
-        <resizable-grid />
-      </el-main>
-      <div class="right hidden" ref="rightMenu" @click="activeArea('global')">
-        <draggable-menu />
-      </div>
-    </el-container>
-    <el-footer class="bottom">
-      <option-bar />
-    </el-footer>
-  </el-container> -->
   <div class="home">
     <div class="header el-header">
       <span class="title-text">仪表盘</span>
+      <div class="button-group">
+        <el-button type="text" icon="fa fa-expand-arrows-alt" />
+        <el-button type="text" icon="fa fa-share-square" />
+      </div>
     </div>
     <div class="left" @click="activeArea('global')">
       <tool-bar />
@@ -265,7 +250,7 @@ $borderColor: #e6e6e6;
 
 .center,
 .right {
-  height: calc(100% - #{$bottomHeight});
+  height: 100%;
 }
 
 .center {
@@ -290,15 +275,9 @@ $borderColor: #e6e6e6;
 }
 
 .bottom {
-  background-color: $backgroundColor;
-  border-top: 1px solid $borderColor;
-  box-sizing: border-box;
   position: absolute;
-  left: $toolbarWidth;
-  right: 0;
+  left: 0;
   bottom: 0;
-  width: calc(100% - #{$toolbarWidth});
-  height: $bottomHeight;
   overflow: hidden;
   z-index: 7000;
 }
@@ -310,6 +289,17 @@ $borderColor: #e6e6e6;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
   .title-text {
     color: #666;
+  }
+  .button-group {
+    position: absolute;
+    right: 20px;
+    top: 0;
+    .el-button {
+      font-size: 16px;
+      width: 32px;
+      margin-left: 8px;
+      // color: #666;
+    }
   }
 }
 </style>

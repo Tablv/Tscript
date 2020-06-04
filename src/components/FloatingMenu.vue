@@ -31,7 +31,7 @@ $headerHeight: 40px;
 
 .menu {
   user-select: none;
-  // border-left: 1px solid #ccc;
+  border-left: 1px solid #ccc;
   padding-right: 3px;
 
   .menu-header {

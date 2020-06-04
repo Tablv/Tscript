@@ -196,7 +196,7 @@ const actions: ActionTree<any, any> = {
           const defaultConfig = ObjectUtil.copy(
             DefaultTemplate.getDefaultConfig(type)
           );
-          dashboard.analysis.datasetId = state.dashboardSetId;
+          // dashboard.analysis.datasetId = state.dashboardSetId;
           return ObjectUtil.merge(defaultConfig, dashboard);
         });
 

@@ -297,7 +297,6 @@ export default class FilterViewIndex extends Vue {
   async loadValue(configId: string): Promise<void> {
     let currentFilter = this.getCurrentFilterConfig(configId),
       fieldData: TableInfoVO | null = currentFilter?.fieldData;
-
     if (!fieldData) return Promise.reject("字段数据为空");
 
     return await DashboardUtil.fetchFieldValues(

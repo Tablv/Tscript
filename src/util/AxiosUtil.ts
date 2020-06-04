@@ -40,7 +40,8 @@ export default class AxiosUtil {
   public static async post(
     url: string,
     data: any,
-    isJSON?: boolean
+    isJSON?: boolean,
+    isObject?: boolean
   ): Promise<ResultJSON> {
     return await this.request(url, data, "POST", isJSON);
   }

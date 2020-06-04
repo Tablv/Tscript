@@ -55,13 +55,28 @@ export default class ComponentUtil {
   ): Promise<AnalysisResults> {
     // 分析参数
     let analysisDTO = DashboardUtil.getAnalysisDTO(thisDashboard as any);
+    let tableAlias: string = "";
+    if (thisDashboard.analysis.viewName) {
+      tableAlias = thisDashboard.analysis.viewName.split(".")[2];
+    }
+
+    if (reactWhere.where) {
+      reactWhere.where.tableAlias = tableAlias;
+    }
+
+    analysisDTO.where.forEach(whe => {
+      whe.tableAlias = tableAlias;
+    });
 
     // 判断数据集是否一致
     if (thisDashboard.analysis.datasetId === reactWhere.datasetId) {
-      DashboardUtil.pushReactWhere(analysisDTO.where, reactWhere);
+      DashboardUtil.pushReactWhere(
+        analysisDTO.where,
+        reactWhere,
+        thisDashboard
+      );
     }
     return AxiosRequest.analysis.fetch(analysisDTO);
-    // return AxiosReq.analysis.fetch(analysisDTO);
   }
 
   /**

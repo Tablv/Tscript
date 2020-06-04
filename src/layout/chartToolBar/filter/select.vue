@@ -75,7 +75,10 @@ import { Vue, Component, Prop, Emit } from "vue-property-decorator";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import ObjectUtil from "@/util/ObjectUtil";
-import { FILTER_DEFAULT_VALUE, FilterDatapack } from "glaway-bi-model/view/Filter";
+import {
+  FILTER_DEFAULT_VALUE,
+  FilterDatapack
+} from "glaway-bi-model/view/Filter";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import UUID from "@/util/UUID";
