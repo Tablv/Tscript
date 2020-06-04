@@ -10,43 +10,45 @@
       <!-- 分割线 -->
       <el-divider />
 
-      <!-- 选择已有配置 -->
-      <el-radio v-model="appliedDatapackId" :label="DEFAULT_VALUE" border>
-        <div class="label-container">
-          <div class="label-main">
-            <div class="label-title">默认</div>
+      <div class="main-content">
+        <!-- 选择已有配置 -->
+        <el-radio v-model="appliedDatapackId" :label="DEFAULT_VALUE" border>
+          <div class="label-container">
+            <div class="label-main">
+              <div class="label-title">默认</div>
+            </div>
           </div>
-        </div>
-      </el-radio>
+        </el-radio>
 
-      <el-radio
-        v-for="(sortDatapack, datapackIndex) in sortDatapacks"
-        :key="sortDatapack.id"
-        v-model="appliedDatapackId"
-        :label="sortDatapack.id"
-        border
-      >
-        <div class="label-container">
-          <div class="label-main">
-            <div class="label-title">{{ sortDatapack.name }}</div>
-          </div>
-          <div class="label-option">
-            <el-button
-              size="medium"
-              type="text"
-              icon="el-icon-edit"
-              @click="doEdit(datapackIndex)"
-            />
+        <el-radio
+          v-for="(sortDatapack, datapackIndex) in sortDatapacks"
+          :key="sortDatapack.id"
+          v-model="appliedDatapackId"
+          :label="sortDatapack.id"
+          border
+        >
+          <div class="label-container">
+            <div class="label-main">
+              <div class="label-title">{{ sortDatapack.name }}</div>
+            </div>
+            <div class="label-option">
+              <el-button
+                size="medium"
+                type="text"
+                icon="el-icon-edit"
+                @click="doEdit(datapackIndex)"
+              />
 
-            <el-button
-              size="medium"
-              type="text"
-              icon="el-icon-close"
-              @click="removeDatapack(datapackIndex)"
-            />
+              <el-button
+                size="medium"
+                type="text"
+                icon="el-icon-close"
+                @click="removeDatapack(datapackIndex)"
+              />
+            </div>
           </div>
-        </div>
-      </el-radio>
+        </el-radio>
+      </div>
     </main>
 
     <footer>
@@ -64,7 +66,7 @@ import { CommonStore } from "@/store/modules-model";
 import ObjectUtil from "@/util/ObjectUtil";
 import { SORT_DEFAULT_VALUE, SortDatapack } from "glaway-bi-model/view/Sort";
 import { AxiosRequest } from "@/api/AxiosRequest";
-import UIUtil, { MessageType } from "@/util/UIUtil";
+import UIUtil, { MessageType, ConfirmType } from "@/util/UIUtil";
 
 @Component
 export default class SelectView extends Vue {
@@ -140,22 +142,26 @@ export default class SelectView extends Vue {
 
   // 删除数据包
   removeDatapack(datapackIndex: number) {
-    this.getDatapack(datapackIndex)
-      .then((datapack: SortDatapack) => {
-        AxiosRequest.sortConfig
-          .remove(datapack.id)
-          .then(() => {
-            UIUtil.showMessage("已删除排序", MessageType.success);
-            this.doReload();
+    UIUtil.confirm(ConfirmType.warning, "确认删除?")
+      .then(() => {
+        this.getDatapack(datapackIndex)
+          .then((datapack: SortDatapack) => {
+            AxiosRequest.sortConfig
+              .remove(datapack.id)
+              .then(() => {
+                UIUtil.showMessage("已删除排序", MessageType.success);
+                this.doReload();
+              })
+              .catch(err => {
+                console.error(err);
+                UIUtil.showErrorMessage("删除排序失败 请稍后重试");
+              });
           })
-          .catch(err => {
-            console.error(err);
-            UIUtil.showErrorMessage("删除排序失败 请稍后重试");
+          .catch(() => {
+            UIUtil.showErrorMessage("无法编辑排序配置");
           });
       })
-      .catch(() => {
-        UIUtil.showErrorMessage("无法编辑排序配置");
-      });
+      .catch(error => {});
   }
 
   /**
@@ -172,7 +178,8 @@ export default class SelectView extends Vue {
 
 <style lang="scss" scoped>
 @import "../toolkit/select-view";
-$mainMinHeight: 300px;
+$mainMinHeight: 220px;
+$mainMaxHeight: 250px;
 
-@include defaultSelectView($mainMinHeight);
+@include defaultSelectView($mainMinHeight, $mainMaxHeight);
 </style>

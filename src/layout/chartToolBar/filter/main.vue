@@ -93,8 +93,6 @@ export default class FilterViewIndex extends Vue {
   }
 
   get dialogWidth() {
-    // selectMode: 300px,
-    // configMode: 660px
     return this.isSelectMode ? "300px" : "700px";
   }
 
@@ -370,6 +368,9 @@ export default class FilterViewIndex extends Vue {
     });
   }
 
+  /**
+   * 保存
+   */
   doSave() {
     if (this.currentFilterPack) {
       AxiosRequest.filterConfig

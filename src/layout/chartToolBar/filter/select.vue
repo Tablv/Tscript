@@ -6,61 +6,62 @@
         <i class="el-icon-plus"></i>
         <span>添加过滤器</span>
       </el-button>
-
       <!-- 分割线 -->
       <el-divider />
 
-      <!-- 选择已有配置 -->
-      <el-radio v-model="appliedDatapackId" :label="DEFAULT_VALUE" border>
-        <div class="label-container">
-          <div class="label-main">
-            <div class="label-title">默认</div>
-            <div v-if="dashboardWhereDesc !== ''" class="label-content">
-              {{ dashboardWhereDesc }}
+      <div class="main-content">
+        <!-- 选择已有配置 -->
+        <el-radio v-model="appliedDatapackId" :label="DEFAULT_VALUE" border>
+          <div class="label-container">
+            <div class="label-main">
+              <div class="label-title">默认</div>
+              <div v-if="dashboardWhereDesc !== ''" class="label-content">
+                {{ dashboardWhereDesc }}
+              </div>
             </div>
           </div>
-        </div>
-      </el-radio>
+        </el-radio>
 
-      <el-radio
-        v-for="(filterDatapack, datapackIndex) in filterDatapacks"
-        :key="filterDatapack.id"
-        v-model="appliedDatapackId"
-        :label="filterDatapack.id"
-        border
-      >
-        <div class="label-container">
-          <div class="label-main">
-            <div class="label-title">{{ filterDatapack.name }}</div>
-            <div class="label-content">
-              <span v-for="config in filterDatapack.config" :key="config.id">
-                <span
-                  >{{
-                    config.fieldData.alias
-                      ? config.fieldData.alias
-                      : config.fieldData.columnName
-                  }}：{{ config.values }}</span
-                >
-              </span>
+        <el-radio
+          v-for="(filterDatapack, datapackIndex) in filterDatapacks"
+          :key="filterDatapack.id"
+          v-model="appliedDatapackId"
+          :label="filterDatapack.id"
+          border
+        >
+          <div class="label-container">
+            <div class="label-main">
+              <div class="label-title">{{ filterDatapack.name }}</div>
+              <div class="label-content">
+                <span v-for="config in filterDatapack.config" :key="config.id">
+                  <span
+                    >{{
+                      config.fieldData.alias
+                        ? config.fieldData.alias
+                        : config.fieldData.columnName
+                    }}：{{ config.values }}</span
+                  >
+                </span>
+              </div>
+            </div>
+            <div class="label-option">
+              <el-button
+                size="medium"
+                type="text"
+                icon="el-icon-edit"
+                @click="doEdit(datapackIndex)"
+              />
+
+              <el-button
+                size="medium"
+                type="text"
+                icon="el-icon-close"
+                @click="removeDatapack(datapackIndex)"
+              />
             </div>
           </div>
-          <div class="label-option">
-            <el-button
-              size="medium"
-              type="text"
-              icon="el-icon-edit"
-              @click="doEdit(datapackIndex)"
-            />
-
-            <el-button
-              size="medium"
-              type="text"
-              icon="el-icon-close"
-              @click="removeDatapack(datapackIndex)"
-            />
-          </div>
-        </div>
-      </el-radio>
+        </el-radio>
+      </div>
     </main>
 
     <footer>
@@ -80,7 +81,7 @@ import {
   FilterDatapack
 } from "glaway-bi-model/view/Filter";
 import { AxiosRequest } from "@/api/AxiosRequest";
-import UIUtil, { MessageType } from "@/util/UIUtil";
+import UIUtil, { MessageType, ConfirmType } from "@/util/UIUtil";
 import UUID from "@/util/UUID";
 
 @Component
@@ -182,22 +183,26 @@ export default class SelectView extends Vue {
 
   // 删除数据包
   removeDatapack(datapackIndex: number) {
-    this.getDatapack(datapackIndex)
-      .then((datapack: FilterDatapack) => {
-        AxiosRequest.filterConfig
-          .remove(datapack.id)
-          .then(() => {
-            UIUtil.showMessage("已删除过滤器", MessageType.success);
-            this.doReload();
+    UIUtil.confirm(ConfirmType.warning, "确认删除?")
+      .then(() => {
+        this.getDatapack(datapackIndex)
+          .then((datapack: FilterDatapack) => {
+            AxiosRequest.filterConfig
+              .remove(datapack.id)
+              .then(() => {
+                UIUtil.showMessage("已删除过滤器", MessageType.success);
+                this.doReload();
+              })
+              .catch(err => {
+                console.error(err);
+                UIUtil.showErrorMessage("删除过滤器失败 请稍后重试");
+              });
           })
-          .catch(err => {
-            console.error(err);
-            UIUtil.showErrorMessage("删除过滤器失败 请稍后重试");
+          .catch(() => {
+            UIUtil.showErrorMessage("无法编辑过滤器配置");
           });
       })
-      .catch(() => {
-        UIUtil.showErrorMessage("无法编辑过滤器配置");
-      });
+      .catch(error => {});
   }
 
   /**
@@ -214,7 +219,8 @@ export default class SelectView extends Vue {
 
 <style lang="scss" scoped>
 @import "../toolkit/select-view";
-$mainMinHeight: 300px;
+$mainMinHeight: 220px;
+$mainMaxHeight: 250px;
 
-@include defaultSelectView($mainMinHeight);
+@include defaultSelectView($mainMinHeight, $mainMaxHeight);
 </style>

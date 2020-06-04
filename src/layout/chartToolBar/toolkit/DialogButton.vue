@@ -12,9 +12,9 @@
       @open="openHandle"
       @closed="closedHandle"
     >
-      <template #title class="dialog-header-box">
+      <template #title>
         <i :class="iconClass"></i>
-        <span>{{ title }}</span>
+        <span class="title-text">{{ title }}</span>
       </template>
       <slot name="dialog-content"></slot>
       <template #footer v-if="enableFooter">
@@ -78,9 +78,7 @@ export default class DialogButton extends Vue {
   transition: width 0.3s ease 0s;
 }
 
-.dialog-header-box {
-  i {
-    margin-right: 10px;
-  }
+.title-text {
+  margin-left: 10px;
 }
 </style>

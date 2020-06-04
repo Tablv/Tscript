@@ -9,44 +9,45 @@
 
       <!-- 分割线 -->
       <el-divider />
-
-      <!-- 选择已有配置 -->
-      <el-radio v-model="appliedDatapackId" :label="DEFAULT_VALUE" border>
-        <div class="label-container">
-          <div class="label-main">
-            <div class="label-title">无预警</div>
+      <div class="main-content">
+        <!-- 选择已有配置 -->
+        <el-radio v-model="appliedDatapackId" :label="DEFAULT_VALUE" border>
+          <div class="label-container">
+            <div class="label-main">
+              <div class="label-title">无预警</div>
+            </div>
           </div>
-        </div>
-      </el-radio>
+        </el-radio>
 
-      <el-radio
-        v-for="(warnDatapack, datapackIndex) in warnDatapacks"
-        :key="warnDatapack.id"
-        v-model="appliedDatapackId"
-        :label="warnDatapack.id"
-        border
-      >
-        <div class="label-container">
-          <div class="label-main">
-            <div class="label-title">{{ warnDatapack.name }}</div>
-          </div>
-          <div class="label-option">
-            <el-button
-              size="medium"
-              type="text"
-              icon="el-icon-edit"
-              @click="doEdit(datapackIndex)"
-            />
+        <el-radio
+          v-for="(warnDatapack, datapackIndex) in warnDatapacks"
+          :key="warnDatapack.id"
+          v-model="appliedDatapackId"
+          :label="warnDatapack.id"
+          border
+        >
+          <div class="label-container">
+            <div class="label-main">
+              <div class="label-title">{{ warnDatapack.name }}</div>
+            </div>
+            <div class="label-option">
+              <el-button
+                size="medium"
+                type="text"
+                icon="el-icon-edit"
+                @click="doEdit(datapackIndex)"
+              />
 
-            <el-button
-              size="medium"
-              type="text"
-              icon="el-icon-close"
-              @click="removeDatapack(datapackIndex)"
-            />
+              <el-button
+                size="medium"
+                type="text"
+                icon="el-icon-close"
+                @click="removeDatapack(datapackIndex)"
+              />
+            </div>
           </div>
-        </div>
-      </el-radio>
+        </el-radio>
+      </div>
     </main>
 
     <footer>
@@ -64,7 +65,7 @@ import { CommonStore } from "@/store/modules-model";
 import ObjectUtil from "@/util/ObjectUtil";
 import { WarnDatapack, WARN_DEFAULT_VALUE } from "glaway-bi-model/view/Warn";
 import { AxiosRequest } from "@/api/AxiosRequest";
-import UIUtil, { MessageType } from "@/util/UIUtil";
+import UIUtil, { MessageType, ConfirmType } from "@/util/UIUtil";
 
 @Component
 export default class SelectView extends Vue {
@@ -140,22 +141,26 @@ export default class SelectView extends Vue {
 
   // 删除数据包
   removeDatapack(datapackIndex: number) {
-    this.getDatapack(datapackIndex)
-      .then((datapack: WarnDatapack) => {
-        AxiosRequest.warnConfig
-          .remove(datapack.id)
-          .then(() => {
-            UIUtil.showMessage("已删除预警", MessageType.success);
-            this.doReload();
+    UIUtil.confirm(ConfirmType.warning, "确认删除?")
+      .then(() => {
+        this.getDatapack(datapackIndex)
+          .then((datapack: WarnDatapack) => {
+            AxiosRequest.warnConfig
+              .remove(datapack.id)
+              .then(() => {
+                UIUtil.showMessage("已删除预警", MessageType.success);
+                this.doReload();
+              })
+              .catch(err => {
+                console.error(err);
+                UIUtil.showErrorMessage("删除预警失败 请稍后重试");
+              });
           })
-          .catch(err => {
-            console.error(err);
-            UIUtil.showErrorMessage("删除预警失败 请稍后重试");
+          .catch(() => {
+            UIUtil.showErrorMessage("无法编辑预警配置");
           });
       })
-      .catch(() => {
-        UIUtil.showErrorMessage("无法编辑预警配置");
-      });
+      .catch(error => {});
   }
 
   /**
@@ -172,7 +177,8 @@ export default class SelectView extends Vue {
 
 <style lang="scss" scoped>
 @import "../toolkit/select-view";
-$mainMinHeight: 300px;
+$mainMinHeight: 220px;
+$mainMaxHeight: 250px;
 
-@include defaultSelectView($mainMinHeight);
+@include defaultSelectView($mainMinHeight, $mainMaxHeight);
 </style>
