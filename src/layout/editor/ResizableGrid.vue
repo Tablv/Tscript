@@ -130,6 +130,7 @@ export default class ResizableGrid extends Vue {
 
   dodragover(event: any) {
     event.preventDefault();
+    this.setPointerEvents("none");
     this.isBgStyle = true;
     let bgBox = this.$refs.bgBox as HTMLDivElement;
     const bgBoxLeft = parseInt(bgBox.style.left) || 0,
@@ -148,8 +149,8 @@ export default class ResizableGrid extends Vue {
         y: Math.round(this.bgStyle.y / 10) * 10
       }
     };
-    this.setPointerEvents("auto");
     this.createDashboard(baseConfig);
+    this.setPointerEvents("auto");
   }
 
   // 下标改变，隐藏右侧菜单
