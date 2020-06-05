@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar">
     <el-tooltip effect="dark" content="保存" placement="right">
-      <button class="toolbtn" @click="saveData">
+      <button class="toolbtn" @click="saveData" :style="pointerEvents">
         <i class="fa fa-save"></i>
       </button>
     </el-tooltip>
@@ -12,7 +12,11 @@
       placement="right"
       :manual="true"
     >
-      <button class="toolbtn" @click="showCreateChart = true">
+      <button
+        class="toolbtn"
+        @click="showCreateChart = true"
+        :style="pointerEvents"
+      >
         <i class="fa fa-chart-bar"></i>
       </button>
     </el-tooltip>
@@ -29,8 +33,9 @@
           <el-col :span="8" v-for="(opt, idx) in chartCreateOptions" :key="idx">
             <el-button
               class="chart-btn simple-btn"
+              :draggable="opt.enable && opt.createType !== 'sunpie'"
               :disabled="!opt.enable || opt.createType === 'sunpie'"
-              @click="createChart(opt.createType)"
+              @dragstart.native="createChart($event, opt.createType)"
             >
               <svg class="icon-svg" aria-hidden="true">
                 <use :xlink:href="'#' + opt.iconClass" />
@@ -62,10 +67,6 @@ import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTempl
   components: {}
 })
 export default class ToolBar extends Vue {
-  // 创建仪表盘
-  @CommonStore.Mutation("createDashboard")
-  createDashboard!: Function;
-
   // 仪表盘集数据
   @CommonStore.State("dashboardSet")
   dashboardSet!: DashboardSet;
@@ -78,6 +79,14 @@ export default class ToolBar extends Vue {
   @CommonStore.State("dashboardSetId")
   setId!: string;
 
+  // 按钮穿透
+  @CommonStore.State("pointerEvents")
+  pointerEvents!: object;
+
+  // 控制按钮穿透
+  @CommonStore.Mutation("setPointerEvents")
+  setPointerEvents!: Function;
+
   // 打开创建图表抽屉
   showCreateChart: boolean = false;
 
@@ -87,12 +96,11 @@ export default class ToolBar extends Vue {
   /**
    * 创建图表
    */
-  createChart(chartType: ChartType): void {
+  createChart(event: any, chartType: ChartType) {
     this.showCreateChart = false;
-    // 创建新的仪表
-    setTimeout(() => {
-      this.createDashboard(chartType);
-    }, 500);
+    this.setPointerEvents("none");
+    event.dataTransfer.setDragImage(new Image(), 0, 0);
+    event.dataTransfer.setData("chartType", chartType);
   }
 
   /**
@@ -162,6 +170,7 @@ export default class ToolBar extends Vue {
     width: 100%;
     min-width: 80px;
     min-height: 80px;
+    cursor: move;
 
     .fa {
       margin: 8px 4px 12px;

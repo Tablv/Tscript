@@ -90,6 +90,19 @@ export default class ResizableElement extends Vue {
   @Prop()
   index!: number;
 
+  // 是否正在加载数据
+  isFetching = false;
+
+  // 是否分析成功
+  analysisSuccess = true;
+
+  // 是否显示详细工具栏
+  isShowDetail = false;
+
+  resultTmp: AnalysisResults = [];
+
+  defaultConfig: any;
+
   /**
    * 标志位
    */
@@ -103,19 +116,6 @@ export default class ResizableElement extends Vue {
   // 正在加载菜单
   @EditorStore.State("menuLoading")
   menuLoading!: boolean;
-
-  // 是否正在加载数据
-  isFetching = false;
-
-  // 是否分析成功
-  analysisSuccess = true;
-
-  // 是否显示详细工具栏
-  isShowDetail = false;
-
-  resultTmp: AnalysisResults = [];
-
-  defaultConfig: any;
 
   /**
    * 仪表盘部分
@@ -138,6 +138,10 @@ export default class ResizableElement extends Vue {
 
   @EditorStore.Action("changeChartType")
   changeChartType!: Function;
+
+  // 控制按钮穿透
+  @CommonStore.Mutation("setPointerEvents")
+  setPointerEvents!: Function;
 
   /**
    * Getter
@@ -246,6 +250,8 @@ export default class ResizableElement extends Vue {
   }
 
   mounted() {
+    this.setActiveIndex(-1);
+
     if (!this.chartComponent) return;
 
     // 初始化
@@ -393,11 +399,16 @@ export default class ResizableElement extends Vue {
    */
   onDragStop(x: number, y: number): void {
     // 防止出现非当前下标的元素被操作的问题
+    this.setPointerEvents("auto");
     this.setActiveIndex(this.index);
   }
 
+  /**
+   * 拖拽进行时
+   */
   onDrageding(x: number, y: number) {
     this.setPosition(x, y);
+    this.setPointerEvents("none");
     this.chartComponent?.resizeChart();
   }
 

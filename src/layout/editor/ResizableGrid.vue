@@ -1,5 +1,10 @@
 <template>
-  <div class="grid-container clearfix" id="gridContainer">
+  <div
+    class="grid-container clearfix"
+    id="gridContainer"
+    @dragover="dodragover"
+    @drop="drop"
+  >
     <div class="bg-box" :style="canvasStyle" id="bgBox" ref="bgBox">
       <div class="grid-box" id="gridBox">
         <transition-group name="fade-in-linear">
@@ -12,6 +17,7 @@
             @mousedown.native.stop="setChartZIndex(index)"
           />
         </transition-group>
+        <vdr v-show="isBgStyle" v-bind="bgStyle" class="bg-model-style"></vdr>
       </div>
     </div>
   </div>
@@ -20,22 +26,30 @@
 <script lang="ts">
 import { Component, Watch, Vue } from "vue-property-decorator";
 
+import vdr from "vue-draggable-resizable-gorkys";
 import ResizableChart from "@/layout/editor/ResizableChart.vue";
 import { ShortcutType } from "glaway-bi-model/enums/ShortcutType";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import DashboardUtil from "@/util/DashboardUtil";
+import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
+import ObjectUtil from "../../util/ObjectUtil";
 
 @Component({
   components: {
-    ResizableChart
+    ResizableChart,
+    vdr
   }
 })
 export default class ResizableGrid extends Vue {
   /**
    * CommonStore
    */
+  // 创建仪表盘
+  @CommonStore.Mutation("createDashboard")
+  createDashboard!: Function;
+
   // 图表数据数组
   @CommonStore.State("dashboards")
   dashboards!: Array<Dashboard>;
@@ -55,6 +69,10 @@ export default class ResizableGrid extends Vue {
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
 
+  // 控制按钮穿透
+  @CommonStore.Mutation("setPointerEvents")
+  setPointerEvents!: Function;
+
   /**
    * EditorStore
    */
@@ -72,6 +90,26 @@ export default class ResizableGrid extends Vue {
    */
   canvasStyle = {};
 
+  bgStyle: {
+    w: number;
+    h: number;
+    x: number;
+    y: number;
+    z: number;
+    grid: Array<number>;
+    handles: Array<string>;
+  } = {
+    w: 300,
+    h: 400,
+    x: 0,
+    y: 0,
+    z: 1000,
+    grid: [10, 10],
+    handles: []
+  };
+
+  isBgStyle = false;
+
   mounted() {
     let gridContainer = document.querySelector(
         "#gridContainer"
@@ -79,11 +117,39 @@ export default class ResizableGrid extends Vue {
       canvasDOM = document.querySelector("#bgBox") as HTMLDivElement,
       domIdwhiteList = ["gridContainer", "bgBox", "gridBox"];
 
+    const template = ObjectUtil.copy(generalDataTemplate);
+    this.bgStyle.w = template.visualData.width;
+    this.bgStyle.h = template.visualData.height;
+
     // 调整画布尺寸
     this.resizeCanvas(canvasDOM, this.dashboardSet);
 
     // 绑定DOM拖拽
     this.bindDragCanvas(gridContainer, canvasDOM, 50, domIdwhiteList);
+  }
+
+  dodragover(event: any) {
+    event.preventDefault();
+    this.isBgStyle = true;
+    let bgBox = this.$refs.bgBox as HTMLDivElement;
+    const bgBoxLeft = parseInt(bgBox.style.left) || 0,
+      bgBoxTop = parseInt(bgBox.style.top) || 0;
+    this.bgStyle.x = event.x - 84 - 200 - bgBoxLeft;
+    this.bgStyle.y = event.y - 60 - 150 - bgBoxTop;
+  }
+
+  drop(event: any) {
+    this.isBgStyle = false;
+    const chartType = event.dataTransfer.getData("chartType");
+    const baseConfig = {
+      chartType,
+      position: {
+        x: Math.round(this.bgStyle.x / 10) * 10,
+        y: Math.round(this.bgStyle.y / 10) * 10
+      }
+    };
+    this.setPointerEvents("auto");
+    this.createDashboard(baseConfig);
   }
 
   // 下标改变，隐藏右侧菜单
@@ -206,5 +272,10 @@ export default class ResizableGrid extends Vue {
 
 .bg-box {
   position: relative;
+}
+.bg-model-style {
+  background: #7e7a7a7a;
+  position: absolute;
+  z-index: 1000;
 }
 </style>

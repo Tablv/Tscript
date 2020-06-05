@@ -34,7 +34,11 @@ const state: any = {
   },
 
   // 正在保存分析标志位
-  savingAnalysis: false
+  savingAnalysis: false,
+
+  pointerEvents: {
+    pointerEvents: "auto"
+  }
 };
 
 const getters: GetterTree<any, any> = {
@@ -49,9 +53,13 @@ const mutations: MutationTree<any> = {
    * 创建仪表盘
    * @param chartType {ChartType} 仪表类型
    */
-  createDashboard(state: any, chartType: ChartType): void {
+  createDashboard(
+    state: any,
+    baseConfig: { chartType: ChartType; position?: { x: number; y: number } }
+  ): void {
     // 当前存在的数据
     let currentDataLength = state.dashboards.length;
+    const { chartType, position } = baseConfig;
 
     // 根据模板，创建新数据
     let initData: Dashboard | undefined = DashboardUtil.getInitDashboard(
@@ -61,6 +69,13 @@ const mutations: MutationTree<any> = {
     if (initData === undefined) {
       UIUtil.showErrorMessage("创建初始化数据出错");
       throw "创建初始化数据出错";
+    }
+    if (position) {
+      initData.visualData.position = {
+        x: position.x,
+        y: position.y,
+        z: initData.visualData.position.z
+      };
     }
     // 添加仪表盘
     state.dashboards.push(initData);
@@ -172,6 +187,10 @@ const mutations: MutationTree<any> = {
   // 设置是否正在保存分析数据
   setSavingAnalysis(state, isSaving: boolean): void {
     state.savingAnalysis = isSaving;
+  },
+
+  setPointerEvents(state, value: string) {
+    state.pointerEvents.pointerEvents = value;
   }
 };
 
