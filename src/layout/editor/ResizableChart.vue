@@ -139,10 +139,6 @@ export default class ResizableElement extends Vue {
   @EditorStore.Action("changeChartType")
   changeChartType!: Function;
 
-  // 控制按钮穿透
-  @CommonStore.Mutation("setPointerEvents")
-  setPointerEvents!: Function;
-
   /**
    * Getter
    */
@@ -399,7 +395,6 @@ export default class ResizableElement extends Vue {
    */
   onDragStop(x: number, y: number): void {
     // 防止出现非当前下标的元素被操作的问题
-    this.setPointerEvents("auto");
     this.setActiveIndex(this.index);
   }
 
@@ -408,7 +403,6 @@ export default class ResizableElement extends Vue {
    */
   onDrageding(x: number, y: number) {
     this.setPosition(x, y);
-    this.setPointerEvents("none");
     this.chartComponent?.resizeChart();
   }
 

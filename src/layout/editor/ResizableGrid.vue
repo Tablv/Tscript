@@ -17,7 +17,11 @@
             @mousedown.native.stop="setChartZIndex(index)"
           />
         </transition-group>
-        <vdr v-show="isBgStyle" v-bind="bgStyle" class="bg-model-style"></vdr>
+        <vdr
+          v-show="isShowshadow"
+          v-bind="bgStyle"
+          class="bg-model-style"
+        ></vdr>
       </div>
     </div>
   </div>
@@ -69,9 +73,17 @@ export default class ResizableGrid extends Vue {
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
 
-  // 控制按钮穿透
-  @CommonStore.Mutation("setPointerEvents")
-  setPointerEvents!: Function;
+  // 仪表阴影标志
+  @CommonStore.State("isShowshadow")
+  isShowshadow!: number;
+
+  // 仪表阴影风格
+  @CommonStore.Mutation("setShadowStyle")
+  setShadowStyle!: Function;
+
+  // 控制阴影
+  @CommonStore.Mutation("setShowshadow")
+  setShowshadow!: Function;
 
   /**
    * EditorStore
@@ -130,17 +142,19 @@ export default class ResizableGrid extends Vue {
 
   dodragover(event: any) {
     event.preventDefault();
-    this.setPointerEvents("none");
-    this.isBgStyle = true;
+    event.stopPropagation();
+    this.setShowshadow(true);
     let bgBox = this.$refs.bgBox as HTMLDivElement;
     const bgBoxLeft = parseInt(bgBox.style.left) || 0,
       bgBoxTop = parseInt(bgBox.style.top) || 0;
     this.bgStyle.x = event.x - 84 - 200 - bgBoxLeft;
     this.bgStyle.y = event.y - 60 - 150 - bgBoxTop;
+    this.setShadowStyle(this.bgStyle);
   }
 
   drop(event: any) {
-    this.isBgStyle = false;
+    event.preventDefault();
+    this.setShowshadow(false);
     const chartType = event.dataTransfer.getData("chartType");
     const baseConfig = {
       chartType,
@@ -150,7 +164,6 @@ export default class ResizableGrid extends Vue {
       }
     };
     this.createDashboard(baseConfig);
-    this.setPointerEvents("auto");
   }
 
   // 下标改变，隐藏右侧菜单

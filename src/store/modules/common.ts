@@ -36,8 +36,18 @@ const state: any = {
   // 正在保存分析标志位
   savingAnalysis: false,
 
-  pointerEvents: {
-    pointerEvents: "auto"
+  // 仪表阴影
+  isShowshadow: false,
+
+  // 阴影风格
+  shadowStyle: {
+    w: 300,
+    h: 400,
+    x: 0,
+    y: 0,
+    z: 1000,
+    grid: [10, 10],
+    handles: []
   }
 };
 
@@ -189,8 +199,23 @@ const mutations: MutationTree<any> = {
     state.savingAnalysis = isSaving;
   },
 
-  setPointerEvents(state, value: string) {
-    state.pointerEvents.pointerEvents = value;
+  setShadowStyle(
+    state,
+    shadowStyle: {
+      w: number;
+      h: number;
+      x: number;
+      y: number;
+      z: number;
+      grid: Array<number>;
+      handles: Array<string>;
+    }
+  ) {
+    state.shadowStyle = shadowStyle;
+  },
+
+  setShowshadow(state, value: boolean) {
+    state.isShowshadow = value;
   }
 };
 

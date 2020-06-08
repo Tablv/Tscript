@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar">
     <el-tooltip effect="dark" content="保存" placement="right">
-      <button class="toolbtn" @click="saveData" :style="pointerEvents">
+      <button class="toolbtn" @click="saveData">
         <i class="fa fa-save"></i>
       </button>
     </el-tooltip>
@@ -12,11 +12,7 @@
       placement="right"
       :manual="true"
     >
-      <button
-        class="toolbtn"
-        @click="showCreateChart = true"
-        :style="pointerEvents"
-      >
+      <button class="toolbtn" @click="showCreateChart = true">
         <i class="fa fa-chart-bar"></i>
       </button>
     </el-tooltip>
@@ -27,6 +23,7 @@
       :visible.sync="showCreateChart"
       direction="ltr"
       size="430px"
+      style="po"
     >
       <div class="chart-btn-container">
         <el-row :gutter="20">
@@ -36,6 +33,7 @@
               :draggable="opt.enable && opt.createType !== 'sunpie'"
               :disabled="!opt.enable || opt.createType === 'sunpie'"
               @dragstart.native="createChart($event, opt.createType)"
+              @dragend.native="dragend"
             >
               <svg class="icon-svg" aria-hidden="true">
                 <use :xlink:href="'#' + opt.iconClass" />
@@ -67,6 +65,10 @@ import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTempl
   components: {}
 })
 export default class ToolBar extends Vue {
+  // 创建仪表盘
+  @CommonStore.Mutation("createDashboard")
+  createDashboard!: Function;
+
   // 仪表盘集数据
   @CommonStore.State("dashboardSet")
   dashboardSet!: DashboardSet;
@@ -79,13 +81,25 @@ export default class ToolBar extends Vue {
   @CommonStore.State("dashboardSetId")
   setId!: string;
 
-  // 按钮穿透
-  @CommonStore.State("pointerEvents")
-  pointerEvents!: object;
+  // 仪表阴影标志
+  @CommonStore.State("isShowshadow")
+  isShowshadow!: number;
 
-  // 控制按钮穿透
-  @CommonStore.Mutation("setPointerEvents")
-  setPointerEvents!: Function;
+  // 仪表阴影风格
+  @CommonStore.State("shadowStyle")
+  shadowStyle!: {
+    w: number;
+    h: number;
+    x: number;
+    y: number;
+    z: number;
+    grid: Array<number>;
+    handles: Array<string>;
+  };
+
+  // 仪表阴影风格
+  @CommonStore.Mutation("setShowshadow")
+  setShowshadow!: Function;
 
   // 打开创建图表抽屉
   showCreateChart: boolean = false;
@@ -98,9 +112,25 @@ export default class ToolBar extends Vue {
    */
   createChart(event: any, chartType: ChartType) {
     this.showCreateChart = false;
-    this.setPointerEvents("none");
     event.dataTransfer.setDragImage(new Image(), 0, 0);
     event.dataTransfer.setData("chartType", chartType);
+  }
+
+  // 拖拽结束
+  dragend(event: any) {
+    // 预防drop不触发的问题
+    if (this.isShowshadow) {
+      this.setShowshadow(false);
+      const chartType = event.dataTransfer.getData("chartType");
+      const baseConfig = {
+        chartType,
+        position: {
+          x: Math.round(this.shadowStyle.x / 10) * 10,
+          y: Math.round(this.shadowStyle.y / 10) * 10
+        }
+      };
+      this.createDashboard(baseConfig);
+    }
   }
 
   /**
