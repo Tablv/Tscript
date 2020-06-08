@@ -16,7 +16,13 @@
       @close="closeSortDialog"
     />
 
-    <tool-button icon-class="fa fa-sort-amount-down-alt" title="排名" />
+    <!-- 排名配置 -->
+    <limit-dialog
+      icon-class="fa fa-sort-alpha-down"
+      title="排名"
+      v-model="visibles.limit"
+      @close="closeLimitDialog"
+    />
 
     <tool-button
       icon-class="fa fa-tasks"
@@ -52,6 +58,7 @@ import ToolButton from "@/components/ToolButton.vue";
 import FilterDialog from "./filter/main.vue";
 import SortDialog from "./sort/main.vue";
 import WarnDialog from "./warn/main.vue";
+import LimitDialog from "./limit/main.vue";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
 import MenuOptions from "@/config/MenuOptions";
 
@@ -65,7 +72,8 @@ type VisibleMap = { [key: string]: boolean };
     FilterDialog,
     SortDialog,
     WarnDialog,
-    ToolButton
+    ToolButton,
+    LimitDialog
   }
 })
 export default class DetailToolbar extends Vue {
@@ -102,7 +110,8 @@ export default class DetailToolbar extends Vue {
   visibles: VisibleMap = {
     filter: false,
     sort: false,
-    warn: false
+    warn: false,
+    limit: false
   };
 
   /**
@@ -143,6 +152,13 @@ export default class DetailToolbar extends Vue {
    */
   closeSortDialog() {
     this.visibles.sort = false;
+  }
+
+  /**
+   * 关闭排序配置
+   */
+  closeLimitDialog() {
+    this.visibles.limit = false;
   }
 
   /**

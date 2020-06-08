@@ -19,11 +19,8 @@
 
       <el-divider></el-divider>
 
-      <!-- <el-tabs v-model="currentTabName" @tab-click="sortTypeHandler"> -->
       <!-- 计算结果 -->
-      <!-- <el-tab-pane label="计算结果" name="resultOrder"> -->
       <div v-if="isResultOrder">
-        <!-- config-inline START -->
         <el-scrollbar>
           <div class="drag-area-box field-drag-area-box">
             <draggable
@@ -55,14 +52,6 @@
                     >
                   </el-radio-group>
 
-                  <!-- <el-select size="mini" v-model="sortData.orderType">
-                        <el-option
-                          v-for="type in orderTypeMapping"
-                          :key="type.value"
-                          :label="type.text"
-                          :value="type.value"
-                        />
-                      </el-select -->
                 </el-col>
               </el-row>
             </draggable>
@@ -70,59 +59,7 @@
         </el-scrollbar>
         <!-- config-inline END -->
       </div>
-      <!-- </el-tab-pane> -->
-      <!-- <el-tab-pane label="自定义字段" name="customField">
-          <div v-if="isCustomField">
-            <div
-              v-for="(sortData, sortIndex) in currentSortPack.config.data"
-              :key="sortIndex"
-              class="config-inline"
-            >
-              <div class="config-inner">
-                <el-button
-                  size="mini"
-                  plain
-                  icon="el-icon-plus"
-                  @click="addSort"
-                />
-
-                <el-button
-                  :disabled="sortIndex === 0"
-                  size="mini"
-                  type="danger"
-                  plain
-                  icon="el-icon-close"
-                  @click="removeSort(sortIndex)"
-                />
-              </div>
-              <el-select
-                size="mini"
-                v-model="sortData.fieldId"
-                filterable
-                placeholder="请输入或选择筛选字段"
-                @change="appendFieldData(sortIndex)"
-              >
-                <el-option
-                  v-for="tableColumn in allColumns"
-                  :key="tableColumn.id"
-                  :label="columnNameFormatter(tableColumn)"
-                  :value="tableColumn.id"
-                />
-              </el-select>
-              <el-select size="mini" v-model="sortData.orderType">
-                <el-option
-                  v-for="type in orderTypeMapping"
-                  :key="type.value"
-                  :label="type.text"
-                  :value="type.value"
-                />
-              </el-select>
-            </div>
-          </template>
-        </el-tab-pane> -->
-
       <!-- 自定义顺序 -->
-      <!-- <el-tab-pane label="自定义顺序" name="customOrder"> -->
       <div v-if="isCustomOrder">
         <el-form
           @submit.native.prevent
@@ -168,8 +105,6 @@
           </el-form-item>
         </el-form>
       </div>
-      <!-- </el-tab-pane> -->
-      <!-- </el-tabs> -->
     </main>
 
     <footer>
