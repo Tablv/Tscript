@@ -64,7 +64,7 @@ import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore } from "@/store/modules-model";
 
 import ObjectUtil from "@/util/ObjectUtil";
-import { SORT_DEFAULT_VALUE, SortDatapack } from "glaway-bi-model/view/Sort";
+import { LIMIT_DEFAULT_VALUE, LimitDatapack } from "glaway-bi-model/view/Limit";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import UIUtil, { MessageType, ConfirmType } from "@/util/UIUtil";
 
@@ -82,7 +82,7 @@ export default class SelectView extends Vue {
    * Props
    */
   @Prop()
-  datapacks!: Array<SortDatapack>;
+  datapacks!: Array<LimitDatapack>;
 
   /**
    * Emit
@@ -111,13 +111,13 @@ export default class SelectView extends Vue {
   close() {}
 
   // 默认值
-  DEFAULT_VALUE = SORT_DEFAULT_VALUE;
+  DEFAULT_VALUE = LIMIT_DEFAULT_VALUE;
 
   /**
    * 数据包
    */
   // 数据包
-  get sortDatapacks(): Array<SortDatapack> {
+  get sortDatapacks(): Array<LimitDatapack> {
     return this.datapacks;
   }
 
@@ -127,12 +127,12 @@ export default class SelectView extends Vue {
 
   // 应用的数据包记录
   get appliedDatapackId() {
-    return this.currentDashboard?.analysis.sort.id;
+    return this.currentDashboard?.analysis.limit.id;
   }
-  set appliedDatapackId(sortId: string) {
+  set appliedDatapackId(LimitId: string) {
     if (this.currentDashboard) {
       this.setSavingAnalysis(true);
-      this.currentDashboard.analysis.sort.id = sortId;
+      this.currentDashboard.analysis.limit.id = LimitId;
     }
   }
 
@@ -145,8 +145,8 @@ export default class SelectView extends Vue {
     UIUtil.confirm(ConfirmType.warning, "确认删除?")
       .then(() => {
         this.getDatapack(datapackIndex)
-          .then((datapack: SortDatapack) => {
-            AxiosRequest.sortConfig
+          .then((datapack: LimitDatapack) => {
+            AxiosRequest.limitConfig
               .remove(datapack.id)
               .then(() => {
                 UIUtil.showMessage("已删除排序", MessageType.success);
@@ -167,7 +167,7 @@ export default class SelectView extends Vue {
   /**
    * 获取指定数据包
    */
-  getDatapack(datapackIndex: number): Promise<SortDatapack> {
+  getDatapack(datapackIndex: number): Promise<LimitDatapack> {
     let datapack = this.sortDatapacks[datapackIndex];
     return datapack
       ? Promise.resolve(ObjectUtil.copy(datapack))

@@ -13,6 +13,7 @@ import ShareVO from "glaway-bi-model/results/ShareVO";
 
 import { FilterDatapack } from "glaway-bi-model/view/Filter";
 import { SortDatapack, SortConfig } from "glaway-bi-model/view/Sort";
+import { LimitDatapack } from "glaway-bi-model/view/Limit";
 import { WarnDatapack } from "glaway-bi-model/view/Warn";
 
 const API = {
@@ -60,7 +61,6 @@ const API = {
   /**
    * 过滤器配置 (Restful)
    */
-  // filterConfig: "/filterDatapack",
   filterConfig: {
     find: "/dashboard/ops/filter",
     save: "/dashboard/ops/filter/save",
@@ -75,7 +75,15 @@ const API = {
     save: "/dashboard/ops/sort/save",
     remove: "/dashboard/ops/sort/remove"
   },
-  // "/sortDatapack",
+
+  /**
+   * 排名配置
+   */
+  limitConfig: {
+    find: "/dashboard/ops/top",
+    save: "/dashboard/ops/top/save",
+    remove: "/dashboard/ops/top/remove"
+  },
 
   /**
    * 预警配置 (Restful)
@@ -85,7 +93,6 @@ const API = {
     save: "/dashboard/ops/warn/save",
     remove: "/dashboard/ops/warn/remove"
   },
-  // "/warnDatapack",
 
   /**
    * 公共API
@@ -339,6 +346,46 @@ export const AxiosRequest = {
       })
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("删除排序配置异常")
+        )
+        .catch(err => Promise.reject(err))
+  },
+
+  /**
+   * 排名配置 (Restful)
+   */
+  limitConfig: {
+    // 加载排名配置
+    find: (dashboardId: string) =>
+      AxiosUtil.get(`${API.limitConfig.find}/${dashboardId}`)
+        .then(res =>
+          res.success
+            ? Promise.resolve(ObjectUtil.deserialize(res.result))
+            : Promise.reject("加载排名配置异常")
+        )
+        .catch(err => Promise.reject(err)),
+
+    // 保存排名配置
+    save: (sortDatapack: LimitDatapack) => {
+      const request = {
+        id: sortDatapack.id,
+        name: sortDatapack.name,
+        dashboardId: sortDatapack.dashboardId,
+        config: JSON.stringify(sortDatapack.config)
+      };
+      return AxiosUtil.post(API.limitConfig.save, request)
+        .then(res =>
+          res.success ? Promise.resolve() : Promise.reject("保存排名配置异常")
+        )
+        .catch(err => Promise.reject(err));
+    },
+
+    // 删除排序配置
+    remove: (datapackId: string) =>
+      AxiosUtil.post(`${API.limitConfig.remove}/${datapackId}`, {
+        topId: datapackId
+      })
+        .then(res =>
+          res.success ? Promise.resolve() : Promise.reject("删除排名配置异常")
         )
         .catch(err => Promise.reject(err))
   },

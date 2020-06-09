@@ -50,8 +50,8 @@ import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import AxisWidget from "../widget/AxisWidget.vue";
 import "@/assets/draggable.scss";
 import MenuOptions from "@/config/MenuOptions";
-import FieldDTO from "glaway-bi-model/params/FieldDTO";
 import { FieldType } from "glaway-bi-model/enums/FieldType";
+import FieldDTO from "glaway-bi-model/params/FieldDTO";
 
 @Component({
   components: {
@@ -102,7 +102,12 @@ export default class Axis extends Vue {
   }
 
   set dimensions(dimensions: Array<FieldDTO>) {
-    this.currentDashboard.analysis.dimensions = dimensions;
+    this.currentDashboard.analysis.dimensions = dimensions.map(item => {
+      return Object.assign(item, {
+        columnName: item.vcolumn || item.columnName,
+        alias: item.vcolumn || item.alias
+      });
+    });
   }
 
   /**
@@ -130,7 +135,12 @@ export default class Axis extends Vue {
   }
 
   addMeasuresY(measuresY: Array<FieldDTO>) {
-    this.measuresY = measuresY;
+    this.measuresY = measuresY.map(item => {
+      return Object.assign(item, {
+        columnName: item.vcolumn || item.columnName,
+        alias: item.vcolumn || item.alias
+      });
+    });
   }
 
   /**
@@ -147,7 +157,12 @@ export default class Axis extends Vue {
   }
 
   addMeasuresZ(measuresZ: Array<FieldDTO>) {
-    this.measuresZ = measuresZ;
+    this.measuresZ = measuresZ.map(item => {
+      return Object.assign(item, {
+        columnName: item.vcolumn,
+        alias: item.vcolumn
+      });
+    });
   }
 }
 </script>

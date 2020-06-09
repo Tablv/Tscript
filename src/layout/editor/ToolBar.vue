@@ -171,6 +171,11 @@ export default class ToolBar extends Vue {
       serializedDashboard.analysis.sort = ObjectUtil.copy(
         generalDataTemplate.analysis.sort
       );
+
+      // 置为默认排名配置
+      serializedDashboard.analysis.limit = ObjectUtil.copy(
+        generalDataTemplate.analysis.limit
+      );
     });
 
     // 仪表盘集

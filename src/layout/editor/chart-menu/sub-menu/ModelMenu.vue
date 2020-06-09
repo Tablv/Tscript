@@ -66,9 +66,6 @@ import DatasetChooser from "./functional/dialog/DatasetChooser.vue";
   }
 })
 export default class ModelMenu extends Vue {
-  @CommonStore.Getter("currentDashboard")
-  currentDashboard!: Dashboard;
-
   /**
    * 数据集部分
    */

@@ -18,6 +18,7 @@ import ObjectUtil from "./ObjectUtil";
 import { BackgroundType } from "glaway-bi-model/enums/DashboardSet";
 import OrderDTO from "glaway-bi-model/params/OrderDTO";
 import { AnalysisResult } from "glaway-bi-model/types/AnalysisResults";
+import LimitDTO from "glaway-bi-model/params/LimitDTO";
 
 export default class DashboardUtil {
   /**
@@ -103,6 +104,7 @@ export default class DashboardUtil {
       fields: [],
       where: currentDashboard.analysis.where,
       order: [],
+      limit: "",
       viewName: currentDashboard.analysis.viewName
     };
 
@@ -142,6 +144,18 @@ export default class DashboardUtil {
         return item;
       })
     );
+
+    // 追加排名
+    if (currentDashboard.analysis.limit.data[0]) {
+      const result = DashboardUtil.pushLimitDTO(
+        currentDashboard.analysis.limit.data.map(item => {
+          item.tableAlias = viewNameList[2] || "";
+          return item;
+        })[0]
+      );
+      analysisDTO.order = [result.order];
+      analysisDTO.limit = result.limit;
+    }
     return analysisDTO;
   }
 
@@ -271,6 +285,13 @@ export default class DashboardUtil {
     });
   }
 
+  public static pushLimitDTO(orderSources: LimitDTO) {
+    return {
+      order: ObjectUtil.copy(orderSources),
+      limit: orderSources.limit
+    };
+  }
+
   /**
    * tableInfo 转 analysisDTO
    */
@@ -304,6 +325,7 @@ export default class DashboardUtil {
         fields: [],
         where: [],
         order: [],
+        limit: "",
         viewName: currentDashboard.analysis.viewName || ""
       };
 
