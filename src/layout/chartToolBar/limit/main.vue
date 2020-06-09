@@ -21,7 +21,7 @@
 
       <limit-config-view
         v-if="isConfigMode"
-        :datapack.sync="currentSortPack"
+        :datapack.sync="currentLimitPack"
         @set-loading="setLoading"
         @save="doSave"
         @back="goBack"
@@ -63,7 +63,6 @@ import LimitDTO from "glaway-bi-model/params/LimitDTO";
 @Component({
   components: {
     DialogButton,
-
     LimitSelectView,
     LimitConfigView
   }
@@ -142,8 +141,8 @@ export default class SortIndexView extends Vue {
   /**
    * 清空选项
    */
-  emptySortOption() {
-    this.currentSortPack = null;
+  emptyLimitOption() {
+    this.currentLimitPack = null;
   }
 
   /**
@@ -164,7 +163,7 @@ export default class SortIndexView extends Vue {
   }
 
   // 新增数据包
-  currentSortPack: LimitDatapack | null = null;
+  currentLimitPack: LimitDatapack | null = null;
 
   /**
    * 返回到选择页
@@ -174,7 +173,7 @@ export default class SortIndexView extends Vue {
     this.setSelectMode();
 
     // 清空选项
-    this.emptySortOption();
+    this.emptyLimitOption();
   }
 
   /**
@@ -193,7 +192,7 @@ export default class SortIndexView extends Vue {
   doEdit(datapackIndex: number) {
     this.getDatapack(datapackIndex)
       .then((datapack: LimitDatapack) => {
-        this.currentSortPack = datapack;
+        this.currentLimitPack = datapack;
 
         // 切换到配置页面
         this.setConfigMode();
@@ -238,7 +237,7 @@ export default class SortIndexView extends Vue {
       measures = this.currentDashboard.analysis.measures,
       allFields = dimensions.concat(measures);
 
-    this.currentSortPack = LimitBuilder.buildSortPack(
+    this.currentLimitPack = LimitBuilder.buildLimitPack(
       this.currentDashboard.id,
       this.limitDatapacks.length,
       allFields,
@@ -254,7 +253,6 @@ export default class SortIndexView extends Vue {
 
     this.getAppliedConfig(datapackId)
       .then(config => {
-        debugger;
         // 赋值给分析对象
         this.currentDashboard.analysis.limit = config;
         // 关闭对话框
@@ -301,13 +299,13 @@ export default class SortIndexView extends Vue {
   }
 
   doSave() {
-    if (this.currentSortPack) {
-      const order = this.currentSortPack.config.order;
-      this.currentSortPack.config.order = this.currentSortPack.config.orderData.filter(
+    if (this.currentLimitPack) {
+      const order = this.currentLimitPack.config.order;
+      this.currentLimitPack.config.order = this.currentLimitPack.config.orderData.filter(
         item => item.fieldData.id === order.fieldData.id
       )[0];
       AxiosRequest.limitConfig
-        .save(this.currentSortPack)
+        .save(this.currentLimitPack)
         .then(() => {
           // 刷新
           this.loadAllDatapack();

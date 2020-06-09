@@ -21,15 +21,15 @@
         </el-radio>
 
         <el-radio
-          v-for="(sortDatapack, datapackIndex) in sortDatapacks"
-          :key="sortDatapack.id"
+          v-for="(limitDatapack, datapackIndex) in limitDatapacks"
+          :key="limitDatapack.id"
           v-model="appliedDatapackId"
-          :label="sortDatapack.id"
+          :label="limitDatapack.id"
           border
         >
           <div class="label-container">
             <div class="label-main">
-              <div class="label-title">{{ sortDatapack.name }}</div>
+              <div class="label-title">{{ limitDatapack.name }}</div>
             </div>
             <div class="label-option">
               <el-button
@@ -117,11 +117,11 @@ export default class SelectView extends Vue {
    * 数据包
    */
   // 数据包
-  get sortDatapacks(): Array<LimitDatapack> {
+  get limitDatapacks(): Array<LimitDatapack> {
     return this.datapacks;
   }
 
-  set sortDatapacks(datapack) {
+  set limitDatapacks(datapack) {
     this.$emit("update:datapacks", datapack);
   }
 
@@ -168,7 +168,7 @@ export default class SelectView extends Vue {
    * 获取指定数据包
    */
   getDatapack(datapackIndex: number): Promise<LimitDatapack> {
-    let datapack = this.sortDatapacks[datapackIndex];
+    let datapack = this.limitDatapacks[datapackIndex];
     return datapack
       ? Promise.resolve(ObjectUtil.copy(datapack))
       : Promise.reject();

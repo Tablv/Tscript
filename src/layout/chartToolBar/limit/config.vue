@@ -17,24 +17,21 @@
       <div>
         <el-scrollbar>
           <div class="drag-area-box field-drag-area-box">
-            <el-radio-group
-              v-model="currentLimitPack.config.order.fieldData.id"
-              @change="dohandleChange"
-            >
+            <el-radio-group v-model="orderId">
               <el-radio
-                :label="sortData.fieldData.id"
-                v-for="(sortData, sortIndex) in currentLimitPack.config
+                :label="limitData.fieldData.id"
+                v-for="(limitData, limitIndex) in currentLimitPack.config
                   .orderData"
-                :key="sortIndex"
+                :key="limitIndex"
                 :gutter="10"
                 type="flex"
               >
                 <div class="radio-title">
                   {{
-                    sortData.fieldData.alias || sortData.fieldData.columnName
+                    limitData.fieldData.alias || limitData.fieldData.columnName
                   }}
                 </div>
-                <el-radio-group v-model="sortData.orderType" size="mini">
+                <el-radio-group v-model="limitData.orderType" size="mini">
                   <el-radio-button
                     v-for="type in orderTypeMapping"
                     :key="type.value"
@@ -46,7 +43,6 @@
             </el-radio-group>
           </div>
         </el-scrollbar>
-        <!-- config-inline END -->
       </div>
     </main>
 
@@ -103,8 +99,26 @@ export default class ConfigView extends Vue {
     return isLoading;
   }
 
+  radioId: string = "0";
+
   // 排序类型
   orderTypeMapping = OrderTypeMapping;
+
+  get orderId() {
+    if (this.currentLimitPack?.config.order) {
+      return this.currentLimitPack.config.order.fieldData.id;
+    } else {
+      return this.radioId;
+    }
+  }
+
+  set orderId(id: string) {
+    if (this.currentLimitPack?.config.order) {
+      this.currentLimitPack.config.order.fieldData.id = id;
+    } else {
+      this.radioId = id;
+    }
+  }
 
   /**
    * 数据包
@@ -114,24 +128,6 @@ export default class ConfigView extends Vue {
   }
   set currentLimitPack(datapack) {
     this.$emit("update:datapack", datapack);
-  }
-
-  dohandleChange(label: string) {
-    // this.currentLimitPack?.config.orderData.forEach(order => {
-    //   if (order.fieldData.id === label && this.currentLimitPack) {
-    //     this.currentLimitPack.config.order = order;
-    //   }
-    // });
-  }
-
-  /**
-   * 操作部分
-   */
-
-  // 字段(列名) 格式化
-  columnNameFormatter(tableColumn: TableInfoVO): string {
-    let suffix = tableColumn.alias ? ` - ${tableColumn.alias}` : "";
-    return `${tableColumn.columnName}${suffix}`;
   }
 }
 </script>
