@@ -10,35 +10,40 @@
       :grid="thisDashboard.visualData.grid"
       :y="thisDashboard.visualData.position.y"
       :z="thisDashboard.visualData.position.z"
-      :class="{ activeElement: index === activeIndex }"
+      :class="{ activeElement: index === activeIndex && !isSavingScreenhot }"
     >
       <div
         class="draggable-content"
         @mousedown="hideDetailBar(true)"
         v-loading="isFetching"
       >
-        <div class="toolbar-box">
+        <div class="toolbar-box" v-show="!isSavingScreenhot">
           <chart-toolbar :dashboard.sync="thisDashboard" />
         </div>
-        <!-- v-model="isShowDetail" -->
 
         <!-- 既没有拖入字段，也没有启用静态数据，显示如下 -->
-        <div v-show="!showChart">
-          <div v-if="analysisSuccess" class="no-chart-text">
-            拖入字段，生成图表
+        <div
+          :id="thisDashboard.id"
+          :title="thisDashboard.echarts.title.text"
+          class="chart-component"
+        >
+          <div v-show="!showChart">
+            <div v-if="analysisSuccess" class="no-chart-text">
+              拖入字段，生成图表
+            </div>
+            <div v-else class="no-chart-text">分析出错，请稍后重试</div>
+            <div class="no-chart-img"></div>
           </div>
-          <div v-else class="no-chart-text">分析出错，请稍后重试</div>
-          <div class="no-chart-img"></div>
+          <bi-component
+            v-show="showChart"
+            ref="chartComponent"
+            :dashboard.sync="thisDashboard"
+            :anslysisdata="resultTmp"
+            :key="index"
+            @error="doHandleError"
+            @setReact="setReactHandle"
+          />
         </div>
-        <bi-component
-          v-show="showChart"
-          ref="chartComponent"
-          :dashboard.sync="thisDashboard"
-          :anslysisdata="resultTmp"
-          :key="index"
-          @error="doHandleError"
-          @setReact="setReactHandle"
-        />
       </div>
     </vdr>
   </div>
@@ -126,6 +131,9 @@ export default class ResizableElement extends Vue {
   // 当前激活的元素 所在数组下标
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
+
+  @CommonStore.State("isSavingScreenhot")
+  isSavingScreenhot!: number;
 
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
@@ -543,6 +551,10 @@ $shadow: 0 0 6px $shadowColor;
     left: 20px;
     right: 20px;
     bottom: 0;
+  }
+  .chart-component {
+    width: 100%;
+    height: 100%;
   }
 
   .draggable-content {

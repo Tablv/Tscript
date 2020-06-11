@@ -226,21 +226,27 @@ export const AxiosRequest = {
     save: (
       setId: string,
       dashboardSet: DashboardSet,
-      dashboards: Array<Dashboard>
-    ) =>
-      AxiosUtil.post(API.saveDashboardSet, {
-        // id: setId,
-        // settings: JSON.stringify(dashboardSet)
-        // 调整接口
+      dashboards: Array<Dashboard>,
+      containerSnapshot: string,
+      dashboardSnapshots: Array<{
+        dashboardId: string;
+        fullPath: string;
+        title: string;
+      }>
+    ) => {
+      const req = {
         containerId: setId,
+        containerSnapshot,
+        dashboardSnapshots: JSON.stringify(dashboardSnapshots),
         containerOptions: JSON.stringify(dashboardSet),
         dashboardOptions: JSON.stringify(dashboards)
-      })
+      };
+      return AxiosUtil.post(API.saveDashboardSet, req)
         .then(res =>
-          // res.result ? Promise.resolve() : Promise.reject("保存仪表盘集错误")
           res.success ? Promise.resolve() : Promise.reject("保存仪表盘集错误")
         )
-        .catch(err => Promise.reject(err))
+        .catch(err => Promise.reject(err));
+    }
   },
 
   /**

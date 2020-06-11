@@ -6,7 +6,11 @@
     @drop="drop"
   >
     <div class="bg-box" :style="canvasStyle" id="bgBox" ref="bgBox">
-      <div class="grid-box" id="gridBox">
+      <div
+        :class="{ 'grid-box': true, 'grid-box-backgroud': !isSavingScreenhot }"
+        id="gridBox"
+        :setId="dashboardSetId"
+      >
         <transition-group name="fade-in-linear">
           <resizable-chart
             v-for="(item, index) in dashboards"
@@ -61,9 +65,16 @@ export default class ResizableGrid extends Vue {
   @CommonStore.State("dashboardSet")
   dashboardSet!: DashboardSet;
 
+  @CommonStore.State("dashboardSetId")
+  dashboardSetId!: string;
+
   // 当前激活的元素 所在数组下标
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
+
+  // 正在保存截图
+  @CommonStore.State("isSavingScreenhot")
+  isSavingScreenhot!: number;
 
   // 当前的下标的层级
   @CommonStore.Mutation("setDashboardChartZIndex")
@@ -278,6 +289,8 @@ export default class ResizableGrid extends Vue {
 .grid-box {
   width: 100%;
   height: 100%;
+}
+.grid-box-backgroud {
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
   background: linear-gradient(-90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
     linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);

@@ -77,7 +77,7 @@ export default class UIUtil {
     let loadingOptions = loadingDefaultOptions;
 
     if (customOptions) {
-      loadingOptions = ObjectUtil.merge(customOptions, loadingDefaultOptions);
+      loadingOptions = ObjectUtil.merge(loadingDefaultOptions, customOptions);
     }
 
     UIUtil.loadingInstance = Vue.prototype.$loading(loadingOptions);

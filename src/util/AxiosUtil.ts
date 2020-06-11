@@ -53,13 +53,13 @@ export default class AxiosUtil {
    * @param type {Method} 请求类型
    * @param isJSON {boolean} 是否为json格式
    */
-  public static async request(
+  public static request(
     url: string,
     data: any,
     type: Method,
     isJSON?: boolean
   ): Promise<ResultJSON> {
-    return await axios({
+    return axios({
       url: this.getBasePath() + url,
       method: type,
       data: isJSON ? data : qs.stringify(data),

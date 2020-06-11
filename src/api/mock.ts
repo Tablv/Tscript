@@ -19,7 +19,6 @@ const API = {
   /**
    * 表关系
    */
-  // findTables: "/dataset/table/findTableAndColumns",
   findTables: "/dashboard/container/loadCube",
 
   /**
@@ -57,7 +56,7 @@ let mockList = [
       width: 640,
       position: {
         x: 0,
-        y: 430,
+        y: 0,
         z: 1
       },
       type: "bar",

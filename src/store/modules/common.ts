@@ -7,8 +7,8 @@ import DefaultTemplate, {
   defaultDashboardSet
 } from "glaway-bi-component/src/config/DefaultTemplate";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
-import { AxiosRequest } from "@/api/AxiosRequest";
-// import { AxiosRequest } from "@/api/mock";
+// import { AxiosRequest } from "@/api/AxiosRequest";
+import { AxiosRequest } from "@/api/mock";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
@@ -35,6 +35,9 @@ const state: any = {
 
   // 正在保存分析标志位
   savingAnalysis: false,
+
+  // 正在保存截图标志位
+  isSavingScreenhot: false,
 
   // 仪表阴影
   isShowshadow: false,
@@ -197,6 +200,11 @@ const mutations: MutationTree<any> = {
   // 设置是否正在保存分析数据
   setSavingAnalysis(state, isSaving: boolean): void {
     state.savingAnalysis = isSaving;
+  },
+
+  // 设置正在保存截图
+  setSavingScreenhot(state, isSaving: boolean): void {
+    state.isSavingScreenhot = isSaving;
   },
 
   setShadowStyle(

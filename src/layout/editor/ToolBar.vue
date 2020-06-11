@@ -54,12 +54,14 @@ import { DatasetType } from "glaway-bi-model/enums/DatasetType";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
+import ScreenshotUtil from "@/util/Screenshot";
 import { chartCreateOptions } from "@/config/EditorOptions";
 import { EditorStore, CommonStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import { SortType } from "glaway-bi-model/enums/SortType";
 import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
+import { ElLoadingComponent } from 'element-ui/types/loading';
 
 @Component({
   components: {}
@@ -101,6 +103,10 @@ export default class ToolBar extends Vue {
   @CommonStore.Mutation("setShowshadow")
   setShowshadow!: Function;
 
+  // 设置正在保存截图
+  @CommonStore.Mutation("setSavingScreenhot")
+  setSavingScreenhot!: Function;
+
   // 打开创建图表抽屉
   showCreateChart: boolean = false;
 
@@ -133,32 +139,75 @@ export default class ToolBar extends Vue {
     }
   }
 
+  getScreenhot(loading: ElLoadingComponent) {
+    Promise.all([
+      ScreenshotUtil.getHtmlScreenhot("#gridBox"),
+      ScreenshotUtil.getHtmlListScreenhot(".chart-component")
+    ]).then(resultList => {
+      if (ObjectUtil.isEmptyString(this.setId)) {
+        UIUtil.showMessage(
+          "仪表盘参数有误 系统无法正常保存数据",
+          MessageType.error
+        );
+        throw "DashboardSetId 不存在";
+      }
+
+      this.saveDashboards(resultList)
+        .then(() => {
+          UIUtil.showMessage("保存成功", MessageType.success);
+        })
+        .catch(err => {
+          console.error(err);
+          UIUtil.showMessage("系统保存失败，请稍后重试", MessageType.error);
+        })
+        .finally(() => {
+          this.setSavingScreenhot(false);
+          this.$nextTick(() => {
+            UIUtil.closeLoading(loading);
+          });
+        });
+    });
+  }
+
   /**
    * 保存数据
    */
   saveData(): void {
-    if (ObjectUtil.isEmptyString(this.setId)) {
-      UIUtil.showMessage(
-        "仪表盘参数有误 系统无法正常保存数据",
-        MessageType.error
-      );
-      throw "DashboardSetId 不存在";
-    }
-
-    this.saveDashboards()
-      .then(() => {
-        UIUtil.showMessage("保存成功", MessageType.success);
-      })
-      .catch(err => {
-        console.error(err);
-        UIUtil.showMessage("系统保存失败，请稍后重试", MessageType.error);
+    new Promise((resolve, reject) => {
+      const loading: ElLoadingComponent = UIUtil.showLoading({
+        lock: true,
+        text: "正在保存"
       });
+      this.setSavingScreenhot(true);
+      resolve(loading);
+    }).then(loading => {
+      setTimeout(() => {
+        this.getScreenhot(loading as ElLoadingComponent);
+      }, 100);
+    });
+    // this.$nextTick(() => {
+    //   this.getScreenhot(loading);
+    // });
+    // getPngScreenshot
+    // getPngListScreenshot
+    // this.getScreenhot(loading);
   }
 
   /**
    * 保存仪表盘集
    */
-  async saveDashboards(): Promise<void> {
+  async saveDashboards(
+    resultList: Array<
+      | string
+      | Array<{
+          dashboardId: string;
+          fullPath: string;
+          title: string;
+        }>
+    >
+  ): Promise<void> {
+    console.error(resultList)
+    const [containerSnapshot, dashboardSnapshots] = resultList;
     let serializedDashboards = ObjectUtil.copy(this.dashboards);
     // 保存前处理
     serializedDashboards.forEach((serializedDashboard: Dashboard) => {
@@ -185,7 +234,13 @@ export default class ToolBar extends Vue {
     return await AxiosRequest.dashboardSet.save(
       this.setId,
       dashboardSet,
-      serializedDashboards
+      serializedDashboards,
+      containerSnapshot as string,
+      dashboardSnapshots as Array<{
+        dashboardId: string;
+        fullPath: string;
+        title: string;
+      }>
     );
   }
 }
