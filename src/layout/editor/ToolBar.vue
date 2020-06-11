@@ -61,7 +61,7 @@ import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import { SortType } from "glaway-bi-model/enums/SortType";
 import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
-import { ElLoadingComponent } from 'element-ui/types/loading';
+import { ElLoadingComponent } from "element-ui/types/loading";
 
 @Component({
   components: {}
@@ -206,7 +206,6 @@ export default class ToolBar extends Vue {
         }>
     >
   ): Promise<void> {
-    console.error(resultList)
     const [containerSnapshot, dashboardSnapshots] = resultList;
     let serializedDashboards = ObjectUtil.copy(this.dashboards);
     // 保存前处理

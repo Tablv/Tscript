@@ -26,7 +26,6 @@ const API = {
   /**
    * 表关系
    */
-  // findTables: "/dataset/table/findTableAndColumns",
   findTables: "/dashboard/container/loadCube",
 
   /**
@@ -47,9 +46,7 @@ const API = {
   /**
    * 仪表盘集
    */
-  // findDashboardSet: "/dashboard/container",
   findDashboardSet: "/dashboard/findDashboard",
-  // saveDashboardSet: "/dashboardSet/update",
   saveDashboardSet: "/dashboard/container/save",
 
   /**
@@ -92,6 +89,14 @@ const API = {
     find: "/dashboard/ops/warn",
     save: "/dashboard/ops/warn/save",
     remove: "/dashboard/ops/warn/remove"
+  },
+
+  /**
+   * 快照 素材库
+   */
+  snapshot: {
+    findDir: "/mate/findAllDir",
+    save: "/mate/uploadSnapshot"
   },
 
   /**
@@ -434,6 +439,29 @@ export const AxiosRequest = {
           res.success ? Promise.resolve() : Promise.reject("删除预警配置异常")
         )
         .catch(err => Promise.reject(err))
+  },
+
+  snapshot: {
+    // 加载资料库路径
+    find: (requestData: any) =>
+      AxiosUtil.get(API.snapshot.findDir, {
+        filter: JSON.stringify(requestData)
+      })
+        .then(res =>
+          res.success
+            ? Promise.resolve(ObjectUtil.deserialize(res.result))
+            : Promise.reject("加载素材库目录异常")
+        )
+        .catch(err => Promise.reject(err)),
+
+    // 保存到资料库
+    save: (requestData: any) => {
+      return AxiosUtil.post(API.snapshot.save, requestData)
+        .then(res =>
+          res.success ? Promise.resolve() : Promise.reject("保存快照异常")
+        )
+        .catch(err => Promise.reject(err));
+    }
   },
 
   /**

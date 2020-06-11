@@ -133,6 +133,10 @@ export default class ResizableGrid extends Vue {
 
   isBgStyle = false;
 
+  scrollLeft = 0;
+
+  scrollTop = 0;
+
   mounted() {
     let gridContainer = document.querySelector(
         "#gridContainer"
@@ -144,6 +148,12 @@ export default class ResizableGrid extends Vue {
     this.bgStyle.w = template.visualData.width;
     this.bgStyle.h = template.visualData.height;
 
+    const centerBox = document.querySelector(".center") as HTMLDivElement;
+    centerBox.addEventListener("scroll", e => {
+      this.scrollLeft = (e.target as HTMLDivElement).scrollLeft;
+      this.scrollTop = (e.target as HTMLDivElement).scrollTop;
+    });
+
     // 调整画布尺寸
     this.resizeCanvas(canvasDOM, this.dashboardSet);
 
@@ -154,12 +164,13 @@ export default class ResizableGrid extends Vue {
   dodragover(event: any) {
     event.preventDefault();
     event.stopPropagation();
-    this.setShowshadow(true);
     let bgBox = this.$refs.bgBox as HTMLDivElement;
     const bgBoxLeft = parseInt(bgBox.style.left) || 0,
       bgBoxTop = parseInt(bgBox.style.top) || 0;
-    this.bgStyle.x = event.x - 84 - 200 - bgBoxLeft;
-    this.bgStyle.y = event.y - 60 - 150 - bgBoxTop;
+
+    this.bgStyle.x = event.pageX - 84 - 250 - bgBoxLeft + this.scrollLeft;
+    this.bgStyle.y = event.pageY - 60 - 200 - bgBoxTop + this.scrollTop;
+    this.setShowshadow(true);
     this.setShadowStyle(this.bgStyle);
   }
 

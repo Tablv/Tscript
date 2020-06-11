@@ -14,7 +14,37 @@
       @click="showMenu"
     />
 
-    <tool-button icon-class="fa fa-camera" title="快照" placement="top" />
+    <tool-button
+      icon-class="fa fa-camera"
+      title="快照"
+      placement="top"
+      @click="visible = true"
+    />
+
+    <el-dialog
+      title="快照保存"
+      :visible.sync="visible"
+      width="30%"
+      :append-to-body="true"
+      @close="doHandleClose"
+    >
+      <el-tree
+        lazy
+        :load="loadNode"
+        :props="defaultProps"
+        @node-click="handleNodeClick"
+      >
+        <span class="custom-tree-node" slot-scope="{ node }">
+          <i class="fa fa-folder" style="color: #ffe17b; padding-right: 10px">
+          </i>
+          <span>{{ node.label }}</span>
+        </span>
+      </el-tree>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="visible = false">取 消</el-button>
+        <el-button type="primary" @click="handleUpdate">确 定</el-button>
+      </span>
+    </el-dialog>
 
     <el-popover
       v-model="isShowDetail"
@@ -45,6 +75,9 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ToolButton from "@/components/ToolButton.vue";
 import DetailToolbar from "./DetailToolbar.vue";
+import { AxiosRequest } from "@/api/AxiosRequest";
+import ScreenshotUtil from "@/util/Screenshot";
+import UIUtil, { MessageType } from "@/util/UIUtil";
 
 @Component({
   components: {
@@ -110,6 +143,58 @@ export default class CommonToolbar extends Vue {
   showMenu() {
     const visible = this.activeIndex !== -1 && !this.menuVisible;
     this.setMenuVisible(visible);
+  }
+
+  visible: boolean = false;
+
+  defaultProps = {
+    children: "children",
+    label: "name"
+  };
+
+  checkNode = null;
+
+  loadNode(node: any, resolve: any) {
+    let requestData = { parentId: node.data?.id || "0" };
+    if (node.level === 0) {
+      requestData = { parentId: "0" };
+    }
+    AxiosRequest.snapshot.find(requestData).then(result => {
+      return resolve(result.filter((item: any) => item.type === 0));
+    });
+  }
+
+  handleNodeClick(data: any) {
+    this.checkNode = data;
+  }
+
+  handleUpdate() {
+    if (this.checkNode) {
+      this.visible = false;
+      const checkNode = this.checkNode || { id: "0" };
+      ScreenshotUtil.getHtmlListScreenhot(
+        `.chart-component,[id = "#${this.thisDashboard.id}"]`
+      ).then(result => {
+        if (!result.length) return;
+        const requst = {
+          parentId: checkNode.id,
+          fileName: result[0].title + ".png",
+          snapshot: result[0].fullPath
+        };
+        AxiosRequest.snapshot
+          .save(requst)
+          .then(result => {
+            UIUtil.showMessage("保存成功", MessageType.success);
+          })
+          .catch(err => UIUtil.showMessage("保存失败", MessageType.error));
+      });
+    } else {
+      UIUtil.showMessage("请选择保存目录", MessageType.warning);
+    }
+  }
+
+  doHandleClose() {
+    this.checkNode = null;
   }
 }
 </script>
