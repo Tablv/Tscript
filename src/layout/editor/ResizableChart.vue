@@ -83,8 +83,8 @@ import ComponentUtil from "../../util/ComponentUtil";
 @Component({
   components: {
     vdr,
+    // ChartComponent,
     ChartToolbar
-    // ChartComponent
   }
 })
 export default class ResizableElement extends Vue {
@@ -134,18 +134,23 @@ export default class ResizableElement extends Vue {
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
 
+  // 正在截图标志
   @CommonStore.State("isSavingScreenhot")
   isSavingScreenhot!: number;
 
+  // 设置选中元素的层级
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
 
+  // 外部setting
   @CommonStore.State("reactWhere")
   reactWhere!: ReactWhere;
 
+  // 设置外部setting
   @CommonStore.Mutation("setReactWhere")
   setReactHandle!: Function;
 
+  // 改变图表类型
   @EditorStore.Action("changeChartType")
   changeChartType!: Function;
 
@@ -181,6 +186,20 @@ export default class ResizableElement extends Vue {
 
   get thisEvents() {
     return this.thisDashboard.events;
+  }
+  /**
+   * 轮播任务
+   */
+  get thisTasks() {
+    return this.thisDashboard.tasks;
+  }
+
+  get isRotationEnable() {
+    return this.thisTasks.ratotionEnable;
+  }
+
+  get isRotationNumb() {
+    return this.thisTasks.ratotionNumb;
   }
 
   /**
@@ -307,7 +326,8 @@ export default class ResizableElement extends Vue {
      *  - 开启 JSON 时，判断是否为空，不为空 则渲染
      */
     if (!this.isJsonEnable && !this.noDimensions) {
-      return this.fetchToShow();
+      this.fetchToShow();
+      return;
     }
 
     if (ObjectUtil.isEmptyString(this.jsonData)) {
@@ -338,6 +358,7 @@ export default class ResizableElement extends Vue {
     reactUpdate(this.thisDashboard as any, this.reactWhere, this.fetchToShow);
   }
 
+  // 分析
   @Watch("thisAnalysis", {
     deep: true,
     immediate: true
@@ -397,6 +418,38 @@ export default class ResizableElement extends Vue {
       return;
     }
     this.chartComponent.bindChartEvents(true, this.thisEvents);
+  }
+
+  @Watch("isRotationEnable")
+  onRotationEnableUpdate(): void {
+    clearTimeout(this.thisTasks.ratotionId as number);
+    // 非当前仪表盘 || 图表组件为空 || 关闭轮播
+    if (!this.isCurrent || !this.chartComponent || !this.isRotationEnable) {
+      return;
+    }
+    const time = parseInt(this.thisTasks.ratotionNumb as string) * 1000;
+    this.thisTasks.ratotionId = this.rotationLoad(time);
+  }
+
+  @Watch("isRotationNumb")
+  onRotationNumbUpdate(): void {
+    clearTimeout(this.thisTasks.ratotionId as number);
+    // 非当前仪表盘 || 图表组件为空 || 关闭轮播
+    if (!this.isCurrent || !this.chartComponent || !this.isRotationEnable) {
+      return;
+    }
+    const time = parseInt(this.thisTasks.ratotionNumb as string) * 1000;
+    this.thisTasks.ratotionId = this.rotationLoad(time);
+  }
+
+  rotationLoad(timeout: any) {
+    return setTimeout(() => {
+      clearTimeout(this.thisTasks.ratotionId as number);
+      this.fetchToShow().then(() => {
+        clearTimeout(this.thisTasks.ratotionId as number);
+        this.thisTasks.ratotionId = this.rotationLoad(timeout);
+      });
+    }, timeout) as any;
   }
 
   /**
@@ -462,10 +515,10 @@ export default class ResizableElement extends Vue {
   /**
    * 获取数据，展示图表
    */
-  fetchToShow(): void {
+  fetchToShow(): Promise<void> {
     this.isFetching = true;
     // 获取数据
-    ComponentUtil.fetchData(
+    return ComponentUtil.fetchData(
       this.isSqlEnable,
       this.thisDashboard as any,
       this.reactWhere,
@@ -503,6 +556,7 @@ export default class ResizableElement extends Vue {
       })
       .finally(() => {
         this.isFetching = false;
+        return Promise.resolve();
       });
   }
 

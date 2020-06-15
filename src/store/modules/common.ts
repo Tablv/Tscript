@@ -7,12 +7,11 @@ import DefaultTemplate, {
   defaultDashboardSet
 } from "glaway-bi-component/src/config/DefaultTemplate";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
-// import { AxiosRequest } from "@/api/AxiosRequest";
-import { AxiosRequest } from "@/api/mock";
+import { AxiosRequest } from "@/api/AxiosRequest";
+// import { AxiosRequest } from "@/api/mock";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
-import { init } from 'echarts';
 
 const state: any = {
   // 当前仪表盘集ID
@@ -52,7 +51,10 @@ const state: any = {
     z: 1000,
     grid: [10, 10],
     handles: []
-  }
+  },
+
+  // 轮播任务id
+  rotationTimeouter: null
 };
 
 const getters: GetterTree<any, any> = {
@@ -207,6 +209,7 @@ const mutations: MutationTree<any> = {
     state.isSavingScreenhot = isSaving;
   },
 
+  // 设置阴影风格
   setShadowStyle(
     state,
     shadowStyle: {
@@ -222,8 +225,14 @@ const mutations: MutationTree<any> = {
     state.shadowStyle = shadowStyle;
   },
 
+  // 设置是否开启阴影
   setShowshadow(state, value: boolean) {
     state.isShowshadow = value;
+  },
+
+  // 设置轮播任务id
+  setRotationTimeouter(state, value: boolean | null) {
+    state.rotationTimeouter = value;
   }
 };
 

@@ -201,8 +201,8 @@ let mockList = [
       order: []
     },
     events: {
-      triggerEvent: "",
-      triggerMethod: "",
+      triggerEvent: "react",
+      triggerMethod: "mousedown",
       eventOptions: {}
     }
   }

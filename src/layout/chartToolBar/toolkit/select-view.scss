@@ -1,16 +1,6 @@
 @mixin defaultSelectView($mainMinHeight, $mainMaxHeight) {
   .select-view {
     @include select(none);
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #bfbfbf;
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #afafaf;
-    }
 
     main {
       .main-content {

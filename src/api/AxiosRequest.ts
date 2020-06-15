@@ -39,9 +39,9 @@ const API = {
   /**
    * 仪表盘
    */
-  findDashboard: "/dashboard/findBySetId",
+  // findDashboard: "/dashboard/findBySetId",
   // saveDashboard: "/dashboard/save",
-  saveDashboard: "/dashboard/container/save",
+  // saveDashboard: "/dashboard/container/save",
 
   /**
    * 仪表盘集

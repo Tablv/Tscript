@@ -2,7 +2,8 @@
   <div>
     <!-- 事件 -->
     <events />
-
+    <!-- 轮播查询 -->
+    <rotation-query />
     <!-- SQL 查询 -->
     <sql-query />
   </div>
@@ -12,11 +13,13 @@
 import { Component, Vue } from "vue-property-decorator";
 import Events from "./functional/block/Events.vue";
 import SqlQuery from "./functional/block/SqlQuery.vue";
+import RotationQuery from "./functional/block/RotationQuery.vue";
 
 @Component({
   components: {
     Events,
-    SqlQuery
+    SqlQuery,
+    RotationQuery
   }
 })
 export default class AdvanceMenu extends Vue {}

@@ -203,6 +203,22 @@ export default class Editor extends Vue {
 }
 </script>
 
+<style lang="scss">
+body {
+  ::-webkit-scrollbar {
+    width: 6px;
+    margin-left: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #bfbfbf;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #afafaf;
+  }
+}
+</style>
+
 <style lang="scss" scoped>
 $toolbarWidth: 84px;
 $floatMenuWidth: 560px;
@@ -217,17 +233,6 @@ $borderColor: #e6e6e6;
 .home {
   width: 100%;
   height: 100%;
-  ::-webkit-scrollbar {
-    width: 6px;
-    margin-left: 10px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #bfbfbf;
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #afafaf;
-  }
 }
 
 .left {
