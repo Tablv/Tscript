@@ -5,7 +5,7 @@
     :shadow="boxCardShadow"
   >
     <template #header>
-      <span>柱图样式</span>
+      <span>图表样式</span>
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
@@ -37,7 +37,7 @@
       </el-form-item>
 
       <!-- 标签 (Y轴) -->
-      <el-form-item label="数据标注">
+      <!-- <el-form-item label="数据标注">
         <el-row>
           <el-col :span="12">
             <el-switch
@@ -67,7 +67,7 @@
             </el-select>
           </el-col>
         </el-row>
-      </el-form-item>
+      </el-form-item> -->
 
       <!-- 标签角度 -->
       <el-form-item label="标签角度">

@@ -2,7 +2,7 @@
   <div class="preview-element" :style="sizeStyle">
     <bi-component
       :dashboard="item"
-      :anslysisdata="resultTmp"
+      :analysisdata="resultTmp"
       :index="index"
       ref="chartComponent"
     />

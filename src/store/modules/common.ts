@@ -7,11 +7,12 @@ import DefaultTemplate, {
   defaultDashboardSet
 } from "glaway-bi-component/src/config/DefaultTemplate";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
-import { AxiosRequest } from "@/api/AxiosRequest";
-// import { AxiosRequest } from "@/api/mock";
+// import { AxiosRequest } from "@/api/AxiosRequest";
+import { AxiosRequest } from "@/api/mock";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
+import { init } from 'echarts';
 
 const state: any = {
   // 当前仪表盘集ID
@@ -73,7 +74,6 @@ const mutations: MutationTree<any> = {
     // 当前存在的数据
     let currentDataLength = state.dashboards.length;
     const { chartType, position } = baseConfig;
-
     // 根据模板，创建新数据
     let initData: Dashboard | undefined = DashboardUtil.getInitDashboard(
       currentDataLength,

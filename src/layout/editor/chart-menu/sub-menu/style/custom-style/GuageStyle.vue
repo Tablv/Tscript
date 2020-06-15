@@ -13,7 +13,7 @@
       <color-option />
 
       <!-- 半径 -->
-      <el-form-item label="半径(外)">
+      <el-form-item label="半径">
         <el-row>
           <el-col :span="22">
             <el-slider
@@ -24,13 +24,13 @@
           </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item label="半径(内)">
+      <el-form-item label="坐标轴线">
         <el-row>
           <el-col :span="22">
             <el-slider
-              v-model="specificStyle.radiusConfig.inside"
-              :max="200"
-              :min="0"
+              v-model="specificStyle.radiusConfig.axisLineWidth"
+              :max="50"
+              :min="1"
             />
           </el-col>
         </el-row>
@@ -41,19 +41,19 @@
 
 <script lang="ts">
 import { Component, Vue, Inject } from "vue-property-decorator";
-import { CommonStore } from "@/store/modules-model";
+import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
-import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ColorOption from "../common/ColorOption.vue";
+import { ChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
 
 @Component({
   components: {
     ColorOption
   }
 })
-export default class PieStyle extends Vue {
-  @CommonStore.Getter("currentDashboard")
-  currentDashboard!: Dashboard;
+export default class GuageStyle extends Vue {
+  @EditorStore.State("styleSelection")
+  styleSelection!: any;
 
   @Inject()
   boxCardBodyStyle!: Properties;
@@ -73,3 +73,13 @@ export default class PieStyle extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.position-lable {
+  position: absolute;
+  z-index: 10;
+  left: -34px;
+  font-size: 13px;
+  color: #606266;
+}
+</style>

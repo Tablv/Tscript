@@ -42,7 +42,7 @@ export default class ValueUnitOption extends Vue {
   settimeId = 0;
 
   get valueVal() {
-    return this.valueUnit.value;
+    return this.valueUnit?.value;
   }
 
   set valueVal(value) {
@@ -51,7 +51,7 @@ export default class ValueUnitOption extends Vue {
   }
 
   get unitVal() {
-    return this.valueUnit.unit;
+    return this.valueUnit?.unit;
   }
 
   set unitVal(unit) {

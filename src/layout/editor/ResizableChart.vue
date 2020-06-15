@@ -38,7 +38,7 @@
             v-show="showChart"
             ref="chartComponent"
             :dashboard.sync="thisDashboard"
-            :anslysisdata="resultTmp"
+            :analysisdata="resultTmp"
             :key="index"
             @error="doHandleError"
             @setReact="setReactHandle"
@@ -50,6 +50,7 @@
 </template>
 
 <script lang="ts">
+// import ChartComponent from "glaway-bi-component/src/components/ChartComponent";
 import { Component, Prop, Watch, Vue, Provide } from "vue-property-decorator";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ChartUIService from "glaway-bi-component/src/interfaces/ChartUIService";
@@ -83,6 +84,7 @@ import ComponentUtil from "../../util/ComponentUtil";
   components: {
     vdr,
     ChartToolbar
+    // ChartComponent
   }
 })
 export default class ResizableElement extends Vue {

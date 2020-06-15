@@ -5,7 +5,7 @@
     :shadow="boxCardShadow"
   >
     <template #header>
-      <span>线图样式</span>
+      <span>图表样式</span>
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">

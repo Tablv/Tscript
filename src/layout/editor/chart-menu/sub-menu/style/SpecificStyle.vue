@@ -120,7 +120,11 @@ export default class TitleStyle extends Vue {
     rosepie: () => import("./custom-style/PieStyle.vue"),
     sunpie: () => import("./custom-style/PieStyle.vue"),
     targetpie: () => import("./custom-style/PieStyle.vue"),
-    radar: () => import("./custom-style/PieStyle.vue"),
+
+    /**
+     * 雷达图
+     */
+    radar: () => import("./custom-style/RadarStyle.vue"),
 
     /**
      * 折线图
@@ -135,7 +139,7 @@ export default class TitleStyle extends Vue {
     /**
      * 仪表盘
      */
-    guage: () => import("./custom-style/PieStyle.vue")
+    guage: () => import("./custom-style/GuageStyle.vue")
   };
 
   get chartType() {

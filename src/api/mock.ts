@@ -59,7 +59,7 @@ let mockList = [
         y: 0,
         z: 1
       },
-      type: "bar",
+      type: "pie",
       height: 290
     },
     echarts: {
