@@ -170,8 +170,9 @@ export default class ResizableGrid extends Vue {
 
     this.bgStyle.x = event.pageX - 84 - 250 - bgBoxLeft + this.scrollLeft;
     this.bgStyle.y = event.pageY - 60 - 200 - bgBoxTop + this.scrollTop;
-    this.setShowshadow(true);
-    this.setShadowStyle(this.bgStyle);
+    if (!this.isShowshadow) {
+      this.setShowshadow(true);
+    }
   }
 
   drop(event: any) {
@@ -188,6 +189,12 @@ export default class ResizableGrid extends Vue {
     this.createDashboard(baseConfig);
   }
 
+  @Watch("isShowshadow")
+  changeShowShadow() {
+    if (!this.isShowshadow) {
+      this.setShadowStyle(this.bgStyle);
+    }
+  }
   // 下标改变，隐藏右侧菜单
   @Watch("activeIndex")
   changeMenuVisible(): void {

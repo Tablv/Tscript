@@ -13,6 +13,7 @@
         <el-switch
           active-color="#13ce66"
           v-model="currentDashboard.tasks.ratotionEnable"
+          @change="doHandleChange"
         />
       </el-form-item>
 
@@ -33,11 +34,21 @@ import { Component, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import ReactWhere from "glaway-bi-model/view/ReactWhere";
+import ObjectUtil from "@/util/ObjectUtil";
 
 @Component
 export default class RotationQuery extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
+
+  // 联动
+  @CommonStore.State("reactWhere")
+  reactWhere!: ReactWhere;
+
+  // 设置联动
+  @CommonStore.Mutation("setReactWhere")
+  setReactHandle!: Function;
 
   @EditorStore.State("styleSelection")
   selection!: Object;
@@ -55,12 +66,29 @@ export default class RotationQuery extends Vue {
     return this.currentDashboard.tasks.ratotionEnable;
   }
 
+  doHandleChange(value: boolean) {
+    const reactWhere = ObjectUtil.copy(this.reactWhere);
+    reactWhere.rotationTask = {
+      ratotionNumb: reactWhere.rotationTask.ratotionNumb,
+      ratotionId: this.currentDashboard.tasks.ratotionId,
+      ratotionEnable: value
+    };
+
+    this.setReactHandle(reactWhere);
+  }
+
   checkInput(value: string | number) {
     if (!parseInt(value as string)) {
       this.currentDashboard.tasks.ratotionNumb = 1;
     } else {
       this.currentDashboard.tasks.ratotionNumb = parseInt(value as string);
     }
+    const reactWhere = ObjectUtil.copy(this.reactWhere);
+    reactWhere.rotationTask = {
+      ratotionNumb: this.currentDashboard.tasks.ratotionNumb,
+      ratotionId: this.currentDashboard.tasks.ratotionId,
+      ratotionEnable: true
+    };
   }
 }
 </script>

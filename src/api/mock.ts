@@ -79,7 +79,6 @@ let mockList = [
       },
       series: [],
       title: {
-        left: "center",
         text: "人员编制分布",
         textStyle: {
           fontFamily: "Microsoft YaHei",

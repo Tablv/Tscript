@@ -28,6 +28,13 @@ const state: any = {
 
   // 联动条件
   reactWhere: {
+    selectedIndex: null,
+    oldDashboardId: null,
+    rotationTask: {
+      ratotionEnable: false,
+      ratotionNumb: 5,
+      ratotionId: null
+    },
     dashboardId: null,
     datasetId: null,
     where: null
@@ -51,10 +58,7 @@ const state: any = {
     z: 1000,
     grid: [10, 10],
     handles: []
-  },
-
-  // 轮播任务id
-  rotationTimeouter: null
+  }
 };
 
 const getters: GetterTree<any, any> = {
@@ -151,14 +155,6 @@ const mutations: MutationTree<any> = {
     state.dashboards.splice(index, 1);
   },
 
-  // 清空数据
-  resetReactWhere(state): void {
-    state.reactWhere = {
-      datasetId: null,
-      where: null
-    };
-  },
-
   // 设置仪表盘集ID
   setDashboardSetId(state, id: string): void {
     state.dashboardSetId = id;
@@ -199,6 +195,14 @@ const mutations: MutationTree<any> = {
     state.reactWhere = reactWhere;
   },
 
+  // 清空数据
+  resetReactWhere(state): void {
+    ObjectUtil.merge(state.reactWhere, {
+      dashboardId: null,
+      where: null
+    });
+  },
+
   // 设置是否正在保存分析数据
   setSavingAnalysis(state, isSaving: boolean): void {
     state.savingAnalysis = isSaving;
@@ -228,11 +232,6 @@ const mutations: MutationTree<any> = {
   // 设置是否开启阴影
   setShowshadow(state, value: boolean) {
     state.isShowshadow = value;
-  },
-
-  // 设置轮播任务id
-  setRotationTimeouter(state, value: boolean | null) {
-    state.rotationTimeouter = value;
   }
 };
 

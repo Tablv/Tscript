@@ -30,7 +30,7 @@ export const generalMenuOptions: any = {
       selection: [
         { text: "左", value: "left" },
         { text: "中", value: "center" },
-        { text: "右", value: "right" }
+        { text: "右", value: "auto" }
       ]
     },
     color: {

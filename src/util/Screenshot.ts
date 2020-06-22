@@ -49,7 +49,7 @@ export default class ScreenshotUtil {
               resolve({
                 dashboardId: node.id,
                 fullPath: result,
-                title: node.title
+                title: node.getAttribute("data-title")
               });
             })
             .catch(err => {
@@ -109,29 +109,27 @@ export default class ScreenshotUtil {
   > {
     const targetDomList = document.querySelectorAll(className) as NodeList;
     if (targetDomList.length) {
-      const promiseList = Array.prototype.map.call(
-        targetDomList,
-        (targetDom: HTMLElement) => {
-          return new Promise((resolve, reject) => {
-            html2canvas(targetDom, {
-              allowTaint: false,
-              useCORS: true,
-              height: targetDom.scrollHeight,
-              width: targetDom.scrollWidth
+      const promiseList = Array.prototype.map.call(targetDomList, targetDom => {
+        return new Promise((resolve, reject) => {
+          html2canvas(targetDom, {
+            allowTaint: false,
+            useCORS: true,
+            height: targetDom.scrollHeight,
+            width: targetDom.scrollWidth
+          })
+            .then((canvas: HTMLCanvasElement) => {
+              const result = {
+                dashboardId: targetDom.id,
+                title: targetDom.getAttribute("data-title"),
+                fullPath: canvas.toDataURL("image/png")
+              };
+              resolve(result);
             })
-              .then((canvas: HTMLCanvasElement) => {
-                resolve({
-                  dashboardId: targetDom.id,
-                  fullPath: canvas.toDataURL("image/png"),
-                  title: targetDom.title
-                });
-              })
-              .catch(err => {
-                reject(err);
-              });
-          });
-        }
-      );
+            .catch(err => {
+              reject(err);
+            });
+        });
+      });
       return Promise.all(promiseList).then(result => {
         return Promise.resolve(result);
       }) as Promise<

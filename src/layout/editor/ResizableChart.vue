@@ -24,7 +24,7 @@
         <!-- 既没有拖入字段，也没有启用静态数据，显示如下 -->
         <div
           :id="thisDashboard.id"
-          :title="thisDashboard.echarts.title.text"
+          :data-title="thisDashboard.echarts.title.text"
           class="chart-component"
         >
           <div v-show="!showChart">
@@ -39,9 +39,11 @@
             ref="chartComponent"
             :dashboard.sync="thisDashboard"
             :analysisdata="resultTmp"
+            :reactWhere="reactWhere"
             :key="index"
             @error="doHandleError"
             @setReact="setReactHandle"
+            @resetReact="resetReactHandle"
           />
         </div>
       </div>
@@ -142,13 +144,24 @@ export default class ResizableElement extends Vue {
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
 
-  // 外部setting
+  // 联动
   @CommonStore.State("reactWhere")
   reactWhere!: ReactWhere;
 
-  // 设置外部setting
+  // 设置联动
   @CommonStore.Mutation("setReactWhere")
   setReactHandle!: Function;
+
+  // 清空联动条件
+  @CommonStore.Mutation("resetReactWhere")
+  resetReactHandle!: Function;
+
+  // 联动轮播
+  @CommonStore.State("reactTask")
+  reactTask!: object;
+
+  @CommonStore.Mutation("setReactTask")
+  setReactTask!: Function;
 
   // 改变图表类型
   @EditorStore.Action("changeChartType")
@@ -187,11 +200,16 @@ export default class ResizableElement extends Vue {
   get thisEvents() {
     return this.thisDashboard.events;
   }
+
   /**
    * 轮播任务
    */
   get thisTasks() {
     return this.thisDashboard.tasks;
+  }
+
+  set thisTasks(tasks) {
+    this.thisDashboard.tasks = tasks;
   }
 
   get isRotationEnable() {
@@ -274,6 +292,13 @@ export default class ResizableElement extends Vue {
     return !this.noField || this.thisStatic.sql.enable;
   }
 
+  /**
+   * 是否开启联动
+   */
+  get isReact(): boolean {
+    return this.thisDashboard.analysis.isReact;
+  }
+
   mounted() {
     this.setActiveIndex(-1);
 
@@ -349,13 +374,35 @@ export default class ResizableElement extends Vue {
     }
   }
 
-  // 联动
+  // 联动条件
   @Watch("reactWhere", {
     deep: true,
     immediate: true
   })
   onReactWhereUpdate(): void {
-    reactUpdate(this.thisDashboard as any, this.reactWhere, this.fetchToShow);
+    const rotationTask = this.reactWhere.rotationTask;
+    this.thisTasks = {
+      ratotionEnable: rotationTask.ratotionEnable,
+      ratotionNumb: rotationTask.ratotionNumb,
+      ratotionId: this.thisTasks.ratotionId
+    };
+
+    // 是否是联动主体
+    const notCurrent = this.thisDashboard.id === this.reactWhere.dashboardId;
+
+    // 是否是上次联动主体
+    const resetCurrent =
+      this.thisDashboard.id === this.reactWhere.oldDashboardId;
+    // 如果没有开启联动 && 需要清除选中效果 && 不是联动主体
+    // 重置透明度
+    if (!this.isReact && resetCurrent && !notCurrent) {
+      this.chartComponent.resetOpacity();
+    }
+
+    if (!this.isReact || notCurrent) {
+      return;
+    }
+    reactUpdate(this.thisDashboard, this.reactWhere, this.fetchToShow);
   }
 
   // 分析
@@ -385,6 +432,9 @@ export default class ResizableElement extends Vue {
     this.fetchToShow();
   }
 
+  /**
+   * 中间值
+   */
   @Watch("resultTmp", {
     deep: true,
     immediate: false
@@ -394,6 +444,9 @@ export default class ResizableElement extends Vue {
     this.chartComponent?.renderChart(this.resultTmp);
   }
 
+  /**
+   * 监听图表选项
+   */
   @Watch("thisEchartsOption", {
     deep: true,
     immediate: true
@@ -408,6 +461,9 @@ export default class ResizableElement extends Vue {
     this.chartComponent?.renderChart();
   }
 
+  /**
+   * 事件
+   */
   @Watch("thisEvents", {
     deep: true,
     immediate: true
@@ -420,33 +476,39 @@ export default class ResizableElement extends Vue {
     this.chartComponent.bindChartEvents(true, this.thisEvents);
   }
 
+  /**
+   * 监听轮播
+   */
   @Watch("isRotationEnable")
   onRotationEnableUpdate(): void {
-    clearTimeout(this.thisTasks.ratotionId as number);
-    // 非当前仪表盘 || 图表组件为空 || 关闭轮播
-    if (!this.isCurrent || !this.chartComponent || !this.isRotationEnable) {
+    clearTimeout(this.thisTasks.ratotionId);
+
+    // 图表组件为空 || 关闭轮播
+    if (!this.chartComponent || !this.isRotationEnable) {
       return;
     }
-    const time = parseInt(this.thisTasks.ratotionNumb as string) * 1000;
+    const time = (parseInt(this.thisTasks.ratotionNumb as string) || 1) * 1000;
     this.thisTasks.ratotionId = this.rotationLoad(time);
   }
 
   @Watch("isRotationNumb")
   onRotationNumbUpdate(): void {
-    clearTimeout(this.thisTasks.ratotionId as number);
-    // 非当前仪表盘 || 图表组件为空 || 关闭轮播
-    if (!this.isCurrent || !this.chartComponent || !this.isRotationEnable) {
+    clearTimeout(this.thisTasks.ratotionId);
+    // 图表组件为空 || 关闭轮播
+    if (!this.chartComponent || !this.isRotationEnable) {
       return;
     }
-    const time = parseInt(this.thisTasks.ratotionNumb as string) * 1000;
+    const time = (parseInt(this.thisTasks.ratotionNumb as string) || 1) * 1000;
     this.thisTasks.ratotionId = this.rotationLoad(time);
   }
 
+  /**
+   * 加载轮播
+   */
   rotationLoad(timeout: any) {
     return setTimeout(() => {
-      clearTimeout(this.thisTasks.ratotionId as number);
       this.fetchToShow().then(() => {
-        clearTimeout(this.thisTasks.ratotionId as number);
+        clearTimeout(this.thisTasks.ratotionId);
         this.thisTasks.ratotionId = this.rotationLoad(timeout);
       });
     }, timeout) as any;
@@ -517,11 +579,19 @@ export default class ResizableElement extends Vue {
    */
   fetchToShow(): Promise<void> {
     this.isFetching = true;
+    const reactWhere = {
+      rotationTask: {} as any,
+      selectedIndex: null,
+      oldDashboardId: null,
+      dashboardId: null,
+      datasetId: null,
+      where: null
+    };
     // 获取数据
     return ComponentUtil.fetchData(
       this.isSqlEnable,
       this.thisDashboard as any,
-      this.reactWhere,
+      this.isReact ? this.reactWhere : reactWhere,
       this.chartComponent
     )
       .then(data => {

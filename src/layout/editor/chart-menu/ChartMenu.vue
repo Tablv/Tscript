@@ -157,14 +157,20 @@ export default class ChartMenu extends Vue {
     this.loadTables()
       .then(() => {
         // 加载样式配置
-        return this.loadOptions();
-      })
-      .then(() => {
-        this.loadComplated = true;
-        this.setMenuLoadFinish();
+        this.loadOptions()
+          .then(() => {
+            this.loadComplated = true;
+            this.setMenuLoadFinish();
+          })
+          .catch((err: Error) => {
+            this.setMenuLoadFinish();
+            UIUtil.showErrorMessage("系统错误 加载样式配置失败");
+            console.error(err);
+          });
       })
       .catch((err: Error) => {
-        UIUtil.showErrorMessage("系统错误 无法打开配置菜单");
+        this.setMenuLoadFinish();
+        UIUtil.showErrorMessage("系统错误 加载数据集失败");
         console.error(err);
       });
   }
