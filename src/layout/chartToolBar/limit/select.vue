@@ -74,10 +74,6 @@ export default class SelectView extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 
-  // 正在保存分析数据
-  @CommonStore.Mutation("setSavingAnalysis")
-  setSavingAnalysis!: Function;
-
   /**
    * Props
    */
@@ -104,7 +100,12 @@ export default class SelectView extends Vue {
 
   // 应用
   @Emit("apply")
-  doApply() {}
+  doApply(closeFlag: boolean = true) {
+    return {
+      closeFlag,
+      limitId: this.appliedDatapackId
+    };
+  }
 
   // 关闭
   @Emit("close")
@@ -112,6 +113,12 @@ export default class SelectView extends Vue {
 
   // 默认值
   DEFAULT_VALUE = LIMIT_DEFAULT_VALUE;
+
+  appliedDatapackId = "";
+
+  mounted() {
+    this.appliedDatapackId = this.currentDashboard?.analysis.limit.id;
+  }
 
   /**
    * 数据包
@@ -123,17 +130,6 @@ export default class SelectView extends Vue {
 
   set limitDatapacks(datapack) {
     this.$emit("update:datapacks", datapack);
-  }
-
-  // 应用的数据包记录
-  get appliedDatapackId() {
-    return this.currentDashboard?.analysis.limit.id;
-  }
-  set appliedDatapackId(LimitId: string) {
-    if (this.currentDashboard) {
-      this.setSavingAnalysis(true);
-      this.currentDashboard.analysis.limit.id = LimitId;
-    }
   }
 
   /**
@@ -150,6 +146,13 @@ export default class SelectView extends Vue {
               .remove(datapack.id)
               .then(() => {
                 UIUtil.showMessage("已删除排序", MessageType.success);
+                if (datapack.id === this.appliedDatapackId) {
+                  this.appliedDatapackId = this.DEFAULT_VALUE;
+                  const limitId = this.currentDashboard.analysis.limit.id;
+                  if (datapack.id === limitId) {
+                    this.doApply(false);
+                  }
+                }
                 this.doReload();
               })
               .catch(err => {

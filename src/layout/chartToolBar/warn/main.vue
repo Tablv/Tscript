@@ -94,10 +94,6 @@ export default class WarnIndexView extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 
-  // 正在保存分析数据
-  @CommonStore.Mutation("setSavingAnalysis")
-  setSavingAnalysis!: Function;
-
   // 正在加载数据标志位
   isLoading = false;
 
@@ -147,17 +143,6 @@ export default class WarnIndexView extends Vue {
    */
   // 当前图表的预警数据包
   warnDatapacks: Array<WarnDatapack> = [];
-
-  // 应用的数据包记录
-  get appliedDatapackId() {
-    return this.currentDashboard?.analysis.warn.id;
-  }
-  set appliedDatapackId(id: string) {
-    if (this.currentDashboard) {
-      this.setSavingAnalysis(true);
-      this.currentDashboard.analysis.warn.id = id;
-    }
-  }
 
   // 新增数据包
   currentWarnPack: WarnDatapack | null = null;
@@ -235,15 +220,19 @@ export default class WarnIndexView extends Vue {
   /**
    * 应用
    */
-  doApply() {
-    const datapackId = this.currentDashboard?.analysis.warn.id;
+  doApply(warner: { warnId: string; closeFlag: boolean }) {
+    // const datapackId = this.currentDashboard?.analysis.warn.id;
 
-    this.getAppliedConfig(datapackId)
+    const { warnId, closeFlag } = warner;
+    this.getAppliedConfig(warnId)
       .then(config => {
         // 赋值给分析对象
+        this.currentDashboard.analysis.warn.id = warnId;
         this.currentDashboard.analysis.warn = config;
         // 关闭对话框
-        this.close();
+        if (closeFlag) {
+          this.close();
+        }
       })
       .catch(errorMessage => {
         UIUtil.showMessage(errorMessage, MessageType.warning);
@@ -295,8 +284,27 @@ export default class WarnIndexView extends Vue {
     });
   }
 
+  /**
+   * 检查过滤配置
+   */
+  checkSaveConfig(currentWarnPack: WarnDatapack): boolean {
+    if (!currentWarnPack.name) {
+      UIUtil.showMessage("请输入预警名称", MessageType.warning);
+      return false;
+    }
+    if (!currentWarnPack.config.warnColor) {
+      UIUtil.showMessage("请选择或输入预警颜色", MessageType.warning);
+      return false;
+    }
+    if (!currentWarnPack.config.appliedConfigId) {
+      UIUtil.showMessage("请选择预警字段", MessageType.warning);
+      return false;
+    }
+    return true;
+  }
+
   doSave() {
-    if (this.currentWarnPack) {
+    if (this.currentWarnPack && this.checkSaveConfig(this.currentWarnPack)) {
       AxiosRequest.warnConfig
         .save(this.currentWarnPack)
         .then(() => {
@@ -309,8 +317,6 @@ export default class WarnIndexView extends Vue {
           console.error(err);
           UIUtil.showErrorMessage("保存预警配置出错 请稍后重试");
         });
-    } else {
-      this.goBack();
     }
   }
 }

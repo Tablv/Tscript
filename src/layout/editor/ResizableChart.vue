@@ -112,16 +112,6 @@ export default class ResizableElement extends Vue {
 
   defaultConfig: any;
 
-  /**
-   * 标志位
-   */
-  // 不监听分析结果
-  @CommonStore.State("savingAnalysis")
-  savingAnalysis!: boolean;
-
-  @CommonStore.Mutation("setSavingAnalysis")
-  setSavingAnalysis!: Function;
-
   // 正在加载菜单
   @EditorStore.State("menuLoading")
   menuLoading!: boolean;
@@ -411,12 +401,6 @@ export default class ResizableElement extends Vue {
     immediate: true
   })
   onAnalysisUpdate(): void {
-    // 正在保存分析临时数据
-    if (this.savingAnalysis) {
-      this.setSavingAnalysis(false);
-      return;
-    }
-
     // 非当前仪表盘 || 正在打开菜单 || 不存在字段
     if (
       !this.isCurrent ||
@@ -587,11 +571,12 @@ export default class ResizableElement extends Vue {
       datasetId: null,
       where: null
     };
+    const isCurrent = this.reactWhere.dashboardId === this.thisDashboard.id;
     // 获取数据
     return ComponentUtil.fetchData(
       this.isSqlEnable,
       this.thisDashboard as any,
-      this.isReact ? this.reactWhere : reactWhere,
+      this.isReact && !isCurrent ? this.reactWhere : reactWhere,
       this.chartComponent
     )
       .then(data => {
@@ -603,10 +588,6 @@ export default class ResizableElement extends Vue {
         // 分析成功
         this.analysisSuccess = true;
 
-        // 防止无限循环监听，此时忽略监听Analysis属性
-        this.setSavingAnalysis(true);
-
-        this.$set(this.thisAnalysis, "resultTmp", data);
         this.resultTmp = data;
 
         // 不存在时，初始化图表

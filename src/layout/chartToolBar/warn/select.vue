@@ -73,10 +73,6 @@ export default class SelectView extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 
-  // 正在保存分析数据
-  @CommonStore.Mutation("setSavingAnalysis")
-  setSavingAnalysis!: Function;
-
   /**
    * Props
    */
@@ -103,7 +99,12 @@ export default class SelectView extends Vue {
 
   // 应用
   @Emit("apply")
-  doApply() {}
+  doApply(closeFlag: boolean = true) {
+    return {
+      closeFlag,
+      warnId: this.appliedDatapackId
+    };
+  }
 
   // 关闭
   @Emit("close")
@@ -111,6 +112,13 @@ export default class SelectView extends Vue {
 
   // 默认值
   DEFAULT_VALUE = WARN_DEFAULT_VALUE;
+
+  // 应用的数据包记录
+  appliedDatapackId = "";
+
+  mounted() {
+    this.appliedDatapackId = this.currentDashboard?.analysis.warn.id;
+  }
 
   /**
    * 数据包
@@ -122,17 +130,6 @@ export default class SelectView extends Vue {
 
   set warnDatapacks(datapack) {
     this.$emit("update:datapacks", datapack);
-  }
-
-  // 应用的数据包记录
-  get appliedDatapackId() {
-    return this.currentDashboard?.analysis.warn.id;
-  }
-  set appliedDatapackId(warnId: string) {
-    if (this.currentDashboard) {
-      this.setSavingAnalysis(true);
-      this.currentDashboard.analysis.warn.id = warnId;
-    }
   }
 
   /**
@@ -149,6 +146,13 @@ export default class SelectView extends Vue {
               .remove(datapack.id)
               .then(() => {
                 UIUtil.showMessage("已删除预警", MessageType.success);
+                if (datapack.id === this.appliedDatapackId) {
+                  this.appliedDatapackId = this.DEFAULT_VALUE;
+                  const warnId = this.currentDashboard.analysis.warn.id;
+                  if (datapack.id === warnId) {
+                    this.doApply(false);
+                  }
+                }
                 this.doReload();
               })
               .catch(err => {

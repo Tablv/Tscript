@@ -100,10 +100,6 @@ export default class FilterViewIndex extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 
-  // 正在保存分析数据
-  @CommonStore.Mutation("setSavingAnalysis")
-  setSavingAnalysis!: Function;
-
   // 字段数据
   @EditorStore.Getter("allColumns")
   allColumns!: Array<TableInfoVO>;
@@ -167,17 +163,6 @@ export default class FilterViewIndex extends Vue {
    */
   // 当前图表的过滤器数据包
   filterDatapacks: Array<FilterDatapack> = [];
-
-  // 应用的数据包记录
-  get appliedDatapackId() {
-    return this.currentDashboard?.analysis.filter.id;
-  }
-  set appliedDatapackId(filterId: string) {
-    if (this.currentDashboard) {
-      this.setSavingAnalysis(true);
-      this.currentDashboard.analysis.filter.id = filterId;
-    }
-  }
 
   // 新增数据包
   currentFilterPack: FilterDatapack | null = null;
@@ -314,15 +299,18 @@ export default class FilterViewIndex extends Vue {
   /**
    * 应用
    */
-  doApply() {
-    const datapackId = this.currentDashboard?.analysis.filter.id;
-
-    this.getAppliedConfig(datapackId)
+  doApply(filter: { filterId: string; closeFlag: boolean }) {
+    // const datapackId = this.currentDashboard?.analysis.filter.id;
+    const { filterId, closeFlag } = filter;
+    this.getAppliedConfig(filterId)
       .then(config => {
         // 赋值给分析对象
+        this.currentDashboard.analysis.filter.id = filterId;
         this.currentDashboard.analysis.filter = config;
         // 关闭对话框
-        this.close();
+        if (closeFlag) {
+          this.close();
+        }
       })
       .catch(errorMessage => {
         UIUtil.showMessage(errorMessage, MessageType.warning);
@@ -369,10 +357,36 @@ export default class FilterViewIndex extends Vue {
   }
 
   /**
+   * 检查过滤配置
+   */
+  checkSaveConfig(currentFilterPack: FilterDatapack): boolean {
+    if (!currentFilterPack.name) {
+      UIUtil.showMessage("请输入过滤器名称", MessageType.warning);
+      return false;
+    }
+    const configs = currentFilterPack.config;
+    for (let index = configs.length - 1; index >= 0; index--) {
+      if (!configs[index].fieldId) {
+        UIUtil.showMessage("请输入或选择筛选字段", MessageType.warning);
+        return false;
+      }
+
+      if (!configs[index].values) {
+        UIUtil.showMessage("请选择过滤值", MessageType.warning);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
    * 保存
    */
   doSave() {
-    if (this.currentFilterPack) {
+    if (
+      this.currentFilterPack &&
+      this.checkSaveConfig(this.currentFilterPack)
+    ) {
       AxiosRequest.filterConfig
         .save(this.currentFilterPack)
         .then(() => {
@@ -386,8 +400,6 @@ export default class FilterViewIndex extends Vue {
           console.error(err);
           UIUtil.showErrorMessage("保存过滤器配置出错 请稍后重试");
         });
-    } else {
-      this.goBack();
     }
   }
 }

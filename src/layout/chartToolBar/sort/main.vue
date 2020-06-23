@@ -125,10 +125,6 @@ export default class SortIndexView extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 
-  // 正在保存分析数据
-  @CommonStore.Mutation("setSavingAnalysis")
-  setSavingAnalysis!: Function;
-
   // 字段数据
   @EditorStore.Getter("allColumns")
   allColumns!: Array<TableInfoVO>;
@@ -186,17 +182,6 @@ export default class SortIndexView extends Vue {
    */
   // 当前图表的排序数据包
   sortDatapacks: Array<SortDatapack> = [];
-
-  // 应用的数据包记录
-  get appliedDatapackId() {
-    return this.currentDashboard?.analysis.sort.id;
-  }
-  set appliedDatapackId(id: string) {
-    if (this.currentDashboard) {
-      this.setSavingAnalysis(true);
-      this.currentDashboard.analysis.sort.id = id;
-    }
-  }
 
   // 新增数据包
   currentSortPack: SortDatapack | null = null;
@@ -347,15 +332,19 @@ export default class SortIndexView extends Vue {
   /**
    * 应用
    */
-  doApply() {
-    const datapackId = this.currentDashboard?.analysis.sort.id;
+  doApply(sorter: { sortId: string; closeFlag: boolean }) {
+    // const datapackId = this.currentDashboard?.analysis.sort.id;
 
-    this.getAppliedConfig(datapackId)
+    const { sortId, closeFlag } = sorter;
+    this.getAppliedConfig(sortId)
       .then(config => {
         // 赋值给分析对象
+        this.currentDashboard.analysis.sort.id = sortId;
         this.currentDashboard.analysis.sort = config;
         // 关闭对话框
-        this.close();
+        if (closeFlag) {
+          this.close();
+        }
       })
       .catch(errorMessage => {
         UIUtil.showMessage(errorMessage, MessageType.warning);
@@ -435,8 +424,25 @@ export default class SortIndexView extends Vue {
     return Promise.resolve(retConfig);
   }
 
+  /**
+   * 检查过滤配置
+   */
+  checkSaveConfig(currentSortPack: SortDatapack): boolean {
+    if (!currentSortPack.name) {
+      UIUtil.showMessage("请输入排序名称", MessageType.warning);
+      return false;
+    }
+    if (currentSortPack.config.type) {
+      if (!currentSortPack.config.custom?.fieldId) {
+        UIUtil.showMessage("请选择筛选字段", MessageType.warning);
+        return false;
+      }
+    }
+    return true;
+  }
+
   doSave() {
-    if (this.currentSortPack) {
+    if (this.currentSortPack && this.checkSaveConfig(this.currentSortPack)) {
       AxiosRequest.sortConfig
         .save(this.currentSortPack)
         .then(() => {
@@ -450,8 +456,6 @@ export default class SortIndexView extends Vue {
           console.error(err);
           UIUtil.showErrorMessage("保存排序配置出错 请稍后重试");
         });
-    } else {
-      this.goBack();
     }
   }
 }

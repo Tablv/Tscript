@@ -125,14 +125,6 @@ import { StandardsMap } from "./main.vue";
 
 @Component
 export default class ConfigView extends Vue {
-  // 当前仪表盘
-  @CommonStore.Getter("currentDashboard")
-  currentDashboard!: Dashboard;
-
-  // 数据模型
-  @EditorStore.Getter("allColumns")
-  allColumns!: Array<TableInfoVO>;
-
   @Prop()
   datapack!: FilterDatapack | null;
 
@@ -149,6 +141,14 @@ export default class ConfigView extends Vue {
   setLoading(isLoading: boolean) {
     return isLoading;
   }
+
+  // 当前仪表盘
+  @CommonStore.Getter("currentDashboard")
+  currentDashboard!: Dashboard;
+
+  // 数据模型
+  @EditorStore.Getter("allColumns")
+  allColumns!: Array<TableInfoVO>;
 
   // 过滤条件
   whereTypeMapping = WhereTypeMapping;

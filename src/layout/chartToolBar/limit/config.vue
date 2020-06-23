@@ -7,7 +7,12 @@
         </el-form-item>
 
         <el-form-item class="sort-name" label="排名范围">
-          <el-input v-model="currentLimitPack.config.limit" size="mini" />
+          <el-input-number
+            v-model="currentLimitPack.config.limit"
+            :min="1"
+            label="描述文字"
+          >
+          </el-input-number>
         </el-form-item>
       </el-form>
 

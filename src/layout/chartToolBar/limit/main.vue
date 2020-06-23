@@ -93,10 +93,6 @@ export default class SortIndexView extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 
-  // 正在保存分析数据
-  @CommonStore.Mutation("setSavingAnalysis")
-  setSavingAnalysis!: Function;
-
   // 字段数据
   @EditorStore.Getter("allColumns")
   allColumns!: Array<TableInfoVO>;
@@ -150,17 +146,6 @@ export default class SortIndexView extends Vue {
    */
   // 当前图表的排名数据包
   limitDatapacks: Array<LimitDatapack> = [];
-
-  // 应用的数据包记录
-  get appliedDatapackId() {
-    return this.currentDashboard?.analysis.limit.id;
-  }
-  set appliedDatapackId(id: string) {
-    if (this.currentDashboard) {
-      this.setSavingAnalysis(true);
-      this.currentDashboard.analysis.limit.id = id;
-    }
-  }
 
   // 新增数据包
   currentLimitPack: LimitDatapack | null = null;
@@ -248,15 +233,19 @@ export default class SortIndexView extends Vue {
   /**
    * 应用
    */
-  doApply() {
-    const datapackId = this.currentDashboard?.analysis.limit.id;
+  doApply(limiter: { limitId: string; closeFlag: boolean }) {
+    // const datapackId = this.currentDashboard?.analysis.limit.id;
 
-    this.getAppliedConfig(datapackId)
+    const { limitId, closeFlag } = limiter;
+    this.getAppliedConfig(limitId)
       .then(config => {
         // 赋值给分析对象
+        this.currentDashboard.analysis.limit.id = limitId;
         this.currentDashboard.analysis.limit = config;
         // 关闭对话框
-        this.close();
+        if (closeFlag) {
+          this.close();
+        }
       })
       .catch(errorMessage => {
         UIUtil.showMessage(errorMessage, MessageType.warning);
@@ -298,8 +287,23 @@ export default class SortIndexView extends Vue {
     return Promise.resolve(retConfig);
   }
 
+  /**
+   * 检查过滤配置
+   */
+  checkSaveConfig(currentLimitPack: LimitDatapack): boolean {
+    if (!currentLimitPack.name) {
+      UIUtil.showMessage("请输入排名名称", MessageType.warning);
+      return false;
+    }
+    if (!currentLimitPack.config.limit) {
+      UIUtil.showMessage("请输入排名范围", MessageType.warning);
+      return false;
+    }
+    return true;
+  }
+
   doSave() {
-    if (this.currentLimitPack) {
+    if (this.currentLimitPack && this.checkSaveConfig(this.currentLimitPack)) {
       const order = this.currentLimitPack.config.order;
       this.currentLimitPack.config.order = this.currentLimitPack.config.orderData.filter(
         item => item.fieldData.id === order.fieldData.id
@@ -317,8 +321,6 @@ export default class SortIndexView extends Vue {
           console.error(err);
           UIUtil.showErrorMessage("保存排名配置出错 请稍后重试");
         });
-    } else {
-      this.goBack();
     }
   }
 }

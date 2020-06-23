@@ -90,10 +90,6 @@ export default class SelectView extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 
-  // 正在保存分析数据
-  @CommonStore.Mutation("setSavingAnalysis")
-  setSavingAnalysis!: Function;
-
   /**
    * Props
    */
@@ -120,7 +116,12 @@ export default class SelectView extends Vue {
 
   // 应用
   @Emit("apply")
-  doApply() {}
+  doApply(closeFlag: boolean = true) {
+    return {
+      closeFlag,
+      filterId: this.appliedDatapackId
+    };
+  }
 
   // 关闭
   @Emit("close")
@@ -128,6 +129,12 @@ export default class SelectView extends Vue {
 
   // 默认值
   DEFAULT_VALUE = FILTER_DEFAULT_VALUE;
+
+  appliedDatapackId = "";
+
+  mounted() {
+    this.appliedDatapackId = this.currentDashboard?.analysis.filter.id;
+  }
 
   /**
    * 数据包
@@ -139,17 +146,6 @@ export default class SelectView extends Vue {
 
   set filterDatapacks(datapack) {
     this.$emit("update:datapacks", datapack);
-  }
-
-  // 应用的数据包记录
-  get appliedDatapackId() {
-    return this.currentDashboard?.analysis.filter.id;
-  }
-  set appliedDatapackId(filterId: string) {
-    if (this.currentDashboard) {
-      this.setSavingAnalysis(true);
-      this.currentDashboard.analysis.filter.id = filterId;
-    }
   }
 
   // 仪表盘 Where 描述
@@ -165,16 +161,6 @@ export default class SelectView extends Vue {
       .join("; ");
 
     return whereDesc;
-    // <span
-    //             v-for="where in currentDashboard &&
-    //               currentDashboard.analysis.where"
-    //             :key="where.id"
-    //           >
-    //             <span>{{ where.columnName }}：</span>
-    //             <span v-for="whereColumn in where.w" :key="whereColumn.value">{{
-    //               whereColumn.value
-    //             }}</span>
-    //           </span>
   }
 
   /**
@@ -185,24 +171,31 @@ export default class SelectView extends Vue {
   removeDatapack(datapackIndex: number) {
     UIUtil.confirm(ConfirmType.warning, "确认删除?")
       .then(() => {
-        this.getDatapack(datapackIndex)
-          .then((datapack: FilterDatapack) => {
-            AxiosRequest.filterConfig
-              .remove(datapack.id)
-              .then(() => {
-                UIUtil.showMessage("已删除过滤器", MessageType.success);
-                this.doReload();
-              })
-              .catch(err => {
-                console.error(err);
-                UIUtil.showErrorMessage("删除过滤器失败 请稍后重试");
-              });
+        return this.getDatapack(datapackIndex);
+      })
+      .then((datapack: FilterDatapack) => {
+        AxiosRequest.filterConfig
+          .remove(datapack.id)
+          .then(() => {
+            UIUtil.showMessage("已删除过滤器", MessageType.success);
+            // 选中删除
+            if (datapack.id === this.appliedDatapackId) {
+              this.appliedDatapackId = this.DEFAULT_VALUE;
+              const filterId = this.currentDashboard.analysis.filter.id;
+              if (datapack.id === filterId) {
+                this.doApply(false);
+              }
+            }
+            this.doReload();
           })
-          .catch(() => {
-            UIUtil.showErrorMessage("无法编辑过滤器配置");
+          .catch(err => {
+            console.error(err);
+            UIUtil.showErrorMessage("删除过滤器失败 请稍后重试");
           });
       })
-      .catch(error => {});
+      .catch(() => {
+        UIUtil.showErrorMessage("无法编辑过滤器配置");
+      });
   }
 
   /**
