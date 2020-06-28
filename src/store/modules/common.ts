@@ -43,6 +43,9 @@ const state: any = {
   // 正在保存截图标志位
   isSavingScreenhot: false,
 
+  // 开启聚焦标志
+  isFocusDashboard: false,
+
   // 仪表阴影
   isShowshadow: false,
 
@@ -203,6 +206,11 @@ const mutations: MutationTree<any> = {
   // 设置正在保存截图
   setSavingScreenhot(state, isSaving: boolean): void {
     state.isSavingScreenhot = isSaving;
+  },
+
+  // 设置聚焦标志
+  setFocusDashboard(state, isFocus: boolean): void {
+    state.isFocusDashboard = isFocus;
   },
 
   // 设置阴影风格

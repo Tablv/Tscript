@@ -411,9 +411,9 @@ export default class ResizableElement extends Vue {
     ) {
       return;
     }
-    if (this.noDimensions) {
-      return this.chartComponent.clearChart();
-    }
+    // if (this.noDimensions) {
+    //   return this.chartComponent.clearChart();
+    // }
     this.fetchToShow();
   }
 

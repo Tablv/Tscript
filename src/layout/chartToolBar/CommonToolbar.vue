@@ -4,29 +4,52 @@
       icon-class="fa fa-cogs"
       title="菜单"
       placement="top"
-      @click="showMenu"
+      @click="doShowMenu"
     />
 
     <tool-button
       icon-class="fa fa-arrows-alt"
       title="聚焦"
       placement="top"
-      @click="showMenu"
+      @click="handleFocus"
     />
 
     <tool-button
       icon-class="fa fa-camera"
       title="快照"
       placement="top"
-      @click="visible = true"
+      @click="screenhotVisible = true"
     />
 
+    <!-- 更多操作 -->
+    <el-popover
+      v-model="isShowDetail"
+      placement="right-start"
+      width="32"
+      trigger="click"
+      @show="handleShowDetail"
+      @hide="handleHideDetail"
+      popper-class="detail-toolbar-popper"
+      :close-delay="0"
+    >
+      <detail-toolbar :dashboard.sync="thisDashboard" />
+
+      <tool-button
+        class="otherButton"
+        icon-class="fa fa-ellipsis-v otherButton"
+        title="更多"
+        placement="top"
+        slot="reference"
+      />
+    </el-popover>
+
+    <!-- 保存快照 -->
     <el-dialog
       title="快照保存"
-      :visible.sync="visible"
+      :visible.sync="screenhotVisible"
       width="30%"
       :append-to-body="true"
-      @close="doHandleClose"
+      @close="checkNode = null"
     >
       <el-tree
         lazy
@@ -41,31 +64,10 @@
         </span>
       </el-tree>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="visible = false">取 消</el-button>
-        <el-button type="primary" @click="handleUpdate">确 定</el-button>
+        <el-button @click="screenhotVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleSave">确 定</el-button>
       </span>
     </el-dialog>
-
-    <el-popover
-      v-model="isShowDetail"
-      placement="right-start"
-      width="32"
-      trigger="click"
-      @show="handleShow"
-      @hide="handleHide"
-      popper-class="detail-toolbar-popper"
-      :close-delay="0"
-    >
-      <detail-toolbar :dashboard.sync="thisDashboard" />
-
-      <tool-button
-        class="otherButton"
-        icon-class="fa fa-ellipsis-v otherButton"
-        title="更多"
-        placement="top"
-        slot="reference"
-      />
-    </el-popover>
   </div>
 </template>
 
@@ -87,17 +89,72 @@ import UIUtil, { MessageType } from "@/util/UIUtil";
 })
 export default class CommonToolbar extends Vue {
   /**
+   * 仪表盘数据
+   */
+  @Prop()
+  dashboard!: Dashboard;
+
+  /**
+   * 配置菜单部分
+   */
+  // 当前激活的元素 所在数组下标
+  @CommonStore.State("dashboardIndex")
+  activeIndex!: number;
+
+  // 处于聚焦状态
+  @CommonStore.State("isFocusDashboard")
+  isFocusDashboard!: number;
+
+  // 设置菜单是否可见
+  @CommonStore.Mutation("setFocusDashboard")
+  setFocusDashboard!: Function;
+
+  // 菜单是否可见
+  @EditorStore.State("menuVisible")
+  menuVisible!: boolean;
+
+  // 设置菜单是否可见
+  @EditorStore.Mutation("setMenuVisible")
+  setMenuVisible!: Function;
+
+  screenhotVisible: boolean = false;
+
+  // 快照保存目录节点配置信息
+  defaultProps = {
+    children: "children",
+    label: "name"
+  };
+
+  checkNode = null;
+
+  /**
    * 更多菜单
    */
   isShowDetail: boolean = false;
 
+  get thisDashboard() {
+    return this.dashboard;
+  }
+
+  set thisDashboard(dashboard: Dashboard) {
+    this.$emit("update:dashboard", dashboard);
+  }
+
+  // 显示菜单
+  doShowMenu() {
+    this.setMenuVisible(this.activeIndex !== -1 && !this.menuVisible);
+  }
+
+  /**
+   * 更多按钮
+   */
   // 菜单打开window添加click监听
-  handleShow() {
+  handleShowDetail() {
     // IE9+
     window.addEventListener("click", this.handlePopver, true);
   }
   // 菜单关闭window移除click监听
-  handleHide() {
+  handleHideDetail() {
     window.removeEventListener("click", this.handlePopver, true);
   }
 
@@ -111,49 +168,8 @@ export default class CommonToolbar extends Vue {
   }
 
   /**
-   * 仪表盘数据
+   * 快照按钮
    */
-  @Prop()
-  dashboard!: Dashboard;
-
-  get thisDashboard() {
-    return this.dashboard;
-  }
-
-  set thisDashboard(dashboard: Dashboard) {
-    this.$emit("update:dashboard", dashboard);
-  }
-
-  /**
-   * 配置菜单部分
-   */
-  // 当前激活的元素 所在数组下标
-  @CommonStore.State("dashboardIndex")
-  activeIndex!: number;
-
-  // 菜单是否可见
-  @EditorStore.State("menuVisible")
-  menuVisible!: boolean;
-
-  // 设置菜单是否可见
-  @EditorStore.Mutation("setMenuVisible")
-  setMenuVisible!: Function;
-
-  // 显示菜单
-  showMenu() {
-    const visible = this.activeIndex !== -1 && !this.menuVisible;
-    this.setMenuVisible(visible);
-  }
-
-  visible: boolean = false;
-
-  defaultProps = {
-    children: "children",
-    label: "name"
-  };
-
-  checkNode = null;
-
   loadNode(node: any, resolve: any) {
     let requestData = { parentId: node.data?.id || "0" };
     if (node.level === 0) {
@@ -168,9 +184,9 @@ export default class CommonToolbar extends Vue {
     this.checkNode = data;
   }
 
-  handleUpdate() {
+  handleSave() {
     if (this.checkNode) {
-      this.visible = false;
+      this.screenhotVisible = false;
       const checkNode = this.checkNode || { id: "0" };
       ScreenshotUtil.getHtmlListScreenhot(
         `.chart-component,[id = "#${this.thisDashboard.id}"]`
@@ -193,8 +209,11 @@ export default class CommonToolbar extends Vue {
     }
   }
 
-  doHandleClose() {
-    this.checkNode = null;
+  /**
+   * 聚焦按钮
+   */
+  handleFocus() {
+    // this.setFocusDashboard(!this.isFocusDashboard);
   }
 }
 </script>

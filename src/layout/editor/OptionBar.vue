@@ -142,10 +142,7 @@ import { ChartType } from "glaway-bi-model/enums/ChartType";
 import { DatasetType } from "glaway-bi-model/enums/DatasetType";
 import { EditorStore, CommonStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
-import {
-  chartCreateOptions,
-  dashboardSetOptions
-} from "@/config/EditorOptions";
+import { dashboardSetOptions } from "@/config/EditorOptions";
 import { ShareType } from "glaway-bi-model/enums/ShareType";
 import ShareVO from "glaway-bi-model/results/ShareVO";
 import UIUtil from "@/util/UIUtil";

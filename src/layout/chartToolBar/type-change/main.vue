@@ -9,7 +9,7 @@
   >
     <template #dialog-content v-loading="isLoading">
       <el-row :gutter="20" class="dialog-main-box">
-        <el-col :span="8" v-for="(opt, idx) in chartCreateOptions" :key="idx">
+        <el-col :span="8" v-for="(opt, idx) in createOptions" :key="idx">
           <el-button
             class="change-type-chart-btn"
             :title="opt.title"
@@ -60,8 +60,6 @@ export default class TypeChangeView extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 
-  // chartCreateOptions: Array<any> = [];
-
   get dialogVisible() {
     return this.visible;
   }
@@ -70,14 +68,16 @@ export default class TypeChangeView extends Vue {
     this.$emit("visible", val);
   }
 
-  get chartCreateOptions() {
+  get createOptions() {
     // 维度
     const dimensionsNum =
       this.currentDashboard?.analysis.dimensions.length || 0;
     // 度量
     const measuresNum = this.currentDashboard?.analysis.measures.length || 0;
 
-    return chartCreateOptions.map(item => {
+    const chartOptions = ObjectUtil.copy(chartCreateOptions);
+
+    return chartOptions.map(item => {
       const menuOptions = ObjectUtil.copy(
         MenuOptions.getChartFunctionalOptions(item.createType)
       );
