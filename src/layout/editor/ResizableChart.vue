@@ -320,6 +320,7 @@ export default class ResizableElement extends Vue {
     this.changeChartType({ newType, oldType })
       .then(() => {
         this.chartComponent?.renderChart();
+        this.chartComponent?.resizeChart();
       })
       .catch((err: Error) => {
         UIUtil.showErrorMessage("切换图表类型失败");

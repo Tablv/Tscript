@@ -7,7 +7,10 @@ import { ChartType } from "glaway-bi-model/enums/ChartType";
 import MenuOptions from "@/config/MenuOptions";
 import ObjectUtil from "@/util/ObjectUtil";
 import { AxiosRequest } from "@/api/AxiosRequest";
-import { customDataTemplates } from "glaway-bi-component/src/config/DefaultTemplate";
+import {
+  customDataTemplates,
+  generalDataTemplate
+} from "glaway-bi-component/src/config/DefaultTemplate";
 
 const state = {
   /**
@@ -119,13 +122,20 @@ const actions: ActionTree<any, any> = {
     { rootGetters }: any,
     { newType, oldType }: { [key: string]: ChartType }
   ): Promise<void> {
-    const currentDashboard: Dashboard | null =
+    let currentDashboard: Dashboard | null =
       rootGetters["common/currentDashboard"];
     if (!currentDashboard) return Promise.reject("未选中仪表盘");
 
-    // delete currentDashboard.echarts.sampleStyle[oldType];
-    currentDashboard.echarts.sampleStyle[newType] = ObjectUtil.copy(
-      customDataTemplates[newType].echarts.sampleStyle
+    // 先这样，后面之前的数据怎么保存，之后再说
+    const sampleStyle = ObjectUtil.copy(
+        customDataTemplates[newType].echarts.sampleStyle
+      ),
+      generalSampleStyle = ObjectUtil.copy(
+        generalDataTemplate.echarts.sampleStyle
+      );
+    currentDashboard.echarts.sampleStyle = ObjectUtil.merge(
+      sampleStyle,
+      generalSampleStyle
     );
     return Promise.resolve();
   }

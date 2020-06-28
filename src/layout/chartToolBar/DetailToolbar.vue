@@ -38,11 +38,19 @@
       @close="closeWarnDialog"
     />
 
-    <tool-button
+    <!-- <tool-button
       icon-class="fa fa-exchange-alt"
       title="图表切换"
       @click="chartTypeChange"
-    />
+    /> -->
+    <type-change-view
+      title="图表切换"
+      :currentDashboard="currentDashboard"
+      icon-class="fa fa-exchange-alt"
+      v-model="visibles.typeChange"
+      @close="closeTypeChangeView"
+    >
+    </type-change-view>
 
     <tool-button icon-class="fa fa-copy" title="复制" @click="handleCopy" />
 
@@ -59,7 +67,7 @@ import FilterDialog from "./filter/main.vue";
 import SortDialog from "./sort/main.vue";
 import WarnDialog from "./warn/main.vue";
 import LimitDialog from "./limit/main.vue";
-import { ChartType } from "glaway-bi-model/enums/ChartType";
+import TypeChangeView from "./type-change/main.vue";
 import MenuOptions from "@/config/MenuOptions";
 
 /**
@@ -73,6 +81,7 @@ type VisibleMap = { [key: string]: boolean };
     SortDialog,
     WarnDialog,
     ToolButton,
+    TypeChangeView,
     LimitDialog
   }
 })
@@ -111,7 +120,8 @@ export default class DetailToolbar extends Vue {
     filter: false,
     sort: false,
     warn: false,
-    limit: false
+    limit: false,
+    typeChange: false
   };
 
   /**
@@ -166,6 +176,10 @@ export default class DetailToolbar extends Vue {
    */
   closeWarnDialog() {
     this.visibles.warn = false;
+  }
+
+  closeTypeChangeView() {
+    this.visibles.typeChange = false;
   }
 
   /**
