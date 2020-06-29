@@ -34,7 +34,7 @@
             <div v-else class="no-chart-text">分析出错，请稍后重试</div>
             <div class="no-chart-img"></div>
           </div>
-          <bi-component
+          <chart-component
             v-show="showChart"
             ref="chartComponent"
             :dashboard.sync="thisDashboard"
@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-// import ChartComponent from "glaway-bi-component/src/components/ChartComponent";
+import ChartComponent from "glaway-bi-component/src/components/ChartComponent";
 import { Component, Prop, Watch, Vue, Provide } from "vue-property-decorator";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ChartUIService from "glaway-bi-component/src/interfaces/ChartUIService";
@@ -85,7 +85,7 @@ import ComponentUtil from "../../util/ComponentUtil";
 @Component({
   components: {
     vdr,
-    // ChartComponent,
+    ChartComponent,
     ChartToolbar
   }
 })
@@ -440,7 +440,7 @@ export default class ResizableElement extends Vue {
     /**
      * 非当前仪表盘 || 正在打开菜单 || 没有维度字段
      */
-    if (!this.isCurrent || this.menuLoading || this.noDimensions) {
+    if (!this.isCurrent || this.menuLoading) {
       return;
     }
     this.chartComponent?.renderChart();

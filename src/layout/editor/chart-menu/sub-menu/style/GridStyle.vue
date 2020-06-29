@@ -1,4 +1,5 @@
 <template>
+  <!-- 数据轴 -->
   <el-card
     class="box-card"
     :body-style="boxCardBodyStyle"

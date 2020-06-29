@@ -1,7 +1,7 @@
 <template>
+  <!-- 属性设置 -->
   <div>
-    <!-- 各图表自定义样式 -->
-    <!-- <component :is="currentStyleView" /> -->
+    <!-- 图表样式 -->
     <specific-style />
 
     <!-- 标题 -->

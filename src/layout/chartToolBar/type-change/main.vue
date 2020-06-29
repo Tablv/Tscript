@@ -60,6 +60,8 @@ export default class TypeChangeView extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 
+  // chartCreateOptions: Array<any> = [];
+
   get dialogVisible() {
     return this.visible;
   }
@@ -69,6 +71,7 @@ export default class TypeChangeView extends Vue {
   }
 
   get createOptions() {
+    debugger
     // 维度
     const dimensionsNum =
       this.currentDashboard?.analysis.dimensions.length || 0;
@@ -87,7 +90,7 @@ export default class TypeChangeView extends Vue {
             return this.doComparer(dimensionsNum, config.symbol, config.value);
           }) &&
           configs.measures.every((config: any) => {
-            return this.doComparer(dimensionsNum, config.symbol, config.value);
+            return this.doComparer(measuresNum, config.symbol, config.value);
           });
         return result;
       });
@@ -100,6 +103,7 @@ export default class TypeChangeView extends Vue {
     symbol: WarnSymbolType,
     threshold: number
   ): boolean {
+    debugger
     const handle = thresholdComparators[symbol];
     if (!handle) {
       console.error(`找不到比较方法: ${symbol}`);
@@ -131,6 +135,6 @@ $mainMaxHeight: 350px;
 .change-type-chart-btn.is-disabled,
 .change-type-chart-btn.is-disabled:focus,
 .change-type-chart-btn.is-disabled:hover {
-  background: #dddddd;
+  filter: grayscale(99%);
 }
 </style>

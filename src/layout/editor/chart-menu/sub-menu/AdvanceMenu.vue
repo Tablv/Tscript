@@ -11,9 +11,9 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Events from "./functional/block/Events.vue";
-import SqlQuery from "./functional/block/SqlQuery.vue";
-import RotationQuery from "./functional/block/RotationQuery.vue";
+import Events from "./senior/Events.vue";
+import SqlQuery from "./senior/SqlQuery.vue";
+import RotationQuery from "./senior/RotationQuery.vue";
 
 @Component({
   components: {

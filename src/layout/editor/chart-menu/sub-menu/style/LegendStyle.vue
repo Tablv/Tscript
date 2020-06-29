@@ -1,4 +1,5 @@
 <template>
+  <!-- 图例 -->
   <el-card
     class="box-card"
     :body-style="boxCardBodyStyle"

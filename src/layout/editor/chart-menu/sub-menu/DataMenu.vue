@@ -13,9 +13,9 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Axis from "./functional/block/Axis.vue";
-import Where from "./functional/block/Where.vue";
-import JsonStatic from "./functional/block/JsonStatic.vue";
+import Axis from "./functional/Axis.vue";
+import Where from "./functional/Where.vue";
+import JsonStatic from "./functional/JsonStatic.vue";
 
 @Component({
   components: {

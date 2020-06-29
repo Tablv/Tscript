@@ -80,7 +80,7 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import ObjectUtil from "@/util/ObjectUtil";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import WhereDTO, { WhereColumnDTO } from "glaway-bi-model/params/WhereDTO";
-import WhereDialog from "../dialog/WhereDialog.vue";
+import WhereDialog from "./dialog/WhereDialog.vue";
 import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 
 @Component({
