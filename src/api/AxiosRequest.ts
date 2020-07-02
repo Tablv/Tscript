@@ -37,13 +37,6 @@ const API = {
   },
 
   /**
-   * 仪表盘
-   */
-  // findDashboard: "/dashboard/findBySetId",
-  // saveDashboard: "/dashboard/save",
-  // saveDashboard: "/dashboard/container/save",
-
-  /**
    * 仪表盘集
    */
   findDashboardSet: "/dashboard/findDashboard",
@@ -202,15 +195,6 @@ export const AxiosRequest = {
     find: (setId: string) => {
       return AxiosUtil.get(`${API.findDashboardSet}/${setId}`)
         .then(res => {
-          // if (res.result && !ObjectUtil.isEmptyString(res.result.settings)) {
-          // const { settings, dashboards } = res.result;
-          // return ObjectUtil.parseJSON(settings).then(dashboardSet => {
-          //   return {
-          //     container: dashboardSet,
-          //     dashboards
-          //   };
-          // });
-          // }
           if (res.result) {
             return {
               container: {},

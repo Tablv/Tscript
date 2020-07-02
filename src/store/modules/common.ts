@@ -40,11 +40,14 @@ const state: any = {
     where: null
   },
 
+  // 聚焦图表信息
+  focusDashboard: {
+    id: "",
+    visualData: {}
+  },
+
   // 正在保存截图标志位
   isSavingScreenhot: false,
-
-  // 开启聚焦标志
-  isFocusDashboard: false,
 
   // 仪表阴影
   isShowshadow: false,
@@ -182,6 +185,7 @@ const mutations: MutationTree<any> = {
   setDashboardChartZIndex(state, index: number): void {
     const maxZIndex = state.dashboards.length - 1;
     const oldZIndex = state.dashboards[index].visualData.position.z;
+    state.dashboardIndex = index;
     state.dashboards.forEach((dashboard: Dashboard) => {
       if (dashboard.visualData.position.z > oldZIndex) {
         dashboard.visualData.position.z -= 1;
@@ -208,9 +212,8 @@ const mutations: MutationTree<any> = {
     state.isSavingScreenhot = isSaving;
   },
 
-  // 设置聚焦标志
-  setFocusDashboard(state, isFocus: boolean): void {
-    state.isFocusDashboard = isFocus;
+  setFocusDashboard(state, focusDashboard: Dashboard): void {
+    state.focusDashboard = focusDashboard;
   },
 
   // 设置阴影风格

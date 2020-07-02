@@ -71,7 +71,6 @@ export default class TypeChangeView extends Vue {
   }
 
   get createOptions() {
-    debugger
     // 维度
     const dimensionsNum =
       this.currentDashboard?.analysis.dimensions.length || 0;
@@ -103,7 +102,6 @@ export default class TypeChangeView extends Vue {
     symbol: WarnSymbolType,
     threshold: number
   ): boolean {
-    debugger
     const handle = thresholdComparators[symbol];
     if (!handle) {
       console.error(`找不到比较方法: ${symbol}`);

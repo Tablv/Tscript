@@ -99,6 +99,10 @@ export default class ToolBar extends Vue {
     handles: Array<string>;
   };
 
+  // 聚焦图表信息
+  @CommonStore.State("focusDashboard")
+  focusDashboard!: Dashboard;
+
   // 仪表阴影风格
   @CommonStore.Mutation("setShowshadow")
   setShowshadow!: Function;
@@ -185,12 +189,6 @@ export default class ToolBar extends Vue {
         this.getScreenhot(loading as ElLoadingComponent);
       }, 100);
     });
-    // this.$nextTick(() => {
-    //   this.getScreenhot(loading);
-    // });
-    // getPngScreenshot
-    // getPngListScreenshot
-    // this.getScreenhot(loading);
   }
 
   /**
@@ -224,6 +222,16 @@ export default class ToolBar extends Vue {
       serializedDashboard.analysis.limit = ObjectUtil.copy(
         generalDataTemplate.analysis.limit
       );
+
+      // 置为无聚焦状态
+      if (
+        this.focusDashboard.id &&
+        serializedDashboard.id === this.focusDashboard.id
+      ) {
+        serializedDashboard.visualData = ObjectUtil.copy(
+          this.focusDashboard.visualData
+        );
+      }
     });
 
     // 仪表盘集

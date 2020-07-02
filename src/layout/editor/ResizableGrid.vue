@@ -292,8 +292,6 @@ export default class ResizableGrid extends Vue {
   // 点击事件监听函数
   innerClick(index: number): void {
     this.activeArea(ShortcutType.grid);
-    // 设置当前激活的图表下标
-    // this.setActiveIndex(index);
   }
 }
 </script>

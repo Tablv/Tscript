@@ -3,8 +3,18 @@
     <div class="header el-header">
       <span class="title-text">仪表盘</span>
       <div class="button-group">
-        <el-button type="text" icon="fa fa-expand-arrows-alt" />
-        <el-button type="text" icon="fa fa-share-square" />
+        <el-button
+          type="text"
+          :icon="
+            isFullScreen
+              ? 'fa fa-compress-arrows-alt'
+              : 'fa fa-expand-arrows-alt'
+          "
+          :title="isFullScreen ? '退出全屏' : '进入全屏'"
+          @click="toggleFullScreen"
+        ></el-button>
+        <!-- 
+        <el-button type="text" icon="fa fa-share-square" /> -->
       </div>
     </div>
     <div class="left" @click="activeArea('global')">
@@ -26,8 +36,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-
+import ResizableChart from "@/layout/editor/ResizableChart.vue";
+import { Component, Vue, Watch, Emit } from "vue-property-decorator";
+import screenfull from "screenfull";
 import ToolBar from "@/layout/editor/ToolBar.vue";
 import DraggableMenu from "@/layout/editor/chart-menu/ChartMenu.vue";
 import ResizableGrid from "@/layout/editor/ResizableGrid.vue";
@@ -45,7 +56,8 @@ import DashboardSet from "glaway-bi-model/view/DashboardSet";
     ToolBar,
     DraggableMenu,
     ResizableGrid,
-    OptionBar
+    OptionBar,
+    ResizableChart
   }
 })
 export default class Editor extends Vue {
@@ -90,6 +102,12 @@ export default class Editor extends Vue {
   @EditorStore.Mutation("setActiveShortcutType")
   setActiveShortcutType!: Function;
 
+  isFullScreen: boolean = false;
+
+  destroyed() {
+    this.removeKeymap();
+  }
+
   /**
    * 创建时执行方法
    */
@@ -99,28 +117,14 @@ export default class Editor extends Vue {
 
     // 加载数据
     const { dashboardSetId, debuggerMode } = RequestUtil.getRequestParams();
-
-    // if (debuggerMode === "true") {
-    //   // 不加载数据
-    //   return;
-    // }
-
-    // if (ObjectUtil.isEmptyString(dashboardSetId)) {
-    //   UIUtil.showLoading({
-    //     text: "仪表盘参数错误",
-    //     spinner: "el-icon-error"
-    //   });
-    //   UIUtil.showMessage(
-    //     "仪表盘参数错误，系统无法正常加载数据",
-    //     MessageType.error,
-    //     false,
-    //     0
-    //   );
-    //   return;
-    // }
-
-    // // 加载数据
+    // 加载数据
     this.loadData(dashboardSetId);
+
+    if (screenfull.isEnabled) {
+      screenfull.on("change", () => {
+        this.isFullScreen = (screenfull as any).isFullscreen;
+      });
+    }
   }
 
   @Watch("menuVisible")
@@ -182,23 +186,38 @@ export default class Editor extends Vue {
   // 绑定键盘快捷键映射
   bindKeymap(): void {
     // 按键回弹时 执行方法
-    document.onkeyup = (e: Event) => {
-      this.keymapHandler(e);
-    };
+    addEventListener("keyup", this.doHandleKeyEvent);
   }
 
-  keymapHandler(e: Event): void {
+  removeKeymap(): void {
+    removeEventListener("keyup", this.doHandleKeyEvent);
+  }
+
+  doHandleKeyEvent(event: KeyboardEvent): void {
+    // 绑定删除
+    const key = event.keyCode;
+    if (event.keyCode === 46) {
+      this.keymapHandler();
+    }
+    // 绑定其他事件
+  }
+
+  keymapHandler(): void {
     let win: any = window;
 
     // 判断是否为 网格局部快捷键
     if (this.activeShortcutType === ShortcutType.grid) {
-      // 获取 keyCode
-      let key = win.event.keyCode;
-      // Delete 键删除图表元素，Backspace (key === 8)
-      if (key === 46) {
-        this.deleteElement(this.activeIndex);
-      }
+      this.deleteElement(this.activeIndex);
     }
+  }
+
+  toggleFullScreen() {
+    //不支持screenfull全屏，则打印错误
+    if (!screenfull.isEnabled) {
+      console.error("unEnabled");
+      return;
+    }
+    screenfull.toggle();
   }
 }
 </script>

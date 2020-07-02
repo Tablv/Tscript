@@ -7,10 +7,16 @@
       :w="thisDashboard.visualData.width"
       :h="thisDashboard.visualData.height"
       :x="thisDashboard.visualData.position.x"
-      :grid="thisDashboard.visualData.grid"
       :y="thisDashboard.visualData.position.y"
       :z="thisDashboard.visualData.position.z"
-      :class="{ activeElement: index === activeIndex && !isSavingScreenhot }"
+      :grid="thisDashboard.visualData.grid"
+      :draggable="!focusDashboard.id"
+      :resizable="!focusDashboard.id"
+      :class="{
+        activeElement: index === activeIndex && !isSavingScreenhot,
+        hideElement:
+          thisDashboard.id !== focusDashboard.id && focusDashboard.id !== ''
+      }"
     >
       <div
         class="draggable-content"
@@ -34,7 +40,7 @@
             <div v-else class="no-chart-text">分析出错，请稍后重试</div>
             <div class="no-chart-img"></div>
           </div>
-          <chart-component
+          <bi-component
             v-show="showChart"
             ref="chartComponent"
             :dashboard.sync="thisDashboard"
@@ -52,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import ChartComponent from "glaway-bi-component/src/components/ChartComponent";
+// import ChartComponent from "glaway-bi-component/src/components/ChartComponent";
 import { Component, Prop, Watch, Vue, Provide } from "vue-property-decorator";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ChartUIService from "glaway-bi-component/src/interfaces/ChartUIService";
@@ -77,15 +83,15 @@ import EChartsService, {
   renderChartByJSON
 } from "glaway-bi-component/src/service/EChartsService";
 import FieldDTO from "glaway-bi-model/params/FieldDTO";
-import EChartsUtil from "../../util/EChartsUtil";
-import { AxiosRequest } from "../../api/AxiosRequest";
-import DashboardUtil from "../../util/DashboardUtil";
-import ComponentUtil from "../../util/ComponentUtil";
+import EChartsUtil from "@/util/EChartsUtil";
+import { AxiosRequest } from "@/api/AxiosRequest";
+import DashboardUtil from "@/util/DashboardUtil";
+import ComponentUtil from "@/util/ComponentUtil";
 
 @Component({
   components: {
     vdr,
-    ChartComponent,
+    // ChartComponent,
     ChartToolbar
   }
 })
@@ -130,9 +136,17 @@ export default class ResizableElement extends Vue {
   @CommonStore.State("isSavingScreenhot")
   isSavingScreenhot!: number;
 
+  // 处于聚焦状态
+  @CommonStore.State("focusDashboard")
+  focusDashboard!: string;
+
   // 设置选中元素的层级
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
+
+  // 设置菜单是否可见
+  @EditorStore.Mutation("setMenuVisible")
+  setMenuVisible!: Function;
 
   // 联动
   @CommonStore.State("reactWhere")
@@ -156,6 +170,10 @@ export default class ResizableElement extends Vue {
   // 改变图表类型
   @EditorStore.Action("changeChartType")
   changeChartType!: Function;
+
+  // 改变图表类型
+  @EditorStore.Action("loadOptions")
+  loadOptions!: Function;
 
   /**
    * Getter
@@ -301,9 +319,9 @@ export default class ResizableElement extends Vue {
     this.chartComponent.bindChartEvents(false, this.thisEvents);
 
     // 获取数据
-    if (this.needFetchData && !this.noDimensions) {
+    if (this.needFetchData) {
       this.fetchToShow();
-    } else if (this.isJsonEnable && !this.noDimensions) {
+    } else if (this.isJsonEnable) {
       this.chartComponent.renderChart();
     }
   }
@@ -319,13 +337,23 @@ export default class ResizableElement extends Vue {
   onChartTypeChange(newType: ChartType, oldType: ChartType) {
     this.changeChartType({ newType, oldType })
       .then(() => {
-        this.chartComponent?.renderChart();
-        this.chartComponent?.resizeChart();
+        this.setMenuVisible(false);
+        // 去获取选项配置 同下标图表切换类型，需要手动触发加载配置
+        this.loadOptions().then(() => {
+          this.chartComponent?.renderChart();
+        });
       })
       .catch((err: Error) => {
         UIUtil.showErrorMessage("切换图表类型失败");
         console.error(err);
       });
+  }
+
+  @Watch("focusDashboard", {
+    deep: true
+  })
+  onFocusDashboardChange() {
+    this.chartComponent.resizeChart();
   }
 
   /**
@@ -341,7 +369,7 @@ export default class ResizableElement extends Vue {
      *  - 未开启 JSON 时，刷新渲染视图
      *  - 开启 JSON 时，判断是否为空，不为空 则渲染
      */
-    if (!this.isJsonEnable && !this.noDimensions) {
+    if (!this.isJsonEnable) {
       this.fetchToShow();
       return;
     }
@@ -411,9 +439,6 @@ export default class ResizableElement extends Vue {
     ) {
       return;
     }
-    // if (this.noDimensions) {
-    //   return this.chartComponent.clearChart();
-    // }
     this.fetchToShow();
   }
 
@@ -591,14 +616,8 @@ export default class ResizableElement extends Vue {
 
         this.resultTmp = data;
 
-        // 不存在时，初始化图表
-        // this.chartComponent.initChart();
-
         // 调整尺寸
         this.chartComponent?.resizeChart();
-
-        // 绘制图表
-        // this.chartComponent.renderChart();
       })
       .catch(err => {
         // 分析失败
@@ -644,6 +663,11 @@ $shadow: 0 0 6px $shadowColor;
   // 当前激活的元素
   &.activeElement {
     border: 1px solid $borderColor;
+  }
+
+  // 当前激活的元素
+  &.hideElement {
+    z-index: -1 !important;
   }
 
   .no-chart-text {

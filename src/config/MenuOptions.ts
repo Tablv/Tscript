@@ -166,9 +166,9 @@ export const generalMenuOptions: any = {
     event: {
       selection: [
         { text: "无", value: "" },
-        { text: "联动", value: "react" },
-        { text: "弹框", value: "pop" },
-        { text: "穿透", value: "jump" }
+        { text: "联动", value: "react" }
+        // { text: "弹框", value: "pop" },
+        // { text: "穿透", value: "jump" }
       ]
     }
   },

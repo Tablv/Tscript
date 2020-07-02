@@ -43,16 +43,16 @@ module.exports = {
       title: "图表分享验证"
     }
   },
-  configureWebpack: {
-    externals: {
-      vue: "Vue"
-    }
-  },
+  // configureWebpack: {
+  //   externals: {
+  //     vue: "Vue"
+  //   }
+  // },
   devServer: {
-    port: 3000,
+    port: 3001,
     proxy: {
       "/admin": {
-        // target: "http://192.168.111.241:8080/admin",
+        // target: "http://192.168.1.205:8080/admin",
         target: "http://127.0.0.1:8080/admin",
         // target: "http://192.168.111.63:8080/admin",
         changeOrigin: true,

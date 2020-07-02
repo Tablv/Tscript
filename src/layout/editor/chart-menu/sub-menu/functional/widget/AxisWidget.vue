@@ -4,6 +4,7 @@
     class="drag-area"
     v-model="axisDroppedData"
     :animation="200"
+    :disabled="disabled"
     :group="{ put: true, pull: false }"
     @change="axisDropHandler"
   >
@@ -110,6 +111,9 @@ export default class Dimensions extends Vue {
 
   @Prop()
   axisType!: FieldType;
+
+  @Prop()
+  disabled!: boolean;
 
   /**
    * 开启下拉菜单函数配置

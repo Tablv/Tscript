@@ -8,8 +8,12 @@
     />
 
     <tool-button
-      icon-class="fa fa-arrows-alt"
-      title="聚焦"
+      :icon-class="
+        focusDashboard.id
+          ? 'fa fa-compress-arrows-alt'
+          : 'fa fa-expand-arrows-alt'
+      "
+      :title="focusDashboard.id ? '取消' : '聚焦'"
       placement="top"
       @click="handleFocus"
     />
@@ -80,6 +84,7 @@ import DetailToolbar from "./DetailToolbar.vue";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import ScreenshotUtil from "@/util/Screenshot";
 import UIUtil, { MessageType } from "@/util/UIUtil";
+import ObjectUtil from "@/util/ObjectUtil";
 
 @Component({
   components: {
@@ -101,11 +106,11 @@ export default class CommonToolbar extends Vue {
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
 
-  // 处于聚焦状态
-  @CommonStore.State("isFocusDashboard")
-  isFocusDashboard!: number;
+  // 聚焦图表信息
+  @CommonStore.State("focusDashboard")
+  focusDashboard!: Dashboard;
 
-  // 设置菜单是否可见
+  // 设置聚焦状态
   @CommonStore.Mutation("setFocusDashboard")
   setFocusDashboard!: Function;
 
@@ -213,7 +218,30 @@ export default class CommonToolbar extends Vue {
    * 聚焦按钮
    */
   handleFocus() {
-    // this.setFocusDashboard(!this.isFocusDashboard);
+    // 是否存在放大的图表
+    const id = this.focusDashboard.id ? "" : this.thisDashboard.id;
+    // 放大图表配置
+    const nowDashboard = { id } as Dashboard;
+    if (!id) {
+      // 存在放大图表，再次点击toggle
+      this.thisDashboard.visualData = ObjectUtil.copy(
+        this.focusDashboard.visualData
+      );
+    } else {
+      const box = document.querySelector("#gridBox") as HTMLElement;
+      ObjectUtil.merge(nowDashboard as any, {
+        visualData: ObjectUtil.copy(this.thisDashboard.visualData)
+      });
+      ObjectUtil.merge(this.thisDashboard.visualData as any, {
+        width: box.offsetWidth,
+        height: box.offsetHeight,
+        position: {
+          x: 0,
+          y: 0
+        }
+      });
+    }
+    this.setFocusDashboard(Object.assign(this.focusDashboard, nowDashboard));
   }
 }
 </script>

@@ -3,19 +3,19 @@
     enter-active-class="animated slideInRight"
     leave-active-class="animated slideOutRight"
   >
-    <aside class="chart-menu" v-if="visible && loadComplated">
+    <aside class="chart-menu" v-if="menuVisible && loadComplated" v-cloak>
       <!-- 图表菜单 -->
       <floating-menu title="图表" class="chart-menu-box">
         <!-- 菜单Content -->
         <el-tabs v-model="currentTab">
           <el-tab-pane label="数据绑定" name="data">
             <!-- 数据绑定 -->
-            <data-menu />
+            <data-menu v-cloak />
           </el-tab-pane>
 
           <el-tab-pane label="属性设置" name="preference">
             <!-- 属性设置 -->
-            <style-menu />
+            <style-menu v-cloak />
           </el-tab-pane>
 
           <el-tab-pane label="数据交互" name="interactive">
@@ -26,6 +26,7 @@
                 title="待开发"
                 description="该模块待开发，暂不可用"
                 show-icon
+                v-cloak
                 :closable="false"
               >
               </el-alert>
@@ -95,7 +96,7 @@ export default class ChartMenu extends Vue {
 
   // 菜单是否可见
   @EditorStore.State("menuVisible")
-  visible!: boolean;
+  menuVisible!: boolean;
 
   // 加载菜单
   @EditorStore.Mutation("setMenuLoading")
@@ -188,6 +189,9 @@ $modelMenuWidth: 42%;
 // 颜色定义
 $chartsMenuBgc: #e9e9e9;
 $backgroundColor: #f9f9f9;
+[v-cloak] {
+  display: none !important;
+}
 
 .chart-menu {
   position: absolute;

@@ -36,39 +36,6 @@
         </el-row>
       </el-form-item>
 
-      <!-- 标签 (Y轴) -->
-      <!-- <el-form-item label="数据标注">
-        <el-row>
-          <el-col :span="12">
-            <el-switch
-              v-model="specificStyle.label.show"
-              active-color="#13ce66"
-            />
-          </el-col>
-          <el-col
-            v-if="specificStyle.label.show"
-            :span="10"
-            :offset="2"
-            style="position: relative;"
-          >
-            <span class="position-lable">位置</span>
-            <el-select
-              v-model="specificStyle.label.position"
-              size="mini"
-              placeholder="位置"
-            >
-              <el-option
-                v-for="(unit, index) in styleSelection.series.barLabel.position
-                  .selection"
-                :key="index"
-                :label="unit.text"
-                :value="unit.value"
-              />
-            </el-select>
-          </el-col>
-        </el-row>
-      </el-form-item> -->
-
       <!-- 标签角度 -->
       <el-form-item label="标签角度">
         <el-row>

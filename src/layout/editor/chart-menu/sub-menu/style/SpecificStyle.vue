@@ -30,41 +30,41 @@ export default class TitleStyle extends Vue {
     /**
      * 柱图
      */
-    bar: () => import("./specific-style/BarStyle.vue"),
-    barStack: () => import("./specific-style/BarStyle.vue"),
-    barPercentage: () => import("./specific-style/BarStyle.vue"),
-    hbar: () => import("./specific-style/BarStyle.vue"),
-    hbarStack: () => import("./specific-style/BarStyle.vue"),
-    hbarPercentage: () => import("./specific-style/BarStyle.vue"),
+    bar: () => import("./specific-type/BarStyle.vue"),
+    barStack: () => import("./specific-type/BarStyle.vue"),
+    barPercentage: () => import("./specific-type/BarStyle.vue"),
+    hbar: () => import("./specific-type/BarStyle.vue"),
+    hbarStack: () => import("./specific-type/BarStyle.vue"),
+    hbarPercentage: () => import("./specific-type/BarStyle.vue"),
 
     /**
      * 饼图
      */
-    pie: () => import("./specific-style/PieStyle.vue"),
-    rpie: () => import("./specific-style/PieStyle.vue"),
-    rosepie: () => import("./specific-style/PieStyle.vue"),
-    sunpie: () => import("./specific-style/PieStyle.vue"),
-    targetpie: () => import("./specific-style/PieStyle.vue"),
+    pie: () => import("./specific-type/PieStyle.vue"),
+    rpie: () => import("./specific-type/PieStyle.vue"),
+    rosepie: () => import("./specific-type/PieStyle.vue"),
+    sunpie: () => import("./specific-type/PieStyle.vue"),
+    targetpie: () => import("./specific-type/PieStyle.vue"),
 
     /**
      * 雷达图
      */
-    radar: () => import("./specific-style/RadarStyle.vue"),
+    radar: () => import("./specific-type/RadarStyle.vue"),
 
     /**
      * 折线图
      */
-    line: () => import("./specific-style/LineStyle.vue"),
+    line: () => import("./specific-type/LineStyle.vue"),
 
     /**
      * 组合图
      */
-    biaxial: () => import("./specific-style/LineStyle.vue"),
+    biaxial: () => import("./specific-type/LineStyle.vue"),
 
     /**
      * 仪表盘
      */
-    guage: () => import("./specific-style/GuageStyle.vue")
+    guage: () => import("./specific-type/GuageStyle.vue")
   };
 
   get chartType() {
