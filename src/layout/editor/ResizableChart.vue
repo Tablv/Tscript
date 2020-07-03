@@ -46,7 +46,7 @@
             :dashboard.sync="thisDashboard"
             :analysisdata="resultTmp"
             :reactWhere="reactWhere"
-            :key="index"
+            :key="thisDashboard.id"
             @error="doHandleError"
             @setReact="setReactHandle"
             @resetReact="resetReactHandle"

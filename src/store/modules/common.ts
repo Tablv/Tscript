@@ -101,7 +101,7 @@ const mutations: MutationTree<any> = {
       };
     }
     // 添加仪表盘
-    state.dashboards.unshift(initData);
+    state.dashboards.push(initData);
   },
 
   /**
