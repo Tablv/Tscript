@@ -1,5 +1,3 @@
-import { ChartType } from "glaway-bi-model/enums/ChartType";
-
 /**
  * Element-UI 配置
  */

@@ -62,6 +62,7 @@ import { AxiosRequest } from "@/api/AxiosRequest";
 import { SortType } from "glaway-bi-model/enums/SortType";
 import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
 import { ElLoadingComponent } from "element-ui/types/loading";
+import Draggable from "glaway-bi-model/view/Draggable";
 
 @Component({
   components: {}
@@ -89,15 +90,7 @@ export default class ToolBar extends Vue {
 
   // 仪表阴影风格
   @CommonStore.State("shadowStyle")
-  shadowStyle!: {
-    w: number;
-    h: number;
-    x: number;
-    y: number;
-    z: number;
-    grid: Array<number>;
-    handles: Array<string>;
-  };
+  shadowStyle!: Draggable;
 
   // 聚焦图表信息
   @CommonStore.State("focusDashboard")
@@ -135,8 +128,8 @@ export default class ToolBar extends Vue {
       const baseConfig = {
         chartType,
         position: {
-          x: Math.round(this.shadowStyle.x / 10) * 10,
-          y: Math.round(this.shadowStyle.y / 10) * 10
+          x: Math.round((this.shadowStyle as any).x / 10) * 10,
+          y: Math.round((this.shadowStyle as any).y / 10) * 10
         }
       };
       this.createDashboard(baseConfig);

@@ -10,6 +10,7 @@ import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import { AxiosRequest } from "@/api/AxiosRequest";
 // import { AxiosRequest } from "@/api/mock";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
+import Draggable from "glaway-bi-model/view/Draggable";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
 
@@ -100,7 +101,7 @@ const mutations: MutationTree<any> = {
       };
     }
     // 添加仪表盘
-    state.dashboards.push(initData);
+    state.dashboards.unshift(initData);
   },
 
   /**
@@ -153,7 +154,6 @@ const mutations: MutationTree<any> = {
 
     // 当前下标置为-1
     state.dashboardIndex = -1;
-
     // 删除指定数据
     state.dashboards.splice(index, 1);
   },
@@ -199,7 +199,7 @@ const mutations: MutationTree<any> = {
     state.reactWhere = reactWhere;
   },
 
-  // 清空数据
+  // 清空联动条件
   resetReactWhere(state): void {
     ObjectUtil.merge(state.reactWhere, {
       dashboardId: null,
@@ -207,28 +207,24 @@ const mutations: MutationTree<any> = {
     });
   },
 
-  // 设置正在保存截图
+  /**
+   * 设置保存截图标志
+   * 控制 截图背景灰色
+   */
   setSavingScreenhot(state, isSaving: boolean): void {
     state.isSavingScreenhot = isSaving;
   },
 
+  /**
+   * 设置聚焦图表信息
+   * @param focusDashboard {Dashboard} 聚焦图表信息
+   */
   setFocusDashboard(state, focusDashboard: Dashboard): void {
     state.focusDashboard = focusDashboard;
   },
 
   // 设置阴影风格
-  setShadowStyle(
-    state,
-    shadowStyle: {
-      w: number;
-      h: number;
-      x: number;
-      y: number;
-      z: number;
-      grid: Array<number>;
-      handles: Array<string>;
-    }
-  ) {
+  setShadowStyle(state, shadowStyle: Draggable) {
     state.shadowStyle = shadowStyle;
   },
 
@@ -259,7 +255,6 @@ const actions: ActionTree<any, any> = {
           const defaultConfig = ObjectUtil.copy(
             DefaultTemplate.getDefaultConfig(type)
           );
-          // dashboard.analysis.datasetId = state.dashboardSetId;
           return ObjectUtil.merge(defaultConfig, dashboard);
         });
 

@@ -40,6 +40,7 @@ import { ShortcutType } from "glaway-bi-model/enums/ShortcutType";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
+import Draggable from "glaway-bi-model/view/Draggable";
 import DashboardUtil from "@/util/DashboardUtil";
 import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
 import ObjectUtil from "../../util/ObjectUtil";
@@ -113,15 +114,7 @@ export default class ResizableGrid extends Vue {
    */
   canvasStyle = {};
 
-  bgStyle: {
-    w: number;
-    h: number;
-    x: number;
-    y: number;
-    z: number;
-    grid: Array<number>;
-    handles: Array<string>;
-  } = {
+  bgStyle: Draggable = {
     w: 300,
     h: 400,
     x: 0,
@@ -182,8 +175,8 @@ export default class ResizableGrid extends Vue {
     const baseConfig = {
       chartType,
       position: {
-        x: Math.round(this.bgStyle.x / 10) * 10,
-        y: Math.round(this.bgStyle.y / 10) * 10
+        x: Math.round((this.bgStyle as any).x / 10) * 10,
+        y: Math.round((this.bgStyle as any).y / 10) * 10
       }
     };
     this.createDashboard(baseConfig);
