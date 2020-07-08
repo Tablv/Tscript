@@ -32,7 +32,8 @@
               class="chart-btn simple-btn"
               :draggable="opt.enable && opt.createType !== 'sunpie'"
               :disabled="!opt.enable || opt.createType === 'sunpie'"
-              @dragstart.native="createChart($event, opt.createType)"
+              @mousedown.native="createChart(opt.createType)"
+              @dragstart.native="dragstart($event, opt.createType)"
               @dragend.native="dragend"
             >
               <svg class="icon-svg" aria-hidden="true">
@@ -86,11 +87,18 @@ export default class ToolBar extends Vue {
 
   // 仪表阴影标志
   @CommonStore.State("isShowshadow")
-  isShowshadow!: number;
+  isShowshadow!: boolean;
 
   // 仪表阴影风格
   @CommonStore.State("shadowStyle")
   shadowStyle!: Draggable;
+
+  //
+  @CommonStore.State("scrollStyle")
+  scrollStyle!: {
+    scrollLeft: number;
+    scrollTop: number;
+  };
 
   // 聚焦图表信息
   @CommonStore.State("focusDashboard")
@@ -99,6 +107,14 @@ export default class ToolBar extends Vue {
   // 仪表阴影风格
   @CommonStore.Mutation("setShowshadow")
   setShowshadow!: Function;
+
+  // 仪表阴影风格
+  @CommonStore.Mutation("setShadowStyle")
+  setShadowStyle!: Function;
+
+  // 滚动条信息
+  @CommonStore.Mutation("setScrollStyle")
+  setScrollStyle!: Function;
 
   // 设置正在保存截图
   @CommonStore.Mutation("setSavingScreenhot")
@@ -110,30 +126,62 @@ export default class ToolBar extends Vue {
   // 图表创建选项
   chartCreateOptions = chartCreateOptions;
 
+  createChartType: string = "";
+
+  mounted() {
+    const centerBox = document.querySelector(".center") as HTMLDivElement;
+    centerBox.addEventListener("scroll", e => {
+      this.setScrollStyle({
+        scrollLeft: (e.target as HTMLDivElement).scrollLeft,
+        scrollTop: (e.target as HTMLDivElement).scrollTop
+      });
+    });
+  }
+
+  createChart(chartType: string): void {
+    this.createChartType = chartType;
+  }
+
   /**
    * 创建图表
    */
-  createChart(event: any, chartType: ChartType) {
+  dragstart(event: any, chartType: ChartType): void {
     this.showCreateChart = false;
-    event.dataTransfer.setDragImage(new Image(), 0, 0);
-    event.dataTransfer.setData("chartType", chartType);
+    this.$nextTick(() => {
+      event.dataTransfer.setDragImage(new Image(), 0, 0);
+      event.dataTransfer.setData("chartType", chartType);
+      const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
+      const bgBoxLeft = parseInt(bgBox.style.left) || 0,
+        bgBoxTop = parseInt(bgBox.style.top) || 0;
+      const bgStyle: Draggable = {
+        w: 300,
+        h: 400,
+        x: event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft,
+        y: event.pageY - 60 - 200 - bgBoxTop + this.scrollStyle.scrollTop,
+        z: 1000,
+        grid: [10, 10],
+        handles: []
+      };
+      this.setShadowStyle(bgStyle);
+      this.setShowshadow(true);
+    });
   }
 
   // 拖拽结束
   dragend(event: any) {
-    // 预防drop不触发的问题
-    if (this.isShowshadow) {
-      this.setShowshadow(false);
-      const chartType = event.dataTransfer.getData("chartType");
+    this.setShowshadow(false);
+    // 放到异步微任务，等待数据更新执行创建
+    setTimeout(() => {
       const baseConfig = {
-        chartType,
+        chartType: this.createChartType,
         position: {
           x: Math.round((this.shadowStyle as any).x / 10) * 10,
           y: Math.round((this.shadowStyle as any).y / 10) * 10
         }
       };
       this.createDashboard(baseConfig);
-    }
+      this.setShowshadow(false);
+    }, 0);
   }
 
   getScreenhot(loading: ElLoadingComponent) {
@@ -201,6 +249,11 @@ export default class ToolBar extends Vue {
     let serializedDashboards = ObjectUtil.copy(this.dashboards);
     // 保存前处理
     serializedDashboards.forEach((serializedDashboard: Dashboard) => {
+      Object.assign(
+        serializedDashboard.analysis,
+        serializedDashboard.tableView
+      );
+
       // 置为默认过滤器配置
       serializedDashboard.analysis.filter = ObjectUtil.copy(
         generalDataTemplate.analysis.filter

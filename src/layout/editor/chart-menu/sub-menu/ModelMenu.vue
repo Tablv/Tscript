@@ -6,7 +6,7 @@
     </template>
 
     <ul class="fields-box">
-      <li class="field" v-for="table in tables" :key="table.id">
+      <li class="field" v-for="table in tableList" :key="table.id">
         <div class="table-title">
           <i class="fa fa-database"></i>
           <span>{{ table.name }} 表</span>
@@ -30,13 +30,7 @@
             >
               <i class="fa fa-file"></i>
               <div class="field-content">
-                <span>{{ tableColumn.alias || tableColumn.columnName }}</span>
-                <!-- <span>{{ tableColumn.columnName }}</span>
-                <span
-                  v-if="tableColumn.alias !== null && tableColumn.alias !== ''"
-                >
-                  - {{ tableColumn.alias }}</span
-                > -->
+                <span>{{ tableColumn.alias }}</span>
               </div>
             </div>
           </transition-group>
@@ -71,8 +65,8 @@ export default class ModelMenu extends Vue {
    */
 
   // 数据模型
-  @EditorStore.State("tables")
-  tables!: Array<TableVO>;
+  @EditorStore.State("tableList")
+  tableList!: Array<TableVO>;
 
   /**
    * 数组拖拽事件

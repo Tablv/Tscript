@@ -129,12 +129,7 @@ export default class Axis extends Vue {
   }
 
   set dimensions(dimensions: Array<FieldDTO>) {
-    this.currentDashboard.analysis.dimensions = dimensions.map(item => {
-      return Object.assign(item, {
-        columnName: item.vcolumn || item.columnName,
-        alias: item.vcolumn || item.alias
-      });
-    });
+    this.currentDashboard.analysis.dimensions = dimensions;
   }
 
   /**
@@ -162,12 +157,7 @@ export default class Axis extends Vue {
   }
 
   addMeasuresY(measuresY: Array<FieldDTO>) {
-    this.measuresY = measuresY.map(item => {
-      return Object.assign(item, {
-        columnName: item.vcolumn || item.columnName,
-        alias: item.vcolumn || item.alias
-      });
-    });
+    this.measuresY = measuresY;
   }
 }
 </script>

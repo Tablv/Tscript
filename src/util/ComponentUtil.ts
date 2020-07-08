@@ -16,7 +16,7 @@ export default class ComponentUtil {
    * 获取数据
    */
   public static async fetchData(
-    isSqlEnable: any,
+    isSqlEnable: boolean,
     thisDashboard: Dashboard,
     reactWhere: ReactWhere,
     chartComponent: any
@@ -24,7 +24,7 @@ export default class ComponentUtil {
     // 判断是否为 SQL
     let fetchPromise: Promise<AnalysisResults> = isSqlEnable
       ? this.fetchSqlData(thisDashboard.staticData.sql.data)
-      : this.fetchAnalysisData(thisDashboard as any, reactWhere);
+      : this.fetchAnalysisData(thisDashboard, reactWhere);
     return fetchPromise
       .then((data: AnalysisResults) => {
         data = this.doCustomOrder(data, thisDashboard);
@@ -53,19 +53,7 @@ export default class ComponentUtil {
     reactWhere: ReactWhere
   ): Promise<AnalysisResults> {
     // 分析参数
-    let analysisDTO = DashboardUtil.getAnalysisDTO(thisDashboard as any);
-    let tableAlias: string = "";
-    if (thisDashboard.analysis.viewName) {
-      tableAlias = thisDashboard.analysis.viewName.split(".")[2];
-    }
-
-    if (reactWhere.where) {
-      reactWhere.where.tableAlias = tableAlias;
-    }
-
-    analysisDTO.where.forEach(whe => {
-      whe.tableAlias = tableAlias;
-    });
+    let analysisDTO = DashboardUtil.getAnalysisDTO(thisDashboard);
 
     // 判断数据集是否一致
     if (thisDashboard.analysis.datasetId === reactWhere.datasetId) {

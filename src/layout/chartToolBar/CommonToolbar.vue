@@ -85,6 +85,7 @@ import { AxiosRequest } from "@/api/AxiosRequest";
 import ScreenshotUtil from "@/util/Screenshot";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 import ObjectUtil from "@/util/ObjectUtil";
+import TableView from "glaway-bi-model/view/dashboard/TableView";
 
 @Component({
   components: {
@@ -122,6 +123,10 @@ export default class CommonToolbar extends Vue {
   @EditorStore.Mutation("setMenuVisible")
   setMenuVisible!: Function;
 
+  // 加载数据集
+  @EditorStore.Action("loadTables")
+  loadTables!: Function;
+
   screenhotVisible: boolean = false;
 
   // 快照保存目录节点配置信息
@@ -147,7 +152,21 @@ export default class CommonToolbar extends Vue {
 
   // 显示菜单
   doShowMenu() {
-    this.setMenuVisible(this.activeIndex !== -1 && !this.menuVisible);
+    const isShowMenu = this.activeIndex !== -1 && !this.menuVisible;
+    if (isShowMenu) {
+      this.loadTables()
+        .then((tableView: TableView) => {
+          this.thisDashboard.tableView = tableView;
+          // 这里能等接口，太费时间
+          this.$nextTick(() => {
+            this.setMenuVisible(isShowMenu);
+          });
+        })
+        .catch((err: Error) => {
+          UIUtil.showErrorMessage("加载数据集失败");
+          console.error(err);
+        });
+    }
   }
 
   /**

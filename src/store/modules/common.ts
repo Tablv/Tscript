@@ -62,6 +62,12 @@ const state: any = {
     z: 1000,
     grid: [10, 10],
     handles: []
+  },
+
+  // 滚动条信息
+  scrollStyle: {
+    scrollLeft: 0,
+    scrollTop: 0
   }
 };
 
@@ -231,6 +237,17 @@ const mutations: MutationTree<any> = {
   // 设置是否开启阴影
   setShowshadow(state, value: boolean) {
     state.isShowshadow = value;
+  },
+
+  // 设置滚动条信息
+  setScrollStyle(
+    state,
+    scrollStyle: {
+      scrollLeft: number;
+      scrollTop: number;
+    }
+  ): void {
+    state.scrollStyle = scrollStyle;
   }
 };
 
@@ -249,8 +266,18 @@ const actions: ActionTree<any, any> = {
         // 设置仪表盘集
         commit("setDashboardSet", container);
         // 处理老旧数据，合并最近的公共配置
-        const result = dashboards.map((dashboard: any) => {
+        const result = dashboards.map((dashboard: Dashboard) => {
           dashboard = JSON.parse(JSON.stringify(dashboard));
+
+          dashboard.tableView = {
+            fromTable: ObjectUtil.copy(dashboard.analysis.fromTable) || {
+              schema: "",
+              alias: "",
+              tableName: ""
+            },
+            viewName: dashboard.analysis.viewName || ""
+          };
+
           const type = dashboard.visualData.type;
           const defaultConfig = ObjectUtil.copy(
             DefaultTemplate.getDefaultConfig(type)

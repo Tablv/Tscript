@@ -38,11 +38,6 @@
       @close="closeWarnDialog"
     />
 
-    <!-- <tool-button
-      icon-class="fa fa-exchange-alt"
-      title="图表切换"
-      @click="chartTypeChange"
-    /> -->
     <type-change-view
       title="图表切换"
       :currentDashboard="currentDashboard"
@@ -116,6 +111,7 @@ export default class DetailToolbar extends Vue {
     this.$emit("update:dashboard", dashboard);
   }
 
+  // 各功能弹窗的开关
   visibles: VisibleMap = {
     filter: false,
     sort: false,
@@ -183,13 +179,6 @@ export default class DetailToolbar extends Vue {
   }
 
   /**
-   * 切换图表类型
-   */
-  chartTypeChange() {
-    // this.currentDashboard.visualData.type = ChartType.biaxial;
-  }
-
-  /**
    * 复制
    */
   handleCopy() {
@@ -222,25 +211,5 @@ $toolbarWidth: 32px;
 .detail-toolbar {
   display: flex;
   flex-flow: column nowrap;
-
-  // .tool-btn {
-  //   padding: 8px;
-  //   background: transparent;
-  //   border: 0;
-  //   width: 100%;
-  //   cursor: pointer;
-
-  //   &:hover {
-  //     background: rgba(0, 0, 0, 0.06);
-  //   }
-
-  //   &:active {
-  //     background: rgba(0, 0, 0, 0.1);
-  //   }
-
-  //   .fa {
-  //     color: map-get($colors, "chart");
-  //   }
-  // }
 }
 </style>

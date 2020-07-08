@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="header el-header">
-      <span class="title-text">仪表盘</span>
+      <span class="title-text">仪表盘{{ editorTitle }}</span>
       <div class="button-group">
         <el-button
           type="text"
@@ -104,6 +104,8 @@ export default class Editor extends Vue {
 
   isFullScreen: boolean = false;
 
+  editorTitle: string = "";
+
   destroyed() {
     this.removeKeymap();
   }
@@ -119,6 +121,13 @@ export default class Editor extends Vue {
     const { dashboardSetId, debuggerMode } = RequestUtil.getRequestParams();
     // 加载数据
     this.loadData(dashboardSetId);
+
+    const dashboardFile = sessionStorage.getItem(dashboardSetId);
+    if (dashboardFile) {
+      const dashboardName = JSON.parse(dashboardFile).name;
+      this.editorTitle = ": " + dashboardName;
+      document.title = "仪表盘-" + dashboardName;
+    }
 
     if (screenfull.isEnabled) {
       screenfull.on("change", () => {

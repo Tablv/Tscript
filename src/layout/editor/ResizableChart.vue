@@ -33,7 +33,7 @@
           :data-title="thisDashboard.echarts.title.text"
           class="chart-component"
         >
-          <div v-show="!showChart">
+          <div v-show="!isShowChart">
             <div v-if="analysisSuccess" class="no-chart-text">
               拖入字段，生成图表
             </div>
@@ -41,10 +41,10 @@
             <div class="no-chart-img"></div>
           </div>
           <bi-component
-            v-show="showChart"
+            v-show="isShowChart"
             ref="chartComponent"
             :dashboard.sync="thisDashboard"
-            :analysisdata="resultTmp"
+            :analysisdata="analysisResult"
             :reactWhere="reactWhere"
             :key="thisDashboard.id"
             @error="doHandleError"
@@ -114,13 +114,7 @@ export default class ResizableElement extends Vue {
   // 是否显示详细工具栏
   isShowDetail = false;
 
-  resultTmp: AnalysisResults = [];
-
-  defaultConfig: any;
-
-  // 正在加载菜单
-  @EditorStore.State("menuLoading")
-  menuLoading!: boolean;
+  analysisResult: AnalysisResults = [];
 
   /**
    * 仪表盘部分
@@ -194,7 +188,7 @@ export default class ResizableElement extends Vue {
   }
 
   get thisChartType(): ChartType {
-    return (this.thisDashboard.visualData as any).type;
+    return this.thisDashboard.visualData.type;
   }
 
   get thisEchartsOption() {
@@ -258,6 +252,13 @@ export default class ResizableElement extends Vue {
   }
 
   /**
+   * 是否开启联动
+   */
+  get isReact(): boolean {
+    return this.thisDashboard.analysis.isReact;
+  }
+
+  /**
    * 图表组件 Getter
    */
   get chartComponent(): ChartUIService {
@@ -270,25 +271,17 @@ export default class ResizableElement extends Vue {
    */
   get noField(): boolean {
     return (
-      this.noDimensions && ObjectUtil.isEmptyArray(this.thisAnalysis.measures)
+      ObjectUtil.isEmptyArray(this.thisAnalysis.dimensions) &&
+      ObjectUtil.isEmptyArray(this.thisAnalysis.measures)
     );
-  }
-
-  /**
-   * 是不是不存在分析字段
-   */
-  get noDimensions(): boolean {
-    return ObjectUtil.isEmptyArray(this.thisAnalysis.dimensions);
   }
 
   /**
    * 是否显示图表
    */
-  get showChart(): boolean {
+  get isShowChart(): boolean {
     return (
-      (!this.noField ||
-        this.thisStatic.json.enable ||
-        this.thisStatic.sql.enable) &&
+      (!this.noField || this.isJsonEnable || this.isSqlEnable) &&
       this.analysisSuccess
     );
   }
@@ -297,14 +290,7 @@ export default class ResizableElement extends Vue {
    * 是否需要获取数据
    */
   get needFetchData(): boolean {
-    return !this.noField || this.thisStatic.sql.enable;
-  }
-
-  /**
-   * 是否开启联动
-   */
-  get isReact(): boolean {
-    return this.thisDashboard.analysis.isReact;
+    return !this.noField || this.isSqlEnable;
   }
 
   mounted() {
@@ -335,7 +321,7 @@ export default class ResizableElement extends Vue {
    */
   @Watch("thisChartType")
   onChartTypeChange(newType: ChartType, oldType: ChartType) {
-    this.changeChartType({ newType, oldType })
+    this.changeChartType(newType)
       .then(() => {
         this.setMenuVisible(false);
         // 去获取选项配置 同下标图表切换类型，需要手动触发加载配置
@@ -345,10 +331,12 @@ export default class ResizableElement extends Vue {
       })
       .catch((err: Error) => {
         UIUtil.showErrorMessage("切换图表类型失败");
-        console.error(err);
       });
   }
 
+  /**
+   * 监听聚焦
+   */
   @Watch("focusDashboard", {
     deep: true
   })
@@ -369,7 +357,7 @@ export default class ResizableElement extends Vue {
      *  - 未开启 JSON 时，刷新渲染视图
      *  - 开启 JSON 时，判断是否为空，不为空 则渲染
      */
-    if (!this.isJsonEnable) {
+    if (!this.isJsonEnable && this.needFetchData) {
       this.fetchToShow();
       return;
     }
@@ -426,17 +414,11 @@ export default class ResizableElement extends Vue {
 
   // 分析
   @Watch("thisAnalysis", {
-    deep: true,
-    immediate: true
+    deep: true
   })
   onAnalysisUpdate(): void {
     // 非当前仪表盘 || 正在打开菜单 || 不存在字段
-    if (
-      !this.isCurrent ||
-      this.menuLoading ||
-      this.noField ||
-      this.isSqlEnable
-    ) {
+    if (!this.isCurrent || this.noField || this.isSqlEnable) {
       return;
     }
     this.fetchToShow();
@@ -445,13 +427,13 @@ export default class ResizableElement extends Vue {
   /**
    * 中间值
    */
-  @Watch("resultTmp", {
+  @Watch("analysisResult", {
     deep: true,
     immediate: false
   })
-  onResultTmpChange(): void {
+  onAnalysisResultChange(): void {
     this.chartComponent?.resizeChart();
-    this.chartComponent?.renderChart(this.resultTmp);
+    this.chartComponent?.renderChart(this.analysisResult);
   }
 
   /**
@@ -465,7 +447,7 @@ export default class ResizableElement extends Vue {
     /**
      * 非当前仪表盘 || 正在打开菜单 || 没有维度字段
      */
-    if (!this.isCurrent || this.menuLoading) {
+    if (!this.isCurrent) {
       return;
     }
     this.chartComponent?.renderChart();
@@ -538,7 +520,9 @@ export default class ResizableElement extends Vue {
    */
   onDrageding(x: number, y: number) {
     this.setPosition(x, y);
-    this.chartComponent?.resizeChart();
+    this.$nextTick(() => {
+      this.chartComponent?.resizeChart();
+    });
   }
 
   /**
@@ -554,9 +538,9 @@ export default class ResizableElement extends Vue {
     this.setSize(width, height);
 
     // 如果类型为 Echarts 图表，则调用 resize 方法
-    setTimeout(() => {
+    this.$nextTick(() => {
       this.chartComponent?.resizeChart();
-    }, 500);
+    });
 
     this.hideDetailBar(true);
   }
@@ -606,7 +590,7 @@ export default class ResizableElement extends Vue {
       this.chartComponent
     )
       .then(data => {
-        if (this.thisStatic.sql.enable) {
+        if (this.isSqlEnable) {
           UIUtil.showMessage("暂不支持 SQL 查询", MessageType.warning);
           this.chartComponent.clearChart();
           return;
@@ -614,16 +598,12 @@ export default class ResizableElement extends Vue {
         // 分析成功
         this.analysisSuccess = true;
 
-        this.resultTmp = data;
-
-        // 调整尺寸
-        this.chartComponent?.resizeChart();
+        this.analysisResult = data;
       })
       .catch(err => {
         // 分析失败
         this.analysisSuccess = false;
         UIUtil.showErrorMessage("分析出错，请稍后重试");
-        console.error(err);
       })
       .finally(() => {
         this.isFetching = false;

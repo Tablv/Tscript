@@ -87,11 +87,21 @@ export default class ResizableGrid extends Vue {
 
   // 仪表阴影标志
   @CommonStore.State("isShowshadow")
-  isShowshadow!: number;
+  isShowshadow!: boolean;
+
+  // 仪表阴影风格
+  @CommonStore.State("shadowStyle")
+  shadowStyle!: Draggable;
 
   // 仪表阴影风格
   @CommonStore.Mutation("setShadowStyle")
   setShadowStyle!: Function;
+
+  @CommonStore.State("scrollStyle")
+  scrollStyle!: {
+    scrollLeft: number;
+    scrollTop: number;
+  };
 
   // 控制阴影
   @CommonStore.Mutation("setShowshadow")
@@ -114,21 +124,7 @@ export default class ResizableGrid extends Vue {
    */
   canvasStyle = {};
 
-  bgStyle: Draggable = {
-    w: 300,
-    h: 400,
-    x: 0,
-    y: 0,
-    z: 1000,
-    grid: [10, 10],
-    handles: []
-  };
-
-  isBgStyle = false;
-
-  scrollLeft = 0;
-
-  scrollTop = 0;
+  bgStyle: Draggable = {};
 
   mounted() {
     let gridContainer = document.querySelector(
@@ -136,16 +132,6 @@ export default class ResizableGrid extends Vue {
       ) as HTMLDivElement,
       canvasDOM = document.querySelector("#bgBox") as HTMLDivElement,
       domIdwhiteList = ["gridContainer", "bgBox", "gridBox"];
-
-    const template = ObjectUtil.copy(generalDataTemplate);
-    this.bgStyle.w = template.visualData.width;
-    this.bgStyle.h = template.visualData.height;
-
-    const centerBox = document.querySelector(".center") as HTMLDivElement;
-    centerBox.addEventListener("scroll", e => {
-      this.scrollLeft = (e.target as HTMLDivElement).scrollLeft;
-      this.scrollTop = (e.target as HTMLDivElement).scrollTop;
-    });
 
     // 调整画布尺寸
     this.resizeCanvas(canvasDOM, this.dashboardSet);
@@ -160,26 +146,19 @@ export default class ResizableGrid extends Vue {
     let bgBox = this.$refs.bgBox as HTMLDivElement;
     const bgBoxLeft = parseInt(bgBox.style.left) || 0,
       bgBoxTop = parseInt(bgBox.style.top) || 0;
-
-    this.bgStyle.x = event.pageX - 84 - 250 - bgBoxLeft + this.scrollLeft;
-    this.bgStyle.y = event.pageY - 60 - 200 - bgBoxTop + this.scrollTop;
-    if (!this.isShowshadow) {
-      this.setShowshadow(true);
-    }
+    this.bgStyle.x =
+      event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft;
+    this.bgStyle.y =
+      event.pageY - 60 - 200 - bgBoxTop + this.scrollStyle.scrollTop;
   }
 
   drop(event: any) {
     event.preventDefault();
-    this.setShowshadow(false);
     const chartType = event.dataTransfer.getData("chartType");
-    const baseConfig = {
-      chartType,
-      position: {
-        x: Math.round((this.bgStyle as any).x / 10) * 10,
-        y: Math.round((this.bgStyle as any).y / 10) * 10
-      }
-    };
-    this.createDashboard(baseConfig);
+    if (!chartType) {
+      this.setShowshadow(false);
+      return;
+    }
   }
 
   @Watch("isShowshadow")
@@ -188,6 +167,18 @@ export default class ResizableGrid extends Vue {
       this.setShadowStyle(this.bgStyle);
     }
   }
+
+  @Watch("shadowStyle", {
+    deep: true
+  })
+  changeShadowStyle() {
+    if (!this.isShowshadow) return;
+    const template = ObjectUtil.copy(generalDataTemplate);
+    this.bgStyle = this.shadowStyle;
+    this.bgStyle.w = template.visualData.width;
+    this.bgStyle.h = template.visualData.height;
+  }
+
   // 下标改变，隐藏右侧菜单
   @Watch("activeIndex")
   changeMenuVisible(): void {

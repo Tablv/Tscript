@@ -34,6 +34,7 @@ import UIUtil, { MessageType, ConfirmType } from "@/util/UIUtil";
 import UUID from "@/util/UUID";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import ObjectUtil from "@/util/ObjectUtil";
+import TableView from "glaway-bi-model/view/dashboard/TableView";
 
 @Component
 export default class DatasetChooser extends Vue {
@@ -163,7 +164,8 @@ export default class DatasetChooser extends Vue {
 
     // 加载数据集
     this.loadTables()
-      .then(() => {
+      .then((tableView: TableView) => {
+        this.currentDashboard.tableView = tableView;
         // 关闭数据集选择器
         this.closeDatasetChooser();
       })

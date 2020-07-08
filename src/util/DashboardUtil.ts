@@ -3,7 +3,6 @@ import { Properties } from "csstype";
 import JoinRelation, {
   TableRelation
 } from "glaway-bi-model/params/JoinRelation";
-import TableVO from "glaway-bi-model/results/TableVO";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
@@ -19,6 +18,7 @@ import { BackgroundType } from "glaway-bi-model/enums/DashboardSet";
 import OrderDTO from "glaway-bi-model/params/OrderDTO";
 import { AnalysisResult } from "glaway-bi-model/types/AnalysisResults";
 import LimitDTO from "glaway-bi-model/params/LimitDTO";
+import TableView from "glaway-bi-model/view/dashboard/TableView";
 
 export default class DashboardUtil {
   /**
@@ -83,29 +83,15 @@ export default class DashboardUtil {
    * @param currentDashboard 当前仪表盘
    */
   public static getAnalysisDTO(currentDashboard: Dashboard): AnalysisDTO {
-    let viewNameList: string[] = [],
-      fromDTO: TableRelation = {
-        schema: "",
-        tableName: "",
-        alias: ""
-      };
-    if (currentDashboard.analysis.viewName) {
-      viewNameList = currentDashboard.analysis.viewName.split(".");
-      fromDTO = {
-        schema: viewNameList[0] + "." + viewNameList[1],
-        tableName: viewNameList[2],
-        alias: viewNameList[2]
-      };
-    }
     let analysisDTO: AnalysisDTO = {
       dashboardId: currentDashboard.id,
-      from: fromDTO,
+      from: currentDashboard.tableView.fromTable,
+      viewName: currentDashboard.tableView.viewName,
       join: currentDashboard.analysis.joinRelation,
-      fields: [],
       where: currentDashboard.analysis.where,
+      fields: [],
       order: [],
-      limit: "",
-      viewName: currentDashboard.analysis.viewName
+      limit: ""
     };
 
     // 拷贝分析DTO
@@ -114,49 +100,69 @@ export default class DashboardUtil {
     // 追加维度、度量数据
     DashboardUtil.pushFieldDTO(
       analysisDTO.fields,
-      currentDashboard.analysis.dimensions.map(item => {
-        item.tableAlias = viewNameList[2] || "";
-        return item;
-      })
+      currentDashboard.analysis.dimensions
     );
     DashboardUtil.pushFieldDTO(
       analysisDTO.fields,
-      currentDashboard.analysis.measures.map(item => {
-        item.tableAlias = viewNameList[2] || "";
-        return item;
-      })
+      currentDashboard.analysis.measures
     );
 
     // 追加过滤
     DashboardUtil.pushWhereDTO(
       analysisDTO.where,
-      currentDashboard.analysis.filter.data.map(item => {
-        item.tableAlias = viewNameList[2] || "";
-        return item;
-      })
+      currentDashboard.analysis.filter.data
     );
 
     // 追加排序
     DashboardUtil.pushOrderDTO(
       analysisDTO.order,
-      currentDashboard.analysis.sort.data.map(item => {
-        item.tableAlias = viewNameList[2] || "";
-        return item;
-      })
+      currentDashboard.analysis.sort.data
     );
 
     // 追加排名
     if (currentDashboard.analysis.limit.data[0]) {
       const result = DashboardUtil.pushLimitDTO(
-        currentDashboard.analysis.limit.data.map(item => {
-          item.tableAlias = viewNameList[2] || "";
-          return item;
-        })[0]
+        currentDashboard.analysis.limit.data[0]
       );
       analysisDTO.order = [result.order];
       analysisDTO.limit = result.limit;
     }
     return analysisDTO;
+  }
+
+  public static initTableView(): TableView {
+    return {
+      viewName: "",
+      fromTable: {
+        schema: "",
+        tableName: "",
+        alias: ""
+      }
+    };
+  }
+
+  /**
+   * 获取视图图表信息
+   * @param viewName {string} 视图信息字符串
+   * @param unit {string} 分割符
+   */
+  public static getFormTable(
+    viewName: string,
+    unit: string = "."
+  ): TableRelation {
+    const fromTable: TableRelation = DashboardUtil.initTableView().fromTable;
+
+    const viewNameList = viewName ? viewName.split(unit) : [];
+
+    if (viewName.length) {
+      Object.assign(fromTable, {
+        schema: viewNameList[0] + "." + viewNameList[1],
+        tableName: viewNameList[2],
+        alias: viewNameList[2]
+      });
+    }
+
+    return fromTable;
   }
 
   /**
@@ -170,7 +176,7 @@ export default class DashboardUtil {
     tableInfo: TableInfoVO
   ): Promise<Array<string>> {
     let fetchValuesDTO = this.getFetchValuesDTO(
-      dashboard.analysis.fromTable as TableVO,
+      dashboard.tableView,
       dashboard.analysis.joinRelation,
       tableInfo,
       dashboard
@@ -219,13 +225,11 @@ export default class DashboardUtil {
   ): void {
     if (reactWhere.dashboardId && reactWhere.datasetId && reactWhere.where) {
       // 获取联动判断条件
-      // const reactId = reactWhere.where.tableAlias + "#" + reactWhere.where.columnName;
       const reactId = reactWhere.where.columnName;
 
       for (let i = 0; i < whereArray.length; i++) {
         const whereDTO = whereArray[i];
 
-        // if(whereDTO.tableAlias + "#" + whereDTO.columnName === reactId) {
         if (whereDTO.columnName === reactId) {
           whereArray.splice(i--, 1);
         }
@@ -296,42 +300,27 @@ export default class DashboardUtil {
    * tableInfo 转 analysisDTO
    */
   public static getFetchValuesDTO(
-    fromTable: TableVO,
+    tableView: TableView,
     joinRelations: Array<JoinRelation>,
     tableInfo: TableInfoVO,
     currentDashboard: Dashboard
   ): AnalysisDTO {
-    let viewNameList: string[] = [],
-      dashboardId: string = "",
-      fromDTO: TableRelation = {
-        schema: "",
-        tableName: "",
-        alias: ""
-      };
-    if (currentDashboard?.analysis.viewName) {
-      viewNameList = currentDashboard.analysis.viewName.split(".");
-      dashboardId = currentDashboard.id;
-      fromDTO = {
-        schema: viewNameList[0] + "." + viewNameList[1],
-        tableName: viewNameList[2],
-        alias: viewNameList[2]
-      };
-    }
     let fieldDTO = FieldDTOBuilder.buildFieldDTO(tableInfo),
       analysisDTO: AnalysisDTO = {
-        dashboardId,
-        from: fromDTO,
+        dashboardId: currentDashboard.id,
+        from: tableView.fromTable,
+        viewName: tableView.viewName || "",
         join: joinRelations,
         fields: [],
         where: [],
         order: [],
-        limit: "",
-        viewName: currentDashboard.analysis.viewName || ""
+        limit: ""
       };
 
     // 字段追加去重
     fieldDTO.func = ["distinct"];
-    fieldDTO.tableAlias = viewNameList[2];
+    fieldDTO.tableAlias = tableView.fromTable?.alias || "";
+    fieldDTO.schema = tableView.fromTable?.schema || "";
 
     // 加入过滤DTO
     analysisDTO.fields.push(fieldDTO);

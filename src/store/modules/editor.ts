@@ -1,5 +1,5 @@
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
-import TableVO from "glaway-bi-model/results/TableVO";
+import TableVO, { tableViewInfo } from "glaway-bi-model/results/TableVO";
 import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import { Module, GetterTree, MutationTree, ActionTree } from "vuex";
 import { ShortcutType } from "glaway-bi-model/enums/ShortcutType";
@@ -11,12 +11,13 @@ import {
   customDataTemplates,
   generalDataTemplate
 } from "glaway-bi-component/src/config/DefaultTemplate";
+import TableView from "glaway-bi-model/view/dashboard/TableView";
+import DashboardUtil from "@/util/DashboardUtil";
 
 const state = {
   /**
    * 视图状态
    */
-
   // 菜单是否显示
   menuVisible: false,
 
@@ -24,16 +25,8 @@ const state = {
   activeShortcutType: ShortcutType.global,
 
   /**
-   * 标志位
-   */
-
-  // 解决因为监听分析属性, 赋值 fromTable与relation 带来的重新拉取分析数据
-  menuLoading: false,
-
-  /**
    * 样式编辑部分
    */
-
   // 样式选项
   styleSelection: {},
 
@@ -43,7 +36,12 @@ const state = {
   /**
    * 数据集字段部分
    */
-  tables: []
+  tableList: [],
+
+  /**
+   * 视图信息
+   */
+  viewName: []
 };
 
 const getters: GetterTree<any, any> = {
@@ -51,7 +49,7 @@ const getters: GetterTree<any, any> = {
    * 获取所有字段
    */
   allColumns(state): Array<TableInfoVO> {
-    return state.tables.flatMap((table: TableVO) => table.columns);
+    return state.tableList.flatMap((table: TableVO) => table.columns);
   }
 };
 
@@ -61,18 +59,14 @@ const mutations: MutationTree<any> = {
     state.menuVisible = visible;
   },
 
+  setViewName(state: any, viewName: Array<string>) {
+    state.viewName = viewName;
+  },
+
   // 设置当前激活的快捷键区域
   // type 全局或网格部分
   setActiveShortcutType(state: any, type: ShortcutType): void {
     state.activeShortcutType = type;
-  },
-
-  // 设置是否正在打开菜单
-  setMenuLoading(state): void {
-    state.menuLoading = true;
-  },
-  setMenuLoadFinish(state): void {
-    state.menuLoading = false;
   }
 };
 
@@ -80,23 +74,51 @@ const actions: ActionTree<any, any> = {
   /**
    * 加载数据集
    */
-  async loadTables({ state, rootGetters }): Promise<void> {
+  async loadTables({ state, rootGetters }): Promise<TableView> {
     const currentDashboard = rootGetters["common/currentDashboard"],
       datasetId = currentDashboard.analysis.datasetId;
     if (datasetId === null) {
-      state.tables = [];
-      return;
+      state.tableList = [];
+      return Promise.resolve(DashboardUtil.initTableView());
     }
     return AxiosRequest.table
       .find(datasetId)
-      .then(({ tables, cube }) => {
-        // 赋值
-        state.tables = tables;
-        if (cube) {
-          currentDashboard.analysis.viewName = cube?.viewname || null;
+      .then(
+        ({ tables, cube }: tableViewInfo): Promise<TableView> => {
+          if (!cube.viewname) {
+            console.error("视图信息为null");
+            return Promise.resolve(DashboardUtil.initTableView());
+          }
+          const fromTable = DashboardUtil.getFormTable(cube.viewname);
+
+          state.tableList = tables.map((table: TableVO) => {
+            const { schema, alias } = fromTable;
+            const columns = table.columns?.map((column: TableInfoVO) => {
+              const columnName =
+                column.vcolumn || column.alias || column.columnName;
+              return {
+                id: column.id,
+                schema,
+                tableAlias: alias,
+                columnName,
+                alias: columnName,
+                vcolumn: columnName
+              };
+            });
+            return {
+              id: table.id,
+              schema,
+              alias,
+              columns,
+              name: alias
+            };
+          });
+          return Promise.resolve({
+            viewName: cube.viewname,
+            fromTable
+          });
         }
-        return Promise.resolve();
-      })
+      )
       .catch(err => Promise.reject(err));
   },
 
@@ -118,10 +140,7 @@ const actions: ActionTree<any, any> = {
   },
 
   // 改变图表类型
-  changeChartType(
-    { rootGetters }: any,
-    { newType, oldType }: { [key: string]: ChartType }
-  ): Promise<void> {
+  changeChartType({ rootGetters }: any, newType: ChartType): Promise<void> {
     let currentDashboard: Dashboard | null =
       rootGetters["common/currentDashboard"];
     if (!currentDashboard) return Promise.reject("未选中仪表盘");

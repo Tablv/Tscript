@@ -3,7 +3,7 @@
     enter-active-class="animated slideInRight"
     leave-active-class="animated slideOutRight"
   >
-    <aside class="chart-menu" v-if="menuVisible && loadComplated" v-cloak>
+    <aside class="chart-menu" v-if="menuVisible" v-cloak>
       <!-- 图表菜单 -->
       <floating-menu title="图表" class="chart-menu-box">
         <!-- 菜单Content -->
@@ -82,14 +82,6 @@ import WhereDTO, { WhereColumnDTO } from "glaway-bi-model/params/WhereDTO";
   }
 })
 export default class ChartMenu extends Vue {
-  /**
-   * 数据部分
-   */
-
-  // 当前下标
-  @CommonStore.State("dashboardIndex")
-  index!: number;
-
   // 当前仪表盘
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
@@ -98,35 +90,9 @@ export default class ChartMenu extends Vue {
   @EditorStore.State("menuVisible")
   menuVisible!: boolean;
 
-  // 加载菜单
-  @EditorStore.Mutation("setMenuLoading")
-  setMenuLoading!: Function;
-
-  // 加载菜单完成
-  @EditorStore.Mutation("setMenuLoadFinish")
-  setMenuLoadFinish!: Function;
-
-  // 样式可选项
-  @EditorStore.State("styleSelection")
-  styleSelection: any;
-
   // 加载图表选项
   @EditorStore.Action("loadOptions")
   loadOptions!: Function;
-
-  // 加载数据集
-  @EditorStore.Action("loadTables")
-  loadTables!: Function;
-
-  // 数据加载是否完成
-  loadComplated = false;
-
-  // 当前标签页
-  currentTab = "data";
-
-  /**
-   * 样式部分
-   */
 
   // 卡片body样式
   @Provide("boxCardBodyStyle")
@@ -139,41 +105,19 @@ export default class ChartMenu extends Vue {
   @Provide("elFormLabelWidth")
   elFormLabelWidth = "100px";
 
+  // 当前标签页
+  currentTab = "data";
+
   /**
    * 监听事件
    */
-  @Watch("index")
-  onActiveIndexUpdate() {
-    this.loadComplated = false;
-
-    // 判断是否选中元素
-    if (this.index === -1) {
-      return;
-    }
-
-    // 正在打开菜单标志位
-    this.setMenuLoading();
-
-    // 加载数据集
-    this.loadTables()
-      .then(() => {
-        // 加载样式配置
-        this.loadOptions()
-          .then(() => {
-            this.loadComplated = true;
-            this.setMenuLoadFinish();
-          })
-          .catch((err: Error) => {
-            this.setMenuLoadFinish();
-            UIUtil.showErrorMessage("系统错误 加载样式配置失败");
-            console.error(err);
-          });
-      })
-      .catch((err: Error) => {
-        this.setMenuLoadFinish();
-        UIUtil.showErrorMessage("系统错误 加载数据集失败");
-        console.error(err);
-      });
+  @Watch("menuVisible")
+  onMenuVisibleChange() {
+    if (!this.menuVisible) return;
+    // 加载样式配置
+    this.loadOptions().catch((err: Error) => {
+      UIUtil.showErrorMessage("加载属性设置失败");
+    });
   }
 }
 </script>

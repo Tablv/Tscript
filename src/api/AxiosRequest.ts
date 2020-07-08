@@ -131,7 +131,7 @@ export const AxiosRequest = {
   },
 
   /**
-   * 表关系
+   * 加载数据集
    */
   table: {
     // 查找表信息
@@ -141,19 +141,9 @@ export const AxiosRequest = {
           let loadSuccess = res.success && res.result;
           return loadSuccess
             ? Promise.resolve(res.result)
-            : Promise.reject("加载表信息失败");
+            : Promise.reject("加载数据集失败");
         })
         .catch(err => Promise.reject(err))
-
-    // 查找表关系
-    // findRelation: (datasetId: string) =>
-    //   AxiosUtil.get(API.findRelation, { datasetId })
-    //     .then(res =>
-    //       res.success
-    //         ? Promise.resolve(res.result)
-    //         : Promise.reject("加载关系失败")
-    //     )
-    //     .catch(err => Promise.reject(err))
   },
 
   /**
