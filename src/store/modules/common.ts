@@ -161,7 +161,11 @@ const mutations: MutationTree<any> = {
     // 当前下标置为-1
     state.dashboardIndex = -1;
     // 删除指定数据
-    state.dashboards.splice(index, 1);
+    const delDashboard = state.dashboards.splice(index, 1)[0];
+
+    if (delDashboard.id === state.focusDashboard.id) {
+      state.focusDashboard.id = "";
+    }
   },
 
   // 设置仪表盘集ID
@@ -265,23 +269,24 @@ const actions: ActionTree<any, any> = {
 
         // 设置仪表盘集
         commit("setDashboardSet", container);
+
         // 处理老旧数据，合并最近的公共配置
         const result = dashboards.map((dashboard: Dashboard) => {
-          dashboard = JSON.parse(JSON.stringify(dashboard));
-
+          dashboard = <Dashboard>JSON.parse(JSON.stringify(dashboard));
+          const viewName: string = dashboard.analysis.viewName || "";
           dashboard.tableView = {
-            fromTable: ObjectUtil.copy(dashboard.analysis.fromTable) || {
-              schema: "",
-              alias: "",
-              tableName: ""
-            },
-            viewName: dashboard.analysis.viewName || ""
+            viewName,
+            fromTable:
+              ObjectUtil.copy(dashboard.analysis.fromTable) ||
+              DashboardUtil.getFormTable(viewName)
           };
 
           const type = dashboard.visualData.type;
+
           const defaultConfig = ObjectUtil.copy(
             DefaultTemplate.getDefaultConfig(type)
           );
+
           return ObjectUtil.merge(defaultConfig, dashboard);
         });
 

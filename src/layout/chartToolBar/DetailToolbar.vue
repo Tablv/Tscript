@@ -47,7 +47,12 @@
     >
     </type-change-view>
 
-    <tool-button icon-class="fa fa-copy" title="复制" @click="handleCopy" />
+    <tool-button
+      v-show="!focusDashboard.id"
+      icon-class="fa fa-copy"
+      title="复制"
+      @click="handleCopy"
+    />
 
     <tool-button icon-class="fa fa-trash" title="删除" @click="handleDelete" />
   </div>
@@ -88,6 +93,10 @@ export default class DetailToolbar extends Vue {
   // 当前元素所在下标
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
+
+  // 处于聚焦状态
+  @CommonStore.State("focusDashboard")
+  focusDashboard!: string;
 
   // 复制仪表盘
   @CommonStore.Mutation("copyDashboard")
