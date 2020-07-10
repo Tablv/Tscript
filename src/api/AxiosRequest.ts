@@ -12,9 +12,23 @@ import { ShareType } from "glaway-bi-model/enums/ShareType";
 import ShareVO from "glaway-bi-model/results/ShareVO";
 
 import { FilterDatapack } from "glaway-bi-model/view/Filter";
-import { SortDatapack, SortConfig } from "glaway-bi-model/view/Sort";
+import { SortDatapack } from "glaway-bi-model/view/Sort";
 import { LimitDatapack } from "glaway-bi-model/view/Limit";
 import { WarnDatapack } from "glaway-bi-model/view/Warn";
+
+export interface SaveDashboardSet {
+  setId: string;
+  dashboardSet: DashboardSet;
+  dashboards: Array<Dashboard>;
+  containerSnapshot: string;
+  dashboardSnapshots: Array<DashboardSnapshot>;
+}
+
+export interface DashboardSnapshot {
+  dashboardId: string;
+  fullPath: string;
+  title: string;
+}
 
 const API = {
   /**
@@ -202,23 +216,13 @@ export const AxiosRequest = {
     },
 
     // 保存仪表盘集
-    save: (
-      setId: string,
-      dashboardSet: DashboardSet,
-      dashboards: Array<Dashboard>,
-      containerSnapshot: string,
-      dashboardSnapshots: Array<{
-        dashboardId: string;
-        fullPath: string;
-        title: string;
-      }>
-    ) => {
+    save: (saveData: SaveDashboardSet) => {
       const req = {
-        containerId: setId,
-        containerSnapshot,
-        dashboardSnapshots: JSON.stringify(dashboardSnapshots),
-        containerOptions: JSON.stringify(dashboardSet),
-        dashboardOptions: JSON.stringify(dashboards)
+        containerId: saveData.setId,
+        containerSnapshot: saveData.containerSnapshot,
+        dashboardSnapshots: JSON.stringify(saveData.dashboardSnapshots),
+        containerOptions: JSON.stringify(saveData.dashboardSet),
+        dashboardOptions: JSON.stringify(saveData.dashboards)
       };
       return AxiosUtil.post(API.saveDashboardSet, req)
         .then(res =>
@@ -258,8 +262,8 @@ export const AxiosRequest = {
    */
   filterConfig: {
     // 加载过滤器配置
-    find: (dashboardId: string) =>
-      AxiosUtil.get(`${API.filterConfig.find}/${dashboardId}`)
+    find: (filterId: string) =>
+      AxiosUtil.get(`${API.filterConfig.find}/${filterId}`)
         .then(res =>
           res.success
             ? Promise.resolve(ObjectUtil.deserialize(res.result))
@@ -285,10 +289,8 @@ export const AxiosRequest = {
     },
 
     // 删除过滤器配置
-    remove: (datapackId: string) =>
-      AxiosUtil.post(`${API.filterConfig.remove}/${datapackId}`, {
-        filterId: datapackId
-      })
+    remove: (filterId: string) =>
+      AxiosUtil.post(`${API.filterConfig.remove}/${filterId}`, { filterId })
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("删除过滤器配置异常")
         )
@@ -300,8 +302,8 @@ export const AxiosRequest = {
    */
   sortConfig: {
     // 加载排序配置
-    find: (dashboardId: string) =>
-      AxiosUtil.get(`${API.sortConfig.find}/${dashboardId}`)
+    find: (sortId: string) =>
+      AxiosUtil.get(`${API.sortConfig.find}/${sortId}`)
         .then(res =>
           res.success
             ? Promise.resolve(ObjectUtil.deserialize(res.result))
@@ -325,10 +327,8 @@ export const AxiosRequest = {
     },
 
     // 删除排序配置
-    remove: (datapackId: string) =>
-      AxiosUtil.post(`${API.sortConfig.remove}/${datapackId}`, {
-        sortId: datapackId
-      })
+    remove: (sortId: string) =>
+      AxiosUtil.post(`${API.sortConfig.remove}/${sortId}`, { sortId })
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("删除排序配置异常")
         )
@@ -340,8 +340,8 @@ export const AxiosRequest = {
    */
   limitConfig: {
     // 加载排名配置
-    find: (dashboardId: string) =>
-      AxiosUtil.get(`${API.limitConfig.find}/${dashboardId}`)
+    find: (topId: string) =>
+      AxiosUtil.get(`${API.limitConfig.find}/${topId}`)
         .then(res =>
           res.success
             ? Promise.resolve(ObjectUtil.deserialize(res.result))
@@ -365,10 +365,8 @@ export const AxiosRequest = {
     },
 
     // 删除排序配置
-    remove: (datapackId: string) =>
-      AxiosUtil.post(`${API.limitConfig.remove}/${datapackId}`, {
-        topId: datapackId
-      })
+    remove: (topId: string) =>
+      AxiosUtil.post(`${API.limitConfig.remove}/${topId}`, { topId })
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("删除排名配置异常")
         )
@@ -380,8 +378,8 @@ export const AxiosRequest = {
    */
   warnConfig: {
     // 加载预警配置
-    find: (dashboardId: string) =>
-      AxiosUtil.get(`${API.warnConfig.find}/${dashboardId}`)
+    find: (warnId: string) =>
+      AxiosUtil.get(`${API.warnConfig.find}/${warnId}`)
         .then(res =>
           res.success
             ? Promise.resolve(ObjectUtil.deserialize(res.result))
@@ -405,10 +403,8 @@ export const AxiosRequest = {
     },
 
     // 删除预警配置
-    remove: (datapackId: string) =>
-      AxiosUtil.post(`${API.warnConfig.remove}/${datapackId}`, {
-        warnId: datapackId
-      })
+    remove: (warnId: string) =>
+      AxiosUtil.post(`${API.warnConfig.remove}/${warnId}`, { warnId })
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("删除预警配置异常")
         )
@@ -457,7 +453,9 @@ export const AxiosRequest = {
 
       // 加载分享数据
       find: (shareId: string) =>
-        AxiosUtil.post(API.public.findShareData, { shareId })
+        AxiosUtil.post(API.public.findShareData, {
+          shareId
+        })
           .then(res => {
             if (
               res.result &&

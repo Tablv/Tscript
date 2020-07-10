@@ -200,7 +200,9 @@ export default class Dimensions extends Vue {
       // 获取 TableInfoVO
       const tableInfo = evt.added.element as TableInfoVO,
         fieldDTO = FieldDTOBuilder.buildFieldDTO(tableInfo, this.axisType);
-
+      if (this.functionEnable && tableInfo.dataType !== "NUMBER") {
+        fieldDTO.func = ["count"];
+      }
       // 赋值
       this.axisDataSplice(axisInsertIndex, 0, fieldDTO);
     }

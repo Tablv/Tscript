@@ -81,6 +81,8 @@ const actions: ActionTree<any, any> = {
       state.tableList = [];
       return Promise.resolve(DashboardUtil.initTableView());
     }
+    // 枚举类
+    const dataTypeList = ["DATE", "NUMBER", "VARCHAR"];
     return AxiosRequest.table
       .find(datasetId)
       .then(
@@ -90,21 +92,28 @@ const actions: ActionTree<any, any> = {
             return Promise.resolve(DashboardUtil.initTableView());
           }
           const fromTable = DashboardUtil.getFormTable(cube.viewname);
-
           state.tableList = tables.map((table: TableVO) => {
             const { schema, alias } = fromTable;
-            const columns = table.columns?.map((column: TableInfoVO) => {
-              const columnName =
-                column.vcolumn || column.alias || column.columnName;
-              return {
-                id: column.id,
-                schema,
-                tableAlias: alias,
-                columnName,
-                alias: columnName,
-                vcolumn: columnName
-              };
-            });
+            const columns = table.columns
+              ?.map((column: TableInfoVO) => {
+                const columnName =
+                  column.vcolumn || column.alias || column.columnName;
+                return {
+                  id: column.id,
+                  schema,
+                  dataType: column.dataType,
+                  tableAlias: alias,
+                  columnName,
+                  alias: columnName,
+                  vcolumn: columnName
+                };
+              })
+              .sort((tablea: any, tableb: any) => {
+                const result =
+                  dataTypeList.indexOf(tableb.dataType) -
+                  dataTypeList.indexOf(tablea.dataType);
+                return result;
+              });
             return {
               id: table.id,
               schema,

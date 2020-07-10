@@ -59,7 +59,11 @@ import ScreenshotUtil from "@/util/Screenshot";
 import { chartCreateOptions } from "@/config/EditorOptions";
 import { EditorStore, CommonStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
-import { AxiosRequest } from "@/api/AxiosRequest";
+import {
+  AxiosRequest,
+  DashboardSnapshot,
+  SaveDashboardSet
+} from "@/api/AxiosRequest";
 import { SortType } from "glaway-bi-model/enums/SortType";
 import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
 import { ElLoadingComponent } from "element-ui/types/loading";
@@ -175,8 +179,8 @@ export default class ToolBar extends Vue {
       const baseConfig = {
         chartType: this.createChartType,
         position: {
-          x: Math.round((this.shadowStyle as any).x / 10) * 10,
-          y: Math.round((this.shadowStyle as any).y / 10) * 10
+          x: Math.round((this.shadowStyle as { x: number }).x / 10) * 10,
+          y: Math.round((this.shadowStyle as { y: number }).y / 10) * 10
         }
       };
       this.createDashboard(baseConfig);
@@ -184,6 +188,27 @@ export default class ToolBar extends Vue {
     }, 0);
   }
 
+  /**
+   * 保存数据
+   */
+  saveData(): void {
+    new Promise((resolve, reject) => {
+      const loading: ElLoadingComponent = UIUtil.showLoading({
+        lock: true,
+        text: "正在保存"
+      });
+      this.setSavingScreenhot(true);
+      resolve(loading);
+    }).then(loading => {
+      setTimeout(() => {
+        this.getScreenhot(loading as ElLoadingComponent);
+      }, 100);
+    });
+  }
+
+  /**
+   * 截图
+   */
   getScreenhot(loading: ElLoadingComponent) {
     Promise.all([
       ScreenshotUtil.getHtmlScreenhot("#gridBox"),
@@ -215,40 +240,41 @@ export default class ToolBar extends Vue {
   }
 
   /**
-   * 保存数据
+   * 保存接口
    */
-  saveData(): void {
-    new Promise((resolve, reject) => {
-      const loading: ElLoadingComponent = UIUtil.showLoading({
-        lock: true,
-        text: "正在保存"
-      });
-      this.setSavingScreenhot(true);
-      resolve(loading);
-    }).then(loading => {
-      setTimeout(() => {
-        this.getScreenhot(loading as ElLoadingComponent);
-      }, 100);
-    });
+  async saveDashboards(
+    resultList: Array<string | Array<DashboardSnapshot>>
+  ): Promise<void> {
+    let [containerSnapshot, dashboardSnapshots] = resultList;
+
+    // 保存前处理
+    let serializedDashboards = this.setTemplateDashboard(
+      ObjectUtil.copy(this.dashboards)
+    );
+
+    // 仪表盘集
+    let dashboardSet: DashboardSet = ObjectUtil.copy(this.dashboardSet);
+    delete dashboardSet.tempParams;
+
+    const saveResult: SaveDashboardSet = {
+      setId: this.setId,
+      dashboardSet,
+      dashboards: serializedDashboards,
+      containerSnapshot: containerSnapshot as string,
+      dashboardSnapshots: dashboardSnapshots as Array<DashboardSnapshot>
+    };
+
+    return await AxiosRequest.dashboardSet.save(saveResult);
   }
 
   /**
-   * 保存仪表盘集
+   * 特殊处理一些数据
    */
-  async saveDashboards(
-    resultList: Array<
-      | string
-      | Array<{
-          dashboardId: string;
-          fullPath: string;
-          title: string;
-        }>
-    >
-  ): Promise<void> {
-    const [containerSnapshot, dashboardSnapshots] = resultList;
-    let serializedDashboards = ObjectUtil.copy(this.dashboards);
-    // 保存前处理
+  setTemplateDashboard(
+    serializedDashboards: Array<Dashboard>
+  ): Array<Dashboard> {
     serializedDashboards.forEach((serializedDashboard: Dashboard) => {
+      // 合并分析数据
       Object.assign(
         serializedDashboard.analysis,
         serializedDashboard.tableView
@@ -279,22 +305,7 @@ export default class ToolBar extends Vue {
         );
       }
     });
-
-    // 仪表盘集
-    let dashboardSet: DashboardSet = ObjectUtil.copy(this.dashboardSet);
-    delete dashboardSet.tempParams;
-
-    return await AxiosRequest.dashboardSet.save(
-      this.setId,
-      dashboardSet,
-      serializedDashboards,
-      containerSnapshot as string,
-      dashboardSnapshots as Array<{
-        dashboardId: string;
-        fullPath: string;
-        title: string;
-      }>
-    );
+    return serializedDashboards;
   }
 }
 </script>

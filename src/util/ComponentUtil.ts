@@ -22,7 +22,7 @@ export default class ComponentUtil {
     chartComponent: any
   ): Promise<AnalysisResults> {
     // 判断是否为 SQL
-    let fetchPromise: Promise<AnalysisResults> = isSqlEnable
+    const fetchPromise: Promise<AnalysisResults> = isSqlEnable
       ? this.fetchSqlData(thisDashboard.staticData.sql.data)
       : this.fetchAnalysisData(thisDashboard, reactWhere);
     return fetchPromise

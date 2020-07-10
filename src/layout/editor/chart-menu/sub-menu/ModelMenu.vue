@@ -28,7 +28,16 @@
               :key="tableColumn.id"
               :title="tableColumn.alias"
             >
-              <i class="fa fa-file"></i>
+              <i class="fa fa-hashtag" v-if="tableColumn.dataType === 'NUMBER'">
+              </i>
+              <i class="fa fa-file" v-if="tableColumn.dataType === 'VARCHAR'">
+              </i>
+              <i
+                class="fa fa-calendar-alt"
+                v-if="tableColumn.dataType === 'DATE'"
+              >
+              </i>
+              <i class="fa fa-question" v-if="!tableColumn.dataType"></i>
               <div class="field-content">
                 <span>{{ tableColumn.alias }}</span>
               </div>
@@ -92,6 +101,7 @@ export default class ModelMenu extends Vue {
 
   cloneField(tableInfo: TableInfoVO) {
     const fieldDTO = FieldDTOBuilder.buildFieldDTO(tableInfo);
+    (fieldDTO as any).dataType = tableInfo.dataType;
     return fieldDTO;
   }
 }
