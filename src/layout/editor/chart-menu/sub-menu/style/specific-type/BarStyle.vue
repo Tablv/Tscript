@@ -16,7 +16,7 @@
       <el-form-item label="柱宽">
         <el-row>
           <el-col :span="12">
-            <el-slider v-model="specificStyle.width.value" :max="30" :min="1" />
+            <el-slider v-model="specificStyle.width.value" :min="1" />
           </el-col>
           <el-col :span="10" :offset="2">
             <el-select
@@ -32,6 +32,15 @@
                 :value="unit.value"
               />
             </el-select>
+          </el-col>
+        </el-row>
+      </el-form-item>
+
+      <!-- 圆角 -->
+      <el-form-item label="圆角">
+        <el-row>
+          <el-col :span="22">
+            <el-slider v-model="specificStyle.radius" :max="50" :min="1" />
           </el-col>
         </el-row>
       </el-form-item>
