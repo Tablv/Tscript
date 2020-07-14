@@ -10,6 +10,27 @@
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
+      <el-form-item label="包含标签" v-if="!this.specificStyle.centerConfig">
+        <el-switch
+          v-model="currentDashboard.echarts.grid.containLabel"
+          active-color="#13ce66"
+        >
+        </el-switch>
+      </el-form-item>
+
+      <!-- 标签角度 -->
+      <el-form-item label="标签角度" v-if="!this.specificStyle.centerConfig">
+        <el-row>
+          <el-col :offset="1" :span="23">
+            <el-slider
+              v-model="specificStyle.axisLabel.rotate"
+              :max="360"
+              :min="0"
+            />
+          </el-col>
+        </el-row>
+      </el-form-item>
+
       <value-unit-option
         form-label="顶部"
         v-model="specificStyle.grid.top"
@@ -43,14 +64,6 @@
       <el-form-item label="显示网格" v-show="!this.specificStyle.centerConfig">
         <el-switch
           v-model="currentDashboard.echarts.grid.show"
-          active-color="#13ce66"
-        >
-        </el-switch>
-      </el-form-item>
-
-      <el-form-item label="包含标签">
-        <el-switch
-          v-model="currentDashboard.echarts.grid.containLabel"
           active-color="#13ce66"
         >
         </el-switch>

@@ -16,7 +16,7 @@
     <!-- 数据 -->
     <data-style />
 
-    <!-- 标签 -->
+    <!-- 数据轴 -->
     <grid-style />
   </div>
 </template>

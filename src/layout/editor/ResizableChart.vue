@@ -633,7 +633,7 @@ $shadow: 0 0 6px $shadowColor;
 
 .vdr {
   background-color: $bgColor;
-  cursor: move;
+  // cursor: default;
 
   // 悬停效果
   &:hover {

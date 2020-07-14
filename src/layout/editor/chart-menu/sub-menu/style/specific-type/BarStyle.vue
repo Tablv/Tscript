@@ -35,19 +35,6 @@
           </el-col>
         </el-row>
       </el-form-item>
-
-      <!-- 标签角度 -->
-      <el-form-item label="标签角度">
-        <el-row>
-          <el-col :offset="1" :span="23">
-            <el-slider
-              v-model="specificStyle.axisLabel.rotate"
-              :max="360"
-              :min="0"
-            />
-          </el-col>
-        </el-row>
-      </el-form-item>
     </el-form>
   </el-card>
 </template>
