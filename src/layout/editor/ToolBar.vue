@@ -193,16 +193,16 @@ export default class ToolBar extends Vue {
    */
   saveData(): void {
     new Promise((resolve, reject) => {
-      const loading: ElLoadingComponent = UIUtil.showLoading({
+      const loading: ElLoadingComponent = this.$loading({
         lock: true,
         text: "正在保存"
       });
-      this.setSavingScreenhot(true);
       resolve(loading);
     }).then(loading => {
-      setTimeout(() => {
+      this.setSavingScreenhot(true);
+      this.$nextTick(() => {
         this.getScreenhot(loading as ElLoadingComponent);
-      }, 100);
+      });
     });
   }
 
