@@ -39,6 +39,11 @@
           @change="addMeasuresZ"
         />
       </el-form-item>
+
+      <el-form-item label="规则">
+        <div class="rule-text">维度： 0 ~ 2个</div>
+        <div class="rule-text">度量： 至少1个</div>
+      </el-form-item>
     </el-form>
   </el-card>
 </template>
@@ -232,4 +237,10 @@ export default class Axis extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.rule-text {
+  font-size: 12px;
+  display: inline-block;
+  margin-right: 25px;
+}
+</style>

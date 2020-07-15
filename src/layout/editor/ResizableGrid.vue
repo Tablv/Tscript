@@ -20,6 +20,12 @@
             @click.native.stop="innerClick(index)"
             @mousedown.native.stop="setChartZIndex(index)"
           />
+          <!-- <resizable-text
+            v-for="(item, index) in dashboards"
+            :item.sync="item"
+            :key="item.id"
+            :index="index"
+          /> -->
         </transition-group>
         <vdr
           v-show="isShowshadow"
@@ -36,6 +42,7 @@ import { Component, Watch, Vue } from "vue-property-decorator";
 
 import vdr from "vue-draggable-resizable-gorkys";
 import ResizableChart from "@/layout/editor/ResizableChart.vue";
+import ResizableText from "@/layout/editor/ResizableText.vue";
 import { ShortcutType } from "glaway-bi-model/enums/ShortcutType";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore, EditorStore } from "@/store/modules-model";
@@ -48,6 +55,7 @@ import ObjectUtil from "../../util/ObjectUtil";
 @Component({
   components: {
     ResizableChart,
+    ResizableText,
     vdr
   }
 })

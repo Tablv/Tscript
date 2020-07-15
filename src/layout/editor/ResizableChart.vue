@@ -218,6 +218,10 @@ export default class ResizableElement extends Vue {
     return this.thisTasks.ratotionEnable;
   }
 
+  set isRotationEnable(flag: boolean) {
+    this.thisTasks.ratotionEnable = flag;
+  }
+
   get isRotationNumb() {
     return this.thisTasks.ratotionNumb;
   }
@@ -405,6 +409,9 @@ export default class ResizableElement extends Vue {
     if (!this.isReact && resetCurrent && !notCurrent) {
       this.chartComponent.resetOpacity();
     }
+    // if (!resetCurrent && !this.reactWhere.dashboardId) {
+    //   this.isRotationEnable = false;
+    // }
 
     if (!this.isReact || notCurrent) {
       return;
@@ -420,6 +427,9 @@ export default class ResizableElement extends Vue {
     // 非当前仪表盘 || 正在打开菜单 || 不存在字段
     if (!this.isCurrent || this.noField || this.isSqlEnable) {
       return;
+    }
+    if (this.reactWhere.dashboardId) {
+      this.resetReactHandle();
     }
     this.fetchToShow();
   }

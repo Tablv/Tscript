@@ -30,6 +30,17 @@
           @change="addMeasuresY"
         />
       </el-form-item>
+
+      <el-form-item label="规则">
+        <div>
+          <div class="rule-text">维度： 1个</div>
+          <div class="rule-text">度量： 1个</div>
+        </div>
+        <div>
+          <div class="rule-text">维度： 0个</div>
+          <div class="rule-text">度量： 无限个</div>
+        </div>
+      </el-form-item>
     </el-form>
   </el-card>
 </template>
@@ -162,4 +173,10 @@ export default class Axis extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.rule-text {
+  font-size: 12px;
+  display: inline-block;
+  margin-right: 25px;
+}
+</style>

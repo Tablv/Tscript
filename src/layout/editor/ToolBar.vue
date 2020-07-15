@@ -6,6 +6,12 @@
       </button>
     </el-tooltip>
 
+    <!-- <el-tooltip effect="dark" content="其他" placement="right">
+      <button class="toolbtn" draggable="true" @dragstart="dragText">
+        <i class="fa fa-font"></i>
+      </button>
+    </el-tooltip> -->
+
     <el-tooltip
       effect="dark"
       content="选择图表样式"
@@ -68,6 +74,7 @@ import { SortType } from "glaway-bi-model/enums/SortType";
 import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
 import { ElLoadingComponent } from "element-ui/types/loading";
 import Draggable from "glaway-bi-model/view/Draggable";
+import { dragUtil } from "@/util/drag-util";
 
 @Component({
   components: {}
@@ -306,6 +313,10 @@ export default class ToolBar extends Vue {
       }
     });
     return serializedDashboards;
+  }
+
+  dragText(event: DragEvent) {
+    dragUtil.putText(event);
   }
 }
 </script>

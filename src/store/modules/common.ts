@@ -212,6 +212,7 @@ const mutations: MutationTree<any> = {
   // 清空联动条件
   resetReactWhere(state): void {
     ObjectUtil.merge(state.reactWhere, {
+      selectedIndex: null,
       dashboardId: null,
       where: null
     });

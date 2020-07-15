@@ -40,7 +40,7 @@
       <el-form-item label="圆角">
         <el-row>
           <el-col :span="22">
-            <el-slider v-model="specificStyle.radius" :max="50" :min="1" />
+            <el-slider v-model="specificStyle.radius" :min="1" />
           </el-col>
         </el-row>
       </el-form-item>

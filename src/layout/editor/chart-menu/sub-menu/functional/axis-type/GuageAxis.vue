@@ -30,6 +30,12 @@
           @change="addMeasuresY"
         />
       </el-form-item>
+      <el-form-item label="规则">
+        <div>
+          <div class="rule-text">对比值： 1个</div>
+          <div class="rule-text">实际值： 1个</div>
+        </div>
+      </el-form-item>
     </el-form>
   </el-card>
 </template>
@@ -154,4 +160,10 @@ export default class Axis extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.rule-text {
+  font-size: 12px;
+  display: inline-block;
+  margin-right: 25px;
+}
+</style>

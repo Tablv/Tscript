@@ -205,7 +205,11 @@ export default class Where extends Vue {
     if (this.whereInsertIndex === -1) return;
 
     // 保存数据
-    this.whereData.splice(this.whereInsertIndex, 0, data);
+    this.whereData.splice(
+      this.whereInsertIndex,
+      Number(this.dialogEditMode),
+      data
+    );
   }
 }
 
