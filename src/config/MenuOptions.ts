@@ -3,21 +3,25 @@ import { ChartType } from "glaway-bi-model/enums/ChartType";
 import { ComparableSymbol } from "glaway-bi-model/enums/ComparableSymbol";
 import ChartConfig from "glaway-bi-component/src/config/ChartConfig";
 
+function getSizeArray() {
+  const result = [];
+  for (let index = 1; index < 101; index++) {
+    result.push({
+      text: index,
+      value: index
+    });
+  }
+  return result;
+}
+
+const sizeArray = getSizeArray();
 /**
  * 菜单通用可选配置
  */
 export const generalMenuOptions: any = {
   title: {
     size: {
-      selection: [
-        { text: "16", value: 16 },
-        { text: "17", value: 17 },
-        { text: "18", value: 18 },
-        { text: "19", value: 19 },
-        { text: "20", value: 20 },
-        { text: "21", value: 21 },
-        { text: "22", value: 22 }
-      ]
+      selection: sizeArray
     },
     fontFamily: {
       selection: [
@@ -140,14 +144,7 @@ export const generalMenuOptions: any = {
       ]
     },
     fontSize: {
-      selection: [
-        { text: "10", value: 10 },
-        { text: "11", value: 11 },
-        { text: "12", value: 12 },
-        { text: "13", value: 13 },
-        { text: "14", value: 14 },
-        { text: "15", value: 15 }
-      ]
+      selection: sizeArray
     }
   },
   events: {
@@ -174,15 +171,7 @@ export const generalMenuOptions: any = {
   },
   label: {
     size: {
-      selection: [
-        { text: "12", value: 12 },
-        { text: "13", value: 13 },
-        { text: "14", value: 14 },
-        { text: "15", value: 15 },
-        { text: "16", value: 16 },
-        { text: "17", value: 17 },
-        { text: "18", value: 18 }
-      ]
+      selection: sizeArray
     },
     fontFamily: {
       selection: [

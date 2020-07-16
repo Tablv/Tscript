@@ -428,7 +428,10 @@ export default class ResizableElement extends Vue {
     if (!this.isCurrent || this.noField || this.isSqlEnable) {
       return;
     }
-    if (this.reactWhere.dashboardId) {
+    if (
+      this.reactWhere.dashboardId &&
+      this.reactWhere.dashboardId === this.thisDashboard.id
+    ) {
       this.resetReactHandle();
     }
     this.fetchToShow();

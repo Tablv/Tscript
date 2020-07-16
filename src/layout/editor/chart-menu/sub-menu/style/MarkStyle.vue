@@ -79,7 +79,7 @@
             />
           </el-form-item>
 
-          <el-form-item label="位置">
+          <el-form-item label="位置" v-show="!specificStyle.label.hidePosition">
             <el-select
               v-model="specificStyle.label.position"
               size="mini"

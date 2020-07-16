@@ -225,16 +225,16 @@ export default class DashboardUtil {
   ): void {
     if (reactWhere.dashboardId && reactWhere.datasetId && reactWhere.where) {
       // 获取联动判断条件
-      const reactId = reactWhere.where.columnName;
-
-      for (let i = 0; i < whereArray.length; i++) {
-        const whereDTO = whereArray[i];
-
-        if (whereDTO.columnName === reactId) {
-          whereArray.splice(i--, 1);
+      reactWhere.where.forEach((whe: any) => {
+        const reactId = whe.columnName;
+        for (let i = 0; i < whereArray.length; i++) {
+          const whereDTO = whereArray[i];
+          if (whereDTO.columnName === reactId) {
+            whereArray.splice(i--, 1);
+          }
         }
-      }
-      whereArray.push(reactWhere.where);
+        whereArray.push(whe);
+      });
     }
   }
 
