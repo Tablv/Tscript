@@ -12,20 +12,24 @@
         :setId="dashboardSetId"
       >
         <transition-group name="fade-in-linear">
-          <resizable-chart
-            v-for="(item, index) in dashboards"
-            :key="item.id"
-            :item.sync="item"
-            :index="index"
-            @click.native.stop="innerClick(index)"
-            @mousedown.native.stop="setChartZIndex(index)"
-          />
-          <!-- <resizable-text
-            v-for="(item, index) in dashboards"
-            :item.sync="item"
-            :key="item.id"
-            :index="index"
-          /> -->
+          <template v-for="(item, index) in dashboards">
+            <resizable-chart
+              v-if="item.echarts"
+              :key="item.id"
+              :item.sync="item"
+              :index="index"
+              @click.native.stop="innerClick(index)"
+              @mousedown.native.stop="setChartZIndex(index)"
+            />
+            <resizable-text
+              v-if="!item.echarts"
+              :item.sync="item"
+              :key="item.id"
+              :index="index"
+              @click.native.stop="innerClick(index)"
+              @mousedown.native.stop="setChartZIndex(index)"
+            />
+          </template>
         </transition-group>
         <vdr
           v-show="isShowshadow"
@@ -183,8 +187,8 @@ export default class ResizableGrid extends Vue {
     if (!this.isShowshadow) return;
     const template = ObjectUtil.copy(generalDataTemplate);
     this.bgStyle = this.shadowStyle;
-    this.bgStyle.w = template.visualData.width;
-    this.bgStyle.h = template.visualData.height;
+    // this.bgStyle.w = this.shadowStyle.w;
+    // this.bgStyle.h = template.visualData.height;
   }
 
   // 下标改变，隐藏右侧菜单

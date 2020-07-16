@@ -4,21 +4,24 @@
       @dragstop="onDragStop"
       @dragging="onDrageding"
       @resizestop="onResizeStop"
-      :w="thisDashboard.visualData.width"
-      :h="thisDashboard.visualData.height"
-      :x="thisDashboard.visualData.position.x"
-      :y="thisDashboard.visualData.position.y"
-      :z="thisDashboard.visualData.position.z"
-      :grid="thisDashboard.visualData.grid"
-      :draggable="!focusDashboard.id"
-      :resizable="!focusDashboard.id"
+      :w="widgetData.visualData.width"
+      :h="widgetData.visualData.height"
+      :x="widgetData.visualData.position.x"
+      :y="widgetData.visualData.position.y"
+      :z="widgetData.visualData.position.z"
+      :grid="widgetData.visualData.grid"
+      :draggable="!focusWidgetData.id"
+      :resizable="!focusWidgetData.id"
       :class="{
         activeElement: index === activeIndex && !isSavingScreenhot,
         hideElement:
-          thisDashboard.id !== focusDashboard.id && focusDashboard.id !== ''
+          widgetData.id !== focusWidgetData.id && focusWidgetData.id !== ''
       }"
     >
-      <!-- <widget @dblclick.native="enableWidgetEditable" :data="thisDashboard"></widget> -->
+      <widget :data="widgetData"></widget>
+      <div class="toolbar-box" v-show="!isSavingScreenhot">
+        <chart-toolbar :data.sync="widgetData" :index="index" />
+      </div>
     </vdr>
   </div>
 </template>
@@ -36,218 +39,58 @@ import {
 import vdr from "vue-draggable-resizable-gorkys";
 import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 
-import debounce from "@/util/debounce";
 import Page from "@/types/EditorPage";
+import ChartToolbar from "@/layout/widgetToolBar/CommonToolbar.vue";
 import { WidgetType } from "@/config/WidgetType";
 import StoryBuilder from "@/config/StoryBuilder";
 import { StoryWidget, widgetConfig } from "@/types/StoryWidget";
 import { StoryPage } from "@/types/Story";
-// import Widget, { WidgetPageConfig } from "@/components/Widget.vue";
-import { scaledStyle } from "@/util/scale-util";
-import { CommonStore, EditorStore } from "@/store/modules-model";
-import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
-import { AnalysisResults } from "glaway-bi-model/types/AnalysisResults";
-
-export interface RefLineParam {
-  /**
-   * 是否显示
-   */
-  display: boolean;
-
-  /**
-   * 左侧位移
-   */
-  origin: string;
-
-  /**
-   * 顶部位移
-   */
-  position: string;
-
-  /**
-   * 宽度
-   */
-  lineLength: string;
-}
+import Widget from "@/components/Widget.vue";
+import { CommonStore } from "@/store/modules-model";
 
 @Component({
   components: {
-    vdr
-    // Widget
+    vdr,
+    Widget,
+    ChartToolbar
   }
 })
 export default class ResizableElement extends Vue {
-  // @Inject()
-  // state!: Page.State;
+  /**
+   * 每个可调整元素的数据和所在下标
+   */
+  @Prop()
+  item!: StoryWidget<any>;
 
-  // @Inject()
-  // getter!: Page.Getter;
+  @Prop()
+  index!: number;
 
-  // @Prop()
-  // widgetData!: StoryWidget<any>;
-
-  // @Emit("activated")
-  // onActivated() {
-  //   return this.widgetData;
-  // }
-
-  // @Provide()
-  // widgetConfig: WidgetPageConfig = {
-  //   pageEditMode: this.pageLockedByMe,
-  //   widgetEditMode: false,
-  //   scale: this.screenScale
-  // };
   // 处于聚焦状态
   @CommonStore.State("focusDashboard")
-  focusDashboard!: string;
+  focusWidgetData!: StoryWidget<any>;
 
   // 当前激活的元素 所在数组下标
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
 
-  // get widgetClassName() {
-  //   return {
-  //     bordered: this.shouldBordered,
-  //     "is-current": this.isCurrentWidget,
-  //     "editable-widget": this.widgetConfig.pageEditMode
-  //   };
-  // }
+  // 设置选中元素的层级
+  @CommonStore.Mutation("setDashboardIndex")
+  setActiveIndex!: Function;
 
-  // get pageLockedByMe() {
-  //   return this.getter.pageLockedByMe;
-  // }
+  // 正在截图标志
+  @CommonStore.State("isSavingScreenhot")
+  isSavingScreenhot!: boolean;
 
-  // get snapshotMoment() {
-  //   return this.state.snapshotMoment;
-  // }
-
-  // get isCurrentWidget() {
-  //   return this.widgetData.id === this.currentWidget?.id;
-  // }
-
-  // @Watch("pageLockedByMe")
-  // @Watch("snapshotMoment")
-  // onPageLockUpdate() {
-  //   this.widgetConfig.pageEditMode =
-  //     this.getter.pageLockedByMe && !this.snapshotMoment;
-  // }
-
-  // get screenScale() {
-  //   return this.state.screenScale;
-  // }
-
-  // @Watch("screenScale")
-  // syncScale() {
-  //   // 预览模式不同步缩放比例
-  //   if (this.state.previewMode) return;
-
-  //   this.widgetConfig.scale = this.screenScale;
-  // }
-
-  // /**
-  //  * 是否可拖拽
-  //  */
-  // get isDraggable() {
-  //   const editMode = this.widgetConfig.pageEditMode;
-  //   const widgetNotEditing = !this.widgetConfig.widgetEditMode;
-  //   return editMode && widgetNotEditing;
-  // }
-
-  // get shouldBordered() {
-  //   const noBorder = !this.widgetData.config.border.enable;
-  //   const editMode = this.widgetConfig.pageEditMode;
-  //   return noBorder && editMode;
-  // }
-
-  // get scaledConfig() {
-  //   return scaledStyle.getWidgetSize(
-  //     this.widget.config,
-  //     this.state.screenScale
-  //   );
-  // }
-
-  /**
-   * 启用编辑
-   */
-  enableWidgetEditable() {
-    // if (!this.getter.pageLockedByMe) return;
-    // this.widgetConfig.widgetEditMode = true;
-    // window.addEventListener("click", debounce(300, this.clickOnEditing));
-  }
-
-  /**
-   * 编辑中的点击回调
-   */
-  clickOnEditing(evt: MouseEvent) {
-    // const $toolbar = document.querySelector(".tool-bar") as HTMLDivElement;
-    // const toolbarClicked = $toolbar.contains(evt.target as Node);
-    // if (toolbarClicked) return;
-    // this.widgetConfig.widgetEditMode = false;
-    // window.removeEventListener("click", this.clickOnEditing);
-  }
-
-  get widget(): StoryWidget<widgetConfig.Base> {
-    // return this.widgetData;
-    return {} as any;
-  }
-
-  set widget(widget: StoryWidget<widgetConfig.Base>) {
-    // this.$emit("update:data", widget);
-  }
-
-  // get currentWidget() {
-  //   // return this.state.currentWidget;
-  // }
-
-  // isActiveWidget(): boolean {
-  //   return this.widget.id === this.currentWidget?.id;
-  // }
-
-  /**
-   * 拖拽结束 回调
-   */
-  // onDragStop(x: number, y: number) {
-  //   const scale = this.state.screenScale;
-  //   this.widget.config.position.x = x / scale;
-  //   this.widget.config.position.y = y / scale;
-  // }
-
-  /**
-   * 调整大小结束 回调
-  //  */
-  // onResizeStop(x: number, y: number, width: number, height: number) {
-  //   const scale = this.state.screenScale;
-  //   this.widget.config.size.width = width / scale;
-  //   this.widget.config.size.height = height / scale;
-  // }
-
-  /**
-   * 每个可调整元素的数据和所在下标
-   */
-  @Prop()
-  item!: Dashboard;
-
-  @Prop()
-  index!: number;
-
-  // 是否正在加载数据
-  isFetching = false;
-
-  // 是否分析成功
-  analysisSuccess = true;
-
-  // 是否显示详细工具栏
-  isShowDetail = false;
-
-  analysisResult: AnalysisResults = [];
-
-  get thisDashboard(): Dashboard {
+  get widgetData(): StoryWidget<any> {
     return this.item;
   }
 
-  set thisDashboard(dashboard: Dashboard) {
-    this.$emit("update:item", dashboard);
+  set widgetData(widgetData: StoryWidget<any>) {
+    this.$emit("update:item", widgetData);
   }
+
+  // 是否显示详细工具栏
+  isShowDetail = false;
 
   /**
    * 获取偏移位置
@@ -255,17 +98,21 @@ export default class ResizableElement extends Vue {
    */
   onDragStop(x: number, y: number): void {
     // 防止出现非当前下标的元素被操作的问题
-    // this.setActiveIndex(this.index);
+    this.setActiveIndex(this.index);
   }
 
   /**
    * 拖拽进行时
    */
   onDrageding(x: number, y: number) {
-    // this.setPosition(x, y);
-    // this.$nextTick(() => {
-    //   this.chartComponent?.resizeChart();
-    // });
+    this.setPosition(x, y);
+  }
+
+  /**
+   * 切换悬浮工具栏隐藏状态
+   */
+  hideDetailBar(hide: boolean): void {
+    this.isShowDetail = !hide;
   }
 
   /**
@@ -273,32 +120,28 @@ export default class ResizableElement extends Vue {
    * 调整结束
    */
   onResizeStop(x: number, y: number, width: number, height: number): void {
-    // if (this.activeIndex === -1) return;
-    // // 防止出现非当前下标的元素被操作的问题
-    // this.setActiveIndex(this.index);
-    // this.setPosition(x, y);
-    // this.setSize(width, height);
-    // // 如果类型为 Echarts 图表，则调用 resize 方法
-    // this.$nextTick(() => {
-    //   this.chartComponent?.resizeChart();
-    // });
-    // this.hideDetailBar(true);
+    if (this.activeIndex === -1) return;
+    // 防止出现非当前下标的元素被操作的问题
+    this.setActiveIndex(this.index);
+    this.setPosition(x, y);
+    this.setSize(width, height);
+    this.hideDetailBar(true);
   }
 
   /**
    * 设置数据的坐标
    */
   setPosition(x: number, y: number): void {
-    // this.thisDashboard.visualData.position.x = x;
-    // this.thisDashboard.visualData.position.y = y;
+    this.widgetData.visualData.position.x = x;
+    this.widgetData.visualData.position.y = y;
   }
 
   /**
    * 设置数据的尺寸
    */
   setSize(width: number, height: number): void {
-    // this.thisDashboard.visualData.width = width;
-    // this.thisDashboard.visualData.height = height;
+    this.widgetData.visualData.width = width;
+    this.widgetData.visualData.height = height;
   }
 }
 </script>

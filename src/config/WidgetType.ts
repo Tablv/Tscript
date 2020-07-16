@@ -10,7 +10,7 @@ export enum WidgetType {
   /**
    * 形状
    */
-  SHAPE = "shape",
+  // SHAPE = "shape",
 
   /**
    * 图片
@@ -20,5 +20,5 @@ export enum WidgetType {
   /**
    * 仪表盘
    */
-  DASHBOARD = "dashboard"
+  // DASHBOARD = "dashboard"
 }

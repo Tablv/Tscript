@@ -1,4 +1,3 @@
-import { widgetConfig } from "@/types/StoryWidget";
 import { StoryWidget } from "@/types/StoryWidget";
 import { WidgetType } from "@/config/WidgetType";
 import StoryBuilder from "@/config/StoryBuilder";
@@ -29,12 +28,12 @@ export const dragUtil = {
   /**
    * 仪表盘
    */
-  putDashboard(event: DragEvent, id: string) {
-    setDragData(event, {
-      type: WidgetType.DASHBOARD,
-      data: { id }
-    });
-  },
+  // putDashboard(event: DragEvent, id: string) {
+  //   setDragData(event, {
+  //     type: WidgetType.DASHBOARD,
+  //     data: { id }
+  //   });
+  // },
 
   /**
    * 获取拖拽到的组件
@@ -49,19 +48,19 @@ export const dragUtil = {
     const widgetType = dropVal.type;
     let widget = StoryBuilder.buildWidget(widgetType);
 
-    switch (dropVal.type) {
-      case WidgetType.IMAGE: {
-        (widget as StoryWidget<widgetConfig.Image>).config.url =
-          dropVal.data.url;
-        break;
-      }
+    // switch (dropVal.type) {
+    //   case WidgetType.IMAGE: {
+    //     (widget as StoryWidget<widgetConfig.Image>).config.url =
+    //       dropVal.data.url;
+    //     break;
+    //   }
 
-      case WidgetType.DASHBOARD: {
-        (widget as StoryWidget<widgetConfig.DashboardConf>).config.dashboardId =
-          dropVal.data.id;
-        break;
-      }
-    }
+    //   case WidgetType.DASHBOARD: {
+    //     (widget as StoryWidget<widgetConfig.DashboardConf>).config.dashboardId =
+    //       dropVal.data.id;
+    //     break;
+    //   }
+    // }
 
     return widget;
   }

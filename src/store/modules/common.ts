@@ -13,6 +13,9 @@ import { ChartType } from "glaway-bi-model/enums/ChartType";
 import Draggable from "glaway-bi-model/view/Draggable";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
+import StoryBuilder from "@/config/StoryBuilder";
+import { WidgetType } from "@/config/WidgetType";
+import { StoryWidget } from "@/types/StoryWidget";
 
 const state: any = {
   // 当前仪表盘集ID
@@ -103,7 +106,7 @@ const mutations: MutationTree<any> = {
       initData.visualData.position = {
         x: position.x,
         y: position.y,
-        z: initData.visualData.position.z
+        z: currentDataLength
       };
     }
     // 添加仪表盘
@@ -144,6 +147,29 @@ const mutations: MutationTree<any> = {
 
     // 选中复制的仪表盘
     setTimeout(() => (state.dashboardIndex = state.dashboards.length - 1), 300);
+  },
+
+  createWidget(
+    state: any,
+    baseConfig: { chartType: WidgetType; position?: { x: number; y: number } }
+  ): void {
+    let currentDataLength = state.dashboards.length;
+    const { chartType, position } = baseConfig;
+    let newWidget = StoryBuilder.buildWidget(chartType);
+    if (newWidget === undefined) {
+      UIUtil.showErrorMessage("创建初始化数据出错");
+      throw "创建初始化数据出错";
+    }
+    if (position) {
+      newWidget.visualData.position = {
+        x: position.x,
+        y: position.y,
+        z: currentDataLength
+      };
+      newWidget.config.position = newWidget.visualData.position;
+    }
+    // 添加仪表盘
+    state.dashboards.push(newWidget);
   },
 
   /**
@@ -230,7 +256,7 @@ const mutations: MutationTree<any> = {
    * 设置聚焦图表信息
    * @param focusDashboard {Dashboard} 聚焦图表信息
    */
-  setFocusDashboard(state, focusDashboard: Dashboard): void {
+  setFocusDashboard(state, focusDashboard: Dashboard | StoryWidget<any>): void {
     state.focusDashboard = focusDashboard;
   },
 
@@ -272,8 +298,13 @@ const actions: ActionTree<any, any> = {
         commit("setDashboardSet", container);
 
         // 处理老旧数据，合并最近的公共配置
-        const result = dashboards.map((dashboard: Dashboard) => {
-          dashboard = <Dashboard>JSON.parse(JSON.stringify(dashboard));
+        const result = dashboards.map((dashboard: any) => {
+          dashboard = <any>JSON.parse(JSON.stringify(dashboard));
+          if (!dashboard.echarts) {
+            dashboard.config = ObjectUtil.copy(dashboard.analysis);
+            dashboard.analysis = null;
+            return dashboard;
+          }
           const viewName: string = dashboard.analysis.viewName || "";
           dashboard.tableView = {
             viewName,

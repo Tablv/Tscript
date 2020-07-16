@@ -23,6 +23,16 @@ export class WidgetBuilder {
     return configBuilder();
   }
 
+  public buildVisualData() {
+    return {
+      position: this.position as widgetConfig.Position,
+      width: 400,
+      height: 300,
+      grid: [10, 10],
+      type: this.type
+    };
+  }
+
   /**
    * 构建元素边框
    *
@@ -93,19 +103,19 @@ export class WidgetBuilder {
         },
         url: null
       };
-    },
-    dashboard: (): widgetConfig.DashboardConf => {
-      return {
-        position: this.position as widgetConfig.Position,
-        border: this.buildBorder(false),
-        background: this.buildBackground(true),
-        size: {
-          width: 600,
-          height: 400
-        },
-        dashboardId: "",
-        data: null
-      };
     }
+    // dashboard: (): widgetConfig.DashboardConf => {
+    //   return {
+    //     position: this.position as widgetConfig.Position,
+    //     border: this.buildBorder(false),
+    //     background: this.buildBackground(true),
+    //     size: {
+    //       width: 600,
+    //       height: 400
+    //     },
+    //     dashboardId: "",
+    //     data: null
+    //   };
+    // }
   };
 }

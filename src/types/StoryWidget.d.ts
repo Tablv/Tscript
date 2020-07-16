@@ -19,12 +19,26 @@ export interface StoryWidget<ConfigType> {
    * 配置项
    */
   config: ConfigType;
+
+  visualData: widgetConfig.VisualData;
 }
 
 export namespace widgetConfig {
   /**
    * 元素位置
    */
+  export type VisualData = {
+    type: WidgetType | null;
+
+    position: Position;
+
+    grid: Array<number>;
+
+    width: number;
+
+    height: number;
+  };
+
   export type Position = {
     x: number;
     y: number;

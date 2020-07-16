@@ -73,9 +73,9 @@ export default class TypeChangeView extends Vue {
   get createOptions() {
     // 维度
     const dimensionsNum =
-      this.currentDashboard?.analysis.dimensions.length || 0;
+      this.currentDashboard?.analysis?.dimensions.length || 0;
     // 度量
-    const measuresNum = this.currentDashboard?.analysis.measures.length || 0;
+    const measuresNum = this.currentDashboard?.analysis?.measures.length || 0;
 
     const chartOptions = ObjectUtil.copy(chartCreateOptions);
 

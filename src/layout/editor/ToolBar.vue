@@ -6,12 +6,6 @@
       </button>
     </el-tooltip>
 
-    <!-- <el-tooltip effect="dark" content="其他" placement="right">
-      <button class="toolbtn" draggable="true" @dragstart="dragText">
-        <i class="fa fa-font"></i>
-      </button>
-    </el-tooltip> -->
-
     <el-tooltip
       effect="dark"
       content="选择图表样式"
@@ -20,6 +14,18 @@
     >
       <button class="toolbtn" @click="showCreateChart = true">
         <i class="fa fa-chart-bar"></i>
+      </button>
+    </el-tooltip>
+
+    <el-tooltip effect="dark" content="文本" placement="right">
+      <button
+        class="toolbtn"
+        draggable="true"
+        @dragstart="dragText"
+        @dragend="dragendText"
+        @mousedown="createChart('text')"
+      >
+        <i class="fa fa-font"></i>
       </button>
     </el-tooltip>
 
@@ -75,6 +81,7 @@ import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTempl
 import { ElLoadingComponent } from "element-ui/types/loading";
 import Draggable from "glaway-bi-model/view/Draggable";
 import { dragUtil } from "@/util/drag-util";
+import { StoryWidget } from "@/types/StoryWidget";
 
 @Component({
   components: {}
@@ -83,6 +90,10 @@ export default class ToolBar extends Vue {
   // 创建仪表盘
   @CommonStore.Mutation("createDashboard")
   createDashboard!: Function;
+
+  // 创建仪表盘
+  @CommonStore.Mutation("createWidget")
+  createWidget!: Function;
 
   // 仪表盘集数据
   @CommonStore.State("dashboardSet")
@@ -165,8 +176,8 @@ export default class ToolBar extends Vue {
       const bgBoxLeft = parseInt(bgBox.style.left) || 0,
         bgBoxTop = parseInt(bgBox.style.top) || 0;
       const bgStyle: Draggable = {
-        w: 300,
-        h: 400,
+        w: 400,
+        h: 300,
         x: event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft,
         y: event.pageY - 60 - 200 - bgBoxTop + this.scrollStyle.scrollTop,
         z: 1000,
@@ -280,7 +291,11 @@ export default class ToolBar extends Vue {
   setTemplateDashboard(
     serializedDashboards: Array<Dashboard>
   ): Array<Dashboard> {
-    serializedDashboards.forEach((serializedDashboard: Dashboard) => {
+    serializedDashboards.forEach((serializedDashboard: any) => {
+      if (!serializedDashboard.analysis) {
+        serializedDashboard.analysis = serializedDashboard.config;
+        return;
+      }
       // 合并分析数据
       Object.assign(
         serializedDashboard.analysis,
@@ -315,8 +330,41 @@ export default class ToolBar extends Vue {
     return serializedDashboards;
   }
 
-  dragText(event: DragEvent) {
-    dragUtil.putText(event);
+  dragendText() {
+    this.setShowshadow(false);
+    // 放到异步微任务，等待数据更新执行创建
+    setTimeout(() => {
+      const baseConfig = {
+        chartType: this.createChartType,
+        position: {
+          x: Math.round((this.shadowStyle as { x: number }).x / 10) * 10,
+          y: Math.round((this.shadowStyle as { y: number }).y / 10) * 10
+        }
+      };
+      // this.createDashboard(baseConfig);
+      this.createWidget(baseConfig);
+      this.setShowshadow(false);
+    }, 0);
+  }
+
+  dragText(event: any) {
+    // dragUtil.putText(event);
+    event.dataTransfer.setDragImage(new Image(), 0, 0);
+    event.dataTransfer.setData("chartType", "text");
+    const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
+    const bgBoxLeft = parseInt(bgBox.style.left) || 0,
+      bgBoxTop = parseInt(bgBox.style.top) || 0;
+    const bgStyle: Draggable = {
+      w: 400,
+      h: 300,
+      x: event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft,
+      y: event.pageY - 60 - 100 - bgBoxTop + this.scrollStyle.scrollTop,
+      z: 1000,
+      grid: [10, 10],
+      handles: []
+    };
+    this.setShadowStyle(bgStyle);
+    this.setShowshadow(true);
   }
 }
 </script>

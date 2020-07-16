@@ -43,11 +43,11 @@ export default class DashboardUtil {
     // 赋予唯一id
     createdData.id = UUID.generate();
     // 确定新建仪表的定位位置
-    createdData.visualData.position = {
-      x: currentLength * 10,
-      y: currentLength * 10,
-      z: currentLength
-    };
+    // createdData.visualData.position = {
+    //   x: currentLength * 10,
+    //   y: currentLength * 10,
+    //   z: currentLength
+    // };
 
     return createdData;
   }

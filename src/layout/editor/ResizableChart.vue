@@ -132,7 +132,7 @@ export default class ResizableElement extends Vue {
 
   // 处于聚焦状态
   @CommonStore.State("focusDashboard")
-  focusDashboard!: string;
+  focusDashboard!: Dashboard;
 
   // 设置选中元素的层级
   @CommonStore.Mutation("setDashboardIndex")
