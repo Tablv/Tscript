@@ -12,6 +12,9 @@
       :grid="thisDashboard.visualData.grid"
       :draggable="!focusDashboard.id"
       :resizable="!focusDashboard.id"
+      :style="{
+        background: thisDashboard.visualData.background || '#fff'
+      }"
       :class="{
         activeElement: index === activeIndex && !isSavingScreenhot,
         hideElement:
@@ -645,7 +648,7 @@ $shadow: 0 0 6px $shadowColor;
 }
 
 .vdr {
-  background-color: $bgColor;
+  // background-color: $bgColor;
   // cursor: default;
 
   // 悬停效果

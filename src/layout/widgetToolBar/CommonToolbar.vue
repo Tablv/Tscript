@@ -13,6 +13,14 @@
       placement="top"
       @click="handleFocus"
     />
+
+    <el-color-picker
+      v-model="widgetData.visualData.background"
+      :show-alpha="true"
+      color-format="hex"
+      size="mini"
+    />
+
     <tool-button icon-class="fa fa-trash" title="删除" @click="handleDelete" />
   </div>
 </template>

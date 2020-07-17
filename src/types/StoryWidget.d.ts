@@ -37,6 +37,8 @@ export namespace widgetConfig {
     width: number;
 
     height: number;
+
+    background?: string;
   };
 
   export type Position = {

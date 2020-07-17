@@ -12,6 +12,9 @@
       :grid="widgetData.visualData.grid"
       :draggable="!focusWidgetData.id"
       :resizable="!focusWidgetData.id"
+      :style="{
+        background: widgetData.visualData.background || '#fff'
+      }"
       :class="{
         activeElement: index === activeIndex && !isSavingScreenhot,
         hideElement:

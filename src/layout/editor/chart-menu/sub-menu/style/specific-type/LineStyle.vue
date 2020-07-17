@@ -11,6 +11,19 @@
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <!-- 配色部分 -->
       <color-option />
+
+      <el-form-item label="背景色">
+        <el-row>
+          <el-col :span="5" :offset="1" style="height: 32px;">
+            <el-color-picker
+              v-model="currentDashboard.visualData.background"
+              :show-alpha="true"
+              color-format="hex"
+              size="mini"
+            />
+          </el-col>
+        </el-row>
+      </el-form-item>
     </el-form>
   </el-card>
 </template>
