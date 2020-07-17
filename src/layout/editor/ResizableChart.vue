@@ -592,7 +592,7 @@ export default class ResizableElement extends Vue {
       oldDashboardId: null,
       dashboardId: null,
       datasetId: null,
-      where: null
+      where: [] as any
     };
     const isCurrent = this.reactWhere.dashboardId === this.thisDashboard.id;
     // 获取数据

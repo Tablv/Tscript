@@ -54,6 +54,25 @@
               <div class="chart-title">{{ opt.title }}</div>
             </el-button>
           </el-col>
+          <el-col
+            :span="8"
+            v-for="(opt, idx) in withShowOptions"
+            :key="idx + 'withs'"
+          >
+            <el-button
+              class="chart-btn simple-btn withs-filter-show"
+              :draggable="opt.enable && opt.createType !== 'sunpie'"
+              :disabled="!opt.enable || opt.createType === 'sunpie'"
+              @mousedown.native="createChart(opt.createType)"
+              @dragstart.native="dragstart($event, opt.createType)"
+              @dragend.native="dragend"
+            >
+              <svg class="icon-svg" aria-hidden="true">
+                <use :xlink:href="'#' + opt.iconClass" />
+              </svg>
+              <div class="chart-title">{{ opt.title }}</div>
+            </el-button>
+          </el-col>
         </el-row>
       </div>
     </el-drawer>
@@ -149,6 +168,51 @@ export default class ToolBar extends Vue {
   chartCreateOptions = chartCreateOptions;
 
   createChartType: string = "";
+
+  withShowOptions = [
+    // {
+    //   enable: false,
+    //   createType: "withShow",
+    //   iconClass: "gw-iconfsux_tubiao_juxingshutu",
+    //   title: "矩形树图"
+    // },
+    // {
+    //   enable: false,
+    //   createType: "withShow",
+    //   iconClass: "gw-iconfsux_tubiao_qipaotu",
+    //   title: "气泡图"
+    // },
+    // {
+    //   enable: false,
+    //   createType: "withShow",
+    //   iconClass: "gw-iconfsux_tubiao_pubutu",
+    //   title: "瀑布图"
+    // },
+    {
+      enable: false,
+      createType: "withShow",
+      iconClass: "gw-iconfsux_tubiao_shuangzhoutu",
+      title: "组合图"
+    },
+    {
+      enable: false,
+      createType: "withShow",
+      iconClass: "gw-iconfsux_tubiao_biaoge",
+      title: "表格"
+    },
+    {
+      enable: false,
+      createType: "withShow",
+      iconClass: "gw-iconfsux_tubiao_xuritu",
+      title: "甘特图"
+    },
+    {
+      enable: false,
+      createType: "withShow",
+      iconClass: "gw-iconfsux_tubiao_ditu_sandian",
+      title: "地图"
+    }
+  ];
 
   mounted() {
     const centerBox = document.querySelector(".center") as HTMLDivElement;
@@ -377,7 +441,9 @@ export default class ToolBar extends Vue {
 
 .chart-btn-container {
   padding: 0 20px;
-
+  .withs-filter-show {
+    filter: grayscale(100%);
+  }
   .chart-btn {
     margin-bottom: 15px;
     width: 100%;
