@@ -26,7 +26,10 @@
         @mousedown="hideDetailBar(true)"
         v-loading="isFetching"
       >
-        <div class="toolbar-box" v-show="!isSavingScreenhot">
+        <div
+          class="toolbar-box"
+          v-show="!isSavingScreenhot && index === activeIndex"
+        >
           <chart-toolbar :dashboard.sync="thisDashboard" />
         </div>
 
