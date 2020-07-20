@@ -7,7 +7,10 @@
   >
     <div class="bg-box" :style="canvasStyle" id="bgBox" ref="bgBox">
       <div
-        :class="{ 'grid-box': true, 'grid-box-backgroud': !isSavingScreenhot }"
+        :class="{
+          'grid-box': true,
+          'grid-box-backgroud': !isSavingScreenhot && setting.background.show
+        }"
         id="gridBox"
         :setId="dashboardSetId"
       >
@@ -130,6 +133,10 @@ export default class ResizableGrid extends Vue {
   // 设置当前快捷键
   @EditorStore.Mutation("setActiveShortcutType")
   setActiveShortcutType!: Function;
+
+  get setting(): any {
+    return this.dashboardSet.canvasSetting;
+  }
 
   /**
    * Grid 样式

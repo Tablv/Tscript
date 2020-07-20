@@ -9,7 +9,7 @@
       :x="widgetData.visualData.position.x"
       :y="widgetData.visualData.position.y"
       :z="widgetData.visualData.position.z"
-      :grid="widgetData.visualData.grid"
+      :grid="!setting.background.show ? [1, 1] : widgetData.visualData.grid"
       :draggable="!focusWidgetData.id"
       :resizable="!focusWidgetData.id"
       :style="{
@@ -23,7 +23,7 @@
     >
       <widget :data="widgetData"></widget>
       <div class="toolbar-box" v-show="!isSavingScreenhot">
-        <chart-toolbar :data.sync="widgetData" :index="index" />
+        <common-toolbar :data.sync="widgetData" :index="index" />
       </div>
     </vdr>
   </div>
@@ -43,19 +43,20 @@ import vdr from "vue-draggable-resizable-gorkys";
 import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 
 import Page from "@/types/EditorPage";
-import ChartToolbar from "@/layout/widgetToolBar/CommonToolbar.vue";
+import CommonToolbar from "@/layout/widgetToolBar/CommonToolbar.vue";
 import { WidgetType } from "@/config/WidgetType";
 import StoryBuilder from "@/config/StoryBuilder";
 import { StoryWidget, widgetConfig } from "@/types/StoryWidget";
 import { StoryPage } from "@/types/Story";
 import Widget from "@/components/Widget.vue";
 import { CommonStore } from "@/store/modules-model";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
 
 @Component({
   components: {
     vdr,
     Widget,
-    ChartToolbar
+    CommonToolbar
   }
 })
 export default class ResizableElement extends Vue {
@@ -83,6 +84,14 @@ export default class ResizableElement extends Vue {
   // 正在截图标志
   @CommonStore.State("isSavingScreenhot")
   isSavingScreenhot!: boolean;
+
+  // 仪表盘集配置
+  @CommonStore.State("dashboardSet")
+  dashboardSet!: DashboardSet;
+
+  get setting(): any {
+    return this.dashboardSet.canvasSetting;
+  }
 
   get widgetData(): StoryWidget<any> {
     return this.item;

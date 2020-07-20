@@ -3,6 +3,15 @@
     class="chart-toolbar text-common-toolbar"
     v-show="index === activeIndex && !isSavingScreenhot"
   >
+    <!-- <el-color-picker
+      ref="colorclick"
+      style="transform: translateX(2px);"
+      v-model="widgetData.visualData.background"
+      :show-alpha="true"
+      color-format="hex"
+      size="mini"
+    /> -->
+
     <tool-button
       :icon-class="
         focusWidgetData.id
@@ -10,23 +19,26 @@
           : 'fa fa-expand-arrows-alt'
       "
       :title="focusWidgetData.id ? '取消' : '聚焦'"
-      placement="top"
+      placement="right"
       @click="handleFocus"
     />
 
-    <el-color-picker
-      v-model="widgetData.visualData.background"
-      :show-alpha="true"
-      color-format="hex"
-      size="mini"
-    />
+    <tool-bar :data.sync="focusWidgetData"></tool-bar>
 
     <tool-button icon-class="fa fa-trash" title="删除" @click="handleDelete" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Model, Watch, Prop } from "vue-property-decorator";
+import {
+  Component,
+  Vue,
+  Model,
+  Watch,
+  Prop,
+  Provide
+} from "vue-property-decorator";
+import ToolBar from "@/components/story-editor/ToolBar.vue";
 import { CommonStore } from "@/store/modules-model";
 import ToolButton from "@/components/ToolButton.vue";
 import ObjectUtil from "@/util/ObjectUtil";
@@ -34,6 +46,7 @@ import { StoryWidget } from "@/types/StoryWidget";
 
 @Component({
   components: {
+    ToolBar,
     ToolButton
   }
 })
@@ -46,6 +59,9 @@ export default class CommonToolbar extends Vue {
 
   @Prop()
   index!: number;
+
+  @Provide()
+  wdata = this.data;
 
   /**
    * 配置菜单部分

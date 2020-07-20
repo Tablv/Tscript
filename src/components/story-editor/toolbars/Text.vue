@@ -1,15 +1,37 @@
 <template>
-  <section class="text-tool-bar">
-    <!-- 字号 -->
-    <span>
-      <label class="label-text">字号</label>
+  <el-popover
+    class="text-tool-bars"
+    placement="right"
+    width="260"
+    :offset="50"
+    trigger="click"
+    visible-arrow
+  >
+    <el-card class="text-tool-card">
+      <label for="backgroundColor">背景色</label>
+      <el-color-picker
+        ref="colorclick"
+        v-model="widget.visualData.background"
+        :show-alpha="true"
+        color-format="hex"
+        size="mini"
+      />
+      <label for="fontColor">字体颜色</label>
+      <el-color-picker
+        class="font-color-picker"
+        v-model="textFont.color"
+        :show-alpha="true"
+        color-format="hex"
+        size="mini"
+      ></el-color-picker>
+      <label for="fontSize">字号</label>
       <el-select
+        class="grid-card-font-size"
         v-model="textFont.size"
         filterable
         allow-create
         default-first-option
         placeholder=""
-        style="width: 100px"
       >
         <el-option
           v-for="fontSize in fontSizeOptions"
@@ -18,155 +40,114 @@
         >
         </el-option>
       </el-select>
-    </span>
+      <!-- 插入无序列表 -->
+      <!-- <el-dropdown
+        split-button
+        type="default"
+        trigger="click"
+        @click="insertUL()"
+        @command="insertUL"
+        style="grid-column-start: 1; grid-column-end: 3;"
+      >
+        <i class="fa fa-list-ul"></i>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item
+            v-for="ulOption in ulOptions"
+            :key="ulOption"
+            :command="ulOption"
+          >
+            <ul style="padding-left: 20px" :style="{ listStyle: ulOption }">
+              <li><i class="fa fa-font"></i></li>
+            </ul>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown> -->
+      <!-- 插入无序列表 -->
+      <!-- <el-dropdown
+        split-button
+        type="default"
+        trigger="click"
+        @click="insertOL()"
+        @command="insertUL"
+        style="grid-column-start: 3; grid-column-end: 5;"
+      >
+        <i class="fa fa-list-ol"></i>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item
+            v-for="olOption in olOptions"
+            :key="olOption"
+            :command="olOption"
+          >
+            <ol style="padding-left: 20px" :style="{ listStyle: olOption }">
+              <li><i class="fa fa-font"></i></li>
+            </ol>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown> -->
+      <!-- 水平对齐 -->
+      <el-radio-group
+        v-model="textAlignment.horizontal"
+        class="grid-card-button-group"
+      >
+        <!-- 左对齐 -->
+        <el-radio-button label="left">
+          <i class="fa fa-align-left"></i>
+        </el-radio-button>
 
-    <span class="switch-btn-group">
-      <!-- 加粗 -->
-      <el-checkbox-group v-model="textFont.bold">
-        <el-checkbox-button>
-          <i class="fa fa-bold"></i>
-        </el-checkbox-button>
-      </el-checkbox-group>
+        <!-- 居中 -->
+        <el-radio-button label="center">
+          <i class="fa fa-align-center"></i>
+        </el-radio-button>
 
-      <!-- 斜体 -->
-      <el-checkbox-group v-model="textFont.italic">
-        <el-checkbox-button>
-          <i class="fa fa-italic"></i>
-        </el-checkbox-button>
-      </el-checkbox-group>
+        <!-- 右对齐 -->
+        <el-radio-button label="right">
+          <i class="fa fa-align-right"></i>
+        </el-radio-button>
+      </el-radio-group>
+      <div class="grid-card-button-group">
+        <!-- 加粗 -->
+        <el-checkbox-group v-model="textFont.bold">
+          <el-checkbox-button>
+            <i class="fa fa-bold"></i>
+          </el-checkbox-button>
+        </el-checkbox-group>
 
-      <!-- 下划线 -->
-      <el-checkbox-group v-model="textFont.underline">
-        <el-checkbox-button>
-          <i class="fa fa-underline"></i>
-        </el-checkbox-button>
-      </el-checkbox-group>
-    </span>
+        <!-- 斜体 -->
+        <el-checkbox-group v-model="textFont.italic">
+          <el-checkbox-button>
+            <i class="fa fa-italic"></i>
+          </el-checkbox-button>
+        </el-checkbox-group>
 
-    <!-- 颜色 -->
-    <el-color-picker
-      class="font-color-picker"
-      v-model="textFont.color"
-      show-alpha
-    ></el-color-picker>
-
-    <el-divider direction="vertical"></el-divider>
-
-    <!-- 水平对齐 -->
-    <el-radio-group v-model="textAlignment.horizontal">
-      <!-- 左对齐 -->
-      <el-radio-button label="left">
-        <i class="fa fa-align-left"></i>
-      </el-radio-button>
-
-      <!-- 居中 -->
-      <el-radio-button label="center">
-        <i class="fa fa-align-center"></i>
-      </el-radio-button>
-
-      <!-- 右对齐 -->
-      <el-radio-button label="right">
-        <i class="fa fa-align-right"></i>
-      </el-radio-button>
-    </el-radio-group>
-
-    <!-- 垂直对齐 -->
-    <el-radio-group v-model="textAlignment.vertical">
-      <!-- 上对齐 -->
-      <el-radio-button label="top">
-        <i class="fa fa-angle-double-up"></i>
-      </el-radio-button>
-
-      <!-- 居中 -->
-      <el-radio-button label="middle">
-        <i class="fa fa-align-justify"></i>
-      </el-radio-button>
-
-      <!-- 下对齐 -->
-      <el-radio-button label="bottom">
-        <i class="fa fa-angle-double-down"></i>
-      </el-radio-button>
-    </el-radio-group>
-
-    <el-divider direction="vertical"></el-divider>
-
-    <!-- 插入无序列表 -->
-    <el-dropdown
-      split-button
-      type="default"
-      trigger="click"
-      @click="insertUL()"
-      @command="insertUL"
-    >
-      <i class="fa fa-list-ul"></i>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item
-          v-for="ulOption in ulOptions"
-          :key="ulOption"
-          :command="ulOption"
-        >
-          <ul style="padding-left: 20px" :style="{ listStyle: ulOption }">
-            <li><i class="fa fa-font"></i></li>
-          </ul>
-        </el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
-
-    <!-- 插入无序列表 -->
-    <el-dropdown
-      split-button
-      type="default"
-      trigger="click"
-      @click="insertOL()"
-      @command="insertUL"
-    >
-      <i class="fa fa-list-ol"></i>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item
-          v-for="olOption in olOptions"
-          :key="olOption"
-          :command="olOption"
-        >
-          <ol style="padding-left: 20px" :style="{ listStyle: olOption }">
-            <li><i class="fa fa-font"></i></li>
-          </ol>
-        </el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
-
-    <el-divider direction="vertical"></el-divider>
-
-    <!-- 边框 -->
-    <border-style
-      class="border-config"
-      :data="widget.config.border"
-    ></border-style>
-
-    <!-- 背景 -->
-    <background-style
-      class="background-config"
-      :data="widget.config.background"
-    ></background-style>
-  </section>
+        <!-- 下划线 -->
+        <el-checkbox-group v-model="textFont.underline">
+          <el-checkbox-button>
+            <i class="fa fa-underline"></i>
+          </el-checkbox-button>
+        </el-checkbox-group>
+      </div>
+    </el-card>
+    <tool-button slot="reference" icon-class="fa fa-cog" title="样式" />
+  </el-popover>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Provide, Inject } from "vue-property-decorator";
-import Page from "@/types/EditorPage";
+import { Vue, Component, Inject } from "vue-property-decorator";
 import { widgetConfig, StoryWidget } from "@/types/StoryWidget";
-import { WidgetType } from "@/config/WidgetType";
+import ToolButton from "@/components/ToolButton.vue";
 import BorderStyle from "./common/BorderStyle.vue";
 import BackgroundStyle from "./common/BackgroundStyle.vue";
 
 @Component({
   components: {
     BorderStyle,
+    ToolButton,
     BackgroundStyle
   }
 })
 export default class TextToolBar extends Vue {
   @Inject()
-  state!: Page.State;
+  wdata!: StoryWidget<any>;
 
   fontSizeOptions = [
     8,
@@ -220,7 +201,7 @@ export default class TextToolBar extends Vue {
   ];
 
   get widget(): StoryWidget<widgetConfig.TextArea> {
-    return this.state.currentWidget as StoryWidget<widgetConfig.TextArea>;
+    return this.wdata as StoryWidget<widgetConfig.TextArea>;
   }
 
   get textFont(): widgetConfig.TextArea["font"] {
@@ -256,7 +237,7 @@ export default class TextToolBar extends Vue {
     /**
      * 光标移至最后
      */
-    const widgetId = this.state.currentWidget?.id;
+    const widgetId = this.wdata?.id;
     const editBox = document.querySelector(
       `#widget-${widgetId} [contenteditable]`
     ) as HTMLSpanElement;
@@ -322,6 +303,60 @@ export default class TextToolBar extends Vue {
 </script>
 
 <style lang="scss">
+.text-tool-bars.tool-bar-inner > * + * {
+  margin-left: 2px !important;
+}
+.switch-btn-group {
+  .el-checkbox-group {
+    float: left;
+  }
+  &::after {
+    content: "";
+    clear: both;
+  }
+}
+.text-tool-card {
+  .el-card__body {
+    display: grid;
+    grid-row-gap: 10px;
+    grid-template-rows: 40px 40px auto;
+    grid-template-columns: 60px 50px 66px auto;
+    grid-template-areas: none;
+    grid-auto-flow: initial;
+    grid-auto-rows: initial;
+    grid-auto-columns: initial;
+    .grid-card-font-size {
+      width: 125px;
+      grid-column-start: 2;
+      grid-column-end: 5;
+    }
+    .grid-card-button-group {
+      display: grid;
+      grid-column-start: 1;
+      grid-column-end: 5;
+      grid-auto-flow: column dense;
+      .is-active {
+        .el-radio-button__inner {
+          padding: 9px 14px;
+          box-shadow: none;
+          border-radius: 5%;
+        }
+      }
+      .el-radio-button__inner {
+        border: none !important;
+      }
+      .is-checked {
+        .el-checkbox-button__inner {
+          box-shadow: none;
+          border-radius: 5%;
+        }
+      }
+      .el-checkbox-button__inner {
+        border: none !important;
+      }
+    }
+  }
+}
 .text-tool-bar {
   /**
    * 字体颜色选择

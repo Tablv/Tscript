@@ -1,10 +1,9 @@
 <script lang="tsx">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, Inject } from "vue-property-decorator";
 import { CreateElement } from "vue";
 import ObjectUtil from "glaway-bi-util/ObjectUtil";
 import { ResultJSON } from "glaway-bi-util/AxiosUtil";
-import Page from "@/types/EditorPage";
-import { StoryPage } from "@/types/Story";
+import { StoryWidget } from "@/types/StoryWidget";
 
 import text from "./toolbars/Text.vue";
 import img from "./toolbars/Image.vue";
@@ -13,13 +12,13 @@ import img from "./toolbars/Image.vue";
   components: {}
 })
 export default class ToolBar extends Vue {
-  @Prop()
-  state!: Page.State;
-
   toolbarRegistry: any = {
     text,
     img
   };
+
+  @Inject()
+  wdata!: StoryWidget<any>;
 
   /**
    * 工具栏
@@ -27,8 +26,8 @@ export default class ToolBar extends Vue {
   toolbar(h: CreateElement) {
     let toolbarInner = null;
 
-    if (this.state.currentWidget) {
-      toolbarInner = this.toolbarRegistry[this.state.currentWidget.type];
+    if (this.wdata.visualData.type) {
+      toolbarInner = this.toolbarRegistry[this.wdata.visualData.type];
     }
 
     return (
@@ -48,7 +47,7 @@ export default class ToolBar extends Vue {
   }
 
   render(h: CreateElement) {
-    if (this.state.currentPage === null) return null;
+    if (this.wdata === null) return null;
 
     return (
       <el-row

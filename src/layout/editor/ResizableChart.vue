@@ -9,7 +9,7 @@
       :x="thisDashboard.visualData.position.x"
       :y="thisDashboard.visualData.position.y"
       :z="thisDashboard.visualData.position.z"
-      :grid="thisDashboard.visualData.grid"
+      :grid="!setting.background.show ? [1, 1] : thisDashboard.visualData.grid"
       :draggable="!focusDashboard.id"
       :resizable="!focusDashboard.id"
       :style="{
@@ -90,6 +90,7 @@ import EChartsUtil from "@/util/EChartsUtil";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import DashboardUtil from "@/util/DashboardUtil";
 import ComponentUtil from "@/util/ComponentUtil";
+import DashboardSet from "glaway-bi-model/view/DashboardSet";
 
 @Component({
   components: {
@@ -172,9 +173,17 @@ export default class ResizableElement extends Vue {
   @EditorStore.Action("loadOptions")
   loadOptions!: Function;
 
+  // 仪表盘集配置
+  @CommonStore.State("dashboardSet")
+  dashboardSet!: DashboardSet;
+
   /**
    * Getter
    */
+  get setting(): any {
+    return this.dashboardSet.canvasSetting;
+  }
+
   get isCurrent(): boolean {
     return (
       this.activeIndex !== -1 &&

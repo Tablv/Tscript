@@ -56,7 +56,19 @@
           <span class="label-text">拾取背景色</span>
           <el-color-picker
             v-model="dashboardSet.canvasSetting.background.color"
+            :show-alpha="true"
+            color-format="hex"
           />
+          <span class="label-grid-text">步进线</span>
+          <el-switch
+            v-model="dashboardSet.canvasSetting.background.show"
+            active-color="#13ce66"
+          />
+          <!-- <el-color-picker
+            v-model="dashboardSet.canvasSetting.background.color"
+            :show-alpha="true"
+            color-format="hex"
+          /> -->
         </div>
         <div v-if="dashboardSet.canvasSetting.background.type === 1">
           <el-upload
@@ -365,7 +377,14 @@ export default class OptionBar extends Vue {
       .select-color {
         padding-top: 8px;
         .label-text {
+          font-size: 12px;
           color: #666;
+        }
+        .label-grid-text {
+          font-size: 12px;
+          color: #666;
+          margin-left: 20px;
+          margin-right: 12px;
         }
         .el-color-picker--small {
           margin-left: 20px;

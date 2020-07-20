@@ -6,7 +6,7 @@
 
     <div
       class="text-box"
-      :class="{ 'edit-box': widgetEditable }"
+      :class="{ 'edit-box': widgetEditable, 'no-edit-box': !widgetEditable }"
       :style="[textStyle, previewAlignment]"
     >
       <span
@@ -102,7 +102,7 @@ export default class TextWidget extends Vue {
 
   changeText() {
     this.textValue = this.editBox.innerHTML;
-    this.widgetEditable = Boolean(this.textValue);
+    this.widgetEditable = false;
   }
 
   /**
@@ -169,7 +169,11 @@ export default class TextWidget extends Vue {
 .text-widget {
   font-family: auto;
   position: relative;
+  cursor: grab;
   overflow: visible !important;
+  &:active {
+    cursor: grabbing;
+  }
 
   [contenteditable] {
     outline: none;
@@ -195,6 +199,12 @@ export default class TextWidget extends Vue {
 
     &.edit-box {
       cursor: text;
+    }
+    &.no-edit-box {
+      cursor: grab;
+      &:active {
+        cursor: grabbing;
+      }
     }
 
     .inner-text {
