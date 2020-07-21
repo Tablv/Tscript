@@ -318,29 +318,34 @@ export default class TextToolBar extends Vue {
 .text-tool-card {
   .el-card__body {
     display: grid;
-    grid-row-gap: 10px;
-    grid-template-rows: 40px 40px auto;
-    grid-template-columns: 60px 50px 66px auto;
+    grid-row-gap: 20px;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 42px 50px 66px auto;
     grid-template-areas: none;
     grid-auto-flow: initial;
     grid-auto-rows: initial;
     grid-auto-columns: initial;
+    justify-items: right;
+    align-items: center;
     .grid-card-font-size {
-      width: 125px;
-      grid-column-start: 2;
-      grid-column-end: 5;
+      width: 155px;
+      grid-column: 2 / 5;
     }
     .grid-card-button-group {
       display: grid;
-      grid-column-start: 1;
-      grid-column-end: 5;
+      grid-column: 1 / 5;
+      grid-template-columns: auto auto auto;
       grid-auto-flow: column dense;
+      width: 100%;
       .is-active {
         .el-radio-button__inner {
           padding: 9px 14px;
           box-shadow: none;
           border-radius: 5%;
         }
+      }
+      .el-radio-button {
+        text-align: center;
       }
       .el-radio-button__inner {
         border: none !important;
@@ -353,6 +358,9 @@ export default class TextToolBar extends Vue {
       }
       .el-checkbox-button__inner {
         border: none !important;
+      }
+      .el-checkbox-group {
+        text-align: center;
       }
     }
   }

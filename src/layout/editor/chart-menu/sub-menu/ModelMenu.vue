@@ -9,7 +9,7 @@
       <li class="field" v-for="table in tableList" :key="table.id">
         <div class="table-title">
           <i class="fa fa-database"></i>
-          <span>{{ table.name }} 表</span>
+          <span>{{ table.showName || table.name }} 表</span>
         </div>
 
         <draggable

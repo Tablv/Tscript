@@ -68,8 +68,7 @@ export default class DashboardUtil {
         break;
       case BackgroundType.picture:
         style = {
-          background: `url("${dashboardSet.canvasSetting.background.url}") no-repeat`,
-          backgroundSize: "100%"
+          background: `url("${dashboardSet.canvasSetting.background.url}") 0% 0% / 100% no-repeat`
         };
         break;
     }

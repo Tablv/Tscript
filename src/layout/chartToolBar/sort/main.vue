@@ -333,8 +333,6 @@ export default class SortIndexView extends Vue {
    * 应用
    */
   doApply(sorter: { sortId: string; closeFlag: boolean }) {
-    // const datapackId = this.currentDashboard?.analysis.sort.id;
-
     const { sortId, closeFlag } = sorter;
     this.getAppliedConfig(sortId)
       .then(config => {

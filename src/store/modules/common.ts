@@ -192,6 +192,11 @@ const mutations: MutationTree<any> = {
     if (delDashboard.id === state.focusDashboard.id) {
       state.focusDashboard.id = "";
     }
+
+    if (delDashboard.id === state.reactWhere.dashboardId) {
+      state.reactWhere.dashboardId = "";
+      state.reactWhere.where = null;
+    }
   },
 
   // 设置仪表盘集ID

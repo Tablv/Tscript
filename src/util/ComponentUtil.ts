@@ -85,7 +85,7 @@ export default class ComponentUtil {
      * 其他存入 tempData 待遍历完成后一并存入 sortedData
      */
     sort.custom.map((fieldValue: string) => {
-      for (let i = 0; i < dataArray.length; i++) {
+      for (let i = dataArray.length - 1; i >= 0; i--) {
         let data: AnalysisResult = dataArray[i];
 
         fieldAlias.map((columnName: string) => {

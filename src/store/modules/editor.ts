@@ -119,6 +119,7 @@ const actions: ActionTree<any, any> = {
               schema,
               alias,
               columns,
+              showName: (<any>cube).name || "",
               name: alias
             };
           });

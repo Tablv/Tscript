@@ -35,6 +35,7 @@ import UUID from "@/util/UUID";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import ObjectUtil from "@/util/ObjectUtil";
 import TableView from "glaway-bi-model/view/dashboard/TableView";
+import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
 
 @Component
 export default class DatasetChooser extends Vue {
@@ -49,6 +50,10 @@ export default class DatasetChooser extends Vue {
    */
   @EditorStore.Action("loadTables")
   loadTables!: Function;
+
+  // 清空联动条件
+  @CommonStore.Mutation("resetReactWhere")
+  resetReactHandle!: Function;
 
   // 是否打开 数据集选择器
   chooserVisible = false;
@@ -152,11 +157,15 @@ export default class DatasetChooser extends Vue {
   async chooseDataset(datasetGroup: DatasetGroupVO) {
     const dataset = await AxiosRequest.dataset.find(datasetGroup.id);
 
-    this.currentDashboard.analysis.datasetId = dataset.id;
-
     // 清空X、Y轴数据
     this.emptyAxisData();
+    // 这里分析数据重置得了
+    this.currentDashboard.analysis = ObjectUtil.copy(
+      generalDataTemplate.analysis
+    );
+    this.resetReactHandle();
 
+    this.currentDashboard.analysis.datasetId = dataset.id;
     // 加载提示
     const loadingInstance = UIUtil.showLoading({
       target: ".dataset-tree-box"
