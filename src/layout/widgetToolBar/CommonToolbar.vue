@@ -3,15 +3,6 @@
     class="chart-toolbar text-common-toolbar"
     v-show="index === activeIndex && !isSavingScreenhot"
   >
-    <!-- <el-color-picker
-      ref="colorclick"
-      style="transform: translateX(2px);"
-      v-model="widgetData.visualData.background"
-      :show-alpha="true"
-      color-format="hex"
-      size="mini"
-    /> -->
-
     <tool-button
       :icon-class="
         focusWidgetData.id

@@ -91,6 +91,7 @@ const actions: ActionTree<any, any> = {
             console.error("视图信息为null");
             return Promise.resolve(DashboardUtil.initTableView());
           }
+          // 这块代码要优化
           const fromTable = DashboardUtil.getFormTable(cube.viewname);
           state.tableList = tables.map((table: TableVO) => {
             const { schema, alias } = fromTable;

@@ -39,6 +39,14 @@ export namespace widgetConfig {
     height: number;
 
     background?: string;
+
+    borderWidth?: number;
+
+    borderStyle?: string;
+
+    borderColor?: string;
+
+    borderRadius?: number;
   };
 
   export type Position = {

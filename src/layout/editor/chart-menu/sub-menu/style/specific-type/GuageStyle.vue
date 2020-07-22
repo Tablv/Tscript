@@ -25,6 +25,62 @@
         </el-row>
       </el-form-item>
 
+      <el-form-item label="边框">
+        <el-switch v-model="borderFlag" active-color="#13ce66" />
+      </el-form-item>
+      <div v-show="borderFlag">
+        <el-form-item label="颜色">
+          <el-row>
+            <el-col :span="5" :offset="1" style="height: 32px;">
+              <el-color-picker
+                v-model="currentDashboard.visualData.borderColor"
+                :show-alpha="true"
+                color-format="hex"
+                size="mini"
+              />
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item label="样式">
+          <el-row>
+            <el-col :span="12" :offset="1" style="height: 32px;">
+              <el-select v-model="currentDashboard.visualData.borderStyle">
+                <el-option key="dotted" label="点状" value="dotted" />
+                <el-option key="solid" label="实线" value="solid" />
+                <el-option key="double" label="双线" value="double" />
+                <el-option key="dashed" label="虚线" value="dashed" />
+              </el-select>
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item label="宽度">
+          <el-row>
+            <el-col :span="12" :offset="1" style="height: 32px;">
+              <el-select v-model="currentDashboard.visualData.borderWidth">
+                <el-option
+                  v-for="(sel, idx) in styleSelection.legend.fontSize.selection"
+                  :key="idx"
+                  :label="sel.value"
+                  :value="sel.value"
+                />
+              </el-select>
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item label="圆角">
+          <el-row>
+            <el-col :span="12" :offset="1" style="height: 32px;">
+              <el-slider
+                class="grid-card-font-size"
+                v-model="currentDashboard.visualData.borderRadius"
+                :max="50"
+                :min="0"
+              />
+            </el-col>
+          </el-row>
+        </el-form-item>
+      </div>
+
       <!-- 半径 -->
       <el-form-item label="半径">
         <el-row>
@@ -185,6 +241,8 @@ export default class GuageStyle extends Vue {
     pointer: false,
     angle: false
   };
+
+  borderFlag: boolean = false;
 }
 </script>
 

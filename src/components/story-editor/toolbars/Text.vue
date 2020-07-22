@@ -8,6 +8,7 @@
     visible-arrow
   >
     <el-card class="text-tool-card">
+      <!-- 背景色 -->
       <label for="backgroundColor">背景色</label>
       <el-color-picker
         ref="colorclick"
@@ -16,6 +17,8 @@
         color-format="hex"
         size="mini"
       />
+
+      <!-- 字体颜色 -->
       <label for="fontColor">字体颜色</label>
       <el-color-picker
         class="font-color-picker"
@@ -24,6 +27,58 @@
         color-format="hex"
         size="mini"
       ></el-color-picker>
+
+      <!-- 边框 -->
+      <label for="border">边框</label>
+      <el-switch
+        v-model="borderShow"
+        active-color="#13ce66"
+        class="grid-card-font-size"
+      />
+      <div v-show="borderShow" class="border-group">
+        <label for="border">颜色</label>
+        <el-color-picker
+          class="grid-card-font-size"
+          v-model="widget.visualData.borderColor"
+          :show-alpha="true"
+          color-format="hex"
+          size="mini"
+        />
+
+        <label for="border">样式</label>
+        <el-select
+          v-model="widget.visualData.borderStyle"
+          class="grid-card-font-size"
+        >
+          <el-option key="dotted" label="点状" value="dotted" />
+          <el-option key="solid" label="实线" value="solid" />
+          <el-option key="double" label="双线" value="double" />
+          <el-option key="dashed" label="虚线" value="dashed" />
+        </el-select>
+
+        <label for="border">宽度</label>
+        <el-select
+          v-model="widget.visualData.borderWidth"
+          class="grid-card-font-size"
+        >
+          <el-option
+            v-for="(sel, idx) in fontSizeOptions"
+            :key="idx"
+            :label="sel"
+            :value="sel"
+          />
+        </el-select>
+
+        <label for="border">圆角</label>
+        <el-slider
+          class="grid-card-font-size"
+          v-model="widget.visualData.borderRadius"
+          :max="50"
+          :min="0"
+        />
+      </div>
+
+      <!-- 字号 -->
       <label for="fontSize">字号</label>
       <el-select
         class="grid-card-font-size"
@@ -34,12 +89,13 @@
         placeholder=""
       >
         <el-option
-          v-for="fontSize in fontSizeOptions"
-          :key="fontSize"
-          :value="fontSize"
-        >
-        </el-option>
+          v-for="(sel, idx) in fontSizeOptions"
+          :key="idx"
+          :label="sel"
+          :value="sel"
+        />
       </el-select>
+
       <!-- 插入无序列表 -->
       <!-- <el-dropdown
         split-button
@@ -84,7 +140,8 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown> -->
-      <!-- 水平对齐 -->
+
+      <!-- 排列方式 -->
       <el-radio-group
         v-model="textAlignment.horizontal"
         class="grid-card-button-group"
@@ -104,6 +161,8 @@
           <i class="fa fa-align-right"></i>
         </el-radio-button>
       </el-radio-group>
+
+      <!-- 字体样式 -->
       <div class="grid-card-button-group">
         <!-- 加粗 -->
         <el-checkbox-group v-model="textFont.bold">
@@ -149,44 +208,13 @@ export default class TextToolBar extends Vue {
   @Inject()
   wdata!: StoryWidget<any>;
 
-  fontSizeOptions = [
-    8,
-    9,
-    10,
-    10.5,
-    11,
-    12,
-    14,
-    16,
-    18,
-    20,
-    24,
-    28,
-    32,
-    36,
-    40,
-    44,
-    48,
-    54,
-    60,
-    66,
-    72,
-    80,
-    88,
-    96,
-    104,
-    112,
-    120,
-    128,
-    136,
-    144,
-    152,
-    160,
-    168,
-    176,
-    184,
-    192
-  ];
+  fontSizeOptions = ((): Array<number> => {
+    const result = [];
+    for (let index = 1; index < 101; index++) {
+      result.push(index);
+    }
+    return result;
+  })();
 
   ulOptions = ["disc", "circle", "square"];
 
@@ -199,6 +227,8 @@ export default class TextToolBar extends Vue {
     "upper-alpha",
     "cjk-ideographic"
   ];
+
+  borderShow: boolean = false;
 
   get widget(): StoryWidget<widgetConfig.TextArea> {
     return this.wdata as StoryWidget<widgetConfig.TextArea>;
@@ -330,6 +360,17 @@ export default class TextToolBar extends Vue {
     .grid-card-font-size {
       width: 155px;
       grid-column: 2 / 5;
+    }
+    .border-group {
+      grid-column: 1 / 5;
+      display: grid;
+      width: 100%;
+      justify-items: inherit;
+      align-items: inherit;
+      grid-template-columns: inherit;
+      grid-row-gap: 9px;
+      color: #000000af;
+      font-size: 12px;
     }
     .grid-card-button-group {
       display: grid;

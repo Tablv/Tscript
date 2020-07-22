@@ -13,7 +13,11 @@
       :draggable="!focusWidgetData.id"
       :resizable="!focusWidgetData.id"
       :style="{
-        background: widgetData.visualData.background || '#fff'
+        background: widgetData.visualData.background,
+        borderColor: widgetData.visualData.borderColor,
+        borderWidth: widgetData.visualData.borderWidth + 'px',
+        borderStyle: widgetData.visualData.borderStyle,
+        borderRadius: widgetData.visualData.borderRadius + '%'
       }"
       :class="{
         activeElement: index === activeIndex && !isSavingScreenhot,

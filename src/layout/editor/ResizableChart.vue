@@ -13,9 +13,14 @@
       :draggable="!focusDashboard.id"
       :resizable="!focusDashboard.id"
       :style="{
-        background: thisDashboard.visualData.background || '#fff'
+        background: thisDashboard.visualData.background,
+        borderColor: thisDashboard.visualData.borderColor,
+        borderWidth: thisDashboard.visualData.borderWidth + 'px',
+        borderStyle: thisDashboard.visualData.borderStyle,
+        borderRadius: thisDashboard.visualData.borderRadius + '%'
       }"
       :class="{
+        commonElement: index !== activeIndex && !isSavingScreenhot,
         activeElement: index === activeIndex && !isSavingScreenhot,
         hideElement:
           thisDashboard.id !== focusDashboard.id && focusDashboard.id !== ''
@@ -660,6 +665,7 @@ $shadow: 0 0 6px $shadowColor;
 }
 
 .vdr {
+  border: none;
   // background-color: $bgColor;
   // cursor: default;
 

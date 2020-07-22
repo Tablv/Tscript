@@ -29,7 +29,12 @@ export class WidgetBuilder {
       width: 400,
       height: 300,
       grid: [10, 10],
-      type: this.type
+      type: this.type,
+      background: "#fff",
+      borderWidth: 1,
+      borderStyle: "dashed",
+      borderColor: "#d6d6d6",
+      borderRadius: 0
     };
   }
 
