@@ -249,7 +249,7 @@ body {
 
 <style lang="scss" scoped>
 $toolbarWidth: 84px;
-$floatMenuWidth: 360px;
+$floatMenuWidth: 400px;
 $bottomHeight: 50px;
 $backgroundColor: #f1f3f6;
 $borderColor: #e6e6e6;

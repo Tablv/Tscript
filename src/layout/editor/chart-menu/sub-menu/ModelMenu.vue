@@ -1,7 +1,7 @@
 <template>
   <el-card
     class="box-card"
-    :body-style="boxCardBodyStyle"
+    body-style="padding: 8px 8px 0 0"
     :shadow="boxCardShadow"
   >
     <el-form label-position="right">
@@ -34,16 +34,7 @@
                 :key="tableColumn.id"
                 :title="tableColumn.alias"
               >
-                <i class="fa fa-hashtag" v-if="tableColumn.dataType === 'NUMBER'">
-                </i>
-                <i class="fa fa-file" v-if="tableColumn.dataType === 'VARCHAR'">
-                </i>
-                <i
-                  class="fa fa-calendar-alt"
-                  v-if="tableColumn.dataType === 'DATE'"
-                >
-                </i>
-                <i class="fa fa-question" v-if="!tableColumn.dataType"></i>
+                <i :class="getTableColumnIcon(tableColumn.dataType)"></i>
                 <div class="field-content">
                   <span>{{ tableColumn.alias }}</span>
                 </div>
@@ -68,6 +59,13 @@ import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import DatasetChooser from "./functional/dialog/DatasetChooser.vue";
 import { Properties } from 'csstype';
 
+const tableColumnIcons: { [dataType: string]: string } = {
+  NUMBER: "fa fa-hashtag",
+  VARCHAR: "fa fa-file",
+  DATE: "fa fa-calendar-alt",
+  default: "fa fa-question"
+};
+
 @Component({
   components: {
     draggable,
@@ -88,6 +86,11 @@ export default class ModelMenu extends Vue {
   // 数据模型
   @EditorStore.State("tableList")
   tableList!: Array<TableVO>;
+
+  // 字段图标
+  getTableColumnIcon(dataType: string) {
+    return tableColumnIcons[dataType] || tableColumnIcons.default;
+  }
 
   /**
    * 数组拖拽事件
@@ -126,7 +129,7 @@ export default class ModelMenu extends Vue {
 $fieldColor: #409eff;
 
 .table-title {
-  padding: 10px;
+  padding: 10px 0;
   font-size: 13px;
 
   i {

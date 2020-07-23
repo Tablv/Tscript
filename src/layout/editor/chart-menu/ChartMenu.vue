@@ -9,7 +9,7 @@
         <el-header class="menu-header" height="40px">
           <span>图表设置</span>
         </el-header>
-        <el-main class="tabs-box" style="padding: 0">
+        <el-main class="tabs-box">
           <!-- 菜单标签页 -->
           <el-tabs v-model="currentTab">
             <el-tab-pane class="data-binding-pane" label="数据绑定" name="data">
@@ -17,18 +17,25 @@
                 <el-main>
                   <!-- 数据绑定 -->
                   <data-menu class="chart-menu-box" v-cloak />
-
-                  <el-button
-                    class="toggle-model-button"
-                    type="text"
-                    :icon="hideModel ? 'el-icon-d-arrow-left' : 'el-icon-d-arrow-right'"
-                    @click="hideModel = !hideModel"
-                  />
                 </el-main>
 
-                <el-aside :width="hideModel ? '0' : '160px'">
-                  <!-- 数据模型 -->
-                  <model-menu class="model-menu-box" />
+                <el-aside :width="hideModel ? '20px' : '160px'">
+                  <el-container style="height: 100%">
+                    <el-aside class="toggle-model-box" width="20px">
+                      <!-- 显示、隐藏数据模型 -->
+                      <el-button
+                        class="toggle-model-button"
+                        type="text"
+                        :icon="hideModel ? 'el-icon-d-arrow-left' : 'el-icon-d-arrow-right'"
+                        @click="hideModel = !hideModel"
+                      />
+                    </el-aside>
+
+                    <el-main style="overflow: hidden">
+                      <!-- 数据模型 -->
+                      <model-menu class="model-menu-box" />
+                    </el-main>
+                  </el-container>
                 </el-aside>
               </el-container>
             </el-tab-pane>
@@ -210,29 +217,54 @@ $backgroundColor: #f9f9f9;
               padding-bottom: 4px;
             }
           }
-          
+
           .chart-menu-box,
           .model-menu-box {
             height: 100%;
             overflow: auto;
           }
 
-          > .el-main {
+          .model-menu-box {
+            min-width: 130px;
+            border: none;
+
+            .drag-area {
+              padding: 0;
+            }
+          }
+
+          > .el-main,
+          > .el-aside {
             padding: 0;
             position: relative;
             overflow: hidden;
-            
-            .toggle-model-button {
-              position: absolute;
-            }
           }
 
           > .el-aside {
             transition: width .3s;
             overflow: hidden;
+          }
+          
+          .toggle-model-box {
+            overflow: hidden;
+            background: $backgroundColor;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-            > * {
-              min-width: 160px;
+            .toggle-model-button {
+              width: 20px;
+              text-align: center;
+              border-radius: 0 6px 6px 0;
+              transition: background-color .2s;
+
+              &:hover {
+                background-color: #eee;
+              }
+
+              &:active {
+                background-color: #e1e1e1;
+              }
             }
           }
         }
