@@ -4,10 +4,6 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <template #header>
-      <span>对比值和实际值</span>
-    </template>
-
     <el-form label-position="right" label-width="60px">
       <el-form-item label="对比值">
         <!-- 对比值拖拽区域 -->
@@ -31,10 +27,12 @@
         />
       </el-form-item>
       <el-form-item label="规则">
-        <div>
-          <div class="rule-text">对比值： 1个</div>
-          <div class="rule-text">实际值： 1个</div>
-        </div>
+        <el-card body-style="padding: 0">
+          <div class="rule-container">
+            <div class="rule-text">对比值： 1个</div>
+            <div class="rule-text">实际值： 1个</div>
+          </div>
+        </el-card>
       </el-form-item>
     </el-form>
   </el-card>
@@ -161,9 +159,5 @@ export default class Axis extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.rule-text {
-  font-size: 12px;
-  display: inline-block;
-  margin-right: 25px;
-}
+@import "./axis-type";
 </style>

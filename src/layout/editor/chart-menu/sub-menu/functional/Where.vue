@@ -4,61 +4,55 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <template #header class="clearfix">
-      <span>条件过滤</span>
-      <div class="pull-right">
-        <el-switch
-          v-model="currentDashboard.analysis.isReact"
-          active-text="参与联动"
-          inactive-text=""
-        />
-      </div>
-    </template>
-
-    <draggable
-      class="drag-area"
-      v-model="whereDroppedData"
-      :group="{ put: true, pull: false }"
-      :animation="200"
-      @change="whereDropHandler"
-    >
-      <transition-group>
-        <div
-          class="drag-item"
-          v-for="(ele, index) in currentDashboard.analysis.where"
-          :key="ele.id"
-          :title="ele.columnName"
+    <el-form label-position="top">
+      <el-form-item label="条件过滤">
+        <draggable
+          class="drag-area"
+          v-model="whereDroppedData"
+          :group="{ put: true, pull: false }"
+          :animation="200"
+          @change="whereDropHandler"
         >
-          <span>
-            <span>{{ ele.columnName }}</span>
-            <span v-show="ele.columnAlias"> - {{ ele.columnAlias }}</span>
-          </span>
-          <el-dropdown trigger="click" @command="whereDropdownHandler">
-            <span class="el-dropdown-link">
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                :command="{
-                  handle: 'edit:where',
-                  index: index
-                }"
-                >编辑
-              </el-dropdown-item>
-              <el-dropdown-item
-                divided
-                :command="{
-                  handle: 'delete',
-                  index: index
-                }"
-                >移除
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
-      </transition-group>
-      <div slot="footer" class="tips">拖入字段</div>
-    </draggable>
+          <transition-group>
+            <div
+              class="drag-item"
+              v-for="(ele, index) in currentDashboard.analysis.where"
+              :key="ele.id"
+              :title="ele.columnName"
+            >
+              <span>
+                <span>{{ ele.columnName }}</span>
+                <span v-show="ele.columnAlias"> - {{ ele.columnAlias }}</span>
+              </span>
+              <el-dropdown trigger="click" @command="whereDropdownHandler">
+                <span class="el-dropdown-link">
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item
+                    :command="{
+                      handle: 'edit:where',
+                      index: index
+                    }"
+                    >编辑
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    divided
+                    :command="{
+                      handle: 'delete',
+                      index: index
+                    }"
+                    >移除
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </transition-group>
+          <div slot="footer" class="tips">拖入字段</div>
+        </draggable>
+
+      </el-form-item>
+    </el-form>
 
     <!-- 条件过滤对话框 -->
     <where-dialog

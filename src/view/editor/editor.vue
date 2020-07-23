@@ -249,7 +249,7 @@ body {
 
 <style lang="scss" scoped>
 $toolbarWidth: 84px;
-$floatMenuWidth: 560px;
+$floatMenuWidth: 360px;
 $bottomHeight: 50px;
 $backgroundColor: #f1f3f6;
 $borderColor: #e6e6e6;
@@ -277,13 +277,13 @@ $borderColor: #e6e6e6;
   }
 }
 
-.left {
+.left,
+.center {
   height: 100%;
 }
 
-.center,
 .right {
-  height: 100%;
+  height: calc(100% - 60px);
 }
 
 .center {

@@ -1,13 +1,10 @@
 <template>
-  <div>
+  <div class="menu">
     <!-- 维度、度量 -->
     <axis v-cloak />
 
     <!-- 条件过滤 -->
     <where />
-
-    <!-- 使用 JSON 数据 -->
-    <json-static />
   </div>
 </template>
 
@@ -16,13 +13,11 @@ import { CreateElement } from "vue";
 import { Component, Vue } from "vue-property-decorator";
 import Axis from "./functional/Axis.vue";
 import Where from "./functional/Where.vue";
-import JsonStatic from "./functional/JsonStatic.vue";
 
 @Component({
   components: {
     Axis,
-    Where,
-    JsonStatic
+    Where
   }
 })
 export default class DataMenu extends Vue {}

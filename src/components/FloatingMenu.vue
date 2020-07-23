@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div class="floating-menu">
     <div class="menu-header">
       <div class="title" v-if="$slots.title || title">
         <span v-if="title">{{ title }}</span>
@@ -29,10 +29,10 @@ export default class FloatingMenu extends Vue {
 <style lang="scss">
 $headerHeight: 40px;
 
-.menu {
+.floating-menu {
   user-select: none;
   border-left: 1px solid #ccc;
-  padding-right: 3px;
+  width: 100%;
 
   .menu-header {
     @include select(none);

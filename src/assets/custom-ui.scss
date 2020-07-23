@@ -1,59 +1,64 @@
-
 /**
  * Element-UI 组件自定义样式
  */
- ::v-deep {
-    .pull-right {
-        float: right;
-    }
-    .el-tabs__header {
-        margin: 0;
-    }
-    .el-tabs__nav-wrap {
-        padding: 0 20px;
-    }
+.pull-right {
+  float: right;
+}
+.el-tabs__header {
+  margin: 0;
+}
+.el-tabs__nav-wrap {
+  padding: 0 20px;
+}
 
-    .el-card__header {
-        padding: 10px 16px;
-        font-size: 14px;
-    }
+.el-card__header {
+  padding: 10px 16px;
+  font-size: 14px;
+}
 
-    .el-form-item__label {
-        font-size: 13px;
-    }
+.el-form-item__label {
+  font-size: 13px;
+}
 
-    .el-select-dropdown__item {
-        font-size: 13px;
-        height: 28px;
-        line-height: 28px;
-    }
+.el-select-dropdown__item {
+  font-size: 13px;
+  height: 28px;
+  line-height: 28px;
+}
 
-    .el-textarea__inner {
-        font-family: auto;
-    }
+.el-textarea__inner {
+  font-family: auto;
+}
 
-    .el-slider__runway {
-        margin: 15px 0;
-    }
+.el-slider__runway {
+  margin: 15px 0;
+}
 
-    // 卡片样式
-    .el-card {
-        border-radius: 0;
-        background: #f9f9f9;
-        color: #666666;
-        border: none;
-    }
+.el-select {
+  width: 100%;
+}
 
-    .el-card:first-of-type {
-        border-top: 0;
-    }
+.el-slider .el-slider__button {
+  width: 10px;
+  height: 10px;
+}
 
-    .el-card:not(:last-of-type) {
-        margin-bottom: 5px;
-    }
+// 卡片样式
+.el-card {
+  border-radius: 0;
+  background: #f9f9f9;
+  color: #666666;
+  border: none;
+}
 
-    .el-form-item {
-        margin-bottom: 6px;
-    }
+.el-card:first-of-type {
+  border-top: 0;
+}
 
+.el-card:not(:last-of-type) {
+  margin-bottom: 5px;
+}
+
+.el-form-item {
+  margin-bottom: 6px;
 }

@@ -4,11 +4,7 @@
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
   >
-    <template #header>
-      <span>维度和度量</span>
-    </template>
-
-    <el-form label-position="right" label-width="60px">
+    <el-form label-position="top" label-width="60px">
       <el-form-item label="维度">
         <!-- 维度拖拽区域 -->
         <axis-widget
@@ -41,8 +37,12 @@
       </el-form-item>
 
       <el-form-item label="规则">
-        <div class="rule-text">维度： 0 ~ 2个</div>
-        <div class="rule-text">度量： 至少1个</div>
+        <el-card body-style="padding: 0">
+          <div class="rule-container">
+            <div class="rule-text">维度： 0 ~ 2个</div>
+            <div class="rule-text">度量： 至少1个</div>
+          </div>
+        </el-card>
       </el-form-item>
     </el-form>
   </el-card>
@@ -238,9 +238,5 @@ export default class Axis extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.rule-text {
-  font-size: 12px;
-  display: inline-block;
-  margin-right: 25px;
-}
+@import "./axis-type";
 </style>

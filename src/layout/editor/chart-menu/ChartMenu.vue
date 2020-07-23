@@ -5,43 +5,61 @@
   >
     <aside class="chart-menu" v-if="menuVisible" v-cloak>
       <!-- 图表菜单 -->
-      <floating-menu title="图表" class="chart-menu-box">
-        <!-- 菜单Content -->
-        <el-tabs v-model="currentTab">
-          <el-tab-pane label="数据绑定" name="data">
-            <!-- 数据绑定 -->
-            <data-menu v-cloak />
-          </el-tab-pane>
+      <el-container>
+        <el-header class="menu-header" height="40px">
+          <span>图表设置</span>
+        </el-header>
+        <el-main class="tabs-box" style="padding: 0">
+          <!-- 菜单标签页 -->
+          <el-tabs v-model="currentTab">
+            <el-tab-pane class="data-binding-pane" label="数据绑定" name="data">
+              <el-container class="data-binding-container">
+                <el-main>
+                  <!-- 数据绑定 -->
+                  <data-menu class="chart-menu-box" v-cloak />
 
-          <el-tab-pane label="属性设置" name="preference">
-            <!-- 属性设置 -->
-            <style-menu v-cloak />
-          </el-tab-pane>
+                  <el-button
+                    class="toggle-model-button"
+                    type="text"
+                    :icon="hideModel ? 'el-icon-d-arrow-left' : 'el-icon-d-arrow-right'"
+                    @click="hideModel = !hideModel"
+                  />
+                </el-main>
 
-          <el-tab-pane label="数据交互" name="interactive">
-            <!-- 数据交互 -->
-            <div style="padding: 10px; background: #fff;">
-              <el-alert
-                type="info"
-                title="待开发"
-                description="该模块待开发，暂不可用"
-                show-icon
-                v-cloak
-                :closable="false"
-              >
-              </el-alert>
-            </div>
-          </el-tab-pane>
+                <el-aside :width="hideModel ? '0' : '160px'">
+                  <!-- 数据模型 -->
+                  <model-menu class="model-menu-box" />
+                </el-aside>
+              </el-container>
+            </el-tab-pane>
 
-          <el-tab-pane label="高级" name="advanced">
-            <!-- 高级 -->
-            <advance-menu />
-          </el-tab-pane>
-        </el-tabs>
-      </floating-menu>
+            <el-tab-pane label="属性设置" name="preference">
+              <!-- 属性设置 -->
+              <style-menu v-cloak />
+            </el-tab-pane>
 
-      <!-- 数据模型 -->
-      <model-menu class="model-menu-box" />
+            <el-tab-pane label="数据交互" name="interactive">
+              <!-- 数据交互 -->
+              <div style="padding: 10px; background: #fff;">
+                <el-alert
+                  type="info"
+                  title="待开发"
+                  description="该模块待开发，暂不可用"
+                  show-icon
+                  v-cloak
+                  :closable="false"
+                >
+                </el-alert>
+              </div>
+            </el-tab-pane>
+
+            <el-tab-pane label="高级" name="advanced">
+              <!-- 高级 -->
+              <advance-menu />
+            </el-tab-pane>
+          </el-tabs>
+        </el-main>
+      </el-container>
     </aside>
   </transition>
 </template>
@@ -71,14 +89,11 @@ import WhereDTO, { WhereColumnDTO } from "glaway-bi-model/params/WhereDTO";
 
 @Component({
   components: {
-    // 左侧菜单
     FloatingMenu,
     DataMenu,
+    ModelMenu,
     StyleMenu,
-    AdvanceMenu,
-
-    // 右侧菜单
-    ModelMenu
+    AdvanceMenu
   }
 })
 export default class ChartMenu extends Vue {
@@ -103,10 +118,13 @@ export default class ChartMenu extends Vue {
 
   // 表单标签宽度
   @Provide("elFormLabelWidth")
-  elFormLabelWidth = "100px";
+  elFormLabelWidth = "110px";
 
   // 当前标签页
   currentTab = "data";
+
+  // 是否隐藏
+  hideModel = false;
 
   /**
    * 监听事件
@@ -122,26 +140,23 @@ export default class ChartMenu extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "@/assets/custom-ui.scss";
-
-$menuTotalWidth: 100%;
-
-$chartsMenuWidth: 58%;
-$modelMenuWidth: 42%;
 
 // 颜色定义
 $chartsMenuBgc: #e9e9e9;
 $backgroundColor: #f9f9f9;
+
 [v-cloak] {
   display: none !important;
 }
 
 .chart-menu {
   position: absolute;
-  height: 100%;
+  top: 0;
   right: 0;
-  width: $menuTotalWidth;
+  width: 100%;
+  height: 100%;
   display: flex;
   background-color: $backgroundColor;
   overflow: hidden;
@@ -151,34 +166,88 @@ $backgroundColor: #f9f9f9;
   // 动画调速
   animation-duration: 0.3s;
 
+  .menu-header {
+    line-height: 40px;
+    text-align: center;
+  }
+
   /**
-     * 菜单宽高设置
-     */
-  .chart-menu-box {
-    width: $chartsMenuWidth;
+   * 菜单宽高设置
+   */
+  .tabs-box {
+    user-select: none;
 
     .el-tabs {
       height: 100%;
-    }
-    ::v-deep {
-      /**
-       * 滚动条
-       */
-      .el-tabs__item {
-        padding: 0 10px;
+
+      .el-tabs__header {
+        margin-bottom: 0;
+
+        .el-tabs__item {
+          padding: 0 10px;
+        }
       }
+
       .el-tabs__content {
         height: calc(100% - 40px);
         overflow: auto;
-        .el-card {
-          .el-switch__label {
-            color: #666666;
+        
+        // 背景色
+        .el-tab-pane {
+          background-color: $chartsMenuBgc;
+        }
+      }
+
+      .data-binding-pane {
+        display: flex;
+        height: 100%;
+
+        .data-binding-container {
+          // 数据绑定
+          .el-form.el-form--label-top {
+            .el-form-item__label {
+              padding-left: 20px;
+              padding-bottom: 4px;
+            }
+          }
+          
+          .chart-menu-box,
+          .model-menu-box {
+            height: 100%;
+            overflow: auto;
+          }
+
+          > .el-main {
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            
+            .toggle-model-button {
+              position: absolute;
+            }
+          }
+
+          > .el-aside {
+            transition: width .3s;
+            overflow: hidden;
+
+            > * {
+              min-width: 160px;
+            }
           }
         }
       }
-      .menu-content {
-        overflow: hidden;
+    }
+
+    .el-form {
+      * {
+        outline: none;
       }
+
+      .el-form-item__label {
+        font-size: 13px;
+      }
+
       .el-form-item {
         &:last-child {
           margin-bottom: 10px;
@@ -186,14 +255,36 @@ $backgroundColor: #f9f9f9;
       }
     }
 
-    // 背景色
-    .el-tab-pane {
-      background-color: $chartsMenuBgc;
-    }
-  }
+    .model-menu-box {
+      height: 100%;
+      
+      .el-form-item__label {
+        padding-left: 20px;
+      }
+      
+      .el-form-item {
+        margin-bottom: 0;
 
-  .model-menu-box {
-    width: $modelMenuWidth;
+        .el-form-item__content {
+          float: right;
+          margin-right: 10px;
+        }
+      }
+    }
+
+
+    .el-card {
+      background-color: $backgroundColor;
+
+      .el-card__header {
+        padding: 10px 16px;
+        font-size: 14px;
+      }
+
+      .el-switch__label {
+        color: #666666;
+      }
+    }
   }
 }
 </style>

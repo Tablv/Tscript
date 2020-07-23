@@ -13,32 +13,28 @@
       <color-option />
 
       <el-form-item label="背景色">
-        <el-row>
-          <el-col :span="5" :offset="1" style="height: 32px;">
-            <el-color-picker
-              v-model="currentDashboard.visualData.background"
-              :show-alpha="true"
-              color-format="hex"
-              size="mini"
-            />
-          </el-col>
-        </el-row>
+        <div style="height: 32px;">
+          <el-color-picker
+            v-model="currentDashboard.visualData.background"
+            :show-alpha="true"
+            color-format="hex"
+            size="mini"
+          />
+        </div>
       </el-form-item>
       <el-form-item label="边框">
         <el-switch v-model="borderFlag" active-color="#13ce66" />
       </el-form-item>
       <div v-show="borderFlag">
         <el-form-item label="颜色">
-          <el-row>
-            <el-col :span="5" :offset="1" style="height: 32px;">
-              <el-color-picker
-                v-model="currentDashboard.visualData.borderColor"
-                :show-alpha="true"
-                color-format="hex"
-                size="mini"
-              />
-            </el-col>
-          </el-row>
+          <div style="height: 32px;">
+            <el-color-picker
+              v-model="currentDashboard.visualData.borderColor"
+              :show-alpha="true"
+              color-format="hex"
+              size="mini"
+            />
+          </div>
         </el-form-item>
         <el-form-item label="样式">
           <el-row>

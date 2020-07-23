@@ -1,52 +1,59 @@
 <template>
-  <floating-menu title="数据模型">
-    <template #tool>
-      <!-- 选择数据集 -->
-      <dataset-chooser />
-    </template>
+  <el-card
+    class="box-card"
+    :body-style="boxCardBodyStyle"
+    :shadow="boxCardShadow"
+  >
+    <el-form label-position="right">
+      <el-form-item label="数据模型">
+        <!-- 选择数据集 -->
+        <dataset-chooser />
+      </el-form-item>
 
-    <ul class="fields-box">
-      <li class="field" v-for="table in tableList" :key="table.id">
-        <div class="table-title">
-          <i class="fa fa-database"></i>
-          <span>{{ table.showName || table.name }} 表</span>
-        </div>
+      <!-- 表数据 -->
+      <ul class="fields-box">
+        <li class="field" v-for="table in tableList" :key="table.id">
+          <div class="table-title">
+            <i class="fa fa-database"></i>
+            <span>{{ table.showName || table.name }} 表</span>
+          </div>
 
-        <draggable
-          class="drag-area"
-          v-model="table.columns"
-          :animation="200"
-          :sort="false"
-          :group="{ put: false, pull: 'clone' }"
-          :clone="cloneField"
-          :move="onDragField"
-        >
-          <transition-group>
-            <div
-              class="fields-item"
-              v-for="tableColumn in table.columns"
-              :key="tableColumn.id"
-              :title="tableColumn.alias"
-            >
-              <i class="fa fa-hashtag" v-if="tableColumn.dataType === 'NUMBER'">
-              </i>
-              <i class="fa fa-file" v-if="tableColumn.dataType === 'VARCHAR'">
-              </i>
-              <i
-                class="fa fa-calendar-alt"
-                v-if="tableColumn.dataType === 'DATE'"
+          <draggable
+            class="drag-area"
+            v-model="table.columns"
+            :animation="200"
+            :sort="false"
+            :group="{ put: false, pull: 'clone' }"
+            :clone="cloneField"
+            :move="onDragField"
+          >
+            <transition-group>
+              <div
+                class="fields-item"
+                v-for="tableColumn in table.columns"
+                :key="tableColumn.id"
+                :title="tableColumn.alias"
               >
-              </i>
-              <i class="fa fa-question" v-if="!tableColumn.dataType"></i>
-              <div class="field-content">
-                <span>{{ tableColumn.alias }}</span>
+                <i class="fa fa-hashtag" v-if="tableColumn.dataType === 'NUMBER'">
+                </i>
+                <i class="fa fa-file" v-if="tableColumn.dataType === 'VARCHAR'">
+                </i>
+                <i
+                  class="fa fa-calendar-alt"
+                  v-if="tableColumn.dataType === 'DATE'"
+                >
+                </i>
+                <i class="fa fa-question" v-if="!tableColumn.dataType"></i>
+                <div class="field-content">
+                  <span>{{ tableColumn.alias }}</span>
+                </div>
               </div>
-            </div>
-          </transition-group>
-        </draggable>
-      </li>
-    </ul>
-  </floating-menu>
+            </transition-group>
+          </draggable>
+        </li>
+      </ul>
+    </el-form>
+  </el-card>
 </template>
 
 <script lang="ts">
@@ -54,21 +61,26 @@ import draggable from "vuedraggable";
 import { Component, Vue, Inject, Watch } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
-import FloatingMenu from "@/components/FloatingMenu.vue";
 import TableVO from "glaway-bi-model/results/TableVO";
 import FieldDTO, { FieldDTOBuilder } from "glaway-bi-model/params/FieldDTO";
 import DashboardUtil from "@/util/DashboardUtil";
 import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import DatasetChooser from "./functional/dialog/DatasetChooser.vue";
+import { Properties } from 'csstype';
 
 @Component({
   components: {
-    FloatingMenu,
     draggable,
     DatasetChooser
   }
 })
 export default class ModelMenu extends Vue {
+  @Inject()
+  boxCardBodyStyle!: Properties;
+
+  @Inject()
+  boxCardShadow!: string;
+
   /**
    * 数据集部分
    */
@@ -115,7 +127,7 @@ $fieldColor: #409eff;
 
 .table-title {
   padding: 10px;
-  font-size: 14px;
+  font-size: 13px;
 
   i {
     color: #3685f2;
@@ -136,10 +148,10 @@ $fieldColor: #409eff;
 
 // 字段选项
 .fields-item {
-  font-size: 13px;
+  font-size: 12px;
   padding: 4px 0 4px 16px;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: grab;
 
   display: flex;
