@@ -57,7 +57,7 @@ import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import Draggable from "glaway-bi-model/view/Draggable";
 import DashboardUtil from "@/util/DashboardUtil";
 import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
-import ObjectUtil from "../../util/ObjectUtil";
+import ObjectUtil from "@/util/ObjectUtil";
 
 @Component({
   components: {

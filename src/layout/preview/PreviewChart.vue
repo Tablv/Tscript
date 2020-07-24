@@ -19,7 +19,7 @@ import { reactUpdate } from "glaway-bi-component/src/service/EChartsService";
 import ChartUIService from "glaway-bi-component/src/interfaces/ChartUIService";
 import ViewUtil from "@/util/ViewUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
-import ComponentUtil from "../../util/ComponentUtil";
+import ComponentUtil from "@/util/ComponentUtil";
 
 @Component
 export default class PreviewChart extends Vue {
