@@ -15,8 +15,6 @@
 import { Vue, Component, Provide, Inject, Prop } from "vue-property-decorator";
 import { widgetConfig, StoryWidget } from "@/types/StoryWidget";
 import { WidgetType } from "@/config/WidgetType";
-import BorderConfigurable from "./style-mixins/Border";
-import BackgroundConfigurable from "./style-mixins/Background";
 
 @Component({})
 export default class ImageWidget extends Vue {
