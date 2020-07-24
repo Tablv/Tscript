@@ -1,5 +1,5 @@
 <template>
-  <el-form label-position="right" :label-width="elFormLabelWidth">
+  <div class="specific-style-items">
     <!-- 半径 -->
     <el-form-item label="半径">
       <el-row>
@@ -23,7 +23,7 @@
         </el-col>
       </el-row>
     </el-form-item>
-  </el-form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -38,15 +38,6 @@ import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 export default class TargetPieStyle extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
-
-  @Inject()
-  boxCardBodyStyle!: Properties;
-
-  @Inject()
-  boxCardShadow!: string;
-
-  @Inject()
-  elFormLabelWidth!: string;
 
   // 基础样式配置
   @Inject()

@@ -1,5 +1,5 @@
 <template>
-  <el-form label-position="right" :label-width="elFormLabelWidth">
+  <div class="specific-style-items">
     <!-- 半径 -->
     <el-form-item label="半径">
       <el-row>
@@ -119,7 +119,7 @@
         </el-row>
       </el-form-item>
     </detail-card>
-  </el-form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -141,15 +141,6 @@ export default class GuageStyle extends Vue {
 
   @EditorStore.State("styleSelection")
   styleSelection!: any;
-
-  @Inject()
-  boxCardBodyStyle!: Properties;
-
-  @Inject()
-  boxCardShadow!: string;
-
-  @Inject()
-  elFormLabelWidth!: string;
 
   // 基础样式配置
   @Inject()
