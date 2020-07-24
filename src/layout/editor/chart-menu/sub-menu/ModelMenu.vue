@@ -57,7 +57,7 @@ import FieldDTO, { FieldDTOBuilder } from "glaway-bi-model/params/FieldDTO";
 import DashboardUtil from "@/util/DashboardUtil";
 import TableInfoVO from "glaway-bi-model/results/TableInfoVO";
 import DatasetChooser from "./functional/dialog/DatasetChooser.vue";
-import { Properties } from 'csstype';
+import { Properties } from "csstype";
 
 const tableColumnIcons: { [dataType: string]: string } = {
   NUMBER: "fa fa-hashtag",

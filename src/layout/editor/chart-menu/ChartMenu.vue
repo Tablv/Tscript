@@ -26,7 +26,11 @@
                       <el-button
                         class="toggle-model-button"
                         type="text"
-                        :icon="hideModel ? 'el-icon-d-arrow-left' : 'el-icon-d-arrow-right'"
+                        :icon="
+                          hideModel
+                            ? 'el-icon-d-arrow-left'
+                            : 'el-icon-d-arrow-right'
+                        "
                         @click="hideModel = !hideModel"
                       />
                     </el-aside>
@@ -198,7 +202,7 @@ $backgroundColor: #f9f9f9;
       .el-tabs__content {
         height: calc(100% - 40px);
         overflow: auto;
-        
+
         // 背景色
         .el-tab-pane {
           background-color: $chartsMenuBgc;
@@ -241,10 +245,10 @@ $backgroundColor: #f9f9f9;
           }
 
           > .el-aside {
-            transition: width .3s;
+            transition: width 0.3s;
             overflow: hidden;
           }
-          
+
           .toggle-model-box {
             overflow: hidden;
             background: $backgroundColor;
@@ -256,7 +260,7 @@ $backgroundColor: #f9f9f9;
               width: 20px;
               text-align: center;
               border-radius: 0 6px 6px 0;
-              transition: background-color .2s;
+              transition: background-color 0.2s;
 
               &:hover {
                 background-color: #eee;
@@ -289,11 +293,11 @@ $backgroundColor: #f9f9f9;
 
     .model-menu-box {
       height: 100%;
-      
+
       .el-form-item__label {
         padding-left: 20px;
       }
-      
+
       .el-form-item {
         margin-bottom: 0;
 
@@ -303,7 +307,6 @@ $backgroundColor: #f9f9f9;
         }
       }
     }
-
 
     .el-card {
       background-color: $backgroundColor;

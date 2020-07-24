@@ -50,7 +50,6 @@
           </transition-group>
           <div slot="footer" class="tips">拖入字段</div>
         </draggable>
-
       </el-form-item>
     </el-form>
 
