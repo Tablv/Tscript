@@ -104,7 +104,7 @@ import { StoryWidget } from "@/types/StoryWidget";
 @Component({
   components: {}
 })
-export default class ToolBar extends Vue {
+export default class AsideMenu extends Vue {
   // 创建仪表盘
   @CommonStore.Mutation("createDashboard")
   createDashboard!: Function;

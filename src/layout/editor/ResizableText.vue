@@ -46,7 +46,7 @@ import {
 import vdr from "vue-draggable-resizable-gorkys";
 import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 
-import CommonToolbar from "@/layout/widgetToolBar/CommonToolbar.vue";
+import CommonToolbar from "@/layout/editor/toolBar/widgetToolBar/CommonToolbar.vue";
 import { WidgetType } from "@/config/WidgetType";
 import StoryBuilder from "@/config/StoryBuilder";
 import { StoryWidget, widgetConfig } from "@/types/StoryWidget";
