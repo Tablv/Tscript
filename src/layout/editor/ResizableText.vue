@@ -103,9 +103,6 @@ export default class ResizableElement extends Vue {
     this.$emit("update:item", widgetData);
   }
 
-  // 是否显示详细工具栏
-  isShowDetail = false;
-
   /**
    * 获取偏移位置
    * 拖拽结束
@@ -123,13 +120,6 @@ export default class ResizableElement extends Vue {
   }
 
   /**
-   * 切换悬浮工具栏隐藏状态
-   */
-  hideDetailBar(hide: boolean): void {
-    this.isShowDetail = !hide;
-  }
-
-  /**
    * 调整大小
    * 调整结束
    */
@@ -139,7 +129,6 @@ export default class ResizableElement extends Vue {
     this.setActiveIndex(this.index);
     this.setPosition(x, y);
     this.setSize(width, height);
-    this.hideDetailBar(true);
   }
 
   /**

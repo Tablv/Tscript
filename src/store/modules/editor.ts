@@ -13,6 +13,7 @@ import {
 } from "glaway-bi-component/src/config/DefaultTemplate";
 import TableView from "glaway-bi-model/view/dashboard/TableView";
 import DashboardUtil from "@/util/DashboardUtil";
+import { forEach } from 'lodash';
 
 const state = {
   /**
@@ -81,8 +82,11 @@ const actions: ActionTree<any, any> = {
       state.tableList = [];
       return Promise.resolve(DashboardUtil.initTableView());
     }
-    // 枚举类
-    const dataTypeList = ["DATE", "NUMBER", "VARCHAR"];
+    const dataTypeList: Map<string | null, TableInfoVO[]> = new Map([
+      ["VARCHAR", []],
+      ["NUMBER", []],
+      ["DATE", []]
+    ]);
     return AxiosRequest.table
       .find(datasetId)
       .then(
@@ -95,26 +99,21 @@ const actions: ActionTree<any, any> = {
           const fromTable = DashboardUtil.getFormTable(cube.viewname);
           state.tableList = tables.map((table: TableVO) => {
             const { schema, alias } = fromTable;
-            const columns = table.columns
-              ?.map((column: TableInfoVO) => {
-                const columnName =
-                  column.vcolumn || column.alias || column.columnName;
-                return {
-                  id: column.id,
-                  schema,
-                  dataType: column.dataType,
-                  tableAlias: alias,
-                  columnName,
-                  alias: columnName,
-                  vcolumn: columnName
-                };
-              })
-              .sort((tablea: any, tableb: any) => {
-                const result =
-                  dataTypeList.indexOf(tableb.dataType) -
-                  dataTypeList.indexOf(tablea.dataType);
-                return result;
-              });
+            let columns: TableInfoVO[] = [];
+            table.columns?.forEach((column: TableInfoVO) => {
+              const result = DashboardUtil.initTableInfoColumn(
+                column,
+                fromTable
+              );
+
+              if (!dataTypeList.has(result.dataType)) {
+                dataTypeList.set("none", [result]);
+              }
+              dataTypeList.get(result.dataType)?.push(result);
+            });
+            dataTypeList.forEach(tableInfoVOList => {
+              columns = [...columns, ...tableInfoVOList];
+            });
             return {
               id: table.id,
               schema,
