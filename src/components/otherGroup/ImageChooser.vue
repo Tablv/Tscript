@@ -24,7 +24,7 @@ import { Vue, Component, Prop, Inject } from "vue-property-decorator";
 import { CreateElement } from "vue";
 import { TreeNode } from "element-ui/types/tree";
 
-import { promiseTimeout } from "@/util/promise-util";
+import { promiseTimeout } from "@/util/AxiosUtil.ts";
 import StoryBuilder from "@/config/StoryBuilder";
 import { WidgetType } from "@/config/WidgetType";
 import Page from "@/types/EditorPage";

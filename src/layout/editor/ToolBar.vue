@@ -99,7 +99,6 @@ import { SortType } from "glaway-bi-model/enums/SortType";
 import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
 import { ElLoadingComponent } from "element-ui/types/loading";
 import Draggable from "glaway-bi-model/view/Draggable";
-import { dragUtil } from "@/util/drag-util";
 import { StoryWidget } from "@/types/StoryWidget";
 
 @Component({
@@ -412,7 +411,6 @@ export default class ToolBar extends Vue {
   }
 
   dragText(event: any) {
-    // dragUtil.putText(event);
     event.dataTransfer.setDragImage(new Image(), 0, 0);
     event.dataTransfer.setData("chartType", "text");
     const bgBox = document.querySelector("#bgBox") as HTMLDivElement;

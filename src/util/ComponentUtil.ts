@@ -9,7 +9,6 @@ import { SortType } from "glaway-bi-model/enums/SortType";
 import FieldDTO from "glaway-bi-model/params/FieldDTO";
 import ObjectUtil from "./ObjectUtil";
 import { AxiosRequest } from "@/api/AxiosRequest";
-// import { AxiosRequest } from "@/api/mock";
 
 export default class ComponentUtil {
   /**
