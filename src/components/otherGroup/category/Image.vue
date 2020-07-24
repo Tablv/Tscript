@@ -1,11 +1,5 @@
 <template>
-  <div class="img-tool-bar">
-    <!-- 边框 -->
-    <border-style :data="widget.config.border"></border-style>
-
-    <!-- 背景 -->
-    <background-style :data="widget.config.background"></background-style>
-  </div>
+  <div class="img-tool-bar"></div>
 </template>
 
 <script lang="ts">
@@ -13,14 +7,9 @@ import { Vue, Component, Provide, Inject } from "vue-property-decorator";
 import Page from "@/types/EditorPage";
 import { widgetConfig, StoryWidget } from "@/types/StoryWidget";
 import { WidgetType } from "@/config/WidgetType";
-import BorderStyle from "./common/BorderStyle.vue";
-import BackgroundStyle from "./common/BackgroundStyle.vue";
 
 @Component({
-  components: {
-    BorderStyle,
-    BackgroundStyle
-  }
+  components: {}
 })
 export default class ImageToolBar extends Vue {
   @Inject()

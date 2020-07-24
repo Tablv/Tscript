@@ -194,14 +194,10 @@
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { widgetConfig, StoryWidget } from "@/types/StoryWidget";
 import ToolButton from "@/components/ToolButton.vue";
-import BorderStyle from "./common/BorderStyle.vue";
-import BackgroundStyle from "./common/BackgroundStyle.vue";
 
 @Component({
   components: {
-    BorderStyle,
-    ToolButton,
-    BackgroundStyle
+    ToolButton
   }
 })
 export default class TextToolBar extends Vue {
