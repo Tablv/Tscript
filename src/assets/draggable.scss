@@ -17,7 +17,7 @@ $fieldColor: #409eff;
         font-size: 13px;
         line-height: 23px;
         text-align: center;
-        border-radius: 50px;
+        border-radius: 6px;
         border: 1px solid #ccc;
         background-color: #fff;
     }
@@ -41,7 +41,7 @@ $fieldColor: #409eff;
     .drag-item,
     .sortable-ghost {
         margin-bottom: 5px;
-        border-radius: 20px;
+        border-radius: 6px;
         padding: 0 30px 0 14px;
         font-size: 12px;
         line-height: 24px;

@@ -1,0 +1,12 @@
+
+.rule-container {
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  
+  .rule-text {
+    font-size: 12px;
+    display: inline-block;
+  }
+}
