@@ -17,7 +17,7 @@
         />
       </el-form-item>
 
-      <div v-show="currentDashboard.echarts.legend.show">
+      <detail-card :visible="currentDashboard.echarts.legend.show">
         <el-form-item label="布局朝向">
           <el-select v-model="currentDashboard.echarts.legend.orient">
             <el-option
@@ -57,7 +57,7 @@
             </el-col>
           </el-row>
         </el-form-item>
-      </div>
+      </detail-card>
     </el-form>
   </el-card>
 </template>
@@ -67,8 +67,13 @@ import { Component, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import DetailCard from "@/components/DetailCard.vue";
 
-@Component
+@Component({
+  components: {
+    DetailCard
+  }
+})
 export default class LegendStyle extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;

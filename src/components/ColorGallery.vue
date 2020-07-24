@@ -128,6 +128,7 @@ export interface ColorsModel {
     }
 
     .color-gallery__block {
+      box-sizing: content-box;
       border: 1px solid #e6e6e6;
 
       & + .color-gallery__block {

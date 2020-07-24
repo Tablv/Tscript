@@ -1,48 +1,58 @@
 <template>
   <el-card
     class="box-card"
-    body-style="padding: 8px 8px 0 0"
+    body-style="height: 100%; padding: 0"
     :shadow="boxCardShadow"
   >
-    <el-form label-position="right">
-      <el-form-item label="数据模型">
-        <!-- 选择数据集 -->
-        <dataset-chooser />
-      </el-form-item>
+    <el-form label-position="right" style="padding-right: 8px; height: 100%">
+      <el-container style="height: 100%">
+        <el-header height="32px" style="margin: 8px 0; padding: 0">
+          <!-- 选择数据集 -->
+          <el-form-item label="数据模型" style="margin: 0">
+            <dataset-chooser />
+          </el-form-item>
+        </el-header>
 
-      <!-- 表数据 -->
-      <ul class="fields-box">
-        <li class="field" v-for="table in tableList" :key="table.id">
-          <div class="table-title">
-            <i class="fa fa-database"></i>
-            <span>{{ table.showName || table.name }} 表</span>
+        <el-main>
+          <!-- 表数据 -->
+          <div v-show="!tableList.length" class="empty-tip-wrap">
+            <i class="empty-tip-icon el-icon-warning-outline"></i>
+            <span class="empty-tip-text">请选择数据集</span>
           </div>
-
-          <draggable
-            class="drag-area"
-            v-model="table.columns"
-            :animation="200"
-            :sort="false"
-            :group="{ put: false, pull: 'clone' }"
-            :clone="cloneField"
-            :move="onDragField"
-          >
-            <transition-group>
-              <div
-                class="fields-item"
-                v-for="tableColumn in table.columns"
-                :key="tableColumn.id"
-                :title="tableColumn.alias"
-              >
-                <i :class="getTableColumnIcon(tableColumn.dataType)"></i>
-                <div class="field-content">
-                  <span>{{ tableColumn.alias }}</span>
-                </div>
+          <ul v-show="tableList.length" class="fields-box">
+            <li class="field" v-for="table in tableList" :key="table.id">
+              <div class="table-title">
+                <i class="fa fa-database"></i>
+                <span>{{ table.showName || table.name }} 表</span>
               </div>
-            </transition-group>
-          </draggable>
-        </li>
-      </ul>
+
+              <draggable
+                class="drag-area"
+                v-model="table.columns"
+                :animation="200"
+                :sort="false"
+                :group="{ put: false, pull: 'clone' }"
+                :clone="cloneField"
+                :move="onDragField"
+              >
+                <transition-group>
+                  <div
+                    class="fields-item"
+                    v-for="tableColumn in table.columns"
+                    :key="tableColumn.id"
+                    :title="tableColumn.alias"
+                  >
+                    <i :class="getTableColumnIcon(tableColumn.dataType)"></i>
+                    <div class="field-content">
+                      <span>{{ tableColumn.alias }}</span>
+                    </div>
+                  </div>
+                </transition-group>
+              </draggable>
+            </li>
+          </ul>
+        </el-main>
+      </el-container>
     </el-form>
   </el-card>
 </template>
@@ -134,6 +144,27 @@ $fieldColor: #409eff;
 
   i {
     color: #3685f2;
+  }
+}
+
+.empty-tip-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column nowrap;
+  height: 100%;
+  padding: 0 14px;
+  font-size: 12px;
+  color: #909399;
+  transform: translateY(-6%);
+
+  .empty-tip-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .empty-tip-text {
+    text-align: center;
   }
 }
 

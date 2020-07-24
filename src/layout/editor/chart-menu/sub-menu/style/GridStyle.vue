@@ -10,14 +10,6 @@
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
-      <el-form-item label="包含标签" v-if="!this.specificStyle.centerConfig">
-        <el-switch
-          v-model="currentDashboard.echarts.grid.containLabel"
-          active-color="#13ce66"
-        >
-        </el-switch>
-      </el-form-item>
-
       <!-- 标签角度 -->
       <el-form-item label="标签角度" v-if="!this.specificStyle.centerConfig">
         <el-row>
