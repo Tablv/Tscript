@@ -45,7 +45,6 @@ const pageGetter = {
   // get pageLocked() {
   //   return !!pageState.currentPage?.lockUser;
   // },
-
   /**
    * 当前页面被当前用户锁定
    */
@@ -54,7 +53,6 @@ const pageGetter = {
   //   const lockUser = pageState.currentPage?.lockUser;
   //   return userId !== undefined && userId === lockUser;
   // },
-
   /**
    * 当前页面被暂存
    */

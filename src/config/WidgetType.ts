@@ -15,7 +15,7 @@ export enum WidgetType {
   /**
    * 图片
    */
-  IMAGE = "img",
+  IMAGE = "img"
 
   /**
    * 仪表盘

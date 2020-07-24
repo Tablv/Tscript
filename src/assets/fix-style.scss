@@ -1,4 +1,11 @@
 /**
+ * User Agent Fix
+ */
+* {
+  box-sizing: border-box;
+}
+
+/**
  * Element UI Fix
  */
 .el-drawer__header{

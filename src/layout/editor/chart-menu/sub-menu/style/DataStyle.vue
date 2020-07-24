@@ -15,7 +15,10 @@
       </el-form-item>
 
       <el-form-item label="数据单位" v-if="!this.specificStyle.centerConfig">
-        <el-input v-model="specificStyle.decimals.unit" />
+        <el-input
+          placeholder="例如：万"
+          v-model="specificStyle.decimals.unit"
+        />
       </el-form-item>
     </el-form>
   </el-card>

@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="tsx">
 /**
  * 图表样式
  */
@@ -26,7 +26,7 @@ export default class TitleStyle extends Vue {
   @Inject()
   elFormLabelWidth!: string;
 
-  readonly componentRegistry = {
+  readonly specificMap = {
     /**
      * 柱图
      */
@@ -71,10 +71,20 @@ export default class TitleStyle extends Vue {
     return this.currentDashboard.visualData.type;
   }
 
-  render(createElement: CreateElement) {
+  render(h: CreateElement) {
     // 通过图表类型，获取对应的样式配置
-    const component = this.componentRegistry[this.chartType];
-    return createElement(component);
+    const specific = this.specificMap[this.chartType];
+
+    return (
+      <el-card
+        class="box-card"
+        body-style={this.boxCardBodyStyle}
+        shadow={this.boxCardShadow}
+      >
+        <span slot="header">图表样式</span>
+        <specific />
+      </el-card>
+    );
   }
 }
 </script>

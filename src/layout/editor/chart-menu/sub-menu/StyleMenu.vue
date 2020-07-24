@@ -1,6 +1,9 @@
 <template>
   <!-- 属性设置 -->
   <div>
+    <!-- 外观样式 -->
+    <appearance-style />
+
     <!-- 图表样式 -->
     <specific-style />
 
@@ -25,6 +28,7 @@
 import { Component, Vue, Model, Provide } from "vue-property-decorator";
 import { CommonStore } from "@/store/modules-model";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import AppearanceStyle from "./style/AppearanceStyle.vue";
 import SpecificStyle from "./style/SpecificStyle.vue";
 import TitleStyle from "./style/TitleStyle.vue";
 import GridStyle from "./style/GridStyle.vue";
@@ -34,6 +38,7 @@ import LegendStyle from "./style/LegendStyle.vue";
 
 @Component({
   components: {
+    AppearanceStyle,
     SpecificStyle,
     TitleStyle,
     LegendStyle,

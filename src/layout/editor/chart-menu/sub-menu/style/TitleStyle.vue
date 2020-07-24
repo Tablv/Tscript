@@ -17,7 +17,7 @@
         />
       </el-form-item>
 
-      <div v-show="currentDashboard.echarts.title.show">
+      <detail-card :visible="currentDashboard.echarts.title.show">
         <el-form-item label="标题">
           <el-input clearable v-model="currentDashboard.echarts.title.text" />
         </el-form-item>
@@ -117,7 +117,7 @@
             </el-col>
           </el-row>
         </el-form-item>
-      </div>
+      </detail-card>
     </el-form>
   </el-card>
 </template>
@@ -128,10 +128,12 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ValueUnitOption from "./common/ValueUnitOption.vue";
+import DetailCard from "@/components/DetailCard.vue";
 
 @Component({
   components: {
-    ValueUnitOption
+    ValueUnitOption,
+    DetailCard
   }
 })
 export default class TitleStyle extends Vue {
