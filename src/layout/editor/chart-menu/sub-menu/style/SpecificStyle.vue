@@ -8,8 +8,13 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { EChartsSampleStyle } from "glaway-bi-model/view/dashboard/EChartsOption";
+import ColorOption from "./common/ColorOption.vue";
 
-@Component
+@Component({
+  components: {
+    ColorOption
+  }
+})
 export default class TitleStyle extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
@@ -82,7 +87,14 @@ export default class TitleStyle extends Vue {
         shadow={this.boxCardShadow}
       >
         <span slot="header">图表样式</span>
-        <specific />
+
+        {/* 表单 */}
+        <el-form label-position="right" label-width={this.elFormLabelWidth}>
+          {/* 配色部分 */}
+          <color-option />
+
+          <specific />
+        </el-form>
       </el-card>
     );
   }

@@ -1,5 +1,5 @@
 <template>
-  <el-form label-position="right" :label-width="elFormLabelWidth">
+  <div class="specific-style-items">
     <!-- 柱宽 -->
     <el-form-item label="柱宽">
       <el-row>
@@ -32,7 +32,7 @@
         </el-col>
       </el-row>
     </el-form-item>
-  </el-form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -61,14 +61,5 @@ export default class BarStyle extends Vue {
   get specificStyle(): ChartOption {
     return this.getSpecificStyle();
   }
-
-  @Inject()
-  boxCardBodyStyle!: Properties;
-
-  @Inject()
-  boxCardShadow!: string;
-
-  @Inject()
-  elFormLabelWidth!: string;
 }
 </script>

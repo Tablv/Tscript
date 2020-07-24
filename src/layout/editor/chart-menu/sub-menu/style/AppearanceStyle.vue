@@ -10,9 +10,6 @@
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
-      <!-- 配色部分 -->
-      <color-option />
-
       <el-form-item label="背景色">
         <div style="height: 32px;">
           <el-color-picker
@@ -88,12 +85,10 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import DetailCard from "@/components/DetailCard.vue";
-import ColorOption from "./common/ColorOption.vue";
 
 @Component({
   components: {
-    DetailCard,
-    ColorOption
+    DetailCard
   }
 })
 export default class DataStyle extends Vue {
