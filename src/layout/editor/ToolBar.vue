@@ -19,7 +19,7 @@
 
     <el-tooltip effect="dark" content="文本" placement="right">
       <button
-        class="toolbtn"
+        class="dragbutton toolbtn "
         draggable="true"
         @dragstart="dragText"
         @dragend="dragendText"
@@ -477,6 +477,9 @@ export default class ToolBar extends Vue {
 }
 
 .toolbar {
+  .dragbutton {
+    cursor: move !important;
+  }
   .toolbtn {
     border: 0;
     height: 84px;
