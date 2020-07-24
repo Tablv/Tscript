@@ -13,7 +13,6 @@
 
 <script lang="ts">
 import { Vue, Component, Provide, Inject, Prop } from "vue-property-decorator";
-import Page from "@/types/EditorPage";
 import { widgetConfig, StoryWidget } from "@/types/StoryWidget";
 import { WidgetType } from "@/config/WidgetType";
 import BorderConfigurable from "./style-mixins/Border";

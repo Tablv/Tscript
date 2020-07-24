@@ -4,7 +4,6 @@
 
 <script lang="ts">
 import { Vue, Component, Provide, Inject } from "vue-property-decorator";
-import Page from "@/types/EditorPage";
 import { widgetConfig, StoryWidget } from "@/types/StoryWidget";
 import { WidgetType } from "@/config/WidgetType";
 
@@ -13,7 +12,7 @@ import { WidgetType } from "@/config/WidgetType";
 })
 export default class ImageToolBar extends Vue {
   @Inject()
-  state!: Page.State;
+  state!: any;
 
   get widget(): StoryWidget<widgetConfig.Image> {
     return this.state.currentWidget as StoryWidget<widgetConfig.Image>;

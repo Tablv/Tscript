@@ -1,6 +1,5 @@
 import { WidgetBuilder } from "@/config/WidgetBuilder";
 import UUID from "glaway-bi-util/UUID";
-import { StoryPage, ContainerConfig } from "@/types/Story";
 import { StoryWidget, widgetConfig } from "@/types/StoryWidget";
 import { WidgetType } from "@/config/WidgetType";
 

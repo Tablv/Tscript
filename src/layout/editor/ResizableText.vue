@@ -46,12 +46,10 @@ import {
 import vdr from "vue-draggable-resizable-gorkys";
 import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 
-import Page from "@/types/EditorPage";
 import CommonToolbar from "@/layout/widgetToolBar/CommonToolbar.vue";
 import { WidgetType } from "@/config/WidgetType";
 import StoryBuilder from "@/config/StoryBuilder";
 import { StoryWidget, widgetConfig } from "@/types/StoryWidget";
-import { StoryPage } from "@/types/Story";
 import Widget from "@/components/Widget.vue";
 import { CommonStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
