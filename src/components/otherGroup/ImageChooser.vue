@@ -108,7 +108,7 @@ export default class ImageChooser extends Vue {
     });
 
     // 构建图片组件对象
-    this.createWidget()
+    this.createWidget();
     // const imgWidget = StoryBuilder.buildWidget(WidgetType.IMAGE, {
     //   x: 0,
     //   y: 0,

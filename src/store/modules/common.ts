@@ -131,8 +131,8 @@ const mutations: MutationTree<any> = {
     newDashboard.id = UUID.generate();
 
     // 移动位置以防止重叠
-    let offsetX = newDashboard.visualData.grid[0],
-      offsetY = newDashboard.visualData.grid[1],
+    let offsetX = 10,
+      offsetY = 10,
       originX = newDashboard.visualData.position.x,
       originY = newDashboard.visualData.position.y,
       latestPosition = {

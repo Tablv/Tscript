@@ -4,8 +4,8 @@
       @dragstop="onDragStop"
       @dragging="onDrageding"
       @resizestop="onResizeStop"
-      :w="thisDashboard.visualData.size.width"
-      :h="thisDashboard.visualData.size.height"
+      :w="thisDashboard.visualData.width"
+      :h="thisDashboard.visualData.height"
       :x="thisDashboard.visualData.position.x"
       :y="thisDashboard.visualData.position.y"
       :z="thisDashboard.visualData.position.z"
@@ -13,11 +13,11 @@
       :draggable="!focusDashboard.id"
       :resizable="!focusDashboard.id"
       :style="{
-        background: thisDashboard.visualData.background,
-        borderColor: thisDashboard.visualData.borderColor,
-        borderWidth: thisDashboard.visualData.borderWidth + 'px',
-        borderStyle: thisDashboard.visualData.borderStyle,
-        borderRadius: thisDashboard.visualData.borderRadius + '%'
+        background: thisDashboard.visualData.background.color,
+        borderColor: thisDashboard.visualData.border.color,
+        borderWidth: thisDashboard.visualData.border.width + 'px',
+        borderStyle: thisDashboard.visualData.border.style,
+        borderRadius: thisDashboard.visualData.border.radius + '%'
       }"
       :class="{
         commonElement: index !== activeIndex && !isSavingScreenhot,
@@ -587,8 +587,8 @@ export default class ResizableElement extends Vue {
    * 设置数据的尺寸
    */
   setSize(width: number, height: number): void {
-    this.thisDashboard.visualData.size.width = width;
-    this.thisDashboard.visualData.size.height = height;
+    this.thisDashboard.visualData.width = width;
+    this.thisDashboard.visualData.height = height;
   }
 
   /**

@@ -13,7 +13,7 @@
       <el-form-item label="背景色">
         <div style="height: 32px;">
           <el-color-picker
-            v-model="currentDashboard.visualData.background"
+            v-model="currentDashboard.visualData.background.color"
             :show-alpha="true"
             color-format="hex"
             size="mini"
@@ -29,7 +29,7 @@
         <el-form-item label="宽度">
           <!-- 宽度 -->
           <el-slider
-            v-model="currentDashboard.visualData.borderWidth"
+            v-model="currentDashboard.visualData.border.width"
             :min="1"
             :max="10"
           ></el-slider>
@@ -38,7 +38,7 @@
         <el-form-item label="样式">
           <!-- 样式 -->
           <el-select
-            v-model="currentDashboard.visualData.borderStyle"
+            v-model="currentDashboard.visualData.border.style"
             placeholder="请选择边框样式"
             popper-class="border-style-selector"
           >
@@ -60,7 +60,7 @@
           <!-- 颜色 -->
           <div style="height: 32px;">
             <el-color-picker
-              v-model="currentDashboard.visualData.borderColor"
+              v-model="currentDashboard.visualData.border.color"
               :show-alpha="true"
               color-format="hex"
               size="mini"
@@ -71,7 +71,7 @@
         <el-form-item label="圆角">
           <!-- 圆角 -->
           <el-slider
-            v-model="currentDashboard.visualData.borderRadius"
+            v-model="currentDashboard.visualData.border.radius"
             class="width-slider"
             :min="0"
             :max="100"

@@ -122,7 +122,7 @@ export default class TextWidget extends Vue {
    * 边框配置
    */
   get borderConfig(): widgetConfig.Border {
-    return this.data.config.border;
+    return this.data.visualData.border;
   }
 
   get scaledFontSize() {
