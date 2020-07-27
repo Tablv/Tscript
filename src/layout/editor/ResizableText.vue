@@ -9,7 +9,7 @@
       :x="widgetData.visualData.position.x"
       :y="widgetData.visualData.position.y"
       :z="widgetData.visualData.position.z"
-      :grid="!setting.background.show ? [1, 1] : widgetData.visualData.grid"
+      :grid="!setting.background.show ? [1, 1] : setting.grid"
       :draggable="!focusWidgetData.id"
       :resizable="!focusWidgetData.id"
       :style="{

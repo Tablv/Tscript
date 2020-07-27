@@ -26,10 +26,8 @@ export class WidgetBuilder {
   public buildVisualData(): widgetConfig.VisualData {
     return {
       position: this.position as widgetConfig.Position,
-      size: {
-        width: 400,
-        height: 300
-      },
+      width: 400,
+      height: 300,
       background: this.buildBackground(true),
       border: this.buildBorder(false),
       shadow: this.buildShadow(false)
