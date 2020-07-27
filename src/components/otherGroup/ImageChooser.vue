@@ -27,7 +27,7 @@ import { TreeNode } from "element-ui/types/tree";
 import { promiseTimeout } from "@/util/AxiosUtil.ts";
 import { WidgetType } from "@/config/WidgetType";
 import { DashWidget, widgetConfig } from "@/types/DashWidget";
-import { CommonStore } from '../../store/modules-model';
+import { CommonStore } from "../../store/modules-model";
 
 const validImgSuffix = ["jpg", "jpeg", "png", "gif", "bmp"];
 

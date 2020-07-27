@@ -131,7 +131,7 @@ const mutations: MutationTree<any> = {
     newDashboard.id = UUID.generate();
 
     // 移动位置以防止重叠
-    let [ offsetX, offsetY ] = state.dashboardSet.grid || [ 10, 10 ];
+    let [offsetX, offsetY] = state.dashboardSet.grid || [10, 10];
     let originX = newDashboard.visualData.position.x;
     let originY = newDashboard.visualData.position.y;
     let latestPosition = {
@@ -139,7 +139,7 @@ const mutations: MutationTree<any> = {
       y: originY + offsetY,
       z: state.dashboards.length - 1
     };
-    
+
     newDashboard.visualData.position = latestPosition;
 
     // 加入仪表盘数组

@@ -9,9 +9,9 @@ import { widgetConfig, DashWidget } from "../../types/DashWidget";
 
 @Component({
   components: {
-    'text-widget': () => import("./text-menu/index.vue"),
-    'image-widget': () => import("./text-menu/index.vue"),
-    'default-widget': () => import("./chart-menu/index.vue")
+    "text-widget": () => import("./text-menu/index.vue"),
+    "image-widget": () => import("./text-menu/index.vue"),
+    "default-widget": () => import("./chart-menu/index.vue")
   }
 })
 export default class AsideMenu extends Vue {
