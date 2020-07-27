@@ -109,7 +109,7 @@ export default class DataStyle extends Vue {
 
   @Inject()
   boxCardShadow!: string;
-  
+
   borderStyleOptions = [
     { value: "dotted", label: "点状" },
     { value: "solid", label: "实线" },

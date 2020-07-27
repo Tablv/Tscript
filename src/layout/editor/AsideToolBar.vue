@@ -6,11 +6,7 @@
       </button>
     </el-tooltip>
 
-    <el-tooltip
-      effect="dark"
-      content="选择图表样式"
-      placement="right"
-    >
+    <el-tooltip effect="dark" content="选择图表样式" placement="right">
       <button class="toolbtn" @click="showCreateChart = true">
         <i class="fa fa-chart-bar"></i>
       </button>

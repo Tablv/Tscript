@@ -1,5 +1,5 @@
-import UUID from 'glaway-bi-util/UUID';
-import { WidgetBuilder } from '@/config/WidgetBuilder';
+import UUID from "glaway-bi-util/UUID";
+import { WidgetBuilder } from "@/config/WidgetBuilder";
 import { Module, GetterTree, MutationTree, ActionTree } from "vuex";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
@@ -159,8 +159,11 @@ const mutations: MutationTree<any> = {
     /**
      * 构建组件
      */
-    
-    const widgetBuilder = new WidgetBuilder(type, { ...position, z: currentDataLength });
+
+    const widgetBuilder = new WidgetBuilder(type, {
+      ...position,
+      z: currentDataLength
+    });
 
     let newWidget: DashWidget<any> = {
       id: UUID.generate(),

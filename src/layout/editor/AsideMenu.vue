@@ -1,11 +1,11 @@
 <script lang="ts">
-import { CreateElement } from 'vue';
+import { CreateElement } from "vue";
 import { Vue, Component } from "vue-property-decorator";
 import { CommonStore } from "@/store/modules-model";
 // import ChartMenu from "@/layout/editor/chart-menu/index.vue";
 // import TextMenu from "@/layout/editor/text-menu/index.vue";
-import Dashboard from 'glaway-bi-model/view/dashboard/Dashboard';
-import { widgetConfig, DashWidget } from '../../types/DashWidget';
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import { widgetConfig, DashWidget } from "../../types/DashWidget";
 
 @Component({
   components: {

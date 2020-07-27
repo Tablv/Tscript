@@ -71,12 +71,15 @@ export class WidgetBuilder {
     };
   }
 
-  public buildShadow(enable: boolean, shadowSize?: "small"|"middle"|"large"): widgetConfig.Shadow {
+  public buildShadow(
+    enable: boolean,
+    shadowSize?: "small" | "middle" | "large"
+  ): widgetConfig.Shadow {
     if (!enable) {
       return {
         enable,
         props: null
-      }
+      };
     }
 
     // default value
@@ -91,7 +94,7 @@ export class WidgetBuilder {
     return {
       enable,
       props
-    }
+    };
   }
 
   private widgetConfigBuilders: { [type: string]: Function } = {

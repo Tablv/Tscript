@@ -16,8 +16,8 @@ export default class Widget extends Vue {
   };
 
   render(h: CreateElement) {
-    if (!this.data.visualData.type) return null;
-    const component = this.widgetRegistry[this.data.visualData.type];
+    if (!this.data.type) return null;
+    const component = this.widgetRegistry[this.data.type];
     if (!component) return null;
 
     return (

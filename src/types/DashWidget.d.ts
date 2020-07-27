@@ -65,10 +65,10 @@ export namespace widgetConfig {
     props: {
       // 水平阴影的位置
       h: number;
-      
+
       // 垂直阴影的位置
       v: number;
-      
+
       // 模糊距离
       blur: number;
 
