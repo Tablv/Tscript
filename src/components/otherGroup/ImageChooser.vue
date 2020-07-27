@@ -25,9 +25,9 @@ import { CreateElement } from "vue";
 import { TreeNode } from "element-ui/types/tree";
 
 import { promiseTimeout } from "@/util/AxiosUtil.ts";
-import StoryBuilder from "@/config/StoryBuilder";
 import { WidgetType } from "@/config/WidgetType";
 import { DashWidget, widgetConfig } from "@/types/DashWidget";
+import { CommonStore } from '../../store/modules-model';
 
 const validImgSuffix = ["jpg", "jpeg", "png", "gif", "bmp"];
 
@@ -50,6 +50,10 @@ function isImageFile(fileName: string) {
 
 @Component
 export default class ImageChooser extends Vue {
+  // 创建组件
+  @CommonStore.Mutation("createWidget")
+  createWidget!: Function;
+
   @Inject()
   state!: any;
 
@@ -104,54 +108,55 @@ export default class ImageChooser extends Vue {
     });
 
     // 构建图片组件对象
-    const imgWidget = StoryBuilder.buildWidget(WidgetType.IMAGE, {
-      x: 0,
-      y: 0,
-      z: this.state.currentPage.widgets.length
-    }) as DashWidget<widgetConfig.Image>;
+    this.createWidget()
+    // const imgWidget = StoryBuilder.buildWidget(WidgetType.IMAGE, {
+    //   x: 0,
+    //   y: 0,
+    //   z: this.state.currentPage.widgets.length
+    // }) as DashWidget<widgetConfig.Image>;
 
-    // 添加 URL
-    imgWidget.config.url = data.url;
+    // // 添加 URL
+    // imgWidget.config.url = data.url;
 
-    // 成功获取宽高时，覆盖默认宽高
-    if (imgWidth && imgHeight) {
-      // 判断是否超出画布标准尺寸
-      const standardSize = this.state.data.config.standardSize;
-      const standardWidth = standardSize.width;
-      const standardHeight = standardSize.height;
-      // 不超出，直接设置宽高
-      if (imgWidth < standardWidth && imgHeight < standardHeight) {
-        imgWidget.visualData.size = {
-          width: imgWidth,
-          height: imgHeight
-        };
-      } else {
-        /**
-         * 图片尺寸超出画布
-         */
-        const widthScale = imgWidth / standardWidth;
-        const heightScale = imgHeight / standardHeight;
+    // // 成功获取宽高时，覆盖默认宽高
+    // if (imgWidth && imgHeight) {
+    //   // 判断是否超出画布标准尺寸
+    //   const standardSize = this.state.data.config.standardSize;
+    //   const standardWidth = standardSize.width;
+    //   const standardHeight = standardSize.height;
+    //   // 不超出，直接设置宽高
+    //   if (imgWidth < standardWidth && imgHeight < standardHeight) {
+    //     imgWidget.visualData.size = {
+    //       width: imgWidth,
+    //       height: imgHeight
+    //     };
+    //   } else {
+    //     /**
+    //      * 图片尺寸超出画布
+    //      */
+    //     const widthScale = imgWidth / standardWidth;
+    //     const heightScale = imgHeight / standardHeight;
 
-        const imgScale = Math.max(widthScale, heightScale);
+    //     const imgScale = Math.max(widthScale, heightScale);
 
-        const scaledWidth = parseInt(`${imgWidth / imgScale}`);
-        const scaledHeight = parseInt(`${imgHeight / imgScale}`);
+    //     const scaledWidth = parseInt(`${imgWidth / imgScale}`);
+    //     const scaledHeight = parseInt(`${imgHeight / imgScale}`);
 
-        imgWidget.visualData.size = {
-          width: Math.min(scaledWidth, standardWidth),
-          height: Math.min(scaledHeight, standardHeight)
-        };
-      }
-    }
+    //     imgWidget.visualData.size = {
+    //       width: Math.min(scaledWidth, standardWidth),
+    //       height: Math.min(scaledHeight, standardHeight)
+    //     };
+    //   }
+    // }
 
-    // 组件数组追加组件
-    this.state.currentPage.widgets.push(imgWidget);
+    // // 组件数组追加组件
+    // this.state.currentPage.widgets.push(imgWidget);
 
-    // 选中当前组件
-    this.state.currentWidget = imgWidget;
+    // // 选中当前组件
+    // this.state.currentWidget = imgWidget;
 
-    // 关闭抽屉
-    this.chooserVisible = false;
+    // // 关闭抽屉
+    // this.chooserVisible = false;
   }
 
   treeNodeRender(

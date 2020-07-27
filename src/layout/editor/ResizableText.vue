@@ -48,7 +48,6 @@ import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 
 import CommonToolbar from "@/layout/editor/toolBar/widgetToolBar/CommonToolbar.vue";
 import { WidgetType } from "@/config/WidgetType";
-import StoryBuilder from "@/config/StoryBuilder";
 import { DashWidget, widgetConfig } from "@/types/DashWidget";
 import Widget from "@/components/Widget.vue";
 import { CommonStore } from "@/store/modules-model";

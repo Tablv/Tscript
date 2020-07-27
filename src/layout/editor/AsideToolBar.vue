@@ -104,7 +104,7 @@ export default class AsideToolBar extends Vue {
   @CommonStore.Mutation("createDashboard")
   createDashboard!: Function;
 
-  // 创建仪表盘
+  // 创建组件
   @CommonStore.Mutation("createWidget")
   createWidget!: Function;
 
