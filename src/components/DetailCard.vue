@@ -36,7 +36,7 @@ export default class DetailCard extends Vue {
   padding: 10px 10px 0;
 
   > * {
-    margin-left: -16px;
+    margin-left: -26px;
   }
 }
 </style>

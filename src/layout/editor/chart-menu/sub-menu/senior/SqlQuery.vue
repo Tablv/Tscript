@@ -73,6 +73,10 @@ export default class SqlQuery extends Vue {
   }
 
   sqlSwitchChange(): void {
+    // 待开发功能
+    this.$message.info("功能待开发");
+    return;
+
     // 未启用 SQL 查询 && 启用 JSON 数据
     if (!this.sqlEnable && this.jsonEnable) {
       UIUtil.confirm(ConfirmType.info, "启用 SQL 查询时，将关闭 JSON 数据功能")
