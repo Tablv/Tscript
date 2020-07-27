@@ -32,13 +32,13 @@ import {
   Watch
 } from "vue-property-decorator";
 
-import { widgetConfig, StoryWidget } from "@/types/StoryWidget";
+import { widgetConfig, DashWidget } from "@/types/DashWidget";
 import { WidgetType } from "@/config/WidgetType";
 
 @Component({})
 export default class TextWidget extends Vue {
   @Prop()
-  data!: StoryWidget<widgetConfig.TextArea>;
+  data!: DashWidget<widgetConfig.TextArea>;
 
   widgetEditable: boolean = false;
 

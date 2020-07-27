@@ -214,9 +214,7 @@ $toolbarWidth: 32px;
 .detail-popper {
   margin-left: #{-$toolbarWidth} !important;
 }
-</style>
 
-<style lang="scss" scoped>
 .detail-toolbar {
   display: flex;
   flex-flow: column nowrap;

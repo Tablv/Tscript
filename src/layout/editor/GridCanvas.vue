@@ -66,7 +66,7 @@ import ObjectUtil from "glaway-bi-util/ObjectUtil";
     vdr
   }
 })
-export default class ResizableGrid extends Vue {
+export default class GridCanvas extends Vue {
   /**
    * CommonStore
    */

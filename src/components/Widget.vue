@@ -3,12 +3,12 @@ import { Vue, Component, Provide, Inject, Prop } from "vue-property-decorator";
 import { CreateElement } from "vue";
 import text from "./widgets/Text.vue";
 import img from "./widgets/Image.vue";
-import { StoryWidget } from "@/types/StoryWidget";
+import { DashWidget } from "@/types/DashWidget";
 
 @Component({})
 export default class Widget extends Vue {
   @Prop()
-  data!: StoryWidget<any>;
+  data!: DashWidget<any>;
 
   widgetRegistry: any = {
     text,

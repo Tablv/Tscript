@@ -1,4 +1,5 @@
-import UUID from "@/util/UUID";
+import UUID from 'glaway-bi-util/UUID';
+import { WidgetBuilder } from '@/config/WidgetBuilder';
 import { Module, GetterTree, MutationTree, ActionTree } from "vuex";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ObjectUtil from "@/util/ObjectUtil";
@@ -13,9 +14,8 @@ import { ChartType } from "glaway-bi-model/enums/ChartType";
 import Draggable from "glaway-bi-model/view/Draggable";
 import DashboardUtil from "@/util/DashboardUtil";
 import UIUtil from "@/util/UIUtil";
-import StoryBuilder from "@/config/StoryBuilder";
 import { WidgetType } from "@/config/WidgetType";
-import { StoryWidget } from "@/types/StoryWidget";
+import { DashWidget, widgetConfig } from "@/types/DashWidget";
 
 const state: any = {
   // 当前仪表盘集ID
@@ -151,22 +151,27 @@ const mutations: MutationTree<any> = {
 
   createWidget(
     state: any,
-    baseConfig: { chartType: WidgetType; position?: { x: number; y: number } }
+    baseConfig: { type: WidgetType; position: { x: number; y: number } }
   ): void {
-    let currentDataLength = state.dashboards.length;
-    const { chartType, position } = baseConfig;
-    let newWidget = StoryBuilder.buildWidget(chartType);
-    if (newWidget === undefined) {
+    let currentDataLength: number = state.dashboards.length;
+    const { type, position } = baseConfig;
+
+    /**
+     * 构建组件
+     */
+    
+    const widgetBuilder = new WidgetBuilder(type, { ...position, z: currentDataLength });
+
+    let newWidget: DashWidget<any> = {
+      id: UUID.generate(),
+      type,
+      visualData: widgetBuilder.buildVisualData(),
+      config: widgetBuilder.buildConfig()
+    };
+
+    if (!newWidget) {
       UIUtil.showErrorMessage("创建初始化数据出错");
       throw "创建初始化数据出错";
-    }
-    if (position) {
-      newWidget.visualData.position = {
-        x: position.x,
-        y: position.y,
-        z: currentDataLength
-      };
-      newWidget.config.position = newWidget.visualData.position;
     }
     // 添加仪表盘
     state.dashboards.push(newWidget);
@@ -261,7 +266,7 @@ const mutations: MutationTree<any> = {
    * 设置聚焦图表信息
    * @param focusDashboard {Dashboard} 聚焦图表信息
    */
-  setFocusDashboard(state, focusDashboard: Dashboard | StoryWidget<any>): void {
+  setFocusDashboard(state, focusDashboard: Dashboard | DashWidget<any>): void {
     state.focusDashboard = focusDashboard;
   },
 

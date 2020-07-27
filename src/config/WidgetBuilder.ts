@@ -1,4 +1,4 @@
-import { widgetConfig } from "@/types/StoryWidget";
+import { widgetConfig } from "@/types/DashWidget";
 import { WidgetType } from "@/config/WidgetType";
 
 /**
@@ -23,18 +23,16 @@ export class WidgetBuilder {
     return configBuilder();
   }
 
-  public buildVisualData() {
+  public buildVisualData(): widgetConfig.VisualData {
     return {
       position: this.position as widgetConfig.Position,
-      width: 400,
-      height: 300,
-      grid: [10, 10],
-      type: this.type,
-      background: "#fff",
-      borderWidth: 1,
-      borderStyle: "dashed",
-      borderColor: "#d6d6d6",
-      borderRadius: 0
+      size: {
+        width: 400,
+        height: 300
+      },
+      background: this.buildBackground(true),
+      border: this.buildBorder(false),
+      shadow: this.buildShadow(false)
     };
   }
 
@@ -73,16 +71,32 @@ export class WidgetBuilder {
     };
   }
 
+  public buildShadow(enable: boolean, shadowSize?: "small"|"middle"|"large"): widgetConfig.Shadow {
+    if (!enable) {
+      return {
+        enable,
+        props: null
+      }
+    }
+
+    // default value
+    let props = {
+      h: 0,
+      v: 0,
+      blur: 10,
+      spread: 0,
+      color: "#00000033"
+    };
+
+    return {
+      enable,
+      props
+    }
+  }
+
   private widgetConfigBuilders: { [type: string]: Function } = {
     text: (): widgetConfig.TextArea => {
       return {
-        position: this.position as widgetConfig.Position,
-        border: this.buildBorder(false),
-        background: this.buildBackground(false),
-        size: {
-          width: 400,
-          height: 100
-        },
         value: "",
         font: {
           color: "#666",
@@ -99,28 +113,8 @@ export class WidgetBuilder {
     },
     img: (): widgetConfig.Image => {
       return {
-        position: this.position as widgetConfig.Position,
-        border: this.buildBorder(false),
-        background: this.buildBackground(true),
-        size: {
-          width: 400,
-          height: 400
-        },
         url: null
       };
     }
-    // dashboard: (): widgetConfig.DashboardConf => {
-    //   return {
-    //     position: this.position as widgetConfig.Position,
-    //     border: this.buildBorder(false),
-    //     background: this.buildBackground(true),
-    //     size: {
-    //       width: 600,
-    //       height: 400
-    //     },
-    //     dashboardId: "",
-    //     data: null
-    //   };
-    // }
   };
 }

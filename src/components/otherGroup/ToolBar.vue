@@ -2,8 +2,7 @@
 import { Vue, Component, Prop, Inject } from "vue-property-decorator";
 import { CreateElement } from "vue";
 import ObjectUtil from "glaway-bi-util/ObjectUtil";
-import { ResultJSON } from "glaway-bi-util/AxiosUtil";
-import { StoryWidget } from "@/types/StoryWidget";
+import { DashWidget } from "@/types/DashWidget";
 
 import text from "./category/Text.vue";
 import img from "./category/Image.vue";
@@ -18,7 +17,7 @@ export default class ToolBar extends Vue {
   };
 
   @Inject()
-  wdata!: StoryWidget<any>;
+  wdata!: DashWidget<any>;
 
   /**
    * 工具栏
@@ -26,8 +25,8 @@ export default class ToolBar extends Vue {
   toolbar(h: CreateElement) {
     let toolbarInner = null;
 
-    if (this.wdata.visualData.type) {
-      toolbarInner = this.toolbarRegistry[this.wdata.visualData.type];
+    if (this.wdata.type) {
+      toolbarInner = this.toolbarRegistry[this.wdata.type];
     }
 
     return (

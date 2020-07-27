@@ -4,8 +4,8 @@
       @dragstop="onDragStop"
       @dragging="onDrageding"
       @resizestop="onResizeStop"
-      :w="widgetData.visualData.width"
-      :h="widgetData.visualData.height"
+      :w="widgetData.visualData.size.width"
+      :h="widgetData.visualData.size.height"
       :x="widgetData.visualData.position.x"
       :y="widgetData.visualData.position.y"
       :z="widgetData.visualData.position.z"
@@ -49,7 +49,7 @@ import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 import CommonToolbar from "@/layout/editor/toolBar/widgetToolBar/CommonToolbar.vue";
 import { WidgetType } from "@/config/WidgetType";
 import StoryBuilder from "@/config/StoryBuilder";
-import { StoryWidget, widgetConfig } from "@/types/StoryWidget";
+import { DashWidget, widgetConfig } from "@/types/DashWidget";
 import Widget from "@/components/Widget.vue";
 import { CommonStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
@@ -66,14 +66,14 @@ export default class ResizableElement extends Vue {
    * 每个可调整元素的数据和所在下标
    */
   @Prop()
-  item!: StoryWidget<any>;
+  item!: DashWidget<any>;
 
   @Prop()
   index!: number;
 
   // 处于聚焦状态
   @CommonStore.State("focusDashboard")
-  focusWidgetData!: StoryWidget<any>;
+  focusWidgetData!: DashWidget<any>;
 
   // 当前激活的元素 所在数组下标
   @CommonStore.State("dashboardIndex")
@@ -95,11 +95,11 @@ export default class ResizableElement extends Vue {
     return this.dashboardSet.canvasSetting;
   }
 
-  get widgetData(): StoryWidget<any> {
+  get widgetData(): DashWidget<any> {
     return this.item;
   }
 
-  set widgetData(widgetData: StoryWidget<any>) {
+  set widgetData(widgetData: DashWidget<any>) {
     this.$emit("update:item", widgetData);
   }
 
@@ -143,8 +143,7 @@ export default class ResizableElement extends Vue {
    * 设置数据的尺寸
    */
   setSize(width: number, height: number): void {
-    this.widgetData.visualData.width = width;
-    this.widgetData.visualData.height = height;
+    this.widgetData.visualData.size = { width, height };
   }
 }
 </script>

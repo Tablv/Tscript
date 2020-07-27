@@ -18,15 +18,15 @@
       </div>
     </div>
     <div class="left" @click="activeArea('global')">
-      <aside-menu />
+      <aside-tool-bar />
     </div>
 
     <div class="center">
-      <resizable-grid />
+      <grid-canvas />
     </div>
 
     <div class="right hidden" ref="rightMenu" @click="activeArea('global')">
-      <draggable-menu />
+      <aside-menu />
     </div>
 
     <div class="bottom">
@@ -39,9 +39,9 @@
 import ResizableChart from "@/layout/editor/ResizableChart.vue";
 import { Component, Vue, Watch, Emit } from "vue-property-decorator";
 import screenfull from "screenfull";
+import AsideToolBar from "@/layout/editor/AsideToolBar.vue";
 import AsideMenu from "@/layout/editor/AsideMenu.vue";
-import DraggableMenu from "@/layout/editor/chart-menu/ChartMenu.vue";
-import ResizableGrid from "@/layout/editor/ResizableGrid.vue";
+import GridCanvas from "@/layout/editor/GridCanvas.vue";
 import OptionBar from "@/layout/editor/OptionBar.vue";
 import { ShortcutType } from "glaway-bi-model/enums/ShortcutType";
 import UIUtil, { MessageType } from "@/util/UIUtil";
@@ -53,10 +53,10 @@ import DashboardSet from "glaway-bi-model/view/DashboardSet";
 
 @Component({
   components: {
+    AsideToolBar,
     AsideMenu,
-    DraggableMenu,
-    ResizableGrid,
     OptionBar,
+    GridCanvas,
     ResizableChart
   }
 })
@@ -88,6 +88,10 @@ export default class Editor extends Vue {
   // 当前选中仪表盘下标
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
+
+  // 当前仪表盘
+  @CommonStore.Getter("currentDashboard")
+  currentDashboard!: Dashboard;
 
   /**
    * EditorStore

@@ -13,13 +13,13 @@
 
 <script lang="ts">
 import { Vue, Component, Provide, Inject, Prop } from "vue-property-decorator";
-import { widgetConfig, StoryWidget } from "@/types/StoryWidget";
+import { widgetConfig, DashWidget } from "@/types/DashWidget";
 import { WidgetType } from "@/config/WidgetType";
 
 @Component({})
 export default class ImageWidget extends Vue {
   @Prop()
-  data!: StoryWidget<widgetConfig.Image>;
+  data!: DashWidget<widgetConfig.Image>;
 
   get imgUrl(): widgetConfig.Image["url"] {
     return this.data.config.url;

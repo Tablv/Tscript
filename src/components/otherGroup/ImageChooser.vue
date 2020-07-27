@@ -27,7 +27,7 @@ import { TreeNode } from "element-ui/types/tree";
 import { promiseTimeout } from "@/util/AxiosUtil.ts";
 import StoryBuilder from "@/config/StoryBuilder";
 import { WidgetType } from "@/config/WidgetType";
-import { StoryWidget, widgetConfig } from "@/types/StoryWidget";
+import { DashWidget, widgetConfig } from "@/types/DashWidget";
 
 const validImgSuffix = ["jpg", "jpeg", "png", "gif", "bmp"];
 
@@ -108,7 +108,7 @@ export default class ImageChooser extends Vue {
       x: 0,
       y: 0,
       z: this.state.currentPage.widgets.length
-    }) as StoryWidget<widgetConfig.Image>;
+    }) as DashWidget<widgetConfig.Image>;
 
     // 添加 URL
     imgWidget.config.url = data.url;
@@ -121,7 +121,7 @@ export default class ImageChooser extends Vue {
       const standardHeight = standardSize.height;
       // 不超出，直接设置宽高
       if (imgWidth < standardWidth && imgHeight < standardHeight) {
-        imgWidget.config.size = {
+        imgWidget.visualData.size = {
           width: imgWidth,
           height: imgHeight
         };
@@ -137,7 +137,7 @@ export default class ImageChooser extends Vue {
         const scaledWidth = parseInt(`${imgWidth / imgScale}`);
         const scaledHeight = parseInt(`${imgHeight / imgScale}`);
 
-        imgWidget.config.size = {
+        imgWidget.visualData.size = {
           width: Math.min(scaledWidth, standardWidth),
           height: Math.min(scaledHeight, standardHeight)
         };

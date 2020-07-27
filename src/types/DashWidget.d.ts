@@ -4,7 +4,7 @@ import { WidgetType } from "@/config/WidgetType";
 /**
  * 故事元素
  */
-export interface StoryWidget<ConfigType> {
+export interface DashWidget<ConfigType> {
   /**
    * ID
    */
@@ -16,39 +16,20 @@ export interface StoryWidget<ConfigType> {
   type: WidgetType;
 
   /**
+   * 可视化数据
+   */
+  visualData: widgetConfig.VisualData;
+
+  /**
    * 配置项
    */
   config: ConfigType;
-
-  visualData: widgetConfig.VisualData;
 }
 
 export namespace widgetConfig {
   /**
    * 元素位置
    */
-  export type VisualData = {
-    type: WidgetType | null;
-
-    position: Position;
-
-    grid: Array<number>;
-
-    width: number;
-
-    height: number;
-
-    background?: string;
-
-    borderWidth?: number;
-
-    borderStyle?: string;
-
-    borderColor?: string;
-
-    borderRadius?: number;
-  };
-
   export type Position = {
     x: number;
     y: number;
@@ -77,6 +58,29 @@ export namespace widgetConfig {
   };
 
   /**
+   * 元素阴影
+   */
+  export type Shadow = {
+    enable: boolean;
+    props: {
+      // 水平阴影的位置
+      h: number;
+      
+      // 垂直阴影的位置
+      v: number;
+      
+      // 模糊距离
+      blur: number;
+
+      // 阴影大小
+      spread: number;
+
+      // 阴影颜色
+      color: string; // Hex
+    } | null;
+  };
+
+  /**
    * 元素背景
    */
   export type Background = {
@@ -87,9 +91,9 @@ export namespace widgetConfig {
   };
 
   /**
-   * 故事元素基础配置项
+   * 元素可视化配置项
    */
-  export type Base = {
+  export type VisualData = {
     /**
      * 坐标
      */
@@ -109,12 +113,17 @@ export namespace widgetConfig {
      * 背景
      */
     background: Background;
+
+    /**
+     * 阴影
+     */
+    shadow?: Shadow;
   };
 
   /**
    * 文本框配置
    */
-  export type TextArea = Base & {
+  export type TextArea = {
     /**
      * 数值
      */
@@ -143,25 +152,10 @@ export namespace widgetConfig {
   /**
    * 图片配置
    */
-  export type Image = Base & {
+  export type Image = {
     /**
      * URL
      */
     url: string | null;
-  };
-
-  /**
-   * 仪表盘配置
-   */
-  export type DashboardConf = Base & {
-    /**
-     * 仪表盘ID
-     */
-    dashboardId: string;
-
-    /**
-     * 仪表盘数据
-     */
-    data: Dashboard | null;
   };
 }

@@ -13,7 +13,7 @@ import AnalysisDTO from "glaway-bi-model/params/AnalysisDTO";
 import FieldDTO, { FieldDTOBuilder } from "glaway-bi-model/params/FieldDTO";
 import WhereDTO from "glaway-bi-model/params/WhereDTO";
 import ReactWhere from "glaway-bi-model/view/ReactWhere";
-import ObjectUtil from "./ObjectUtil";
+import ObjectUtil from "glaway-bi-util/ObjectUtil";
 import { BackgroundType } from "glaway-bi-model/enums/DashboardSet";
 import OrderDTO from "glaway-bi-model/params/OrderDTO";
 import { AnalysisResult } from "glaway-bi-model/types/AnalysisResults";
@@ -38,7 +38,7 @@ export default class DashboardUtil {
     }
 
     // 对模板对象进行深拷贝
-    let createdData: Dashboard = JSON.parse(JSON.stringify(templateData));
+    let createdData: Dashboard = ObjectUtil.copy(templateData);
 
     // 赋予唯一id
     createdData.id = UUID.generate();

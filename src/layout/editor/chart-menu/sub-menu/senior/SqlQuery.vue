@@ -74,7 +74,7 @@ export default class SqlQuery extends Vue {
 
   sqlSwitchChange(): void {
     // 待开发功能
-    this.$message.info("功能待开发");
+    (this as any).$message.info("功能待开发");
     return;
 
     // 未启用 SQL 查询 && 启用 JSON 数据

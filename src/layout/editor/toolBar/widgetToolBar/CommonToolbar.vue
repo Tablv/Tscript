@@ -1,6 +1,6 @@
 <template>
   <div
-    class="chart-toolbar text-common-toolbar"
+    class="chart-toolbar detail-toolbar text-common-toolbar"
     v-show="index === activeIndex && !isSavingScreenhot"
   >
     <tool-button
@@ -33,7 +33,7 @@ import ToolBar from "@/components/otherGroup/ToolBar.vue";
 import { CommonStore } from "@/store/modules-model";
 import ToolButton from "@/components/ToolButton.vue";
 import ObjectUtil from "@/util/ObjectUtil";
-import { StoryWidget } from "@/types/StoryWidget";
+import { DashWidget } from "@/types/DashWidget";
 
 @Component({
   components: {
@@ -46,7 +46,7 @@ export default class CommonToolbar extends Vue {
    * 仪表盘数据
    */
   @Prop()
-  data!: StoryWidget<any>;
+  data!: DashWidget<any>;
 
   @Prop()
   index!: number;
@@ -63,7 +63,7 @@ export default class CommonToolbar extends Vue {
 
   // 聚焦图表信息
   @CommonStore.State("focusDashboard")
-  focusWidgetData!: StoryWidget<any>;
+  focusWidgetData!: DashWidget<any>;
 
   // 设置聚焦状态
   @CommonStore.Mutation("setFocusDashboard")
@@ -81,7 +81,7 @@ export default class CommonToolbar extends Vue {
     return this.data;
   }
 
-  set widgetData(widgetData: StoryWidget<any>) {
+  set widgetData(widgetData: DashWidget<any>) {
     this.$emit("update:data", widgetData);
   }
 
@@ -99,7 +99,7 @@ export default class CommonToolbar extends Vue {
     // 是否存在放大的图表
     const id = this.focusWidgetData.id ? "" : this.widgetData.id;
     // 放大图表配置
-    const nowWidgetData = { id } as StoryWidget<any>;
+    const nowWidgetData = { id } as DashWidget<any>;
     if (!id) {
       // 存在放大图表，再次点击toggle
       this.widgetData.visualData = ObjectUtil.copy(
@@ -111,8 +111,10 @@ export default class CommonToolbar extends Vue {
         visualData: ObjectUtil.copy(this.widgetData.visualData)
       });
       ObjectUtil.merge(this.widgetData.visualData as any, {
-        width: box.offsetWidth,
-        height: box.offsetHeight,
+        size: {
+          width: box.offsetWidth,
+          height: box.offsetHeight
+        },
         position: {
           x: 0,
           y: 0

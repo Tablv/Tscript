@@ -192,7 +192,7 @@
 
 <script lang="ts">
 import { Vue, Component, Inject } from "vue-property-decorator";
-import { widgetConfig, StoryWidget } from "@/types/StoryWidget";
+import { widgetConfig, DashWidget } from "@/types/DashWidget";
 import ToolButton from "@/components/ToolButton.vue";
 
 @Component({
@@ -202,7 +202,7 @@ import ToolButton from "@/components/ToolButton.vue";
 })
 export default class TextToolBar extends Vue {
   @Inject()
-  wdata!: StoryWidget<any>;
+  wdata!: DashWidget<any>;
 
   fontSizeOptions = ((): Array<number> => {
     const result = [];
@@ -226,8 +226,8 @@ export default class TextToolBar extends Vue {
 
   borderShow: boolean = false;
 
-  get widget(): StoryWidget<widgetConfig.TextArea> {
-    return this.wdata as StoryWidget<widgetConfig.TextArea>;
+  get widget(): DashWidget<widgetConfig.TextArea> {
+    return this.wdata as DashWidget<widgetConfig.TextArea>;
   }
 
   get textFont(): widgetConfig.TextArea["font"] {
