@@ -9,7 +9,7 @@
       :x="widgetData.visualData.position.x"
       :y="widgetData.visualData.position.y"
       :z="widgetData.visualData.position.z"
-      :grid="!setting.background.show ? [1, 1] : widgetData.visualData.grid"
+      :grid="!setting.background.show ? [1, 1] : setting.grid"
       :draggable="!focusWidgetData.id"
       :resizable="!focusWidgetData.id"
       :style="{
@@ -142,7 +142,8 @@ export default class ResizableElement extends Vue {
    * 设置数据的尺寸
    */
   setSize(width: number, height: number): void {
-    this.widgetData.visualData.size = { width, height };
+    this.widgetData.visualData.width = width;
+    this.widgetData.visualData.height = height;
   }
 }
 </script>

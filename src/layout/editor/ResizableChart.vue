@@ -9,7 +9,7 @@
       :x="thisDashboard.visualData.position.x"
       :y="thisDashboard.visualData.position.y"
       :z="thisDashboard.visualData.position.z"
-      :grid="!setting.background.show ? [1, 1] : thisDashboard.visualData.grid"
+      :grid="!setting.background.show ? [1, 1] : setting.grid"
       :draggable="!focusDashboard.id"
       :resizable="!focusDashboard.id"
       :style="{
@@ -20,7 +20,6 @@
         borderRadius: thisDashboard.visualData.border.radius + '%'
       }"
       :class="{
-        commonElement: index !== activeIndex && !isSavingScreenhot,
         activeElement: index === activeIndex && !isSavingScreenhot,
         hideElement:
           thisDashboard.id !== focusDashboard.id && focusDashboard.id !== ''

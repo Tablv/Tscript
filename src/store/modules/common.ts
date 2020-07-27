@@ -131,15 +131,15 @@ const mutations: MutationTree<any> = {
     newDashboard.id = UUID.generate();
 
     // 移动位置以防止重叠
-    let offsetX = 10,
-      offsetY = 10,
-      originX = newDashboard.visualData.position.x,
-      originY = newDashboard.visualData.position.y,
-      latestPosition = {
-        x: originX + offsetX,
-        y: originY + offsetY,
-        z: state.dashboards.length - 1
-      };
+    let [ offsetX, offsetY ] = state.dashboardSet.grid || [ 10, 10 ];
+    let originX = newDashboard.visualData.position.x;
+    let originY = newDashboard.visualData.position.y;
+    let latestPosition = {
+      x: originX + offsetX,
+      y: originY + offsetY,
+      z: state.dashboards.length - 1
+    };
+    
     newDashboard.visualData.position = latestPosition;
 
     // 加入仪表盘数组
@@ -159,7 +159,6 @@ const mutations: MutationTree<any> = {
     /**
      * 构建组件
      */
-
     const widgetBuilder = new WidgetBuilder(type, {
       ...position,
       z: currentDataLength
