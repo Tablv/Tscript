@@ -10,7 +10,6 @@
       effect="dark"
       content="选择图表样式"
       placement="right"
-      :manual="true"
     >
       <button class="toolbtn" @click="showCreateChart = true">
         <i class="fa fa-chart-bar"></i>
@@ -345,7 +344,7 @@ export default class AsideMenu extends Vue {
       dashboardSnapshots: dashboardSnapshots as Array<DashboardSnapshot>
     };
 
-    return await AxiosRequest.dashboardSet.save(saveResult);
+    return await AxiosRequest.dashboards.save(saveResult);
   }
 
   /**

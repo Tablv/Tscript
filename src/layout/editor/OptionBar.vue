@@ -66,15 +66,16 @@
           />
         </div>
         <div v-if="dashboardSet.canvasSetting.background.type === 1">
-          <!-- /admin/dashboardSet/updateBackground -->
           <el-upload
-            action="no-http"
+            action="admin/dashboard/container/updateBackground"
             class="bg-uploader"
             :show-file-list="false"
             :on-success="uploadBgSuccess"
             :on-error="uploadBgError"
             :before-upload="bgValidate"
-            :http-request="() => {}"
+            :data="{
+              containerId: dashboardSetId
+            }"
           >
             <img
               v-if="dashboardSet.canvasSetting.background.url"
@@ -195,15 +196,12 @@ export default class OptionBar extends Vue {
     if (!isLt10M) {
       UIUtil.showErrorMessage("上传头像图片大小不能超过 10MB!");
     }
-    this.dashboardSet.canvasSetting.background.url = URL.createObjectURL(file);
     return isJPG && isLt10M;
   }
 
   // 背景图片 上传成功
   uploadBgSuccess(res: any, file: ElUploadInternalFileDetail): void {
-    this.dashboardSet.canvasSetting.background.url = URL.createObjectURL(
-      file.raw
-    );
+    this.dashboardSet.canvasSetting.background.url = res.result.raw;
   }
 
   // 背景图片 上传失败

@@ -53,8 +53,13 @@ const API = {
   /**
    * 仪表盘集
    */
-  findDashboardSet: "/dashboard/findDashboard",
-  saveDashboardSet: "/dashboard/container/save",
+  findDashboards: "/dashboard/findDashboard",
+  saveDashboards: "/dashboard/container/save",
+
+  /**
+   * 画布设置
+   */
+  findDashboardSet: "/dashboard/container",
 
   /**
    * 分享
@@ -194,10 +199,10 @@ export const AxiosRequest = {
   /**
    * 仪表盘集
    */
-  dashboardSet: {
+  dashboards: {
     // 加载仪表盘集
     find: (setId: string) => {
-      return AxiosUtil.get(`${API.findDashboardSet}/${setId}`)
+      return AxiosUtil.get(`${API.findDashboards}/${setId}`)
         .then(res => {
           if (res.result) {
             return {
@@ -224,10 +229,32 @@ export const AxiosRequest = {
         containerOptions: JSON.stringify(saveData.dashboardSet),
         dashboardOptions: JSON.stringify(saveData.dashboards)
       };
-      return AxiosUtil.post(API.saveDashboardSet, req)
+      return AxiosUtil.post(API.saveDashboards, req)
         .then(res =>
           res.success ? Promise.resolve() : Promise.reject("保存仪表盘集错误")
         )
+        .catch(err => Promise.reject(err));
+    }
+  },
+
+  // 容器
+  dashboardSet: {
+    find: (id: string) => {
+      return AxiosUtil.get(`${API.findDashboardSet}/${id}`)
+        .then(res => {
+          if (res.result) {
+            return {
+              container: JSON.parse(res.result.settings),
+              dashboards: ObjectUtil.deserialize(res.result.dashboards)
+            };
+          }
+
+          // 仪表盘集为空，使用默认配置
+          return Promise.resolve({
+            container: {},
+            dashboards: []
+          });
+        })
         .catch(err => Promise.reject(err));
     }
   },

@@ -13,7 +13,6 @@ import {
 } from "glaway-bi-component/src/config/DefaultTemplate";
 import TableView from "glaway-bi-model/view/dashboard/TableView";
 import DashboardUtil from "@/util/DashboardUtil";
-import { forEach } from 'lodash';
 
 const state = {
   /**

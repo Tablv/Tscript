@@ -78,6 +78,10 @@ export default class Editor extends Vue {
   deleteDashboard!: Function;
 
   // 加载仪表盘集
+  @CommonStore.Action("loadDashboards")
+  loadDashboards!: Function;
+
+  // 加载仪表盘集设置
   @CommonStore.Action("loadDashboardSet")
   loadDashboardSet!: Function;
 
@@ -159,7 +163,7 @@ export default class Editor extends Vue {
     let loadingInstance = UIUtil.showLoading();
     this.setDashboardSetId(setId);
 
-    this.loadDashboardSet()
+    this.loadDashboards()
       .then(() => {
         // 关闭loading
         UIUtil.closeLoading(loadingInstance);
@@ -178,6 +182,7 @@ export default class Editor extends Vue {
           0
         );
       });
+    // this.loadDashboardSet();
   }
 
   // 激活当前区域，用于切换全局、局部快捷键
