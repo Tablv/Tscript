@@ -4,8 +4,8 @@
       @dragstop="onDragStop"
       @dragging="onDrageding"
       @resizestop="onResizeStop"
-      :w="widgetData.visualData.size.width"
-      :h="widgetData.visualData.size.height"
+      :w="widgetData.visualData.width"
+      :h="widgetData.visualData.height"
       :x="widgetData.visualData.position.x"
       :y="widgetData.visualData.position.y"
       :z="widgetData.visualData.position.z"
@@ -142,7 +142,8 @@ export default class ResizableElement extends Vue {
    * 设置数据的尺寸
    */
   setSize(width: number, height: number): void {
-    this.widgetData.visualData.size = { width, height };
+    this.widgetData.visualData.width = width;
+    this.widgetData.visualData.height = height;
   }
 }
 </script>

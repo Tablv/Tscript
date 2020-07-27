@@ -1,4 +1,3 @@
-import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { WidgetType } from "@/config/WidgetType";
 
 /**
@@ -102,7 +101,8 @@ export namespace widgetConfig {
     /**
      * 尺寸
      */
-    size: Size;
+    width: number;
+    height: number;
 
     /**
      * 边框

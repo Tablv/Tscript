@@ -122,8 +122,8 @@ export default class ImageChooser extends Vue {
     // if (imgWidth && imgHeight) {
     //   // 判断是否超出画布标准尺寸
     //   const standardSize = this.state.data.config.standardSize;
-    //   const standardWidth = standardSize.width;
-    //   const standardHeight = standardSize.height;
+    //   const standardWidth = standardwidth;
+    //   const standardHeight = standardheight;
     //   // 不超出，直接设置宽高
     //   if (imgWidth < standardWidth && imgHeight < standardHeight) {
     //     imgWidget.visualData.size = {
