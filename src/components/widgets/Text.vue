@@ -32,7 +32,6 @@ import {
   Watch
 } from "vue-property-decorator";
 
-import Page from "@/types/EditorPage";
 import { widgetConfig, StoryWidget } from "@/types/StoryWidget";
 import { WidgetType } from "@/config/WidgetType";
 

@@ -24,10 +24,9 @@ import { Vue, Component, Prop, Inject } from "vue-property-decorator";
 import { CreateElement } from "vue";
 import { TreeNode } from "element-ui/types/tree";
 
-import { promiseTimeout } from "@/util/promise-util";
+import { promiseTimeout } from "@/util/AxiosUtil.ts";
 import StoryBuilder from "@/config/StoryBuilder";
 import { WidgetType } from "@/config/WidgetType";
-import Page from "@/types/EditorPage";
 import { StoryWidget, widgetConfig } from "@/types/StoryWidget";
 
 const validImgSuffix = ["jpg", "jpeg", "png", "gif", "bmp"];
@@ -52,10 +51,10 @@ function isImageFile(fileName: string) {
 @Component
 export default class ImageChooser extends Vue {
   @Inject()
-  state!: Page.State;
+  state!: any;
 
   @Inject()
-  getter!: Page.Getter;
+  getter!: any;
 
   @Prop()
   visible!: boolean;

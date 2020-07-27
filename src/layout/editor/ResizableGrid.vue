@@ -194,8 +194,6 @@ export default class ResizableGrid extends Vue {
     if (!this.isShowshadow) return;
     const template = ObjectUtil.copy(generalDataTemplate);
     this.bgStyle = this.shadowStyle;
-    // this.bgStyle.w = this.shadowStyle.w;
-    // this.bgStyle.h = template.visualData.height;
   }
 
   // 下标改变，隐藏右侧菜单

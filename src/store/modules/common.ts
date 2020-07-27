@@ -206,7 +206,7 @@ const mutations: MutationTree<any> = {
 
   // 设置仪表盘集数据
   setDashboardSet(state, dashboardSet: DashboardSet): void {
-    state.dashboardSet = ObjectUtil.merge(dashboardSet, state.dashboardSet);
+    state.dashboardSet = ObjectUtil.merge(state.dashboardSet, dashboardSet);
   },
 
   // 设置仪表盘数据
@@ -291,7 +291,8 @@ const actions: ActionTree<any, any> = {
   /**
    * 加载仪表盘配置
    */
-  loadDashboardSet({ state, commit }): Promise<void> {
+  loadDashboards({ state, commit }): Promise<void> {
+    // return AxiosRequest.dashboards
     return AxiosRequest.dashboardSet
       .find(state.dashboardSetId)
       .then(res => {
@@ -329,6 +330,21 @@ const actions: ActionTree<any, any> = {
 
         // 设置仪表盘
         commit("setDashboards", result);
+        return Promise.resolve();
+      })
+      .catch(err => Promise.reject(err));
+  },
+
+  loadDashboardSet({ state, commit }): Promise<void> {
+    return AxiosRequest.dashboardSet
+      .find(state.dashboardSetId)
+      .then(res => {
+        const { container, dashboards } = res;
+        // 清空联动条件
+        commit("resetReactWhere");
+
+        // 设置仪表盘集
+        commit("setDashboardSet", container);
         return Promise.resolve();
       })
       .catch(err => Promise.reject(err));

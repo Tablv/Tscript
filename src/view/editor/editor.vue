@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="left" @click="activeArea('global')">
-      <tool-bar />
+      <aside-menu />
     </div>
 
     <div class="center">
@@ -39,7 +39,7 @@
 import ResizableChart from "@/layout/editor/ResizableChart.vue";
 import { Component, Vue, Watch, Emit } from "vue-property-decorator";
 import screenfull from "screenfull";
-import ToolBar from "@/layout/editor/ToolBar.vue";
+import AsideMenu from "@/layout/editor/AsideMenu.vue";
 import DraggableMenu from "@/layout/editor/chart-menu/ChartMenu.vue";
 import ResizableGrid from "@/layout/editor/ResizableGrid.vue";
 import OptionBar from "@/layout/editor/OptionBar.vue";
@@ -53,7 +53,7 @@ import DashboardSet from "glaway-bi-model/view/DashboardSet";
 
 @Component({
   components: {
-    ToolBar,
+    AsideMenu,
     DraggableMenu,
     ResizableGrid,
     OptionBar,
@@ -78,6 +78,10 @@ export default class Editor extends Vue {
   deleteDashboard!: Function;
 
   // 加载仪表盘集
+  @CommonStore.Action("loadDashboards")
+  loadDashboards!: Function;
+
+  // 加载仪表盘集设置
   @CommonStore.Action("loadDashboardSet")
   loadDashboardSet!: Function;
 
@@ -159,7 +163,7 @@ export default class Editor extends Vue {
     let loadingInstance = UIUtil.showLoading();
     this.setDashboardSetId(setId);
 
-    this.loadDashboardSet()
+    this.loadDashboards()
       .then(() => {
         // 关闭loading
         UIUtil.closeLoading(loadingInstance);
@@ -178,6 +182,7 @@ export default class Editor extends Vue {
           0
         );
       });
+    // this.loadDashboardSet();
   }
 
   // 激活当前区域，用于切换全局、局部快捷键

@@ -80,7 +80,7 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
-import ChartToolbar from "@/layout/chartToolBar/CommonToolbar.vue";
+import ChartToolbar from "@/layout/editor/toolBar/chartToolBar/CommonToolbar.vue";
 import {
   AnalysisResults,
   AnalysisResult
@@ -429,9 +429,6 @@ export default class ResizableElement extends Vue {
     if (!this.isReact && resetCurrent && !notCurrent) {
       this.chartComponent.resetOpacity();
     }
-    // if (!resetCurrent && !this.reactWhere.dashboardId) {
-    //   this.isRotationEnable = false;
-    // }
 
     if (!this.isReact || notCurrent) {
       return;
@@ -601,12 +598,13 @@ export default class ResizableElement extends Vue {
     this.isShowDetail = !hide;
   }
 
-  /**
-   * 获取数据，展示图表
-   */
-  fetchToShow(): Promise<void> {
-    this.isFetching = true;
-    const reactWhere = {
+  // 获取联动数据
+  getReactWhere(): ReactWhere {
+    const isCurrent = this.reactWhere.dashboardId === this.thisDashboard.id;
+    if (this.isReact && !isCurrent) {
+      return this.reactWhere;
+    }
+    return {
       rotationTask: {} as any,
       selectedIndex: null,
       oldDashboardId: null,
@@ -614,12 +612,19 @@ export default class ResizableElement extends Vue {
       datasetId: null,
       where: [] as any
     };
-    const isCurrent = this.reactWhere.dashboardId === this.thisDashboard.id;
+  }
+
+  /**
+   * 获取数据，展示图表
+   */
+  fetchToShow(): Promise<void> {
+    this.isFetching = true;
+    const reactWhere: ReactWhere = this.getReactWhere();
     // 获取数据
     return ComponentUtil.fetchData(
       this.isSqlEnable,
-      this.thisDashboard as any,
-      this.isReact && !isCurrent ? this.reactWhere : reactWhere,
+      this.thisDashboard,
+      reactWhere,
       this.chartComponent
     )
       .then(data => {

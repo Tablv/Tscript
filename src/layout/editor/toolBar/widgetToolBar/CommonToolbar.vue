@@ -29,7 +29,7 @@ import {
   Prop,
   Provide
 } from "vue-property-decorator";
-import ToolBar from "@/components/story-editor/ToolBar.vue";
+import ToolBar from "@/components/otherGroup/ToolBar.vue";
 import { CommonStore } from "@/store/modules-model";
 import ToolButton from "@/components/ToolButton.vue";
 import ObjectUtil from "@/util/ObjectUtil";

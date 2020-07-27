@@ -10,7 +10,6 @@
       effect="dark"
       content="选择图表样式"
       placement="right"
-      :manual="true"
     >
       <button class="toolbtn" @click="showCreateChart = true">
         <i class="fa fa-chart-bar"></i>
@@ -19,7 +18,7 @@
 
     <el-tooltip effect="dark" content="文本" placement="right">
       <button
-        class="toolbtn"
+        class="dragbutton toolbtn "
         draggable="true"
         @dragstart="dragText"
         @dragend="dragendText"
@@ -99,13 +98,12 @@ import { SortType } from "glaway-bi-model/enums/SortType";
 import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
 import { ElLoadingComponent } from "element-ui/types/loading";
 import Draggable from "glaway-bi-model/view/Draggable";
-import { dragUtil } from "@/util/drag-util";
 import { StoryWidget } from "@/types/StoryWidget";
 
 @Component({
   components: {}
 })
-export default class ToolBar extends Vue {
+export default class AsideMenu extends Vue {
   // 创建仪表盘
   @CommonStore.Mutation("createDashboard")
   createDashboard!: Function;
@@ -346,7 +344,7 @@ export default class ToolBar extends Vue {
       dashboardSnapshots: dashboardSnapshots as Array<DashboardSnapshot>
     };
 
-    return await AxiosRequest.dashboardSet.save(saveResult);
+    return await AxiosRequest.dashboards.save(saveResult);
   }
 
   /**
@@ -412,7 +410,6 @@ export default class ToolBar extends Vue {
   }
 
   dragText(event: any) {
-    // dragUtil.putText(event);
     event.dataTransfer.setDragImage(new Image(), 0, 0);
     event.dataTransfer.setData("chartType", "text");
     const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
@@ -477,6 +474,9 @@ export default class ToolBar extends Vue {
 }
 
 .toolbar {
+  .dragbutton {
+    cursor: move !important;
+  }
   .toolbtn {
     border: 0;
     height: 84px;

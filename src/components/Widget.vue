@@ -5,12 +5,7 @@ import text from "./widgets/Text.vue";
 import img from "./widgets/Image.vue";
 import { StoryWidget } from "@/types/StoryWidget";
 
-import BorderConfigurable from "./widgets/style-mixins/Border";
-import BackgroundConfigurable from "./widgets/style-mixins/Background";
-
-@Component({
-  mixins: [BorderConfigurable, BackgroundConfigurable]
-})
+@Component({})
 export default class Widget extends Vue {
   @Prop()
   data!: StoryWidget<any>;

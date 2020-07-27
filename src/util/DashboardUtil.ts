@@ -42,12 +42,6 @@ export default class DashboardUtil {
 
     // 赋予唯一id
     createdData.id = UUID.generate();
-    // 确定新建仪表的定位位置
-    // createdData.visualData.position = {
-    //   x: currentLength * 10,
-    //   y: currentLength * 10,
-    //   z: currentLength
-    // };
 
     return createdData;
   }
@@ -129,6 +123,24 @@ export default class DashboardUtil {
     return analysisDTO;
   }
 
+  public static initTableInfoColumn(
+    column: TableInfoVO,
+    fromTable: TableRelation
+  ): any {
+    const columnName = column.vcolumn || column.alias || column.columnName;
+    const { schema, alias } = fromTable;
+    return {
+      id: column.id,
+      schema,
+      dataType: column.dataType,
+      tableAlias: alias,
+      columnName,
+      alias: columnName,
+      vcolumn: columnName
+    };
+  }
+
+  // 初始化视图
   public static initTableView(): TableView {
     return {
       viewName: "",

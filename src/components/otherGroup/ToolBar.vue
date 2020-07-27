@@ -5,8 +5,8 @@ import ObjectUtil from "glaway-bi-util/ObjectUtil";
 import { ResultJSON } from "glaway-bi-util/AxiosUtil";
 import { StoryWidget } from "@/types/StoryWidget";
 
-import text from "./toolbars/Text.vue";
-import img from "./toolbars/Image.vue";
+import text from "./category/Text.vue";
+import img from "./category/Image.vue";
 
 @Component({
   components: {}
@@ -64,5 +64,5 @@ export default class ToolBar extends Vue {
 </script>
 
 <style lang="scss">
-@import "./toolbar";
+@import "./css/toolbar";
 </style>
