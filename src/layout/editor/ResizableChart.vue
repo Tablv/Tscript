@@ -9,17 +9,22 @@
       :x="thisDashboard.visualData.position.x"
       :y="thisDashboard.visualData.position.y"
       :z="thisDashboard.visualData.position.z"
-      :grid="!setting.background.show ? [1, 1] : setting.grid"
+      :grid="!setting.background.show ? [1, 1] : thisDashboard.visualData.grid"
       :draggable="!focusDashboard.id"
       :resizable="!focusDashboard.id"
       :style="{
         background: thisDashboard.visualData.background.color,
         borderColor: thisDashboard.visualData.border.color,
-        borderWidth: thisDashboard.visualData.border.width + 'px',
+        borderWidth: thisDashboard.visualData.border.enable
+          ? thisDashboard.visualData.border.width + 'px'
+          : 0,
         borderStyle: thisDashboard.visualData.border.style,
-        borderRadius: thisDashboard.visualData.border.radius + '%'
+        borderRadius: thisDashboard.visualData.border.enable
+          ? thisDashboard.visualData.border.radius + '%'
+          : 0
       }"
       :class="{
+        commonElement: index !== activeIndex && !isSavingScreenhot,
         activeElement: index === activeIndex && !isSavingScreenhot,
         hideElement:
           thisDashboard.id !== focusDashboard.id && focusDashboard.id !== ''

@@ -22,10 +22,13 @@
       </el-form-item>
 
       <el-form-item label="边框">
-        <el-switch v-model="borderFlag" active-color="#13ce66" />
+        <el-switch
+          v-model="currentDashboard.visualData.border.enable"
+          active-color="#13ce66"
+        />
       </el-form-item>
 
-      <detail-card :visible="borderFlag">
+      <detail-card :visible="currentDashboard.visualData.border.enable">
         <el-form-item label="宽度">
           <!-- 宽度 -->
           <el-slider
