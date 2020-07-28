@@ -50,7 +50,8 @@ export default class TitleStyle extends Vue {
      * 指示器 仪表盘
      */
     targetpie: () => import("./axis-type/GuageAxis.vue"),
-    guage: () => import("./axis-type/GuageAxis.vue")
+    guage: () => import("./axis-type/GuageAxis.vue"),
+    funnel: () => import("./axis-type/PieAxis.vue")
   };
 
   get chartType() {

@@ -69,7 +69,9 @@ export default class TitleStyle extends Vue {
     /**
      * 仪表盘
      */
-    guage: () => import("./specific-type/GuageStyle.vue")
+    guage: () => import("./specific-type/GuageStyle.vue"),
+
+    funnel: () => import("./specific-type/BarStyle.vue")
   };
 
   get chartType() {

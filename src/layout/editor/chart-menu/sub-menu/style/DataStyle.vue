@@ -10,7 +10,7 @@
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
-      <el-form-item label="小数位数设置">
+      <el-form-item label="小数位数">
         <el-input-number v-model="specificStyle.decimals.value" :min="0" />
       </el-form-item>
 

@@ -11,8 +11,8 @@
     <el-form-item label="空值略过方式">
       <el-select v-model="connectNulls" @change="doHandleConnectChange">
         <el-option :value="0" label="断点"></el-option>
-        <el-option :value="2" label="跨过"></el-option>
-        <el-option :value="1" label="0"></el-option>
+        <el-option :value="1" label="跨过"></el-option>
+        <el-option :value="2" label="0"></el-option>
       </el-select>
     </el-form-item>
 
@@ -78,13 +78,16 @@ export default class BarStyle extends Vue {
     { key: "arrow", label: "箭头" }
   ];
 
+  // 处理线形选择的选择
   doHandleLineChange(type: number) {
     this.specificStyle.smooth = Boolean(type);
   }
 
+  // 处理连接方式的选择
   doHandleConnectChange(type: number) {
     if (type === 2) {
-      // 做特殊处理
+      // 不作处理
+      this.specificStyle.connectNulls = null;
     } else {
       this.specificStyle.connectNulls = Boolean(type);
     }
