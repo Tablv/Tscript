@@ -7,7 +7,7 @@
       <!-- 文本框菜单 -->
       <el-container>
         <el-header class="menu-header" height="40px">
-          <span>文本框设置</span>
+          <span>文本属性设置</span>
         </el-header>
         <el-main class="tabs-box">
           123
