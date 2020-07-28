@@ -634,6 +634,5 @@ export default class DashboardWidget extends Vue {
       right: 0;
     }
   }
-
 }
 </style>

@@ -134,11 +134,6 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown> -->
-
-
-
-
-      
     </el-form>
   </el-card>
 </template>
@@ -148,8 +143,8 @@ import { Component, Vue, Inject, Model } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import DetailCard from "@/components/DetailCard.vue";
-import { DashWidget, widgetConfig } from '@/types/DashWidget';
-import { WidgetBuilder } from '@/config/WidgetBuilder';
+import { DashWidget, widgetConfig } from "@/types/DashWidget";
+import { WidgetBuilder } from "@/config/WidgetBuilder";
 
 @Component({
   components: {

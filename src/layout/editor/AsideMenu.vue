@@ -19,7 +19,9 @@ export default class AsideMenu extends Vue {
   render(h: CreateElement) {
     if (!this.currentDashboard) return null;
 
-    const menuComponent = !!(this.currentDashboard as any).type ? "external-menu" : "chart-menu";
+    const menuComponent = (this.currentDashboard as any).type
+      ? "external-menu"
+      : "chart-menu";
     return h(menuComponent);
   }
 }

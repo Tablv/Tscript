@@ -98,7 +98,7 @@ $backgroundColor: #f9f9f9;
       .el-card__header {
         padding: 10px 24px;
       }
-      
+
       &:not(:last-of-type) {
         margin-bottom: 10px;
       }

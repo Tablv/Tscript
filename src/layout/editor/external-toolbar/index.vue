@@ -99,7 +99,7 @@ export default class CommonToolbar extends Vue {
   handleDelete() {
     this.deleteWidget(this.activeIndex);
   }
-  
+
   // 显示菜单
   doShowMenu() {
     const isShowMenu = this.activeIndex !== -1 && !this.menuVisible;

@@ -11,7 +11,10 @@
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <el-form-item label="背景色">
-        <div v-if="currentWidget.visualData.background.enable" style="height: 32px;">
+        <div
+          v-if="currentWidget.visualData.background.enable"
+          style="height: 32px;"
+        >
           <el-color-picker
             v-model="currentWidget.visualData.background.props.color"
             :show-alpha="true"
@@ -95,8 +98,8 @@ import { Component, Vue, Inject, Model } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import DetailCard from "@/components/DetailCard.vue";
-import { DashWidget } from '@/types/DashWidget';
-import { WidgetBuilder } from '@/config/WidgetBuilder';
+import { DashWidget } from "@/types/DashWidget";
+import { WidgetBuilder } from "@/config/WidgetBuilder";
 
 @Component({
   components: {
@@ -133,7 +136,10 @@ export default class AppearanceStyle extends Vue {
   }
 
   get borderProps() {
-    return this.currentWidget.visualData.border.props || WidgetBuilder.buildBorder(true).props;
+    return (
+      this.currentWidget.visualData.border.props ||
+      WidgetBuilder.buildBorder(true).props
+    );
   }
 
   set borderProps(props) {

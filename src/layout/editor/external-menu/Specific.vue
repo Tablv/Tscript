@@ -2,10 +2,10 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import TextStyle from "./menu-card/TextStyle.vue";
-import { CommonStore } from '@/store/modules-model';
-import { DashWidget } from '@/types/DashWidget';
-import { CreateElement } from 'vue';
-import { WidgetType } from '@/config/WidgetType';
+import { CommonStore } from "@/store/modules-model";
+import { DashWidget } from "@/types/DashWidget";
+import { CreateElement } from "vue";
+import { WidgetType } from "@/config/WidgetType";
 
 @Component({
   components: {
@@ -24,7 +24,7 @@ export default class specificMenuItems extends Vue {
   }
 
   renderByType(type: WidgetType | null) {
-    switch(type) {
+    switch (type) {
       case WidgetType.TEXT_AREA: {
         return (
           <div>
@@ -34,11 +34,7 @@ export default class specificMenuItems extends Vue {
       }
 
       case WidgetType.IMAGE: {
-        return (
-          <div>
-            {/* Image */}
-          </div>
-        );
+        return <div>{/* Image */}</div>;
       }
     }
 
