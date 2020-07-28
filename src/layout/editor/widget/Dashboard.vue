@@ -1,30 +1,4 @@
 <template>
-  <!-- <div class="resizable-widget">
-    <vdr
-      @dragstop="onDragStop"
-      @dragging="onDrageding"
-      @resizestop="onResizeStop"
-      :w="thisDashboard.visualData.width"
-      :h="thisDashboard.visualData.height"
-      :x="thisDashboard.visualData.position.x"
-      :y="thisDashboard.visualData.position.y"
-      :z="thisDashboard.visualData.position.z"
-      :grid="!setting.background.show ? [1, 1] : setting.grid"
-      :draggable="!focusDashboard.id"
-      :resizable="!focusDashboard.id"
-      :style="{
-        background: thisDashboard.visualData.background,
-        borderColor: thisDashboard.visualData.borderColor,
-        borderWidth: thisDashboard.visualData.borderWidth + 'px',
-        borderStyle: thisDashboard.visualData.borderStyle,
-        borderRadius: thisDashboard.visualData.borderRadius + '%'
-      }"
-      :class="{
-        activeElement: index === activeIndex && !isSavingScreenhot,
-        hideElement:
-          thisDashboard.id !== focusDashboard.id && focusDashboard.id !== ''
-      }"
-    > -->
   <div
     class="dashboard-widget"
     @mousedown="hideDetailBar(true)"
@@ -539,35 +513,12 @@ export default class DashboardWidget extends Vue {
    * 调整结束
    */
   onResizeStop(x: number, y: number, width: number, height: number): void {
-    if (this.activeIndex === -1) return;
-    // 防止出现非当前下标的元素被操作的问题
-    this.setActiveIndex(this.index);
-
-    this.setPosition(x, y);
-    this.setSize(width, height);
-
     // 如果类型为 Echarts 图表，则调用 resize 方法
     this.$nextTick(() => {
       this.chartComponent?.resizeChart();
     });
 
     this.hideDetailBar(true);
-  }
-
-  /**
-   * 设置数据的坐标
-   */
-  setPosition(x: number, y: number): void {
-    this.thisDashboard.visualData.position.x = x;
-    this.thisDashboard.visualData.position.y = y;
-  }
-
-  /**
-   * 设置数据的尺寸
-   */
-  setSize(width: number, height: number): void {
-    this.thisDashboard.visualData.width = width;
-    this.thisDashboard.visualData.height = height;
   }
 
   /**
@@ -638,172 +589,40 @@ export default class DashboardWidget extends Vue {
 </script>
 
 <style lang="scss" scoped>
-$handleColor: #09f;
-$borderColor: #00a2ff;
-$shadow: 0 0 6px #58bee9;
-@mixin topAndLeft($top, $left) {
-  margin-top: $top;
-  margin-left: $left;
-}
-
-.resizable-widget {
+.dashboard-widget {
   outline: none;
 
-  .vdr {
-    border: none;
+  .no-chart-text {
+    padding: 16px 0;
+    text-align: center;
+  }
 
-    // 悬停效果
-    &:hover {
-      box-shadow: $shadow;
-    }
+  .no-chart-img {
+    background: url("#{$basePath}img/no-chart.svg") no-repeat center;
+    background-size: contain;
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    right: 20px;
+    bottom: 0;
+  }
+  .chart-component {
+    width: 100%;
+    height: 100%;
+  }
 
-    // 当前激活的元素
-    &.activeElement {
-      border: 1px solid $borderColor;
-    }
+  .toolbar-box {
+    width: 100%;
 
-    // 当前激活的元素
-    &.hideElement {
-      z-index: -1 !important;
-    }
-
-    .no-chart-text {
-      padding: 16px 0;
-      text-align: center;
-    }
-
-    .no-chart-img {
-      background: url("#{$basePath}img/no-chart.svg") no-repeat center;
-      background-size: contain;
+    .chart-toolbar {
       position: absolute;
-      top: 40px;
-      left: 20px;
-      right: 20px;
-      bottom: 0;
-    }
-    .chart-component {
-      width: 100%;
-      height: 100%;
+      z-index: 1000;
     }
 
-    .draggable-content {
-      position: relative;
-      width: 100%;
-      height: 100%;
-
-      .toolbar-box {
-        width: 100%;
-
-        .chart-toolbar {
-          position: absolute;
-          z-index: 1000;
-        }
-
-        .common-toolbar {
-          right: 0;
-        }
-      }
-    }
-
-    /**
-    * 手柄部分自定义样式
-    */
-    .handle {
-      width: 10px;
-      height: 10px;
-      box-shadow: 0 0 0;
-      border: 3px solid $handleColor;
-      background-color: transparent;
-      z-index: 999;
-    }
-
-    // top
-    .handle-tl,
-    .handle-tm,
-    .handle-tr {
-      top: 0;
-      border-bottom: none;
-    }
-
-    // right
-    .handle-tr,
-    .handle-mr,
-    .handle-br {
-      left: 100%;
-      border-left: none;
-    }
-
-    // bottom
-    .handle-bl,
-    .handle-bm,
-    .handle-br {
-      top: 100%;
-      border-top: none;
-    }
-
-    // left
-    .handle-tl,
-    .handle-ml,
-    .handle-bl {
-      left: 0;
-      border-right: none;
-    }
-
-    // center
-    .handle-tm,
-    .handle-bm {
-      border-left: none;
-      border-right: none;
-      border-width: 5px;
-    }
-
-    // middle
-    .handle-ml,
-    .handle-mr {
-      border-top: none;
-      border-bottom: none;
-      border-width: 5px;
-    }
-
-    // topLeft
-    .handle-tl {
-      @include topAndLeft(3px, 3px);
-    }
-
-    // topMiddle
-    .handle-tm {
-      @include topAndLeft(2px, -5px);
-    }
-
-    // topRight
-    .handle-tr {
-      @include topAndLeft(3px, -6px);
-    }
-
-    // middleLeft
-    .handle-ml {
-      @include topAndLeft(-5px, 2px);
-    }
-
-    // middleRight
-    .handle-mr {
-      @include topAndLeft(-5px, -5px);
-    }
-
-    // bottomLeft
-    .handle-bl {
-      @include topAndLeft(-6px, 3px);
-    }
-
-    // bottomMiddle
-    .handle-bm {
-      @include topAndLeft(-5px, -5px);
-    }
-
-    // bottomRight
-    .handle-br {
-      @include topAndLeft(-6px, -6px);
+    .common-toolbar {
+      right: 0;
     }
   }
+
 }
 </style>

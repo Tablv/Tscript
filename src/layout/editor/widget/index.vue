@@ -25,20 +25,29 @@ export default class WidgetProxy extends Vue {
   /**
    * 拖拽事件
    */
-  onDragging(x: number, y: number) {}
+  onDragging(x: number, y: number) {
+    this.widget.onDragging && this.widget.onDragging(x, y);
+  }
 
-  onDragStop(x: number, y: number) {}
+  onDragStop(x: number, y: number) {
+    this.widget.onDragStop && this.widget.onDragStop(x, y);
+  }
 
-  onResizeStop(x: number, y: number, width: number, height: number) {}
+  onResizeStop(x: number, y: number, width: number, height: number) {
+    this.widget.onResizeStop && this.widget.onResizeStop(x, y, width, height);
+  }
 
   render(h: CreateElement) {
     const isDashboard = !(this.item as any).type;
+    const widget = isDashboard ? DashboardWidget : ExternalWidget;
 
-    return isDashboard ? (
-      <dashboard-widget item={this.item} index={this.index} />
-    ) : (
-      <external-widget item={this.item} index={this.index} />
+    return (
+      <widget item={this.item} index={this.index} ref="widget" />
     );
+  }
+
+  get widget(): any {
+    return this.$refs.widget;
   }
 }
 </script>
