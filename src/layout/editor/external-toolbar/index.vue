@@ -1,6 +1,6 @@
 <template>
   <div
-    class="chart-toolbar detail-toolbar text-common-toolbar"
+    class="external-toolbar detail-toolbar"
     v-show="index === activeIndex && !isSavingScreenhot"
   >
     <tool-button
@@ -127,25 +127,13 @@ export default class CommonToolbar extends Vue {
 </script>
 
 <style lang="scss">
-.el-popper {
-  padding: 0 !important;
-  min-width: auto !important;
-}
-
-.detail-toolbar-popper {
-  z-index: 2000 !important;
-}
-</style>
-
-<style lang="scss">
-.text-common-toolbar {
+.external-toolbar {
   display: flex;
   flex-flow: column nowrap;
   position: absolute;
-  right: -36px;
+  right: -40px;
   top: 0;
   background: #fff;
-  margin-left: 2px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 </style>
