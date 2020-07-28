@@ -15,7 +15,11 @@
       :class="resizableClassName"
       :style="widgetStyle"
     >
-      <widget class="draggable-content" ref="widgetProxy" v-bind="widgetBinding" />
+      <widget
+        class="draggable-content"
+        ref="widgetProxy"
+        v-bind="widgetBinding"
+      />
     </vdr>
   </div>
 </template>
@@ -31,8 +35,8 @@ import vdr from "vue-draggable-resizable-gorkys";
 import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 import { CommonStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
-import { Properties } from 'csstype';
-import WidgetProxy from './widget/index.vue';
+import { Properties } from "csstype";
+import WidgetProxy from "./widget/index.vue";
 
 @Component({
   components: {
@@ -78,12 +82,13 @@ export default class ResizableElement extends Vue {
   get resizableClassName() {
     return {
       activeElement: this.index === this.activeIndex && !this.isSavingScreenhot,
-      hideElement: this.item.id !== this.focusItem.id && this.focusItem.id !== ''
+      hideElement:
+        this.item.id !== this.focusItem.id && this.focusItem.id !== ""
     };
   }
 
   get widgetStyle() {
-    debugger
+    debugger;
     let domStyle: Properties = {};
     const visualData = this.item.visualData;
     const { background, border, shadow } = visualData;
@@ -101,7 +106,7 @@ export default class ResizableElement extends Vue {
 
     if (shadow && shadow.enable && shadow.props) {
       const { h, v, blur, spread, color } = shadow.props;
-      domStyle.boxShadow = `${h}px ${v}px ${blur}px ${spread}px ${color}`
+      domStyle.boxShadow = `${h}px ${v}px ${blur}px ${spread}px ${color}`;
     }
 
     return domStyle;

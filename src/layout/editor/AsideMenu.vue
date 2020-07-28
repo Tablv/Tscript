@@ -2,14 +2,14 @@
 import { CreateElement } from "vue";
 import { Vue, Component } from "vue-property-decorator";
 import { CommonStore } from "@/store/modules-model";
-import Dashboard from 'glaway-bi-model/view/dashboard/Dashboard';
-import { widgetConfig, DashWidget } from '../../types/DashWidget';
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import { widgetConfig, DashWidget } from "../../types/DashWidget";
 
 @Component({
   components: {
-    'text-menu': () => import("./external-menu/text-menu.vue"),
-    'img-menu': () => import("./external-menu/img-menu.vue"),
-    'dashboard-menu': () => import("./chart-menu/index.vue")
+    "text-menu": () => import("./external-menu/text-menu.vue"),
+    "img-menu": () => import("./external-menu/img-menu.vue"),
+    "dashboard-menu": () => import("./chart-menu/index.vue")
   }
 })
 export default class AsideMenu extends Vue {

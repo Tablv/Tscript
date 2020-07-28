@@ -195,7 +195,7 @@
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { widgetConfig, DashWidget } from "@/types/DashWidget";
 import ToolButton from "@/components/ToolButton.vue";
-import { WidgetBuilder } from '../../../config/WidgetBuilder';
+import { WidgetBuilder } from "../../../config/WidgetBuilder";
 
 @Component({
   components: {
@@ -227,10 +227,8 @@ export default class TextToolBar extends Vue {
   ];
 
   borderToggle(enable: boolean) {
-    console.log(enable);
     this.wdata.visualData.border = WidgetBuilder.buildBorder(enable);
   }
-
 
   get widget(): DashWidget<widgetConfig.TextArea> {
     return this.wdata as DashWidget<widgetConfig.TextArea>;

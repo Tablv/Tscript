@@ -1,8 +1,8 @@
 <script lang="tsx">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import Dashboard from 'glaway-bi-model/view/dashboard/Dashboard';
+import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { DashWidget } from "@/types/DashWidget";
-import { CreateElement } from 'vue';
+import { CreateElement } from "vue";
 import DashboardWidget from "./Dashboard.vue";
 import ExternalWidget from "./External.vue";
 
@@ -25,32 +25,19 @@ export default class WidgetProxy extends Vue {
   /**
    * 拖拽事件
    */
-  onDragging(x: number, y: number) {
+  onDragging(x: number, y: number) {}
 
-  }
+  onDragStop(x: number, y: number) {}
 
-  onDragStop(x: number, y: number) {
-
-  }
-
-  onResizeStop(x: number, y: number, width: number, height: number) {
-    
-  }
+  onResizeStop(x: number, y: number, width: number, height: number) {}
 
   render(h: CreateElement) {
     const isDashboard = !(this.item as any).type;
 
-    return isDashboard ? 
-    (
-      <dashboard-widget
-        item={this.item}
-        index={this.index}
-      />
+    return isDashboard ? (
+      <dashboard-widget item={this.item} index={this.index} />
     ) : (
-      <external-widget
-        item={this.item}
-        index={this.index}
-      />
+      <external-widget item={this.item} index={this.index} />
     );
   }
 }

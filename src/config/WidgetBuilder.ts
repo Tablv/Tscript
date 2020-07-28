@@ -69,7 +69,10 @@ export class WidgetBuilder {
     };
   }
 
-  public static buildShadow(enable: boolean, shadowSize?: "small"|"middle"|"large"): widgetConfig.Shadow {
+  public static buildShadow(
+    enable: boolean,
+    shadowSize?: "small" | "middle" | "large"
+  ): widgetConfig.Shadow {
     if (!enable) {
       return {
         enable,
