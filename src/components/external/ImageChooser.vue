@@ -27,7 +27,7 @@ import { TreeNode } from "element-ui/types/tree";
 import { promiseTimeout } from "@/util/AxiosUtil.ts";
 import { WidgetType } from "@/config/WidgetType";
 import { DashWidget, widgetConfig } from "@/types/DashWidget";
-import { CommonStore } from "../../store/modules-model";
+import { CommonStore } from '../../store/modules-model';
 
 const validImgSuffix = ["jpg", "jpeg", "png", "gif", "bmp"];
 
@@ -108,7 +108,7 @@ export default class ImageChooser extends Vue {
     });
 
     // 构建图片组件对象
-    this.createWidget();
+    this.createWidget()
     // const imgWidget = StoryBuilder.buildWidget(WidgetType.IMAGE, {
     //   x: 0,
     //   y: 0,

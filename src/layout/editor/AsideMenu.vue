@@ -1,5 +1,5 @@
 <script lang="ts">
-import { CreateElement } from 'vue';
+import { CreateElement } from "vue";
 import { Vue, Component } from "vue-property-decorator";
 import { CommonStore } from "@/store/modules-model";
 import Dashboard from 'glaway-bi-model/view/dashboard/Dashboard';

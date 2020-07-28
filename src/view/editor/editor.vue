@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="left" @click="activeArea('global')">
-      <aside-tool-bar />
+      <aside-toolbar />
     </div>
 
     <div class="center">
@@ -36,10 +36,9 @@
 </template>
 
 <script lang="ts">
-import ResizableChart from "@/layout/editor/ResizableChart.vue";
 import { Component, Vue, Watch, Emit } from "vue-property-decorator";
 import screenfull from "screenfull";
-import AsideToolBar from "@/layout/editor/AsideToolBar.vue";
+import AsideToolbar from "@/layout/editor/AsideToolbar.vue";
 import AsideMenu from "@/layout/editor/AsideMenu.vue";
 import GridCanvas from "@/layout/editor/GridCanvas.vue";
 import OptionBar from "@/layout/editor/OptionBar.vue";
@@ -53,11 +52,10 @@ import DashboardSet from "glaway-bi-model/view/DashboardSet";
 
 @Component({
   components: {
-    AsideToolBar,
+    AsideToolbar,
     AsideMenu,
     OptionBar,
-    GridCanvas,
-    ResizableChart
+    GridCanvas
   }
 })
 export default class Editor extends Vue {

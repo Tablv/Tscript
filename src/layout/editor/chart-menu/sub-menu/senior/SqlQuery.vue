@@ -78,16 +78,16 @@ export default class SqlQuery extends Vue {
     return;
 
     // 未启用 SQL 查询 && 启用 JSON 数据
-    if (!this.sqlEnable && this.jsonEnable) {
-      UIUtil.confirm(ConfirmType.info, "启用 SQL 查询时，将关闭 JSON 数据功能")
-        .then(() => {
-          this.jsonEnable = false;
-          this.sqlEnable = true;
-        })
-        .catch(() => {});
-    } else {
-      this.sqlEnable = !this.sqlEnable;
-    }
+    // if (!this.sqlEnable && this.jsonEnable) {
+    //   UIUtil.confirm(ConfirmType.info, "启用 SQL 查询时，将关闭 JSON 数据功能")
+    //     .then(() => {
+    //       this.jsonEnable = false;
+    //       this.sqlEnable = true;
+    //     })
+    //     .catch(() => {});
+    // } else {
+    //   this.sqlEnable = !this.sqlEnable;
+    // }
   }
 }
 </script>

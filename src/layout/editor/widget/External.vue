@@ -1,39 +1,13 @@
 <template>
-  <div class="resizable-chart">
-    <vdr
-      @dragstop="onDragStop"
-      @dragging="onDrageding"
-      @resizestop="onResizeStop"
-      :w="widgetData.visualData.width"
-      :h="widgetData.visualData.height"
-      :x="widgetData.visualData.position.x"
-      :y="widgetData.visualData.position.y"
-      :z="widgetData.visualData.position.z"
-      :grid="!setting.background.show ? [1, 1] : setting.grid"
-      :draggable="!focusWidgetData.id"
-      :resizable="!focusWidgetData.id"
-      :style="{
-        background: widgetData.visualData.background,
-        borderColor: widgetData.visualData.borderColor,
-        borderWidth: widgetData.visualData.borderWidth + 'px',
-        borderStyle: widgetData.visualData.borderStyle,
-        borderRadius: widgetData.visualData.borderRadius + '%'
-      }"
-      :class="{
-        activeElement: index === activeIndex && !isSavingScreenhot,
-        hideElement:
-          widgetData.id !== focusWidgetData.id && focusWidgetData.id !== ''
-      }"
-    >
-      <widget :data="widgetData"></widget>
-      <div class="toolbar-box" v-show="!isSavingScreenhot">
-        <common-toolbar :data.sync="widgetData" :index="index" />
-      </div>
-    </vdr>
+  <div>
+    <external-widget :data="item" />
+    <div class="toolbar-box" v-show="!isSavingScreenhot">
+      <external-toolbar :data.sync="item" :index="index" />
+    </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="tsx">
 import {
   Vue,
   Component,
@@ -43,24 +17,21 @@ import {
   Emit,
   Watch
 } from "vue-property-decorator";
-import vdr from "vue-draggable-resizable-gorkys";
-import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 
 import ExternalToolbar from "@/layout/editor/external-toolbar/index.vue";
 import { WidgetType } from "@/config/WidgetType";
 import { DashWidget, widgetConfig } from "@/types/DashWidget";
-import Widget from "@/components/external/Widget.vue";
+import ExternalWidget from "@/components/external/Widget.vue";
 import { CommonStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
 
 @Component({
   components: {
-    vdr,
-    Widget,
+    ExternalWidget,
     ExternalToolbar
   }
 })
-export default class ResizableElement extends Vue {
+export default class External extends Vue {
   /**
    * 每个可调整元素的数据和所在下标
    */
@@ -100,50 +71,6 @@ export default class ResizableElement extends Vue {
 
   set widgetData(widgetData: DashWidget<any>) {
     this.$emit("update:item", widgetData);
-  }
-
-  /**
-   * 获取偏移位置
-   * 拖拽结束
-   */
-  onDragStop(x: number, y: number): void {
-    // 防止出现非当前下标的元素被操作的问题
-    this.setActiveIndex(this.index);
-  }
-
-  /**
-   * 拖拽进行时
-   */
-  onDrageding(x: number, y: number) {
-    this.setPosition(x, y);
-  }
-
-  /**
-   * 调整大小
-   * 调整结束
-   */
-  onResizeStop(x: number, y: number, width: number, height: number): void {
-    if (this.activeIndex === -1) return;
-    // 防止出现非当前下标的元素被操作的问题
-    this.setActiveIndex(this.index);
-    this.setPosition(x, y);
-    this.setSize(width, height);
-  }
-
-  /**
-   * 设置数据的坐标
-   */
-  setPosition(x: number, y: number): void {
-    this.widgetData.visualData.position.x = x;
-    this.widgetData.visualData.position.y = y;
-  }
-
-  /**
-   * 设置数据的尺寸
-   */
-  setSize(width: number, height: number): void {
-    this.widgetData.visualData.width = width;
-    this.widgetData.visualData.height = height;
   }
 }
 </script>

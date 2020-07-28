@@ -32,7 +32,8 @@ import UUID from "@/util/UUID";
 import WhereDTO, { WhereColumnDTO } from "glaway-bi-model/params/WhereDTO";
 
 @Component({
-  components: {}
+  components: {
+  }
 })
 export default class ChartMenu extends Vue {
   // 当前仪表盘

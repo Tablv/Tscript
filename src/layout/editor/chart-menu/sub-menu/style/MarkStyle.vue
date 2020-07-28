@@ -72,7 +72,7 @@
         <el-form-item label="显示数值" v-if="this.specificStyle.centerConfig">
           <el-switch
             active-color="#13ce66"
-            v-model="specificStyle.label.isShowNumer"
+            v-model="specificStyle.label.isShowNumber"
           />
         </el-form-item>
 

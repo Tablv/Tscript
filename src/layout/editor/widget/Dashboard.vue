@@ -1,5 +1,5 @@
 <template>
-  <div class="resizable-chart">
+  <!-- <div class="resizable-widget">
     <vdr
       @dragstop="onDragStop"
       @dragging="onDrageding"
@@ -9,66 +9,59 @@
       :x="thisDashboard.visualData.position.x"
       :y="thisDashboard.visualData.position.y"
       :z="thisDashboard.visualData.position.z"
-      :grid="!setting.background.show ? [1, 1] : thisDashboard.visualData.grid"
+      :grid="!setting.background.show ? [1, 1] : setting.grid"
       :draggable="!focusDashboard.id"
       :resizable="!focusDashboard.id"
       :style="{
-        background: thisDashboard.visualData.background.color,
-        borderColor: thisDashboard.visualData.border.color,
-        borderWidth: thisDashboard.visualData.border.enable
-          ? thisDashboard.visualData.border.width + 'px'
-          : 0,
-        borderStyle: thisDashboard.visualData.border.style,
-        borderRadius: thisDashboard.visualData.border.enable
-          ? thisDashboard.visualData.border.radius + '%'
-          : 0
+        background: thisDashboard.visualData.background,
+        borderColor: thisDashboard.visualData.borderColor,
+        borderWidth: thisDashboard.visualData.borderWidth + 'px',
+        borderStyle: thisDashboard.visualData.borderStyle,
+        borderRadius: thisDashboard.visualData.borderRadius + '%'
       }"
       :class="{
-        commonElement: index !== activeIndex && !isSavingScreenhot,
         activeElement: index === activeIndex && !isSavingScreenhot,
         hideElement:
           thisDashboard.id !== focusDashboard.id && focusDashboard.id !== ''
       }"
+    > -->
+  <div
+    class="dashboard-widget"
+    @mousedown="hideDetailBar(true)"
+    v-loading="isFetching"
+  >
+    <div
+      class="toolbar-box"
+      v-show="!isSavingScreenhot && index === activeIndex"
     >
-      <div
-        class="draggable-content"
-        @mousedown="hideDetailBar(true)"
-        v-loading="isFetching"
-      >
-        <div
-          class="toolbar-box"
-          v-show="!isSavingScreenhot && index === activeIndex"
-        >
-          <chart-toolbar :dashboard.sync="thisDashboard" />
-        </div>
+      <chart-toolbar :dashboard.sync="thisDashboard" />
+    </div>
 
-        <!-- 既没有拖入字段，也没有启用静态数据，显示如下 -->
-        <div
-          :id="thisDashboard.id"
-          :data-title="thisDashboard.echarts.title.text"
-          class="chart-component"
-        >
-          <div v-show="!isShowChart">
-            <div v-if="analysisSuccess" class="no-chart-text">
-              拖入字段，生成图表
-            </div>
-            <div v-else class="no-chart-text">分析出错，请稍后重试</div>
-            <div class="no-chart-img"></div>
-          </div>
-          <bi-component
-            v-show="isShowChart"
-            ref="chartComponent"
-            :dashboard.sync="thisDashboard"
-            :analysisdata="analysisResult"
-            :reactWhere="reactWhere"
-            :key="thisDashboard.id"
-            @error="doHandleError"
-            @setReact="setReactHandle"
-            @resetReact="resetReactHandle"
-          />
+    <!-- 既没有拖入字段，也没有启用静态数据，显示如下 -->
+    <div
+      :id="thisDashboard.id"
+      :data-title="thisDashboard.echarts.title.text"
+      class="chart-component"
+    >
+      <div v-show="!isShowChart">
+        <div v-if="analysisSuccess" class="no-chart-text">
+          拖入字段，生成图表
         </div>
+        <div v-else class="no-chart-text">分析出错，请稍后重试</div>
+        <div class="no-chart-img"></div>
       </div>
-    </vdr>
+      <bi-component
+        v-show="isShowChart"
+        ref="chartComponent"
+        :dashboard.sync="thisDashboard"
+        :analysisdata="analysisResult"
+        :reactWhere="reactWhere"
+        :key="thisDashboard.id"
+        @error="doHandleError"
+        @setReact="setReactHandle"
+        @resetReact="resetReactHandle"
+      />
+    </div>
   </div>
 </template>
 
@@ -103,6 +96,7 @@ import { AxiosRequest } from "@/api/AxiosRequest";
 import DashboardUtil from "@/util/DashboardUtil";
 import ComponentUtil from "@/util/ComponentUtil";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
+import { DashWidget } from "@/types/DashWidget";
 
 @Component({
   components: {
@@ -111,12 +105,12 @@ import DashboardSet from "glaway-bi-model/view/DashboardSet";
     ChartToolbar
   }
 })
-export default class ResizableElement extends Vue {
+export default class DashboardWidget extends Vue {
   /**
    * 每个可调整元素的数据和所在下标
    */
   @Prop()
-  item!: Dashboard;
+  item!: Dashboard | DashWidget<any>;
 
   @Prop()
   index!: number;
@@ -204,7 +198,7 @@ export default class ResizableElement extends Vue {
   }
 
   get thisDashboard(): Dashboard {
-    return this.item;
+    return this.item as Dashboard;
   }
 
   set thisDashboard(dashboard: Dashboard) {
@@ -541,25 +535,6 @@ export default class ResizableElement extends Vue {
   }
 
   /**
-   * 获取偏移位置
-   * 拖拽结束
-   */
-  onDragStop(x: number, y: number): void {
-    // 防止出现非当前下标的元素被操作的问题
-    this.setActiveIndex(this.index);
-  }
-
-  /**
-   * 拖拽进行时
-   */
-  onDrageding(x: number, y: number) {
-    this.setPosition(x, y);
-    this.$nextTick(() => {
-      this.chartComponent?.resizeChart();
-    });
-  }
-
-  /**
    * 调整大小
    * 调整结束
    */
@@ -663,78 +638,76 @@ export default class ResizableElement extends Vue {
 </script>
 
 <style lang="scss" scoped>
-$bgColor: #fff;
 $handleColor: #09f;
 $borderColor: #00a2ff;
-$shadowColor: #58bee9;
-$shadow: 0 0 6px $shadowColor;
+$shadow: 0 0 6px #58bee9;
 @mixin topAndLeft($top, $left) {
   margin-top: $top;
   margin-left: $left;
 }
 
-.vdr {
-  border: none;
-  // background-color: $bgColor;
-  // cursor: default;
+.resizable-widget {
+  outline: none;
 
-  // 悬停效果
-  &:hover {
-    box-shadow: $shadow;
-  }
+  .vdr {
+    border: none;
 
-  // 当前激活的元素
-  &.activeElement {
-    border: 1px solid $borderColor;
-  }
+    // 悬停效果
+    &:hover {
+      box-shadow: $shadow;
+    }
 
-  // 当前激活的元素
-  &.hideElement {
-    z-index: -1 !important;
-  }
+    // 当前激活的元素
+    &.activeElement {
+      border: 1px solid $borderColor;
+    }
 
-  .no-chart-text {
-    padding: 16px 0;
-    text-align: center;
-  }
+    // 当前激活的元素
+    &.hideElement {
+      z-index: -1 !important;
+    }
 
-  .no-chart-img {
-    background: url("#{$basePath}img/no-chart.svg") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    top: 40px;
-    left: 20px;
-    right: 20px;
-    bottom: 0;
-  }
-  .chart-component {
-    width: 100%;
-    height: 100%;
-  }
+    .no-chart-text {
+      padding: 16px 0;
+      text-align: center;
+    }
 
-  .draggable-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    .toolbar-box {
+    .no-chart-img {
+      background: url("#{$basePath}img/no-chart.svg") no-repeat center;
+      background-size: contain;
+      position: absolute;
+      top: 40px;
+      left: 20px;
+      right: 20px;
+      bottom: 0;
+    }
+    .chart-component {
       width: 100%;
+      height: 100%;
+    }
 
-      .chart-toolbar {
-        position: absolute;
-        z-index: 1000;
-      }
+    .draggable-content {
+      position: relative;
+      width: 100%;
+      height: 100%;
 
-      .common-toolbar {
-        right: 0;
+      .toolbar-box {
+        width: 100%;
+
+        .chart-toolbar {
+          position: absolute;
+          z-index: 1000;
+        }
+
+        .common-toolbar {
+          right: 0;
+        }
       }
     }
-  }
 
-  /**
-   * 手柄部分自定义样式
-   */
-  ::v-deep {
+    /**
+    * 手柄部分自定义样式
+    */
     .handle {
       width: 10px;
       height: 10px;

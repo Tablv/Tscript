@@ -7,32 +7,22 @@
   >
     <div class="bg-box" :style="canvasStyle" id="bgBox" ref="bgBox">
       <div
+        id="gridBox"
+        class="grid-box"
         :class="{
-          'grid-box': true,
           'grid-box-backgroud': !isSavingScreenhot && setting.background.show
         }"
-        id="gridBox"
         :setId="dashboardSetId"
       >
         <transition-group name="fade-in-linear">
-          <template v-for="(item, index) in dashboards">
-            <resizable-chart
-              v-if="item.echarts"
-              :key="item.id"
-              :item.sync="item"
-              :index="index"
-              @click.native.stop="innerClick(index)"
-              @mousedown.native.stop="setChartZIndex(index)"
-            />
-            <resizable-text
-              v-if="!item.echarts"
-              :item.sync="item"
-              :key="item.id"
-              :index="index"
-              @click.native.stop="innerClick(index)"
-              @mousedown.native.stop="setChartZIndex(index)"
-            />
-          </template>
+          <resizable-widget
+            v-for="(item, index) in dashboards"
+            :key="item.id"
+            :item.sync="item"
+            :index="index"
+            @click.native.stop="innerClick(index)"
+            @mousedown.native.stop="setChartZIndex(index)"
+          />
         </transition-group>
         <vdr
           v-show="isShowshadow"
@@ -48,8 +38,7 @@
 import { Component, Watch, Vue } from "vue-property-decorator";
 
 import vdr from "vue-draggable-resizable-gorkys";
-import ResizableChart from "@/layout/editor/ResizableChart.vue";
-import ResizableText from "@/layout/editor/ResizableText.vue";
+import ResizableWidget from "@/layout/editor/ResizableWidget.vue";
 import { ShortcutType } from "glaway-bi-model/enums/ShortcutType";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore, EditorStore } from "@/store/modules-model";
@@ -61,9 +50,8 @@ import ObjectUtil from "glaway-bi-util/ObjectUtil";
 
 @Component({
   components: {
-    ResizableChart,
-    ResizableText,
-    vdr
+    vdr, // shadow
+    ResizableWidget
   }
 })
 export default class GridCanvas extends Vue {

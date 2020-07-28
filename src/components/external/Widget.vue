@@ -5,19 +5,20 @@ import text from "./widgets/Text.vue";
 import img from "./widgets/Image.vue";
 import { DashWidget } from "@/types/DashWidget";
 
+const widgetMap: { [type: string]: any } = {
+  text,
+  img
+};
+
 @Component({})
 export default class Widget extends Vue {
   @Prop()
   data!: DashWidget<any>;
 
-  widgetRegistry: any = {
-    text,
-    img
-  };
-
   render(h: CreateElement) {
     if (!this.data.type) return null;
-    const component = this.widgetRegistry[this.data.type];
+
+    const component = widgetMap[this.data.type];
     if (!component) return null;
 
     return (
@@ -25,8 +26,6 @@ export default class Widget extends Vue {
         class="widget-item"
         id={"widget-" + this.data.id}
         data={this.data}
-        widgetConfig={this.data.config}
-        style={[(this as any).borderStyle, (this as any).backgroundStyle]}
       ></component>
     );
   }

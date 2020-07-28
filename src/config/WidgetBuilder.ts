@@ -74,7 +74,7 @@ export class WidgetBuilder {
       return {
         enable,
         props: null
-      }
+      };
     }
 
     // default value
@@ -89,7 +89,7 @@ export class WidgetBuilder {
     return {
       enable,
       props
-    }
+    };
   }
 
   private widgetConfigBuilders: { [type: string]: Function } = {

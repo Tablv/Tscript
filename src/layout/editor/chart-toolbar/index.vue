@@ -93,7 +93,7 @@ import TableView from "glaway-bi-model/view/dashboard/TableView";
     DetailToolbar
   }
 })
-export default class CommonToolbar extends Vue {
+export default class ChartToolbar extends Vue {
   /**
    * 仪表盘数据
    */
