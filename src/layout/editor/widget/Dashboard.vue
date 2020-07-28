@@ -8,44 +8,6 @@
       class="toolbar-box"
       v-show="!isSavingScreenhot && index === activeIndex"
     >
-<<<<<<< HEAD:src/layout/editor/ResizableChart.vue
-      <div
-        class="draggable-content"
-        @mousedown="hideDetailBar(true)"
-        v-loading="isFetching"
-      >
-        <div
-          class="toolbar-box"
-          v-show="!isSavingScreenhot && index === activeIndex"
-        >
-          <chart-toolbar :dashboard.sync="thisDashboard" />
-        </div>
-
-        <!-- 既没有拖入字段，也没有启用静态数据，显示如下 -->
-        <div
-          :id="thisDashboard.id"
-          :data-title="thisDashboard.echarts.title.text"
-          class="chart-component"
-        >
-          <div v-show="!isShowChart">
-            <div v-if="analysisSuccess" class="no-chart-text">
-              拖入字段，生成图表
-            </div>
-            <div v-else class="no-chart-text">分析出错，请稍后重试</div>
-            <div class="no-chart-img"></div>
-          </div>
-          <chart-component
-            v-show="isShowChart"
-            ref="chartComponent"
-            :dashboard.sync="thisDashboard"
-            :analysisdata="analysisResult"
-            :reactWhere="reactWhere"
-            :key="thisDashboard.id"
-            @error="doHandleError"
-            @setReact="setReactHandle"
-            @resetReact="resetReactHandle"
-          />
-=======
       <chart-toolbar :dashboard.sync="thisDashboard" />
     </div>
 
@@ -58,12 +20,11 @@
       <div v-show="!isShowChart">
         <div v-if="analysisSuccess" class="no-chart-text">
           拖入字段，生成图表
->>>>>>> 65db43dbaa9cfa549191dfc014eba942cda76da8:src/layout/editor/widget/Dashboard.vue
         </div>
         <div v-else class="no-chart-text">分析出错，请稍后重试</div>
         <div class="no-chart-img"></div>
       </div>
-      <bi-component
+      <chart-component
         v-show="isShowChart"
         ref="chartComponent"
         :dashboard.sync="thisDashboard"
@@ -662,6 +623,5 @@ export default class DashboardWidget extends Vue {
       right: 0;
     }
   }
-
 }
 </style>
