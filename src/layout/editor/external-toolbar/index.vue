@@ -1,6 +1,6 @@
 <template>
   <div
-    class="chart-toolbar detail-toolbar text-common-toolbar"
+    class="external-toolbar detail-toolbar"
     v-show="index === activeIndex && !isSavingScreenhot"
   >
     <tool-button
@@ -14,7 +14,7 @@
       @click="handleFocus"
     />
 
-    <tool-bar :data.sync="focusWidgetData"></tool-bar>
+    <tool-button icon-class="fa fa-cog" title="设置" @click="doShowMenu" />
 
     <tool-button icon-class="fa fa-trash" title="删除" @click="handleDelete" />
   </div>
@@ -29,8 +29,8 @@ import {
   Prop,
   Provide
 } from "vue-property-decorator";
-import ToolBar from "@/components/otherGroup/ToolBar.vue";
-import { CommonStore } from "@/store/modules-model";
+import ToolBar from "@/components/external/ToolBar.vue";
+import { CommonStore, EditorStore } from "@/store/modules-model";
 import ToolButton from "@/components/ToolButton.vue";
 import ObjectUtil from "@/util/ObjectUtil";
 import { DashWidget } from "@/types/DashWidget";
@@ -61,6 +61,14 @@ export default class CommonToolbar extends Vue {
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
 
+  // 菜单是否可见
+  @EditorStore.State("menuVisible")
+  menuVisible!: boolean;
+
+  // 设置菜单是否可见
+  @EditorStore.Mutation("setMenuVisible")
+  setMenuVisible!: Function;
+
   // 聚焦图表信息
   @CommonStore.State("focusDashboard")
   focusWidgetData!: DashWidget<any>;
@@ -90,6 +98,12 @@ export default class CommonToolbar extends Vue {
    */
   handleDelete() {
     this.deleteWidget(this.activeIndex);
+  }
+  
+  // 显示菜单
+  doShowMenu() {
+    const isShowMenu = this.activeIndex !== -1 && !this.menuVisible;
+    this.setMenuVisible(isShowMenu);
   }
 
   /**
@@ -127,25 +141,13 @@ export default class CommonToolbar extends Vue {
 </script>
 
 <style lang="scss">
-.el-popper {
-  padding: 0 !important;
-  min-width: auto !important;
-}
-
-.detail-toolbar-popper {
-  z-index: 2000 !important;
-}
-</style>
-
-<style lang="scss">
-.text-common-toolbar {
+.external-toolbar {
   display: flex;
   flex-flow: column nowrap;
   position: absolute;
-  right: -36px;
+  right: -40px;
   top: 0;
   background: #fff;
-  margin-left: 2px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 </style>

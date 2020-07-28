@@ -2,16 +2,14 @@
 import { CreateElement } from "vue";
 import { Vue, Component } from "vue-property-decorator";
 import { CommonStore } from "@/store/modules-model";
-// import ChartMenu from "@/layout/editor/chart-menu/index.vue";
-// import TextMenu from "@/layout/editor/text-menu/index.vue";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { widgetConfig, DashWidget } from "../../types/DashWidget";
 
 @Component({
   components: {
-    "text-widget": () => import("./text-menu/index.vue"),
-    "image-widget": () => import("./text-menu/index.vue"),
-    "default-widget": () => import("./chart-menu/index.vue")
+    "text-menu": () => import("./external-menu/text-menu.vue"),
+    "img-menu": () => import("./external-menu/img-menu.vue"),
+    "dashboard-menu": () => import("./chart-menu/index.vue")
   }
 })
 export default class AsideMenu extends Vue {
@@ -22,8 +20,8 @@ export default class AsideMenu extends Vue {
   render(h: CreateElement) {
     if (!this.currentDashboard) return null;
 
-    const type = (this.currentDashboard as any).type || "default";
-    return h(`${type}-widget`);
+    const type = (this.currentDashboard as any).type || "dashboard";
+    return h(`${type}-menu`);
   }
 }
 </script>

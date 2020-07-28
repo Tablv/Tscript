@@ -1,5 +1,5 @@
 <template>
-  <div class="text-widget" @dblclick="doHandleDBclik">
+  <div class="text-widget" @dblclick="handleDbclick">
     <span v-show="showPlaceholder" class="placeholder-tip">
       <span>双击输入文本</span>
     </span>
@@ -59,7 +59,7 @@ export default class TextWidget extends Vue {
       });
   }
 
-  doHandleDBclik() {
+  handleDbclick() {
     this.widgetEditable = true;
     this.setLastIndex();
   }
@@ -116,13 +116,6 @@ export default class TextWidget extends Vue {
    */
   get textAlignment(): widgetConfig.TextArea["alignment"] {
     return this.data.config.alignment;
-  }
-
-  /**
-   * 边框配置
-   */
-  get borderConfig(): widgetConfig.Border {
-    return this.data.visualData.border;
   }
 
   get scaledFontSize() {

@@ -9,14 +9,14 @@
   >
     <el-card class="text-tool-card">
       <!-- 背景色 -->
-      <label for="backgroundColor">背景色</label>
+      <!-- <label for="backgroundColor">背景色</label>
       <el-color-picker
         ref="colorclick"
-        v-model="widget.visualData.background"
+        v-model="widget.visualData.background.color"
         :show-alpha="true"
         color-format="hex"
         size="mini"
-      />
+      /> -->
 
       <!-- 字体颜色 -->
       <label for="fontColor">字体颜色</label>
@@ -31,15 +31,16 @@
       <!-- 边框 -->
       <label for="border">边框</label>
       <el-switch
-        v-model="borderShow"
+        v-model="widget.visualData.border.enable"
         active-color="#13ce66"
         class="grid-card-font-size"
+        @change="borderToggle"
       />
-      <div v-show="borderShow" class="border-group">
+      <div v-if="widget.visualData.border.enable" class="border-group">
         <label for="border">颜色</label>
         <el-color-picker
           class="grid-card-font-size"
-          v-model="widget.visualData.borderColor"
+          v-model="widget.visualData.border.props.color"
           :show-alpha="true"
           color-format="hex"
           size="mini"
@@ -47,7 +48,7 @@
 
         <label for="border">样式</label>
         <el-select
-          v-model="widget.visualData.borderStyle"
+          v-model="widget.visualData.border.props.style"
           class="grid-card-font-size"
         >
           <el-option key="dotted" label="点状" value="dotted" />
@@ -58,7 +59,7 @@
 
         <label for="border">宽度</label>
         <el-select
-          v-model="widget.visualData.borderWidth"
+          v-model="widget.visualData.border.props.width"
           class="grid-card-font-size"
         >
           <el-option
@@ -72,7 +73,7 @@
         <label for="border">圆角</label>
         <el-slider
           class="grid-card-font-size"
-          v-model="widget.visualData.borderRadius"
+          v-model="widget.visualData.border.props.radius"
           :max="50"
           :min="0"
         />
@@ -194,6 +195,7 @@
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { widgetConfig, DashWidget } from "@/types/DashWidget";
 import ToolButton from "@/components/ToolButton.vue";
+import { WidgetBuilder } from "../../../config/WidgetBuilder";
 
 @Component({
   components: {
@@ -224,7 +226,9 @@ export default class TextToolBar extends Vue {
     "cjk-ideographic"
   ];
 
-  borderShow: boolean = false;
+  borderToggle(enable: boolean) {
+    this.wdata.visualData.border = WidgetBuilder.buildBorder(enable);
+  }
 
   get widget(): DashWidget<widgetConfig.TextArea> {
     return this.wdata as DashWidget<widgetConfig.TextArea>;

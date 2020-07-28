@@ -1,35 +1,14 @@
 <template>
-  <div class="resizable-chart">
-    <vdr
-      @dragstop="onDragStop"
-      @dragging="onDrageding"
-      @resizestop="onResizeStop"
-      :w="thisDashboard.visualData.width"
-      :h="thisDashboard.visualData.height"
-      :x="thisDashboard.visualData.position.x"
-      :y="thisDashboard.visualData.position.y"
-      :z="thisDashboard.visualData.position.z"
-      :grid="!setting.background.show ? [1, 1] : thisDashboard.visualData.grid"
-      :draggable="!focusDashboard.id"
-      :resizable="!focusDashboard.id"
-      :style="{
-        background: thisDashboard.visualData.background.color,
-        borderColor: thisDashboard.visualData.border.color,
-        borderWidth: thisDashboard.visualData.border.enable
-          ? thisDashboard.visualData.border.width + 'px'
-          : 0,
-        borderStyle: thisDashboard.visualData.border.style,
-        borderRadius: thisDashboard.visualData.border.enable
-          ? thisDashboard.visualData.border.radius + '%'
-          : 0
-      }"
-      :class="{
-        commonElement: index !== activeIndex && !isSavingScreenhot,
-        activeElement: index === activeIndex && !isSavingScreenhot,
-        hideElement:
-          thisDashboard.id !== focusDashboard.id && focusDashboard.id !== ''
-      }"
+  <div
+    class="dashboard-widget"
+    @mousedown="hideDetailBar(true)"
+    v-loading="isFetching"
+  >
+    <div
+      class="toolbar-box"
+      v-show="!isSavingScreenhot && index === activeIndex"
     >
+<<<<<<< HEAD:src/layout/editor/ResizableChart.vue
       <div
         class="draggable-content"
         @mousedown="hideDetailBar(true)"
@@ -66,9 +45,36 @@
             @setReact="setReactHandle"
             @resetReact="resetReactHandle"
           />
+=======
+      <chart-toolbar :dashboard.sync="thisDashboard" />
+    </div>
+
+    <!-- 既没有拖入字段，也没有启用静态数据，显示如下 -->
+    <div
+      :id="thisDashboard.id"
+      :data-title="thisDashboard.echarts.title.text"
+      class="chart-component"
+    >
+      <div v-show="!isShowChart">
+        <div v-if="analysisSuccess" class="no-chart-text">
+          拖入字段，生成图表
+>>>>>>> 65db43dbaa9cfa549191dfc014eba942cda76da8:src/layout/editor/widget/Dashboard.vue
         </div>
+        <div v-else class="no-chart-text">分析出错，请稍后重试</div>
+        <div class="no-chart-img"></div>
       </div>
-    </vdr>
+      <bi-component
+        v-show="isShowChart"
+        ref="chartComponent"
+        :dashboard.sync="thisDashboard"
+        :analysisdata="analysisResult"
+        :reactWhere="reactWhere"
+        :key="thisDashboard.id"
+        @error="doHandleError"
+        @setReact="setReactHandle"
+        @resetReact="resetReactHandle"
+      />
+    </div>
   </div>
 </template>
 
@@ -84,7 +90,7 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
-import ChartToolbar from "@/layout/editor/toolBar/chartToolBar/CommonToolbar.vue";
+import ChartToolbar from "@/layout/editor/chart-toolbar/index.vue";
 import {
   AnalysisResults,
   AnalysisResult
@@ -103,6 +109,7 @@ import { AxiosRequest } from "@/api/AxiosRequest";
 import DashboardUtil from "@/util/DashboardUtil";
 import ComponentUtil from "@/util/ComponentUtil";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
+import { DashWidget } from "@/types/DashWidget";
 
 @Component({
   components: {
@@ -111,12 +118,12 @@ import DashboardSet from "glaway-bi-model/view/DashboardSet";
     ChartToolbar
   }
 })
-export default class ResizableElement extends Vue {
+export default class DashboardWidget extends Vue {
   /**
    * 每个可调整元素的数据和所在下标
    */
   @Prop()
-  item!: Dashboard;
+  item!: Dashboard | DashWidget<any>;
 
   @Prop()
   index!: number;
@@ -204,7 +211,7 @@ export default class ResizableElement extends Vue {
   }
 
   get thisDashboard(): Dashboard {
-    return this.item;
+    return this.item as Dashboard;
   }
 
   set thisDashboard(dashboard: Dashboard) {
@@ -541,58 +548,16 @@ export default class ResizableElement extends Vue {
   }
 
   /**
-   * 获取偏移位置
-   * 拖拽结束
-   */
-  onDragStop(x: number, y: number): void {
-    // 防止出现非当前下标的元素被操作的问题
-    this.setActiveIndex(this.index);
-  }
-
-  /**
-   * 拖拽进行时
-   */
-  onDrageding(x: number, y: number) {
-    this.setPosition(x, y);
-    this.$nextTick(() => {
-      this.chartComponent?.resizeChart();
-    });
-  }
-
-  /**
    * 调整大小
    * 调整结束
    */
   onResizeStop(x: number, y: number, width: number, height: number): void {
-    if (this.activeIndex === -1) return;
-    // 防止出现非当前下标的元素被操作的问题
-    this.setActiveIndex(this.index);
-
-    this.setPosition(x, y);
-    this.setSize(width, height);
-
     // 如果类型为 Echarts 图表，则调用 resize 方法
     this.$nextTick(() => {
       this.chartComponent?.resizeChart();
     });
 
     this.hideDetailBar(true);
-  }
-
-  /**
-   * 设置数据的坐标
-   */
-  setPosition(x: number, y: number): void {
-    this.thisDashboard.visualData.position.x = x;
-    this.thisDashboard.visualData.position.y = y;
-  }
-
-  /**
-   * 设置数据的尺寸
-   */
-  setSize(width: number, height: number): void {
-    this.thisDashboard.visualData.width = width;
-    this.thisDashboard.visualData.height = height;
   }
 
   /**
@@ -663,35 +628,8 @@ export default class ResizableElement extends Vue {
 </script>
 
 <style lang="scss" scoped>
-$bgColor: #fff;
-$handleColor: #09f;
-$borderColor: #00a2ff;
-$shadowColor: #58bee9;
-$shadow: 0 0 6px $shadowColor;
-@mixin topAndLeft($top, $left) {
-  margin-top: $top;
-  margin-left: $left;
-}
-
-.vdr {
-  border: none;
-  // background-color: $bgColor;
-  // cursor: default;
-
-  // 悬停效果
-  &:hover {
-    box-shadow: $shadow;
-  }
-
-  // 当前激活的元素
-  &.activeElement {
-    border: 1px solid $borderColor;
-  }
-
-  // 当前激活的元素
-  &.hideElement {
-    z-index: -1 !important;
-  }
+.dashboard-widget {
+  outline: none;
 
   .no-chart-text {
     padding: 16px 0;
@@ -712,125 +650,18 @@ $shadow: 0 0 6px $shadowColor;
     height: 100%;
   }
 
-  .draggable-content {
-    position: relative;
+  .toolbar-box {
     width: 100%;
-    height: 100%;
 
-    .toolbar-box {
-      width: 100%;
+    .chart-toolbar {
+      position: absolute;
+      z-index: 1000;
+    }
 
-      .chart-toolbar {
-        position: absolute;
-        z-index: 1000;
-      }
-
-      .common-toolbar {
-        right: 0;
-      }
+    .common-toolbar {
+      right: 0;
     }
   }
 
-  /**
-   * 手柄部分自定义样式
-   */
-  ::v-deep {
-    .handle {
-      width: 10px;
-      height: 10px;
-      box-shadow: 0 0 0;
-      border: 3px solid $handleColor;
-      background-color: transparent;
-      z-index: 999;
-    }
-
-    // top
-    .handle-tl,
-    .handle-tm,
-    .handle-tr {
-      top: 0;
-      border-bottom: none;
-    }
-
-    // right
-    .handle-tr,
-    .handle-mr,
-    .handle-br {
-      left: 100%;
-      border-left: none;
-    }
-
-    // bottom
-    .handle-bl,
-    .handle-bm,
-    .handle-br {
-      top: 100%;
-      border-top: none;
-    }
-
-    // left
-    .handle-tl,
-    .handle-ml,
-    .handle-bl {
-      left: 0;
-      border-right: none;
-    }
-
-    // center
-    .handle-tm,
-    .handle-bm {
-      border-left: none;
-      border-right: none;
-      border-width: 5px;
-    }
-
-    // middle
-    .handle-ml,
-    .handle-mr {
-      border-top: none;
-      border-bottom: none;
-      border-width: 5px;
-    }
-
-    // topLeft
-    .handle-tl {
-      @include topAndLeft(3px, 3px);
-    }
-
-    // topMiddle
-    .handle-tm {
-      @include topAndLeft(2px, -5px);
-    }
-
-    // topRight
-    .handle-tr {
-      @include topAndLeft(3px, -6px);
-    }
-
-    // middleLeft
-    .handle-ml {
-      @include topAndLeft(-5px, 2px);
-    }
-
-    // middleRight
-    .handle-mr {
-      @include topAndLeft(-5px, -5px);
-    }
-
-    // bottomLeft
-    .handle-bl {
-      @include topAndLeft(-6px, 3px);
-    }
-
-    // bottomMiddle
-    .handle-bm {
-      @include topAndLeft(-5px, -5px);
-    }
-
-    // bottomRight
-    .handle-br {
-      @include topAndLeft(-6px, -6px);
-    }
-  }
 }
 </style>
