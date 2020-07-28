@@ -509,8 +509,19 @@ export default class DashboardWidget extends Vue {
   }
 
   /**
-   * 调整大小
-   * 调整结束
+   * 拖拽回调
+   */
+  onDragging(x: number, y: number): void {
+    // 如果类型为 Echarts 图表，则调用 resize 方法
+    this.$nextTick(() => {
+      this.chartComponent?.resizeChart();
+    });
+
+    this.hideDetailBar(true);
+  }
+
+  /**
+   * 调整大小结束回调
    */
   onResizeStop(x: number, y: number, width: number, height: number): void {
     // 如果类型为 Echarts 图表，则调用 resize 方法
