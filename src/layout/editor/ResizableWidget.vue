@@ -92,17 +92,26 @@ export default class ResizableElement extends Vue {
     const visualData = this.item.visualData;
     const { background, border, shadow } = visualData;
 
+    /**
+     * 背景
+     */
     if (background && background.enable && background.props) {
       const { color } = background.props;
       domStyle.background = `${color}`;
     }
 
+    /**
+     * 边框
+     */
     if (border && border.enable && border.props) {
       const { width, style, color, radius } = border.props;
       domStyle.border = `${width}px ${style} ${color}`;
       domStyle.borderRadius = `${radius}px`;
     }
 
+    /**
+     * 阴影
+     */
     if (shadow && shadow.enable && shadow.props) {
       const { h, v, blur, spread, color } = shadow.props;
       domStyle.boxShadow = `${h}px ${v}px ${blur}px ${spread}px ${color}`;

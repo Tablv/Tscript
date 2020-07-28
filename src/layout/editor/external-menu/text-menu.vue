@@ -43,10 +43,6 @@ export default class ChartMenu extends Vue {
   @EditorStore.State("menuVisible")
   menuVisible!: boolean;
 
-  // 加载文本框选项
-  @EditorStore.Action("loadOptions")
-  loadOptions!: Function;
-
   // 卡片body样式
   @Provide("boxCardBodyStyle")
   boxCardBodyStyle = boxCardBodyStyle;
@@ -57,18 +53,6 @@ export default class ChartMenu extends Vue {
   // 表单标签宽度
   @Provide("elFormLabelWidth")
   elFormLabelWidth = "110px";
-
-  /**
-   * 监听事件
-   */
-  @Watch("menuVisible")
-  onMenuVisibleChange() {
-    if (!this.menuVisible) return;
-    // 加载样式配置
-    this.loadOptions().catch((err: Error) => {
-      UIUtil.showErrorMessage("加载属性设置失败");
-    });
-  }
 }
 </script>
 

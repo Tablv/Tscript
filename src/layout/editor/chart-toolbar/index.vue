@@ -2,7 +2,7 @@
   <div class="chart-toolbar common-toolbar">
     <tool-button
       icon-class="fa fa-cogs"
-      title="菜单"
+      title="设置"
       placement="top"
       @click="doShowMenu"
     />

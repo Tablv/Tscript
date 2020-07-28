@@ -13,7 +13,7 @@
       <el-form-item label="背景色">
         <div style="height: 32px;">
           <el-color-picker
-            v-model="currentDashboard.visualData.background.color"
+            v-model="currentDashboard.visualData.background.props.color"
             :show-alpha="true"
             color-format="hex"
             size="mini"
