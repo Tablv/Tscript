@@ -34,7 +34,6 @@
       :visible.sync="showCreateChart"
       direction="ltr"
       size="430px"
-      style="po"
     >
       <div class="chart-btn-container">
         <el-row :gutter="20">

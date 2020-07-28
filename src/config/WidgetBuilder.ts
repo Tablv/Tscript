@@ -28,9 +28,9 @@ export class WidgetBuilder {
       position: this.position as widgetConfig.Position,
       width: 400,
       height: 300,
-      background: this.buildBackground(true),
-      border: this.buildBorder(false),
-      shadow: this.buildShadow(false)
+      background: WidgetBuilder.buildBackground(true),
+      border: WidgetBuilder.buildBorder(false),
+      shadow: WidgetBuilder.buildShadow(false)
     };
   }
 
@@ -39,7 +39,7 @@ export class WidgetBuilder {
    *
    * @param enable 是否启用
    */
-  public buildBorder(enable: boolean): widgetConfig.Border {
+  public static buildBorder(enable: boolean): widgetConfig.Border {
     return {
       enable,
       props: enable
@@ -58,7 +58,7 @@ export class WidgetBuilder {
    *
    * @param enable 是否启用
    */
-  public buildBackground(enable: boolean): widgetConfig.Background {
+  public static buildBackground(enable: boolean): widgetConfig.Background {
     return {
       enable,
       props: enable
@@ -69,7 +69,7 @@ export class WidgetBuilder {
     };
   }
 
-  public buildShadow(enable: boolean, shadowSize?: "small"|"middle"|"large"): widgetConfig.Shadow {
+  public static buildShadow(enable: boolean, shadowSize?: "small"|"middle"|"large"): widgetConfig.Shadow {
     if (!enable) {
       return {
         enable,

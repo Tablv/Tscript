@@ -79,7 +79,7 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { ChartType } from "glaway-bi-model/enums/ChartType";
 import ObjectUtil from "@/util/ObjectUtil";
 import UIUtil, { MessageType } from "@/util/UIUtil";
-import ChartToolbar from "@/layout/editor/toolBar/chartToolBar/CommonToolbar.vue";
+import ChartToolbar from "@/layout/editor/chart-toolbar/index.vue";
 import {
   AnalysisResults,
   AnalysisResult
