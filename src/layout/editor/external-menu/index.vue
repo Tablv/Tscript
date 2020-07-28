@@ -3,14 +3,18 @@
     enter-active-class="animated slideInRight"
     leave-active-class="animated slideOutRight"
   >
-    <aside class="text-menu" v-if="menuVisible" v-cloak>
+    <aside class="external-menu" v-if="menuVisible && currentWidget">
       <!-- 文本框菜单 -->
       <el-container>
-        <el-header class="menu-header" height="40px">
+        <el-header class="menu-header" height="50px">
           <span>文本属性设置</span>
         </el-header>
-        <el-main class="tabs-box">
-          123
+        <el-main class="cards-box">
+          <!-- 外观样式 -->
+          <appearance-style />
+
+          <!-- 特定配置 -->
+          <specific />
         </el-main>
       </el-container>
     </aside>
@@ -18,26 +22,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Provide } from "vue-property-decorator";
+import { Component, Vue, Watch, Provide, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { boxCardBodyStyle } from "@/config/CommonOptions";
-import { AxiosRequest } from "@/api/AxiosRequest";
 
-import UIUtil, { MessageType, ConfirmType } from "@/util/UIUtil";
-import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
-import ObjectUtil from "@/util/ObjectUtil";
-import DashboardUtil from "@/util/DashboardUtil";
-import FieldDTO from "glaway-bi-model/params/FieldDTO";
-import UUID from "@/util/UUID";
-import WhereDTO, { WhereColumnDTO } from "glaway-bi-model/params/WhereDTO";
+import { DashWidget, widgetConfig } from "@/types/DashWidget";
+import { WidgetBuilder } from "@/config/WidgetBuilder";
+
+import AppearanceStyle from "./menu-card/AppearanceStyle.vue";
+import Specific from "./Specific.vue";
 
 @Component({
-  components: {}
+  components: {
+    AppearanceStyle,
+    Specific
+  }
 })
-export default class ChartMenu extends Vue {
+export default class ExternalMenu extends Vue {
   // 当前仪表盘
   @CommonStore.Getter("currentDashboard")
-  currentDashboard!: Dashboard;
+  currentWidget!: DashWidget<any>;
 
   // 菜单是否可见
   @EditorStore.State("menuVisible")
@@ -63,11 +67,7 @@ export default class ChartMenu extends Vue {
 $chartsMenuBgc: #e9e9e9;
 $backgroundColor: #f9f9f9;
 
-[v-cloak] {
-  display: none !important;
-}
-
-.text-menu {
+.external-menu {
   position: absolute;
   top: 0;
   right: 0;
@@ -83,8 +83,32 @@ $backgroundColor: #f9f9f9;
   animation-duration: 0.3s;
 
   .menu-header {
-    line-height: 40px;
+    line-height: 50px;
     text-align: center;
+    border-bottom: 1px solid #dcdfe6;
+  }
+
+  .cards-box {
+    background-color: #e9e9e9;
+    padding: 10px;
+
+    .el-card {
+      border-radius: 4px;
+
+      .el-card__header {
+        padding: 10px 24px;
+      }
+      
+      &:not(:last-of-type) {
+        margin-bottom: 10px;
+      }
+    }
+
+    .detail-card-wrap {
+      .detail-card {
+        padding-right: 40px;
+      }
+    }
   }
 }
 </style>
