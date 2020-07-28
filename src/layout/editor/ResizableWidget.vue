@@ -88,7 +88,6 @@ export default class ResizableElement extends Vue {
   }
 
   get widgetStyle() {
-    debugger;
     let domStyle: Properties = {};
     const visualData = this.item.visualData;
     const { background, border, shadow } = visualData;
