@@ -33,9 +33,7 @@
               :draggable="opt.enable && opt.createType !== 'sunpie'"
               :disabled="!opt.enable || opt.createType === 'sunpie'"
               @mousedown.native="createChart(opt.createType)"
-              @dragstart.native="
-                handleChartDragStart($event, opt.createType)
-              "
+              @dragstart.native="handleChartDragStart($event, opt.createType)"
               @dragend.native="handleChartDragEnd"
             >
               <svg class="icon-svg" aria-hidden="true">
@@ -56,9 +54,7 @@
               :draggable="opt.enable && opt.createType !== 'sunpie'"
               :disabled="!opt.enable || opt.createType === 'sunpie'"
               @mousedown.native="createChart(opt.createType)"
-              @dragstart.native="
-                handleChartDragStart($event, opt.createType)
-              "
+              @dragstart.native="handleChartDragStart($event, opt.createType)"
               @dragend.native="handleChartDragEnd"
             >
               <svg class="icon-svg" aria-hidden="true">
@@ -90,9 +86,7 @@
               :draggable="opt.enable"
               :disabled="!opt.enable"
               @mousedown.native="createExternal(opt.type)"
-              @dragstart.native="
-                handleExternalDragStart($event, opt.type)
-              "
+              @dragstart.native="handleExternalDragStart($event, opt.type)"
               @dragend.native="handleExternalDragEnd"
             >
               <i class="icon-class" :class="opt.iconClass" />

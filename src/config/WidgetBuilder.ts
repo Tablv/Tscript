@@ -71,7 +71,7 @@ export class WidgetBuilder {
 
   public static buildShadow(
     enable: boolean,
-    shadowSize?: "small" | "middle" | "large"
+    shadowSize: "small" | "medium" | "large" | "huge" = "small"
   ): widgetConfig.Shadow {
     if (!enable) {
       return {
@@ -80,13 +80,15 @@ export class WidgetBuilder {
       };
     }
 
-    // default value
+    let blurSize = blurSizeMap[shadowSize] || blurSizeMap.medium;
+
+    // props
     let props = {
       h: 0,
       v: 0,
-      blur: 10,
+      blur: blurSize,
       spread: 0,
-      color: "#00000033"
+      color: "#000000"
     };
 
     return {
@@ -120,3 +122,13 @@ export class WidgetBuilder {
     }
   };
 }
+
+/**
+ * 阴影模糊映射
+ */
+export const blurSizeMap = {
+  small: 6,
+  medium: 10,
+  large: 20,
+  huge: 40
+};
