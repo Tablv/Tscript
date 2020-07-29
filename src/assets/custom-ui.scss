@@ -1,3 +1,7 @@
+* {
+  user-select: none;
+  outline: none;
+}
 /**
  * Element-UI 组件自定义样式
  */
@@ -68,5 +72,5 @@
 }
 
 .el-drawer {
-  outline: none;
+  outline: none !important;
 }

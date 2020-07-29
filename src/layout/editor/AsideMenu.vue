@@ -7,9 +7,8 @@ import { widgetConfig, DashWidget } from "@/types/DashWidget";
 
 @Component({
   components: {
-    "text-menu": () => import("./external-menu/TextMenu.vue"),
-    "img-menu": () => import("./external-menu/ImageMenu.vue"),
-    "dashboard-menu": () => import("./chart-menu/index.vue")
+    ChartMenu: () => import("./chart-menu/index.vue"),
+    ExternalMenu: () => import("./external-menu/index.vue")
   }
 })
 export default class AsideMenu extends Vue {
@@ -20,8 +19,10 @@ export default class AsideMenu extends Vue {
   render(h: CreateElement) {
     if (!this.currentDashboard) return null;
 
-    const type = (this.currentDashboard as any).type || "dashboard";
-    return h(`${type}-menu`);
+    const menuComponent = (this.currentDashboard as any).type
+      ? "external-menu"
+      : "chart-menu";
+    return h(menuComponent);
   }
 }
 </script>

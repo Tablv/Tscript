@@ -4,11 +4,11 @@
       @dragstop="onDragStop"
       @dragging="onDragging"
       @resizestop="onResizeStop"
-      :w="item.visualData.width"
-      :h="item.visualData.height"
-      :x="item.visualData.position.x"
-      :y="item.visualData.position.y"
-      :z="item.visualData.position.z"
+      :w="widgetSize.width"
+      :h="widgetSize.height"
+      :x="widgetSize.x"
+      :y="widgetSize.y"
+      :z="widgetSize.z"
       :grid="resizeGrid"
       :draggable="isDraggable"
       :resizable="isResizable"
@@ -75,15 +75,43 @@ export default class ResizableElement extends Vue {
     return showBackground ? this.dashboardSet.grid : [1, 1];
   }
 
+  get widgetSize() {
+    // 聚焦模式 全屏展示
+    if (this.focusItem.id === this.item.id) {
+      const gridBox = document.querySelector("#gridBox") as HTMLElement;
+
+      return {
+        x: 0,
+        y: 0,
+        width: gridBox.offsetWidth,
+        height: gridBox.offsetHeight
+      };
+    }
+
+    // 普通模式
+    return {
+      x: this.item.visualData.position.x,
+      y: this.item.visualData.position.y,
+      width: this.item.visualData.width,
+      height: this.item.visualData.height
+    };
+  }
+
   // 设置选中元素的层级
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
 
   get resizableClassName() {
+    // 聚焦时 其他组件隐藏
+    const focusHidden =
+      this.focusItem.id !== "" && this.item.id !== this.focusItem.id;
+
+    // 当前组件是否活动
+    const isActive = this.index === this.activeIndex && !this.isSavingScreenhot;
+
     return {
-      activeElement: this.index === this.activeIndex && !this.isSavingScreenhot,
-      hideElement:
-        this.item.id !== this.focusItem.id && this.focusItem.id !== ""
+      active: isActive,
+      hidden: focusHidden
     };
   }
 
@@ -218,12 +246,12 @@ $shadow: 0 0 6px #58bee9;
     }
 
     // 当前激活的元素
-    &.activeElement {
+    &.active {
       border: 1px solid $borderColor;
     }
 
     // 当前激活的元素
-    &.hideElement {
+    &.hidden {
       z-index: -1 !important;
     }
 

@@ -11,9 +11,12 @@
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <el-form-item label="背景色">
-        <div style="height: 32px;">
+        <div
+          v-if="currentWidget.visualData.background.enable"
+          style="height: 32px;"
+        >
           <el-color-picker
-            v-model="currentDashboard.visualData.background.props.color"
+            v-model="currentWidget.visualData.background.props.color"
             :show-alpha="true"
             color-format="hex"
             size="mini"
@@ -23,16 +26,18 @@
 
       <el-form-item label="边框">
         <el-switch
-          v-model="currentDashboard.visualData.border.enable"
+          :value="currentWidget.visualData.border.enable"
           active-color="#13ce66"
+          @change="borderToggle"
         />
       </el-form-item>
 
-      <detail-card :visible="currentDashboard.visualData.border.enable">
+      <detail-card :visible="currentWidget.visualData.border.enable">
         <el-form-item label="宽度">
           <!-- 宽度 -->
           <el-slider
-            v-model="currentDashboard.visualData.border.width"
+            :disabled="borderDisabled"
+            v-model="borderProps.width"
             :min="1"
             :max="10"
           ></el-slider>
@@ -41,7 +46,8 @@
         <el-form-item label="样式">
           <!-- 样式 -->
           <el-select
-            v-model="currentDashboard.visualData.border.style"
+            :disabled="borderDisabled"
+            v-model="borderProps.style"
             placeholder="请选择边框样式"
             popper-class="border-style-selector"
           >
@@ -63,7 +69,8 @@
           <!-- 颜色 -->
           <div style="height: 32px;">
             <el-color-picker
-              v-model="currentDashboard.visualData.border.color"
+              :disabled="borderDisabled"
+              v-model="borderProps.color"
               :show-alpha="true"
               color-format="hex"
               size="mini"
@@ -74,7 +81,8 @@
         <el-form-item label="圆角">
           <!-- 圆角 -->
           <el-slider
-            v-model="currentDashboard.visualData.border.radius"
+            :disabled="borderDisabled"
+            v-model="borderProps.radius"
             class="width-slider"
             :min="0"
             :max="100"
@@ -89,8 +97,9 @@
 import { Component, Vue, Inject, Model } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
-import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import DetailCard from "@/components/DetailCard.vue";
+import { DashWidget } from "@/types/DashWidget";
+import { WidgetBuilder } from "@/config/WidgetBuilder";
 
 @Component({
   components: {
@@ -98,11 +107,9 @@ import DetailCard from "@/components/DetailCard.vue";
   }
 })
 export default class AppearanceStyle extends Vue {
+  // 当前仪表盘
   @CommonStore.Getter("currentDashboard")
-  currentDashboard!: Dashboard;
-
-  @EditorStore.State("styleSelection")
-  styleSelection!: Object;
+  currentWidget!: DashWidget<any>;
 
   @Inject()
   boxCardBodyStyle!: Properties;
@@ -120,7 +127,26 @@ export default class AppearanceStyle extends Vue {
     { value: "dashed", label: "虚线" }
   ];
 
-  borderFlag = false;
+  borderToggle(enable: boolean) {
+    this.currentWidget.visualData.border = WidgetBuilder.buildBorder(enable);
+  }
+
+  get borderDisabled() {
+    return !this.currentWidget.visualData.border.enable;
+  }
+
+  get borderProps() {
+    return (
+      this.currentWidget.visualData.border.props ||
+      WidgetBuilder.buildBorder(true).props
+    );
+  }
+
+  set borderProps(props) {
+    if (this.currentWidget.visualData.border.enable) {
+      this.currentWidget.visualData.border.props = props;
+    }
+  }
 }
 </script>
 

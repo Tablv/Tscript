@@ -5,6 +5,7 @@
     </span>
 
     <div
+      @mousedown="handleMouseDown"
       class="text-box"
       :class="{ 'edit-box': widgetEditable, 'no-edit-box': !widgetEditable }"
       :style="[textStyle, previewAlignment]"
@@ -62,6 +63,12 @@ export default class TextWidget extends Vue {
   handleDbclick() {
     this.widgetEditable = true;
     this.setLastIndex();
+  }
+
+  handleMouseDown(e: MouseEvent) {
+    if (this.widgetEditable) {
+      e.stopPropagation();
+    }
   }
 
   /**
@@ -201,6 +208,7 @@ export default class TextWidget extends Vue {
 
     .inner-text {
       width: 100%;
+      height: 100%;
       text-decoration: inherit;
     }
   }

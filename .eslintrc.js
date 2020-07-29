@@ -25,7 +25,6 @@ module.exports = {
     "no-lonely-if": 2, // 不允许多层if
     "no-param-reassign": 0, // 不允许给函数参数重新赋值
     "no-mixed-operators": 2, // 不允许混合使用运算符
-    "no-underscore-dangle": 2, // 不允许下划线作为变量名之一
 
     /**
      * 建议规则
@@ -47,6 +46,7 @@ module.exports = {
     "generator-star-spacing": "off",
     "no-console": ["error", { allow: ["warn", "error"] }], // 禁用no-console规则
     "max-len": 0,
+    "no-underscore-dangle": 0, // 允许下划线作为变量名之一
     "linebreak-style": 0 // 强制执行一致的换行样式，windows和mac不一样
   }
 };
