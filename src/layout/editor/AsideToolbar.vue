@@ -30,12 +30,10 @@
           <el-col :span="8" v-for="(opt, idx) in chartCreateOptions" :key="idx">
             <el-button
               class="drawer-btn simple-btn"
-              :draggable="opt.enable && opt.createChartType !== 'sunpie'"
-              :disabled="!opt.enable || opt.createChartType === 'sunpie'"
-              @mousedown.native="createChart(opt.createChartType)"
-              @dragstart.native="
-                handleChartDragStart($event, opt.createChartType)
-              "
+              :draggable="opt.enable && opt.createType !== 'sunpie'"
+              :disabled="!opt.enable || opt.createType === 'sunpie'"
+              @mousedown.native="createChart(opt.createType)"
+              @dragstart.native="handleChartDragStart($event, opt.createType)"
               @dragend.native="handleChartDragEnd"
             >
               <svg class="icon-svg" aria-hidden="true">
@@ -55,10 +53,8 @@
               class="drawer-btn simple-btn withs-filter-show"
               :draggable="opt.enable && opt.createChartType !== 'sunpie'"
               :disabled="!opt.enable || opt.createChartType === 'sunpie'"
-              @mousedown.native="createChart(opt.createChartType)"
-              @dragstart.native="
-                handleChartDragStart($event, opt.createChartType)
-              "
+              @mousedown.native="createChart(opt.createType)"
+              @dragstart.native="handleChartDragStart($event, opt.createType)"
               @dragend.native="handleChartDragEnd"
             >
               <svg class="icon-svg" aria-hidden="true">
@@ -89,9 +85,9 @@
               class="drawer-btn simple-btn"
               :draggable="opt.enable"
               :disabled="!opt.enable"
-              @mousedown.native="createExternal(opt.createChartType)"
+              @mousedown.native="createExternal(opt.createType)"
               @dragstart.native="
-                handleExternalDragStart($event, opt.createChartType)
+                handleExternalDragStart($event, opt.createType)
               "
               @dragend.native="handleExternalDragEnd"
             >
@@ -201,25 +197,25 @@ export default class AsideToolBar extends Vue {
     {
       iconClass: "fa fa-font",
       title: "文本",
-      createChartType: WidgetType.TEXT_AREA,
+      createType: WidgetType.TEXT_AREA,
       enable: true
     },
     {
       iconClass: "fa fa-image",
       title: "图片",
-      createChartType: WidgetType.IMAGE,
+      createType: WidgetType.IMAGE,
       enable: true
     },
     {
       iconClass: "fa fa-dice-d20",
       title: "外部页面",
-      createChartType: WidgetType.EXTERNAL_PAGE,
+      createType: WidgetType.EXTERNAL_PAGE,
       enable: false
     },
     {
       iconClass: "fa fa-code",
       title: "HTML 片段",
-      createChartType: WidgetType.HTML_PHRASE,
+      createType: WidgetType.HTML_PHRASE,
       enable: false
     }
   ];
@@ -248,25 +244,25 @@ export default class AsideToolBar extends Vue {
     // },
     {
       enable: false,
-      createChartType: "withShow",
+      createType: "withShow",
       iconClass: "gw-iconfsux_tubiao_shuangzhoutu",
       title: "组合图"
     },
     {
       enable: false,
-      createChartType: "withShow",
+      createType: "withShow",
       iconClass: "gw-iconfsux_tubiao_biaoge",
       title: "表格"
     },
     {
       enable: false,
-      createChartType: "withShow",
+      createType: "withShow",
       iconClass: "gw-iconfsux_tubiao_xuritu",
       title: "甘特图"
     },
     {
       enable: false,
-      createChartType: "withShow",
+      createType: "withShow",
       iconClass: "gw-iconfsux_tubiao_ditu_sandian",
       title: "地图"
     }
@@ -294,7 +290,6 @@ export default class AsideToolBar extends Vue {
    * 创建图表
    */
   handleChartDragStart(event: any, chartType: ChartType) {
-    // this.createChartType = chartType;
     this.showCreateChart = false;
     this._handleDragStart(event);
   }

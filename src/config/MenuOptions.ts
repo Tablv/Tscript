@@ -222,10 +222,9 @@ export default class MenuOptions {
     if (cache !== undefined) {
       return cache;
     }
-
     // 合并选项
-    let generalOptions = ObjectUtil.copy(generalMenuOptions),
-      customOptions = ObjectUtil.copy(customMenuOptions[chartType]),
+    let generalOptions = generalMenuOptions,
+      customOptions = customMenuOptions[chartType],
       options = ObjectUtil.merge(customOptions, generalOptions);
 
     // 保存缓存
