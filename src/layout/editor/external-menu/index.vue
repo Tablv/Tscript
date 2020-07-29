@@ -7,7 +7,7 @@
       <!-- 文本框菜单 -->
       <el-container>
         <el-header class="menu-header" height="50px">
-          <span>文本属性设置</span>
+          <span>属性设置</span>
         </el-header>
         <el-main class="cards-box">
           <!-- 外观样式 -->
@@ -30,7 +30,7 @@ import { DashWidget, widgetConfig } from "@/types/DashWidget";
 import { WidgetBuilder } from "@/config/WidgetBuilder";
 
 import AppearanceStyle from "./menu-card/AppearanceStyle.vue";
-import Specific from "./Specific.vue";
+import Specific from "./SpecificStyle.vue";
 
 @Component({
   components: {

@@ -2,6 +2,7 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import TextStyle from "./menu-card/TextStyle.vue";
+import ImageStyle from "./menu-card/ImageStyle.vue";
 import { CommonStore } from "@/store/modules-model";
 import { DashWidget } from "@/types/DashWidget";
 import { CreateElement } from "vue";
@@ -9,7 +10,8 @@ import { WidgetType } from "@/config/WidgetType";
 
 @Component({
   components: {
-    TextStyle
+    TextStyle,
+    ImageStyle
   }
 })
 export default class specificMenuItems extends Vue {
@@ -34,7 +36,11 @@ export default class specificMenuItems extends Vue {
       }
 
       case WidgetType.IMAGE: {
-        return <div>{/* Image */}</div>;
+        return (
+          <div>
+            <ImageStyle />
+          </div>
+        );
       }
     }
 

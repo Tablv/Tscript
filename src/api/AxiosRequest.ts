@@ -30,7 +30,12 @@ export interface DashboardSnapshot {
   title: string;
 }
 
-const API = {
+export const API = {
+  /**
+   * 上传
+   */
+  upload: "/common/file/upload",
+
   /**
    * 数据集
    */

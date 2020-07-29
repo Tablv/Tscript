@@ -114,7 +114,8 @@ export class WidgetBuilder {
     },
     img: (): widgetConfig.Image => {
       return {
-        url: null
+        url: null,
+        fit: "cover"
       };
     }
   };

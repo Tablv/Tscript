@@ -27,7 +27,6 @@ import {
   Prop,
   Provide
 } from "vue-property-decorator";
-import ToolBar from "@/components/external/ToolBar.vue";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import ToolButton from "@/components/ToolButton.vue";
 import ObjectUtil from "@/util/ObjectUtil";
@@ -35,7 +34,6 @@ import { DashWidget } from "@/types/DashWidget";
 
 @Component({
   components: {
-    ToolBar,
     ToolButton
   }
 })

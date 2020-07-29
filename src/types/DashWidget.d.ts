@@ -157,5 +157,10 @@ export namespace widgetConfig {
      * URL
      */
     url: string | null;
+
+    /**
+     * 图片显示类型
+     */
+    fit: "fill" | "contain" | "cover" | "none" | "scale-down";
   };
 }
