@@ -33,7 +33,9 @@
               :draggable="opt.enable && opt.createChartType !== 'sunpie'"
               :disabled="!opt.enable || opt.createChartType === 'sunpie'"
               @mousedown.native="createChart(opt.createChartType)"
-              @dragstart.native="handleChartDragStart($event, opt.createChartType)"
+              @dragstart.native="
+                handleChartDragStart($event, opt.createChartType)
+              "
               @dragend.native="handleChartDragEnd"
             >
               <svg class="icon-svg" aria-hidden="true">
@@ -54,7 +56,9 @@
               :draggable="opt.enable && opt.createChartType !== 'sunpie'"
               :disabled="!opt.enable || opt.createChartType === 'sunpie'"
               @mousedown.native="createChart(opt.createChartType)"
-              @dragstart.native="handleChartDragStart($event, opt.createChartType)"
+              @dragstart.native="
+                handleChartDragStart($event, opt.createChartType)
+              "
               @dragend.native="handleChartDragEnd"
             >
               <svg class="icon-svg" aria-hidden="true">
@@ -66,7 +70,7 @@
         </el-row>
       </div>
     </el-drawer>
-    
+
     <!-- 组件抽屉 -->
     <el-drawer
       title="选择扩展组件"
@@ -76,13 +80,19 @@
     >
       <div class="drawer-btn-container">
         <el-row :gutter="20">
-          <el-col :span="8" v-for="(opt, idx) in externalCreateOptions" :key="idx">
+          <el-col
+            :span="8"
+            v-for="(opt, idx) in externalCreateOptions"
+            :key="idx"
+          >
             <el-button
               class="drawer-btn simple-btn"
               :draggable="opt.enable"
               :disabled="!opt.enable"
               @mousedown.native="createExternal(opt.createChartType)"
-              @dragstart.native="handleExternalDragStart($event, opt.createChartType)"
+              @dragstart.native="
+                handleExternalDragStart($event, opt.createChartType)
+              "
               @dragend.native="handleExternalDragEnd"
             >
               <i class="icon-class" :class="opt.iconClass" />
@@ -116,7 +126,7 @@ import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTempl
 import { ElLoadingComponent } from "element-ui/types/loading";
 import Draggable from "glaway-bi-model/view/Draggable";
 import { DashWidget } from "@/types/DashWidget";
-import { WidgetType } from '@/config/WidgetType';
+import { WidgetType } from "@/config/WidgetType";
 
 @Component({
   components: {}
@@ -290,14 +300,13 @@ export default class AsideToolBar extends Vue {
   }
 
   handleChartDragEnd(event: DragEvent) {
-    this._handleDragEnd(event)
-      .then(() => {
-        const baseConfig = {
-          chartType: this.createChartType,
-          position: this._getDraggedPosition()
-        };
-        this.createDashboard(baseConfig);
-      });
+    this._handleDragEnd(event).then(() => {
+      const baseConfig = {
+        chartType: this.createChartType,
+        position: this._getDraggedPosition()
+      };
+      this.createDashboard(baseConfig);
+    });
   }
 
   /**
@@ -310,14 +319,13 @@ export default class AsideToolBar extends Vue {
   }
 
   handleExternalDragEnd(event: DragEvent) {
-    this._handleDragEnd(event)
-      .then(() => {
-        const baseConfig = {
-          type: this.createWidgetType,
-          position: this._getDraggedPosition()
-        };
-        this.createWidget(baseConfig);
-      });
+    this._handleDragEnd(event).then(() => {
+      const baseConfig = {
+        type: this.createWidgetType,
+        position: this._getDraggedPosition()
+      };
+      this.createWidget(baseConfig);
+    });
   }
 
   /**
@@ -434,13 +442,6 @@ export default class AsideToolBar extends Vue {
     return serializedDashboards;
   }
 
-
-
-
-
-
-
-
   // dragendText() {
   //   this.setShowshadow(false);
   //   // 放到异步微任务，等待数据更新执行创建
@@ -483,7 +484,10 @@ export default class AsideToolBar extends Vue {
   _handleDragStart(event: DragEvent) {
     this.$nextTick(() => {
       event.dataTransfer?.setDragImage(new Image(), 0, 0);
-      event.dataTransfer?.setData("widgetType", this.createChartType || this.createWidgetType);
+      event.dataTransfer?.setData(
+        "widgetType",
+        this.createChartType || this.createWidgetType
+      );
       const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
       const bgBoxLeft = parseInt(bgBox.style.left) || 0,
         bgBoxTop = parseInt(bgBox.style.top) || 0;
