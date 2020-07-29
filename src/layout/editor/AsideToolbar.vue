@@ -30,11 +30,11 @@
           <el-col :span="8" v-for="(opt, idx) in chartCreateOptions" :key="idx">
             <el-button
               class="drawer-btn simple-btn"
-              :draggable="opt.enable && opt.createChartType !== 'sunpie'"
-              :disabled="!opt.enable || opt.createChartType === 'sunpie'"
-              @mousedown.native="createChart(opt.createChartType)"
+              :draggable="opt.enable && opt.createType !== 'sunpie'"
+              :disabled="!opt.enable || opt.createType === 'sunpie'"
+              @mousedown.native="createChart(opt.createType)"
               @dragstart.native="
-                handleChartDragStart($event, opt.createChartType)
+                handleChartDragStart($event, opt.createType)
               "
               @dragend.native="handleChartDragEnd"
             >
@@ -53,11 +53,11 @@
           >
             <el-button
               class="drawer-btn simple-btn withs-filter-show"
-              :draggable="opt.enable && opt.createChartType !== 'sunpie'"
-              :disabled="!opt.enable || opt.createChartType === 'sunpie'"
-              @mousedown.native="createChart(opt.createChartType)"
+              :draggable="opt.enable && opt.createType !== 'sunpie'"
+              :disabled="!opt.enable || opt.createType === 'sunpie'"
+              @mousedown.native="createChart(opt.createType)"
               @dragstart.native="
-                handleChartDragStart($event, opt.createChartType)
+                handleChartDragStart($event, opt.createType)
               "
               @dragend.native="handleChartDragEnd"
             >
@@ -89,9 +89,9 @@
               class="drawer-btn simple-btn"
               :draggable="opt.enable"
               :disabled="!opt.enable"
-              @mousedown.native="createExternal(opt.createChartType)"
+              @mousedown.native="createExternal(opt.type)"
               @dragstart.native="
-                handleExternalDragStart($event, opt.createChartType)
+                handleExternalDragStart($event, opt.type)
               "
               @dragend.native="handleExternalDragEnd"
             >
@@ -201,25 +201,25 @@ export default class AsideToolBar extends Vue {
     {
       iconClass: "fa fa-font",
       title: "文本",
-      createChartType: WidgetType.TEXT_AREA,
+      type: WidgetType.TEXT_AREA,
       enable: true
     },
     {
       iconClass: "fa fa-image",
       title: "图片",
-      createChartType: WidgetType.IMAGE,
+      type: WidgetType.IMAGE,
       enable: true
     },
     {
       iconClass: "fa fa-dice-d20",
       title: "外部页面",
-      createChartType: WidgetType.EXTERNAL_PAGE,
+      type: WidgetType.EXTERNAL_PAGE,
       enable: false
     },
     {
       iconClass: "fa fa-code",
       title: "HTML 片段",
-      createChartType: WidgetType.HTML_PHRASE,
+      type: WidgetType.HTML_PHRASE,
       enable: false
     }
   ];
@@ -294,7 +294,7 @@ export default class AsideToolBar extends Vue {
    * 创建图表
    */
   handleChartDragStart(event: any, chartType: ChartType) {
-    // this.createChartType = chartType;
+    this.createChartType = chartType;
     this.showCreateChart = false;
     this._handleDragStart(event);
   }
@@ -313,7 +313,7 @@ export default class AsideToolBar extends Vue {
    * 创建外部扩展组件
    */
   handleExternalDragStart(event: DragEvent, widgetType: WidgetType) {
-    // this.createWidgetType = widgetType;
+    this.createWidgetType = widgetType;
     this.showCreateExternal = false;
     this._handleDragStart(event);
   }
@@ -537,6 +537,8 @@ export default class AsideToolBar extends Vue {
 
 .drawer-btn-container {
   padding: 0 20px;
+  overflow-y: auto;
+
   .withs-filter-show {
     filter: grayscale(100%);
   }

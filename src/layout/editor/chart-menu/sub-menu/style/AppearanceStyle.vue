@@ -23,7 +23,73 @@
 
       <el-form-item label="边框">
         <el-switch
-          v-model="currentDashboard.visualData.border.enable"
+          :value="currentDashboard.visualData.border.enable"
+          active-color="#13ce66"
+          @change="borderToggle"
+        />
+      </el-form-item>
+
+      <detail-card :visible="currentDashboard.visualData.border.enable">
+        <el-form-item label="宽度">
+          <!-- 宽度 -->
+          <el-slider
+            :disabled="borderDisabled"
+            v-model="borderProps.width"
+            :min="1"
+            :max="10"
+          ></el-slider>
+        </el-form-item>
+
+        <el-form-item label="样式">
+          <!-- 样式 -->
+          <el-select
+            :disabled="borderDisabled"
+            v-model="borderProps.style"
+            placeholder="请选择边框样式"
+            popper-class="border-style-selector"
+          >
+            <el-option
+              v-for="option in borderStyleOptions"
+              :key="option.value"
+              :value="option.value"
+              :label="option.label"
+            >
+              <span
+                class="border-style-example"
+                :style="{ 'border-style': option.value }"
+              ></span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="颜色">
+          <!-- 颜色 -->
+          <div style="height: 32px;">
+            <el-color-picker
+              :disabled="borderDisabled"
+              v-model="borderProps.color"
+              :show-alpha="true"
+              color-format="hex"
+              size="mini"
+            />
+          </div>
+        </el-form-item>
+
+        <el-form-item label="圆角">
+          <!-- 圆角 -->
+          <el-slider
+            :disabled="borderDisabled"
+            v-model="borderProps.radius"
+            class="width-slider"
+            :min="0"
+            :max="100"
+          ></el-slider>
+        </el-form-item>
+      </detail-card>
+
+      <el-form-item label="阴影">
+        <el-switch
+          v-model="currentDashboard.visualData.shadow.enable"
           active-color="#13ce66"
         />
       </el-form-item>
@@ -91,6 +157,7 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import DetailCard from "@/components/DetailCard.vue";
+import { WidgetBuilder } from '@/config/WidgetBuilder';
 
 @Component({
   components: {
@@ -120,7 +187,26 @@ export default class AppearanceStyle extends Vue {
     { value: "dashed", label: "虚线" }
   ];
 
-  borderFlag = false;
+  borderToggle(enable: boolean) {
+    this.currentDashboard.visualData.border = WidgetBuilder.buildBorder(enable);
+  }
+
+  get borderDisabled() {
+    return !this.currentDashboard.visualData.border.enable;
+  }
+
+  get borderProps() {
+    return (
+      this.currentDashboard.visualData.border.props ||
+      WidgetBuilder.buildBorder(true).props
+    );
+  }
+
+  set borderProps(props) {
+    if (this.currentDashboard.visualData.border.enable) {
+      this.currentDashboard.visualData.border.props = props;
+    }
+  }
 }
 </script>
 
