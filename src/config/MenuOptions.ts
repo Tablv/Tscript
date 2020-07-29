@@ -187,12 +187,6 @@ export const generalMenuOptions: any = {
         { text: "绿色", value: "#0f0" },
         { text: "蓝色", value: "#00f" }
       ]
-    },
-    position: {
-      selection: [
-        { text: "顶部", value: "top" },
-        { text: "内部", value: "inside" }
-      ]
     }
   }
 };
@@ -230,8 +224,8 @@ export default class MenuOptions {
     }
 
     // 合并选项
-    let generalOptions = generalMenuOptions,
-      customOptions = customMenuOptions[chartType],
+    let generalOptions = ObjectUtil.copy(generalMenuOptions),
+      customOptions = ObjectUtil.copy(customMenuOptions[chartType]),
       options = ObjectUtil.merge(customOptions, generalOptions);
 
     // 保存缓存

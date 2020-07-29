@@ -40,10 +40,7 @@ import { Component, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
-import {
-  BarChartOption,
-  ChartOption
-} from "glaway-bi-model/view/dashboard/chart/ChartOption";
+import { BarChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
 
 @Component({
   components: {}
@@ -58,7 +55,7 @@ export default class BarStyle extends Vue {
   @Inject()
   getSpecificStyle!: Function;
 
-  get specificStyle(): ChartOption {
+  get specificStyle(): BarChartOption {
     return this.getSpecificStyle();
   }
 }

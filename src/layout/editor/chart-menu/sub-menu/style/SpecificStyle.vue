@@ -71,7 +71,10 @@ export default class TitleStyle extends Vue {
      */
     guage: () => import("./specific-type/GuageStyle.vue"),
 
-    funnel: () => import("./specific-type/BarStyle.vue")
+    /**
+     * 漏斗图
+     */
+    funnel: () => import("./specific-type/FunnelStyle.vue")
   };
 
   get chartType() {

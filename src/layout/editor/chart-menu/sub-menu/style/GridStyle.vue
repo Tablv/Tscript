@@ -11,7 +11,7 @@
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <!-- 标签角度 -->
-      <el-form-item label="标签角度" v-if="!this.specificStyle.centerConfig">
+      <el-form-item label="标签角度" v-if="specificStyle.axisLabel">
         <el-row>
           <el-col :offset="1" :span="23">
             <el-slider

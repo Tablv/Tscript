@@ -69,7 +69,10 @@
           </el-row>
         </el-form-item>
 
-        <el-form-item label="显示数值" v-if="this.specificStyle.centerConfig">
+        <el-form-item
+          label="显示数值"
+          v-if="typeof this.specificStyle.isShowNumber !== 'undefind'"
+        >
           <el-switch
             active-color="#13ce66"
             v-model="specificStyle.label.isShowNumber"
