@@ -239,6 +239,8 @@ $shadow: 0 0 6px #58bee9;
 
   .vdr {
     border: none;
+    border: 1px solid transparent;
+    transition: border 0.3s, box-shadow 0.3s, background-color 0.3s;
 
     // 悬停效果
     &:hover {

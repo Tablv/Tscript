@@ -73,4 +73,8 @@
 
 .el-drawer {
   outline: none !important;
+
+  .el-drawer__body {
+    overflow-y: auto;
+  }
 }
