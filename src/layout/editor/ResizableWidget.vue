@@ -37,7 +37,6 @@ import { CommonStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import { Properties } from "csstype";
 import WidgetProxy from "./widget/index.vue";
-import VueComponent from 'vue';
 
 @Component({
   components: {
@@ -86,7 +85,7 @@ export default class ResizableElement extends Vue {
         y: 0,
         width: gridBox.offsetWidth,
         height: gridBox.offsetHeight
-      }
+      };
     }
 
     // 普通模式
@@ -94,8 +93,8 @@ export default class ResizableElement extends Vue {
       x: this.item.visualData.position.x,
       y: this.item.visualData.position.y,
       width: this.item.visualData.width,
-      height: this.item.visualData.height,
-    }
+      height: this.item.visualData.height
+    };
   }
 
   // 设置选中元素的层级
@@ -104,14 +103,15 @@ export default class ResizableElement extends Vue {
 
   get resizableClassName() {
     // 聚焦时 其他组件隐藏
-    const focusHidden = this.focusItem.id !== "" && this.item.id !== this.focusItem.id;
+    const focusHidden =
+      this.focusItem.id !== "" && this.item.id !== this.focusItem.id;
 
     // 当前组件是否活动
     const isActive = this.index === this.activeIndex && !this.isSavingScreenhot;
 
     return {
       active: isActive,
-      hidden: focusHidden 
+      hidden: focusHidden
     };
   }
 
