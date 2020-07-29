@@ -161,8 +161,8 @@ export default class GridCanvas extends Vue {
 
   drop(event: any) {
     event.preventDefault();
-    const chartType = event.dataTransfer.getData("chartType");
-    if (!chartType) {
+    const widgetType = event.dataTransfer.getData("widgetType");
+    if (!widgetType) {
       this.setShowshadow(false);
       return;
     }

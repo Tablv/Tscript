@@ -12,35 +12,29 @@
       </button>
     </el-tooltip>
 
-    <el-tooltip effect="dark" content="文本" placement="right">
-      <button
-        class="dragbutton toolbtn "
-        draggable="true"
-        @dragstart="dragText"
-        @dragend="dragendText"
-        @mousedown="createChart('text')"
-      >
-        <i class="fa fa-font"></i>
+    <el-tooltip effect="dark" content="选择扩展组件" placement="right">
+      <button class="toolbtn" @click="showCreateExternal = true">
+        <i class="fa fa-dice-d6"></i>
       </button>
     </el-tooltip>
 
-    <!-- 实际抽屉 -->
+    <!-- 图表抽屉 -->
     <el-drawer
       title="选择图表样式"
       :visible.sync="showCreateChart"
       direction="ltr"
       size="430px"
     >
-      <div class="chart-btn-container">
+      <div class="drawer-btn-container">
         <el-row :gutter="20">
           <el-col :span="8" v-for="(opt, idx) in chartCreateOptions" :key="idx">
             <el-button
-              class="chart-btn simple-btn"
-              :draggable="opt.enable && opt.createType !== 'sunpie'"
-              :disabled="!opt.enable || opt.createType === 'sunpie'"
-              @mousedown.native="createChart(opt.createType)"
-              @dragstart.native="dragstart($event, opt.createType)"
-              @dragend.native="dragend"
+              class="drawer-btn simple-btn"
+              :draggable="opt.enable && opt.createChartType !== 'sunpie'"
+              :disabled="!opt.enable || opt.createChartType === 'sunpie'"
+              @mousedown.native="createChart(opt.createChartType)"
+              @dragstart.native="handleChartDragStart($event, opt.createChartType)"
+              @dragend.native="handleChartDragEnd"
             >
               <svg class="icon-svg" aria-hidden="true">
                 <use :xlink:href="'#' + opt.iconClass" />
@@ -48,22 +42,50 @@
               <div class="chart-title">{{ opt.title }}</div>
             </el-button>
           </el-col>
+
+          <!-- 仅展示 选项 -->
           <el-col
             :span="8"
             v-for="(opt, idx) in withShowOptions"
             :key="idx + 'withs'"
           >
             <el-button
-              class="chart-btn simple-btn withs-filter-show"
-              :draggable="opt.enable && opt.createType !== 'sunpie'"
-              :disabled="!opt.enable || opt.createType === 'sunpie'"
-              @mousedown.native="createChart(opt.createType)"
-              @dragstart.native="dragstart($event, opt.createType)"
-              @dragend.native="dragend"
+              class="drawer-btn simple-btn withs-filter-show"
+              :draggable="opt.enable && opt.createChartType !== 'sunpie'"
+              :disabled="!opt.enable || opt.createChartType === 'sunpie'"
+              @mousedown.native="createChart(opt.createChartType)"
+              @dragstart.native="handleChartDragStart($event, opt.createChartType)"
+              @dragend.native="handleChartDragEnd"
             >
               <svg class="icon-svg" aria-hidden="true">
                 <use :xlink:href="'#' + opt.iconClass" />
               </svg>
+              <div class="chart-title">{{ opt.title }}</div>
+            </el-button>
+          </el-col>
+        </el-row>
+      </div>
+    </el-drawer>
+    
+    <!-- 组件抽屉 -->
+    <el-drawer
+      title="选择扩展组件"
+      :visible.sync="showCreateExternal"
+      direction="ltr"
+      size="430px"
+    >
+      <div class="drawer-btn-container">
+        <el-row :gutter="20">
+          <el-col :span="8" v-for="(opt, idx) in externalCreateOptions" :key="idx">
+            <el-button
+              class="drawer-btn simple-btn"
+              :draggable="opt.enable"
+              :disabled="!opt.enable"
+              @mousedown.native="createExternal(opt.createChartType)"
+              @dragstart.native="handleExternalDragStart($event, opt.createChartType)"
+              @dragend.native="handleExternalDragEnd"
+            >
+              <i class="icon-class" :class="opt.iconClass" />
               <div class="chart-title">{{ opt.title }}</div>
             </el-button>
           </el-col>
@@ -94,6 +116,7 @@ import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTempl
 import { ElLoadingComponent } from "element-ui/types/loading";
 import Draggable from "glaway-bi-model/view/Draggable";
 import { DashWidget } from "@/types/DashWidget";
+import { WidgetType } from '@/config/WidgetType';
 
 @Component({
   components: {}
@@ -155,53 +178,85 @@ export default class AsideToolBar extends Vue {
   setSavingScreenhot!: Function;
 
   // 打开创建图表抽屉
-  showCreateChart: boolean = false;
+  showCreateChart = false;
+
+  // 打开创建组件抽屉
+  showCreateExternal = false;
 
   // 图表创建选项
   chartCreateOptions = chartCreateOptions;
 
-  createChartType: string = "";
+  // 组件创建选项
+  externalCreateOptions = [
+    {
+      iconClass: "fa fa-font",
+      title: "文本",
+      createChartType: WidgetType.TEXT_AREA,
+      enable: true
+    },
+    {
+      iconClass: "fa fa-image",
+      title: "图片",
+      createChartType: WidgetType.IMAGE,
+      enable: true
+    },
+    {
+      iconClass: "fa fa-dice-d20",
+      title: "外部页面",
+      createChartType: WidgetType.EXTERNAL_PAGE,
+      enable: false
+    },
+    {
+      iconClass: "fa fa-code",
+      title: "HTML 片段",
+      createChartType: WidgetType.HTML_PHRASE,
+      enable: false
+    }
+  ];
+
+  createChartType!: ChartType;
+  createWidgetType!: WidgetType;
 
   withShowOptions = [
     // {
     //   enable: false,
-    //   createType: "withShow",
+    //   createChartType: "withShow",
     //   iconClass: "gw-iconfsux_tubiao_juxingshutu",
     //   title: "矩形树图"
     // },
     // {
     //   enable: false,
-    //   createType: "withShow",
+    //   createChartType: "withShow",
     //   iconClass: "gw-iconfsux_tubiao_qipaotu",
     //   title: "气泡图"
     // },
     // {
     //   enable: false,
-    //   createType: "withShow",
+    //   createChartType: "withShow",
     //   iconClass: "gw-iconfsux_tubiao_pubutu",
     //   title: "瀑布图"
     // },
     {
       enable: false,
-      createType: "withShow",
+      createChartType: "withShow",
       iconClass: "gw-iconfsux_tubiao_shuangzhoutu",
       title: "组合图"
     },
     {
       enable: false,
-      createType: "withShow",
+      createChartType: "withShow",
       iconClass: "gw-iconfsux_tubiao_biaoge",
       title: "表格"
     },
     {
       enable: false,
-      createType: "withShow",
+      createChartType: "withShow",
       iconClass: "gw-iconfsux_tubiao_xuritu",
       title: "甘特图"
     },
     {
       enable: false,
-      createType: "withShow",
+      createChartType: "withShow",
       iconClass: "gw-iconfsux_tubiao_ditu_sandian",
       title: "地图"
     }
@@ -217,50 +272,52 @@ export default class AsideToolBar extends Vue {
     });
   }
 
-  createChart(chartType: string): void {
+  createChart(chartType: ChartType) {
     this.createChartType = chartType;
+  }
+
+  createExternal(widgetType: WidgetType) {
+    this.createWidgetType = widgetType;
   }
 
   /**
    * 创建图表
    */
-  dragstart(event: any, chartType: ChartType): void {
+  handleChartDragStart(event: any, chartType: ChartType) {
+    // this.createChartType = chartType;
     this.showCreateChart = false;
-    this.$nextTick(() => {
-      event.dataTransfer.setDragImage(new Image(), 0, 0);
-      event.dataTransfer.setData("chartType", chartType);
-      const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
-      const bgBoxLeft = parseInt(bgBox.style.left) || 0,
-        bgBoxTop = parseInt(bgBox.style.top) || 0;
-      const bgStyle: Draggable = {
-        w: 400,
-        h: 300,
-        x: event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft,
-        y: event.pageY - 60 - 200 - bgBoxTop + this.scrollStyle.scrollTop,
-        z: 1000,
-        grid: [10, 10],
-        handles: []
-      };
-      this.setShadowStyle(bgStyle);
-      this.setShowshadow(true);
-    });
+    this._handleDragStart(event);
   }
 
-  // 拖拽结束
-  dragend(event: any) {
-    this.setShowshadow(false);
-    // 放到异步微任务，等待数据更新执行创建
-    setTimeout(() => {
-      const baseConfig = {
-        chartType: this.createChartType,
-        position: {
-          x: Math.round((this.shadowStyle as { x: number }).x / 10) * 10,
-          y: Math.round((this.shadowStyle as { y: number }).y / 10) * 10
-        }
-      };
-      this.createDashboard(baseConfig);
-      this.setShowshadow(false);
-    }, 0);
+  handleChartDragEnd(event: DragEvent) {
+    this._handleDragEnd(event)
+      .then(() => {
+        const baseConfig = {
+          chartType: this.createChartType,
+          position: this._getDraggedPosition()
+        };
+        this.createDashboard(baseConfig);
+      });
+  }
+
+  /**
+   * 创建外部扩展组件
+   */
+  handleExternalDragStart(event: DragEvent, widgetType: WidgetType) {
+    // this.createWidgetType = widgetType;
+    this.showCreateExternal = false;
+    this._handleDragStart(event);
+  }
+
+  handleExternalDragEnd(event: DragEvent) {
+    this._handleDragEnd(event)
+      .then(() => {
+        const baseConfig = {
+          type: this.createWidgetType,
+          position: this._getDraggedPosition()
+        };
+        this.createWidget(baseConfig);
+      });
   }
 
   /**
@@ -377,40 +434,93 @@ export default class AsideToolBar extends Vue {
     return serializedDashboards;
   }
 
-  dragendText() {
-    this.setShowshadow(false);
-    // 放到异步微任务，等待数据更新执行创建
-    setTimeout(() => {
-      const baseConfig = {
-        type: this.createChartType,
-        position: {
-          x: Math.round((this.shadowStyle as { x: number }).x / 10) * 10,
-          y: Math.round((this.shadowStyle as { y: number }).y / 10) * 10
-        }
+
+
+
+
+
+
+
+  // dragendText() {
+  //   this.setShowshadow(false);
+  //   // 放到异步微任务，等待数据更新执行创建
+  //   setTimeout(() => {
+  //     const baseConfig = {
+  //       type: this.createChartType,
+  //       position: {
+  //         x: Math.round((this.shadowStyle as { x: number }).x / 10) * 10,
+  //         y: Math.round((this.shadowStyle as { y: number }).y / 10) * 10
+  //       }
+  //     };
+  //     // this.createDashboard(baseConfig);
+  //     this.createWidget(baseConfig);
+  //     this.setShowshadow(false);
+  //   }, 0);
+  // }
+
+  // dragText(event: any) {
+  //   event.dataTransfer.setDragImage(new Image(), 0, 0);
+  //   event.dataTransfer.setData("chartType", "text");
+  //   const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
+  //   const bgBoxLeft = parseInt(bgBox.style.left) || 0,
+  //     bgBoxTop = parseInt(bgBox.style.top) || 0;
+  //   const bgStyle: Draggable = {
+  //     w: 400,
+  //     h: 300,
+  //     x: event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft,
+  //     y: event.pageY - 60 - 100 - bgBoxTop + this.scrollStyle.scrollTop,
+  //     z: 1000,
+  //     grid: [10, 10],
+  //     handles: []
+  //   };
+  //   this.setShadowStyle(bgStyle);
+  //   this.setShowshadow(true);
+  // }
+
+  /**
+   * 通用开始拖动处理方法
+   */
+  _handleDragStart(event: DragEvent) {
+    this.$nextTick(() => {
+      event.dataTransfer?.setDragImage(new Image(), 0, 0);
+      event.dataTransfer?.setData("widgetType", this.createChartType || this.createWidgetType);
+      const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
+      const bgBoxLeft = parseInt(bgBox.style.left) || 0,
+        bgBoxTop = parseInt(bgBox.style.top) || 0;
+      const bgStyle: Draggable = {
+        w: 400,
+        h: 300,
+        x: event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft,
+        y: event.pageY - 60 - 200 - bgBoxTop + this.scrollStyle.scrollTop,
+        z: 1000,
+        grid: [10, 10],
+        handles: []
       };
-      // this.createDashboard(baseConfig);
-      this.createWidget(baseConfig);
-      this.setShowshadow(false);
-    }, 0);
+      this.setShadowStyle(bgStyle);
+      this.setShowshadow(true);
+    });
   }
 
-  dragText(event: any) {
-    event.dataTransfer.setDragImage(new Image(), 0, 0);
-    event.dataTransfer.setData("chartType", "text");
-    const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
-    const bgBoxLeft = parseInt(bgBox.style.left) || 0,
-      bgBoxTop = parseInt(bgBox.style.top) || 0;
-    const bgStyle: Draggable = {
-      w: 400,
-      h: 300,
-      x: event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft,
-      y: event.pageY - 60 - 100 - bgBoxTop + this.scrollStyle.scrollTop,
-      z: 1000,
-      grid: [10, 10],
-      handles: []
+  /**
+   * 通用结束拖动处理方法
+   */
+  _handleDragEnd(event: DragEvent): Promise<void> {
+    // this.setShowshadow(false);
+    // 放到异步微任务，等待数据更新执行创建
+    return new Promise(resolve => {
+      this.setShowshadow(false);
+      resolve();
+    });
+  }
+
+  /**
+   * 通用获取拖动位置方法
+   */
+  _getDraggedPosition() {
+    return {
+      x: Math.round((this.shadowStyle as { x: number }).x / 10) * 10,
+      y: Math.round((this.shadowStyle as { y: number }).y / 10) * 10
     };
-    this.setShadowStyle(bgStyle);
-    this.setShowshadow(true);
   }
 }
 </script>
@@ -421,23 +531,25 @@ export default class AsideToolBar extends Vue {
   margin-left: 0;
 }
 
-.chart-btn-container {
+.drawer-btn-container {
   padding: 0 20px;
   .withs-filter-show {
     filter: grayscale(100%);
   }
-  .chart-btn {
+  .drawer-btn {
     margin-bottom: 15px;
     width: 100%;
     min-width: 80px;
     min-height: 80px;
     cursor: move;
 
-    .fa {
+    .icon-class {
       margin: 8px 4px 12px;
+      font-size: 28px;
+      color: #706ee7;
     }
 
-    &.simple-btn {
+    &.simple-btn:not([disabled]) {
       border: 1px solid #dcdfe6;
       background-color: #f7f8fa;
       color: #323233;

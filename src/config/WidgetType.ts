@@ -8,17 +8,17 @@ export enum WidgetType {
   TEXT_AREA = "text",
 
   /**
-   * 形状
-   */
-  // SHAPE = "shape",
-
-  /**
    * 图片
    */
-  IMAGE = "img"
+  IMAGE = "img",
 
   /**
-   * 仪表盘
+   * 外部页面
    */
-  // DASHBOARD = "dashboard"
+  EXTERNAL_PAGE = "iframe",
+
+  /**
+   * HTML
+   */
+  HTML_PHRASE = "html"
 }
