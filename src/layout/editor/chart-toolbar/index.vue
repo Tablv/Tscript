@@ -238,29 +238,8 @@ export default class ChartToolbar extends Vue {
    */
   handleFocus() {
     // 是否存在放大的图表
-    const id = this.focusDashboard.id ? "" : this.thisDashboard.id;
-    // 放大图表配置
-    const nowDashboard = { id } as Dashboard;
-    if (!id) {
-      // 存在放大图表，再次点击toggle
-      this.thisDashboard.visualData = ObjectUtil.copy(
-        this.focusDashboard.visualData
-      );
-    } else {
-      const box = document.querySelector("#gridBox") as HTMLElement;
-      ObjectUtil.merge(nowDashboard as any, {
-        visualData: ObjectUtil.copy(this.thisDashboard.visualData)
-      });
-      ObjectUtil.merge(this.thisDashboard.visualData as any, {
-        width: box.offsetWidth,
-        height: box.offsetHeight,
-        position: {
-          x: 0,
-          y: 0
-        }
-      });
-    }
-    this.setFocusDashboard(Object.assign(this.focusDashboard, nowDashboard));
+    const focusId = this.focusDashboard.id ? "" : this.dashboard.id;
+    this.setFocusDashboard({ id: focusId });
   }
 }
 </script>

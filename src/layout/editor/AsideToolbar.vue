@@ -373,16 +373,6 @@ export default class AsideToolBar extends Vue {
       serializedDashboard.analysis.limit = ObjectUtil.copy(
         generalDataTemplate.analysis.limit
       );
-
-      // 置为无聚焦状态
-      if (
-        this.focusDashboard.id &&
-        serializedDashboard.id === this.focusDashboard.id
-      ) {
-        serializedDashboard.visualData = ObjectUtil.copy(
-          this.focusDashboard.visualData
-        );
-      }
     });
     return serializedDashboards;
   }
