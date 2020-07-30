@@ -41,11 +41,23 @@ export default class WidgetProxy extends Vue {
     const isDashboard = !(this.item as any).type;
     const widget = isDashboard ? DashboardWidget : ExternalWidget;
 
-    return <widget item={this.item} index={this.index} ref="widget" />;
+    return (
+      <widget
+        item={this.item}
+        index={this.index}
+        ref="widget"
+        onContextmenu={this.doHandleContextmenu.bind(this)}
+      />
+    );
   }
 
   get widget(): any {
     return this.$refs.widget;
+  }
+
+  doHandleContextmenu(event: MouseEvent) {
+    this.$emit("doContextMenu", event);
+    event.preventDefault();
   }
 }
 </script>

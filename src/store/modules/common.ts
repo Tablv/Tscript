@@ -71,7 +71,9 @@ const state: any = {
   scrollStyle: {
     scrollLeft: 0,
     scrollTop: 0
-  }
+  },
+
+  showContextMenu: new Map<number, boolean>()
 };
 
 const getters: GetterTree<any, any> = {
@@ -223,7 +225,13 @@ const mutations: MutationTree<any> = {
 
   // 设置当前选中仪表盘
   setDashboardIndex(state, index: number): void {
+    state.showContextMenu.set(state.dashboardIndex, false);
     state.dashboardIndex = index;
+  },
+
+  setShowContextMenu(state, flag: boolean) {
+    // state.showContextMenu = flag;
+    state.showContextMenu.set(state.dashboardIndex, flag);
   },
 
   // 设置当前选中仪表盘的层级

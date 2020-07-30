@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-on="autoListenres">
     <external-widget :data="item" />
     <div class="toolbar-box" v-show="!isSavingScreenhot">
       <external-toolbar :data.sync="item" :index="index" />
@@ -49,7 +49,7 @@ export default class External extends Vue {
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
 
-  // 设置选中元素的层级
+  // 设置当前选中仪表盘
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
 
@@ -60,6 +60,10 @@ export default class External extends Vue {
   // 仪表盘集配置
   @CommonStore.State("dashboardSet")
   dashboardSet!: DashboardSet;
+
+  get autoListenres(): any {
+    return Object.assign(this.$listeners, {});
+  }
 
   get setting(): any {
     return this.dashboardSet.canvasSetting;
