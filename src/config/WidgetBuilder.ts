@@ -1,6 +1,6 @@
 import { widgetConfig } from "@/types/DashWidget";
 import { WidgetType } from "@/config/WidgetType";
-import { BackgroundType } from 'glaway-bi-model/enums/DashboardSet';
+import { BackgroundType } from "glaway-bi-model/enums/DashboardSet";
 
 /**
  * 元素模板
