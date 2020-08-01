@@ -43,11 +43,11 @@ module.exports = {
       title: "图表分享验证"
     }
   },
-  configureWebpack: {
-    externals: {
-      vue: "Vue"
-    }
-  },
+  // configureWebpack: {
+  //   externals: {
+  //     vue: "Vue"
+  //   }
+  // },
   devServer: {
     port: 3001,
     proxy: {
