@@ -22,7 +22,7 @@
             :index="index"
             @doContextMenu="doContextMenu"
             @click.native.stop="innerClick(index)"
-            @mousedown.native.stop="setChartZIndex(index)"
+            @mousedown.native.stop="setActiveIndex(index)"
           />
         </transition-group>
         <context-menu
@@ -139,12 +139,24 @@ export default class GridCanvas extends Vue {
     return this.dashboardSet.canvasSetting;
   }
 
-  setLevelUp() {}
+  setLevelUp() {
+    this.setChartZIndex(1);
+  }
 
-  setLevelDown() {}
+  setLevelDown() {
+    this.setChartZIndex(-1);
+  }
 
-  setLevelTop() {}
-  setLevelBottom() {}
+  setLevelTop() {
+    const level =
+      this.dashboards.length -
+      this.dashboards[this.activeIndex].visualData.position.z;
+    this.setChartZIndex(level);
+  }
+  setLevelBottom() {
+    const level = this.dashboards[this.activeIndex].visualData.position.z;
+    this.setChartZIndex(-level);
+  }
 
   /**
    * Grid 样式

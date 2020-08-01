@@ -92,9 +92,9 @@ export default class ResizableElement extends Vue {
         height: gridBox.offsetHeight
       };
     }
-
     // 普通模式
     return {
+      z: this.item.visualData.position.z,
       x: this.item.visualData.position.x,
       y: this.item.visualData.position.y,
       width: this.item.visualData.width,

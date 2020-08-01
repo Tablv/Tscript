@@ -17,6 +17,11 @@ import UIUtil from "@/util/UIUtil";
 import { WidgetType } from "@/config/WidgetType";
 import { DashWidget, widgetConfig } from "@/types/DashWidget";
 
+interface IMoveZIndex {
+  index: number;
+  offset: number;
+}
+
 const state: any = {
   // 当前仪表盘集ID
   dashboardSetId: "",
@@ -71,9 +76,7 @@ const state: any = {
   scrollStyle: {
     scrollLeft: 0,
     scrollTop: 0
-  },
-
-  showContextMenu: new Map<number, boolean>()
+  }
 };
 
 const getters: GetterTree<any, any> = {
@@ -225,29 +228,42 @@ const mutations: MutationTree<any> = {
 
   // 设置当前选中仪表盘
   setDashboardIndex(state, index: number): void {
-    state.showContextMenu.set(state.dashboardIndex, false);
     state.dashboardIndex = index;
-  },
-
-  setShowContextMenu(state, flag: boolean) {
-    // state.showContextMenu = flag;
-    state.showContextMenu.set(state.dashboardIndex, flag);
   },
 
   // 设置当前选中仪表盘的层级
   /**
    * @param index {number} 激活图表下标
    */
-  setDashboardChartZIndex(state, index: number): void {
-    const maxZIndex = state.dashboards.length - 1;
-    const oldZIndex = state.dashboards[index].visualData.position.z;
-    state.dashboardIndex = index;
-    state.dashboards.forEach((dashboard: Dashboard) => {
-      if (dashboard.visualData.position.z > oldZIndex) {
-        dashboard.visualData.position.z -= 1;
+  setDashboardChartZIndex(state, offset: number): void {
+    const index = state.dashboardIndex;
+    const currentWidget = state.dashboards[index];
+
+    // 校验层级
+    const currentIndex = currentWidget.visualData.position.z;
+    const maxIndex = state.dashboards.length - 1;
+    if (offset < 0 && currentIndex === 0) return;
+    if (offset > 0 && currentIndex === maxIndex) return;
+
+    // 排序
+    state.dashboards.forEach((data: any) => {
+      const wIndex = data.visualData.position.z;
+      // 减
+      if (offset < 0) {
+        if (wIndex < currentIndex && wIndex >= currentIndex + offset) {
+          data.visualData.position.z++;
+        }
+      }
+
+      // 加
+      if (offset > 0) {
+        if (wIndex > currentIndex && wIndex <= currentIndex + offset) {
+          data.visualData.position.z--;
+        }
       }
     });
-    state.dashboards[index].visualData.position.z = maxZIndex;
+
+    currentWidget.visualData.position.z += offset;
   },
 
   // 设置联动条件
