@@ -19,7 +19,6 @@ import {
 } from "vue-property-decorator";
 
 import ExternalToolbar from "@/layout/editor/external-toolbar/index.vue";
-import { WidgetType } from "@/config/WidgetType";
 import { DashWidget, widgetConfig } from "@/types/DashWidget";
 import ExternalWidget from "@/components/external/Widget.vue";
 import { CommonStore } from "@/store/modules-model";

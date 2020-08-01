@@ -245,25 +245,25 @@ export default class AsideToolBar extends Vue {
       createType: "withShow",
       iconClass: "gw-iconfsux_tubiao_shuangzhoutu",
       title: "组合图"
-    },
-    {
-      enable: false,
-      createType: "withShow",
-      iconClass: "gw-iconfsux_tubiao_biaoge",
-      title: "表格"
-    },
-    {
-      enable: false,
-      createType: "withShow",
-      iconClass: "gw-iconfsux_tubiao_xuritu",
-      title: "甘特图"
-    },
-    {
-      enable: false,
-      createType: "withShow",
-      iconClass: "gw-iconfsux_tubiao_ditu_sandian",
-      title: "地图"
     }
+    // {
+    //   enable: false,
+    //   createType: "withShow",
+    //   iconClass: "gw-iconfsux_tubiao_biaoge",
+    //   title: "表格"
+    // },
+    // {
+    //   enable: false,
+    //   createType: "withShow",
+    //   iconClass: "gw-iconfsux_tubiao_xuritu",
+    //   title: "甘特图"
+    // },
+    // {
+    //   enable: false,
+    //   createType: "withShow",
+    //   iconClass: "gw-iconfsux_tubiao_ditu_sandian",
+    //   title: "地图"
+    // }
   ];
 
   mounted() {
@@ -382,9 +382,10 @@ export default class AsideToolBar extends Vue {
     let [containerSnapshot, dashboardSnapshots] = resultList;
 
     // 保存前处理
-    let serializedDashboards = this.setTemplateDashboard(
-      ObjectUtil.copy(this.dashboards)
-    );
+    let {
+      serializedDashboards,
+      serializedDashWidget
+    } = this.setTemplateDashboard(ObjectUtil.copy(this.dashboards));
 
     // 仪表盘集
     let dashboardSet: DashboardSet = ObjectUtil.copy(this.dashboardSet);
@@ -395,105 +396,81 @@ export default class AsideToolBar extends Vue {
       dashboardSet,
       dashboards: serializedDashboards,
       containerSnapshot: containerSnapshot as string,
-      dashboardSnapshots: dashboardSnapshots as Array<DashboardSnapshot>
+      dashboardSnapshots: dashboardSnapshots as Array<DashboardSnapshot>,
+      extComponents: serializedDashWidget
     };
 
     return await AxiosRequest.dashboards.save(saveResult);
   }
 
+  typeMap = new Map<string, number>([["text", 1]]);
+
   /**
    * 特殊处理一些数据
    */
   setTemplateDashboard(
-    serializedDashboards: Array<Dashboard>
-  ): Array<Dashboard> {
-    serializedDashboards.forEach((serializedDashboard: any) => {
-      if (!serializedDashboard.analysis) {
-        serializedDashboard.analysis = serializedDashboard.config;
-        return;
+    dashboards: Array<any>
+  ): {
+    serializedDashboards: Array<Dashboard>;
+    serializedDashWidget: Array<DashWidget<any>>;
+  } {
+    const serializedDashboards: Array<Dashboard> = [];
+    const serializedDashWidget: Array<DashWidget<any>> = [];
+    dashboards.forEach((serialized: any) => {
+      if (typeof serialized.type === "string" || serialized.config) {
+        serialized.type = this.typeMap.get(serialized.type);
+        serialized.containerId = this.setId;
+        serializedDashWidget.push(serialized);
+        return false;
+      } else {
+        // 合并分析数据
+        Object.assign(serialized.analysis, serialized.tableView);
+
+        // 置为默认过滤器配置
+        serialized.analysis.filter = ObjectUtil.copy(
+          generalDataTemplate.analysis.filter
+        );
+
+        // 置为默认排序配置
+        serialized.analysis.sort = ObjectUtil.copy(
+          generalDataTemplate.analysis.sort
+        );
+
+        // 置为默认排名配置
+        serialized.analysis.limit = ObjectUtil.copy(
+          generalDataTemplate.analysis.limit
+        );
+        serializedDashboards.push(serialized);
       }
-      // 合并分析数据
-      Object.assign(
-        serializedDashboard.analysis,
-        serializedDashboard.tableView
-      );
-
-      // 置为默认过滤器配置
-      serializedDashboard.analysis.filter = ObjectUtil.copy(
-        generalDataTemplate.analysis.filter
-      );
-
-      // 置为默认排序配置
-      serializedDashboard.analysis.sort = ObjectUtil.copy(
-        generalDataTemplate.analysis.sort
-      );
-
-      // 置为默认排名配置
-      serializedDashboard.analysis.limit = ObjectUtil.copy(
-        generalDataTemplate.analysis.limit
-      );
     });
-    return serializedDashboards;
+    return {
+      serializedDashboards,
+      serializedDashWidget
+    };
   }
-
-  // dragendText() {
-  //   this.setShowshadow(false);
-  //   // 放到异步微任务，等待数据更新执行创建
-  //   setTimeout(() => {
-  //     const baseConfig = {
-  //       type: this.createChartType,
-  //       position: {
-  //         x: Math.round((this.shadowStyle as { x: number }).x / 10) * 10,
-  //         y: Math.round((this.shadowStyle as { y: number }).y / 10) * 10
-  //       }
-  //     };
-  //     // this.createDashboard(baseConfig);
-  //     this.createWidget(baseConfig);
-  //     this.setShowshadow(false);
-  //   }, 0);
-  // }
-
-  // dragText(event: any) {
-  //   event.dataTransfer.setDragImage(new Image(), 0, 0);
-  //   event.dataTransfer.setData("chartType", "text");
-  //   const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
-  //   const bgBoxLeft = parseInt(bgBox.style.left) || 0,
-  //     bgBoxTop = parseInt(bgBox.style.top) || 0;
-  //   const bgStyle: Draggable = {
-  //     w: 400,
-  //     h: 300,
-  //     x: event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft,
-  //     y: event.pageY - 60 - 100 - bgBoxTop + this.scrollStyle.scrollTop,
-  //     z: 1000,
-  //     grid: [10, 10],
-  //     handles: []
-  //   };
-  //   this.setShadowStyle(bgStyle);
-  //   this.setShowshadow(true);
-  // }
 
   /**
    * 通用开始拖动处理方法
    */
   _handleDragStart(event: DragEvent) {
+    event.dataTransfer?.setDragImage(new Image(), 0, 0);
+    event.dataTransfer?.setData(
+      "widgetType",
+      this.createChartType || this.createWidgetType
+    );
+    const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
+    const bgBoxLeft = parseInt(bgBox.style.left) || 0,
+      bgBoxTop = parseInt(bgBox.style.top) || 0;
+    const bgStyle: Draggable = {
+      w: 400,
+      h: 300,
+      x: event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft,
+      y: event.pageY - 60 - 200 - bgBoxTop + this.scrollStyle.scrollTop,
+      z: 1000,
+      grid: [10, 10],
+      handles: []
+    };
     this.$nextTick(() => {
-      event.dataTransfer?.setDragImage(new Image(), 0, 0);
-      event.dataTransfer?.setData(
-        "widgetType",
-        this.createChartType || this.createWidgetType
-      );
-      const bgBox = document.querySelector("#bgBox") as HTMLDivElement;
-      const bgBoxLeft = parseInt(bgBox.style.left) || 0,
-        bgBoxTop = parseInt(bgBox.style.top) || 0;
-      const bgStyle: Draggable = {
-        w: 400,
-        h: 300,
-        x: event.pageX - 84 - 250 - bgBoxLeft + this.scrollStyle.scrollLeft,
-        y: event.pageY - 60 - 200 - bgBoxTop + this.scrollStyle.scrollTop,
-        z: 1000,
-        grid: [10, 10],
-        handles: []
-      };
       this.setShadowStyle(bgStyle);
       this.setShowshadow(true);
     });
@@ -503,7 +480,6 @@ export default class AsideToolBar extends Vue {
    * 通用结束拖动处理方法
    */
   _handleDragEnd(event: DragEvent): Promise<void> {
-    // this.setShowshadow(false);
     // 放到异步微任务，等待数据更新执行创建
     return new Promise(resolve => {
       this.setShowshadow(false);

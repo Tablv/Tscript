@@ -311,7 +311,7 @@ const actions: ActionTree<any, any> = {
     return AxiosRequest.dashboardSet
       .find(state.dashboardSetId)
       .then(res => {
-        const { container, dashboards } = res;
+        const { container, dashboards, extComponents } = res;
         // 清空联动条件
         commit("resetReactWhere");
 
@@ -319,13 +319,7 @@ const actions: ActionTree<any, any> = {
         commit("setDashboardSet", container);
 
         // 处理老旧数据，合并最近的公共配置
-        const result = dashboards.map((dashboard: any) => {
-          dashboard = <any>JSON.parse(JSON.stringify(dashboard));
-          if (!dashboard.echarts) {
-            dashboard.config = ObjectUtil.copy(dashboard.analysis);
-            dashboard.analysis = null;
-            return dashboard;
-          }
+        const chartList = dashboards.map((dashboard: any) => {
           const viewName: string = dashboard.analysis.viewName || "";
           dashboard.tableView = {
             viewName,
@@ -334,17 +328,18 @@ const actions: ActionTree<any, any> = {
               DashboardUtil.getFormTable(viewName)
           };
 
-          const type = dashboard.visualData.type;
+          const chartType = dashboard.visualData.type;
 
           const defaultConfig = ObjectUtil.copy(
-            DefaultTemplate.getDefaultConfig(type)
+            DefaultTemplate.getDefaultConfig(chartType)
           );
 
           return ObjectUtil.merge(defaultConfig, dashboard);
+          // return dashboard;
         });
 
         // 设置仪表盘
-        commit("setDashboards", result);
+        commit("setDashboards", [...chartList, ...extComponents]);
         return Promise.resolve();
       })
       .catch(err => Promise.reject(err));

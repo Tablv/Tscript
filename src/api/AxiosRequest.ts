@@ -16,12 +16,15 @@ import { SortDatapack } from "glaway-bi-model/view/Sort";
 import { LimitDatapack } from "glaway-bi-model/view/Limit";
 import { WarnDatapack } from "glaway-bi-model/view/Warn";
 
+import { DashWidget } from "@/types/DashWidget";
+
 export interface SaveDashboardSet {
   setId: string;
   dashboardSet: DashboardSet;
   dashboards: Array<Dashboard>;
   containerSnapshot: string;
   dashboardSnapshots: Array<DashboardSnapshot>;
+  extComponents: Array<DashWidget<any>>;
 }
 
 export interface DashboardSnapshot {
@@ -232,7 +235,8 @@ export const AxiosRequest = {
         containerSnapshot: saveData.containerSnapshot,
         dashboardSnapshots: JSON.stringify(saveData.dashboardSnapshots),
         containerOptions: JSON.stringify(saveData.dashboardSet),
-        dashboardOptions: JSON.stringify(saveData.dashboards)
+        dashboardOptions: JSON.stringify(saveData.dashboards),
+        extComponents: JSON.stringify(saveData.extComponents)
       };
       return AxiosUtil.post(API.saveDashboards, req)
         .then(res =>
@@ -250,14 +254,16 @@ export const AxiosRequest = {
           if (res.result) {
             return {
               container: JSON.parse(res.result.settings),
-              dashboards: ObjectUtil.deserialize(res.result.dashboards)
+              dashboards: ObjectUtil.deserialize(res.result.dashboards),
+              extComponents: ObjectUtil.deserialize(res.result.extComponents)
             };
           }
 
           // 仪表盘集为空，使用默认配置
           return Promise.resolve({
             container: {},
-            dashboards: []
+            dashboards: [],
+            extComponents: []
           });
         })
         .catch(err => Promise.reject(err));

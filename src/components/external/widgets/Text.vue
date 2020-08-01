@@ -34,7 +34,6 @@ import {
 } from "vue-property-decorator";
 
 import { widgetConfig, DashWidget } from "@/types/DashWidget";
-import { WidgetType } from "@/config/WidgetType";
 
 @Component({})
 export default class TextWidget extends Vue {
@@ -131,12 +130,12 @@ export default class TextWidget extends Vue {
 
   get textStyle() {
     return {
-      color: this.textFont.color,
       "font-size": this.scaledFontSize + "px",
       "font-weight": this.textFont.bold ? "bold" : "normal",
       "font-style": this.textFont.italic ? "italic" : "normal",
       "text-decoration": this.textFont.underline ? "underline" : "none",
-      "text-align": this.textAlignment.horizontal
+      "text-align": this.textAlignment.horizontal,
+      "color" : this.textFont.color
     };
   }
 

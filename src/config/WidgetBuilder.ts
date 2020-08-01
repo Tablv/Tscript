@@ -98,7 +98,8 @@ export class WidgetBuilder {
   }
 
   private widgetConfigBuilders: { [type: string]: Function } = {
-    text: (): widgetConfig.TextArea => {
+    // text
+    "1": (): widgetConfig.TextArea => {
       return {
         value: "",
         font: {
@@ -114,7 +115,8 @@ export class WidgetBuilder {
         }
       };
     },
-    img: (): widgetConfig.Image => {
+    // img
+    "4": (): widgetConfig.Image => {
       return {
         url: null,
         fit: "cover"

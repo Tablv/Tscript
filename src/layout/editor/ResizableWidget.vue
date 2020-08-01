@@ -21,14 +21,14 @@
         @doContextMenu="doContextMenu"
         v-bind="widgetBinding"
       />
-      <div v-if="showContextMenu" class="contextMenu" :style="contextMenu">
+      <!-- <div v-if="showContextMenu" class="contextMenu" :style="contextMenu">
         <ul class="gw-context-menu">
           <li class="menu-item">上移一层</li>
           <li class="menu-item">下移一层</li>
           <li class="menu-item">置于顶层</li>
           <li class="menu-item">置于底层</li>
         </ul>
-      </div>
+      </div> -->
     </vdr>
     <!-- <context-menu :visible.sync="rightClick" :position="contextMenuPosition">
       <li>上移一层</li>
@@ -80,9 +80,9 @@ export default class ResizableElement extends Vue {
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
 
-  // 当前激活的元素 所在数组下标
-  @CommonStore.State("showContextMenu")
-  rightClickMap!: Map<number, boolean>;
+  // // 当前激活的元素 所在数组下标
+  // @CommonStore.State("showContextMenu")
+  // rightClickMap!: Map<number, boolean>;
 
   // 正在截图标志
   @CommonStore.State("isSavingScreenhot")
@@ -96,9 +96,9 @@ export default class ResizableElement extends Vue {
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
 
-  // 设置选中元素的层级
-  @CommonStore.Mutation("setShowContextMenu")
-  setShowContextMenu!: Function;
+  // // 设置选中元素的层级
+  // @CommonStore.Mutation("setShowContextMenu")
+  // setShowContextMenu!: Function;
 
   get resizeGrid(): Array<number> {
     const showBackground = this.dashboardSet.canvasSetting.background.show;
@@ -172,9 +172,9 @@ export default class ResizableElement extends Vue {
 
     return domStyle;
   }
-  get rightClick(): boolean {
-    return this.rightClickMap.get(this.index) || false;
-  }
+  // get rightClick(): boolean {
+  //   return this.rightClickMap.get(this.index) || false;
+  // }
 
   get widgetProxy(): WidgetProxy {
     return this.$refs.widgetProxy as WidgetProxy;
@@ -195,9 +195,9 @@ export default class ResizableElement extends Vue {
     return !this.focusItem.id;
   }
 
-  get showContextMenu(): boolean {
-    return this.rightClick && this.index === this.activeIndex;
-  }
+  // get showContextMenu(): boolean {
+  //   return this.rightClick && this.index === this.activeIndex;
+  // }
 
   // rightClick = false;
 
@@ -269,16 +269,16 @@ export default class ResizableElement extends Vue {
 
   doContextMenu(event: MouseEvent) {
     this.contextMenu.transform = `translate(${event.offsetX}px, ${event.offsetY}px)`;
-    setTimeout(() => {
-      this.setActiveIndex(this.index);
-      this.setShowContextMenu(true);
-      // this.rightClick = true;
-    }, 100);
+    // setTimeout(() => {
+    //   this.setActiveIndex(this.index);
+    //   this.setShowContextMenu(true);
+    //   // this.rightClick = true;
+    // }, 100);
   }
 
   closeMenu() {
     // this.rightClick = false;
-    this.setShowContextMenu(false);
+    // this.setShowContextMenu(false);
   }
 }
 </script>

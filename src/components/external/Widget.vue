@@ -6,8 +6,8 @@ import img from "./widgets/Image.vue";
 import { DashWidget } from "@/types/DashWidget";
 
 const widgetMap: { [type: string]: any } = {
-  text,
-  img
+  "1": text,
+  "4": img
 };
 
 @Component({})
@@ -17,7 +17,6 @@ export default class Widget extends Vue {
 
   render(h: CreateElement) {
     if (!this.data.type) return null;
-
     const component = widgetMap[this.data.type];
     if (!component) return null;
 

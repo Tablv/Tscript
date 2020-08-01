@@ -21,7 +21,6 @@
 <script lang="ts">
 import { Vue, Component, Provide, Inject, Prop } from "vue-property-decorator";
 import { widgetConfig, DashWidget } from "@/types/DashWidget";
-import { WidgetType } from "@/config/WidgetType";
 import ImageUploader from "@/components/external/service/ImageUploader.vue";
 import AxiosUtil from "@/util/AxiosUtil";
 import { API } from "@/api/AxiosRequest";

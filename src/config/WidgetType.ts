@@ -5,20 +5,20 @@ export enum WidgetType {
   /**
    * 文本框
    */
-  TEXT_AREA = "text",
-
-  /**
-   * 图片
-   */
-  IMAGE = "img",
+  TEXT_AREA = "1",
 
   /**
    * 外部页面
    */
-  EXTERNAL_PAGE = "iframe",
+  EXTERNAL_PAGE = "2",
 
   /**
    * HTML
    */
-  HTML_PHRASE = "html"
+  HTML_PHRASE = "3",
+
+  /**
+   * 图片
+   */
+  IMAGE = "4"
 }
