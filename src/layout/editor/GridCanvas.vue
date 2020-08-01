@@ -20,10 +20,21 @@
             :key="item.id"
             :item.sync="item"
             :index="index"
+            @doContextMenu="doContextMenu"
             @click.native.stop="innerClick(index)"
             @mousedown.native.stop="setChartZIndex(index)"
           />
         </transition-group>
+        <context-menu
+          :visible.sync="rightClick"
+          :position="contextMenuPosition"
+        >
+          <li @click="setLevelUp">上移一层</li>
+          <li @click="setLevelDown">下移一层</li>
+          <li @click="setLevelTop">置于顶层</li>
+          <li @click="setLevelBottom">置于底层</li>
+        </context-menu>
+        <!-- <li @click="deleteWidget" divided>删除</li> -->
         <vdr
           v-show="isShowshadow"
           v-bind="bgStyle"
@@ -47,10 +58,12 @@ import Draggable from "glaway-bi-model/view/Draggable";
 import DashboardUtil from "@/util/DashboardUtil";
 import { generalDataTemplate } from "glaway-bi-component/src/config/DefaultTemplate";
 import ObjectUtil from "glaway-bi-util/ObjectUtil";
+import ContextMenu from "./ContextMenu.vue";
 
 @Component({
   components: {
     vdr, // shadow
+    ContextMenu,
     ResizableWidget
   }
 })
@@ -126,12 +139,34 @@ export default class GridCanvas extends Vue {
     return this.dashboardSet.canvasSetting;
   }
 
+  setLevelUp() {}
+
+  setLevelDown() {}
+
+  setLevelTop() {}
+  setLevelBottom() {}
+
   /**
    * Grid 样式
    */
   canvasStyle = {};
 
   bgStyle: Draggable = {};
+
+  rightClick: boolean = false;
+
+  contextMenuPosition = {
+    left: 0,
+    top: 0
+  };
+
+  doContextMenu(event: MouseEvent) {
+    this.rightClick = true;
+    this.contextMenuPosition = {
+      top: event.clientY,
+      left: event.clientX
+    };
+  }
 
   mounted() {
     let gridContainer = document.querySelector(

@@ -1,5 +1,5 @@
 <template>
-  <div class="resizable-widget" @click="closeMenu">
+  <div class="resizable-widget">
     <vdr
       @dragstop="onDragStop"
       @dragging="onDragging"
@@ -21,22 +21,7 @@
         @doContextMenu="doContextMenu"
         v-bind="widgetBinding"
       />
-      <!-- <div v-if="showContextMenu" class="contextMenu" :style="contextMenu">
-        <ul class="gw-context-menu">
-          <li class="menu-item">上移一层</li>
-          <li class="menu-item">下移一层</li>
-          <li class="menu-item">置于顶层</li>
-          <li class="menu-item">置于底层</li>
-        </ul>
-      </div> -->
     </vdr>
-    <!-- <context-menu :visible.sync="rightClick" :position="contextMenuPosition">
-      <li>上移一层</li>
-      <li>下移一层</li>
-      <li>置于顶层</li>
-      <li>置于底层</li>
-      <li divided>删除</li>
-    </context-menu> -->
   </div>
 </template>
 
@@ -53,13 +38,11 @@ import { CommonStore } from "@/store/modules-model";
 import DashboardSet from "glaway-bi-model/view/DashboardSet";
 import { Properties } from "csstype";
 import WidgetProxy from "./widget/index.vue";
-// import ContextMenu from "./ContextMenu.vue";
 
 @Component({
   components: {
     vdr,
     widget
-    // ContextMenu
   }
 })
 export default class ResizableElement extends Vue {
@@ -80,10 +63,6 @@ export default class ResizableElement extends Vue {
   @CommonStore.State("dashboardIndex")
   activeIndex!: number;
 
-  // // 当前激活的元素 所在数组下标
-  // @CommonStore.State("showContextMenu")
-  // rightClickMap!: Map<number, boolean>;
-
   // 正在截图标志
   @CommonStore.State("isSavingScreenhot")
   isSavingScreenhot!: number;
@@ -95,10 +74,6 @@ export default class ResizableElement extends Vue {
   // 设置选中元素的层级
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
-
-  // // 设置选中元素的层级
-  // @CommonStore.Mutation("setShowContextMenu")
-  // setShowContextMenu!: Function;
 
   get resizeGrid(): Array<number> {
     const showBackground = this.dashboardSet.canvasSetting.background.show;
@@ -195,25 +170,9 @@ export default class ResizableElement extends Vue {
     return !this.focusItem.id;
   }
 
-  // get showContextMenu(): boolean {
-  //   return this.rightClick && this.index === this.activeIndex;
-  // }
-
-  // rightClick = false;
-
-  contextMenu = {
-    transform: "translate(0, 0)"
-  };
-
   mounted() {
     // 恢复未选中状态
     this.setActiveIndex(-1);
-
-    // window.onclick = this.closeMenu.bind(this);
-  }
-
-  destroyed() {
-    // window.onclick = null;
   }
 
   /**
@@ -268,17 +227,7 @@ export default class ResizableElement extends Vue {
   }
 
   doContextMenu(event: MouseEvent) {
-    this.contextMenu.transform = `translate(${event.offsetX}px, ${event.offsetY}px)`;
-    // setTimeout(() => {
-    //   this.setActiveIndex(this.index);
-    //   this.setShowContextMenu(true);
-    //   // this.rightClick = true;
-    // }, 100);
-  }
-
-  closeMenu() {
-    // this.rightClick = false;
-    // this.setShowContextMenu(false);
+    this.$emit("doContextMenu", event);
   }
 }
 </script>
@@ -290,11 +239,6 @@ $shadow: 0 0 6px #58bee9;
 @mixin topAndLeft($top, $left) {
   margin-top: $top;
   margin-left: $left;
-}
-.contextMenu {
-  position: absolute;
-  left: 0px;
-  top: 0px;
 }
 .resizable-widget {
   outline: none;

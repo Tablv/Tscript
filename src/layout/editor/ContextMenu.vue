@@ -12,12 +12,10 @@ export default class ContextMenu extends Vue {
 
   @Prop({
     default: () => {
-      return {
-        transform: "translate(0, 0)"
-      };
+      return { top: 0, left: 0 };
     }
   })
-  position!: { transform: string };
+  position!: { top: number; left: number };
 
   @Prop({ default: true })
   hideOnClick!: boolean;
@@ -29,7 +27,7 @@ export default class ContextMenu extends Vue {
       <ul
         v-clickoutside={this.closeMenu}
         class="gw-context-menu"
-        style={this.position}
+        style={this.positionStyle}
       >
         {this.menuItemsRenderer(h)}
       </ul>
@@ -39,9 +37,8 @@ export default class ContextMenu extends Vue {
   menuItemsRenderer(h: CreateElement): Array<VNode> {
     const list = this.$slots.default?.reduce(
       (nodesList: Array<VNode>, node: VNode) => {
-        const $data = (node.data || {}) as VNodeData;
+        const $data = node.data as VNodeData;
         const $attrs = $data?.attrs;
-
         // 添加className
         $data.class = $data.class ? ($data.class += " menu-item") : "menu-item";
 
@@ -74,12 +71,12 @@ export default class ContextMenu extends Vue {
     return <li class="menu-item-divider"></li>;
   }
 
-  // get positionStyle() {
-  //   return {
-  //     top: this.position.top + "px",
-  //     left: this.position.left + "px"
-  //   };
-  // }
+  get positionStyle() {
+    return {
+      top: this.position.top + "px",
+      left: this.position.left + "px"
+    };
+  }
 
   /**
    * 事件代理

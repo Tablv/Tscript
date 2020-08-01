@@ -135,7 +135,7 @@ export default class TextWidget extends Vue {
       "font-style": this.textFont.italic ? "italic" : "normal",
       "text-decoration": this.textFont.underline ? "underline" : "none",
       "text-align": this.textAlignment.horizontal,
-      "color" : this.textFont.color
+      color: this.textFont.color
     };
   }
 

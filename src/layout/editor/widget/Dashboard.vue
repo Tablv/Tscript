@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="dashboard-widget"
-    v-on="autoListenres"
-    v-loading="isFetching"
-  >
+  <div class="dashboard-widget" v-on="autoListenres" v-loading="isFetching">
     <div
       class="toolbar-box"
       v-show="!isSavingScreenhot && index === activeIndex"
