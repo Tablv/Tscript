@@ -1,4 +1,5 @@
 import { WidgetType } from "@/config/WidgetType";
+import { BackgroundType } from "glaway-bi-model/enums/DashboardSet";
 
 /**
  * 故事元素
@@ -86,7 +87,9 @@ export namespace widgetConfig {
     enable: boolean;
     props: {
       color: string; // Hex
-    } | null;
+      type: BackgroundType;
+      url: string;
+    };
   };
 
   /**

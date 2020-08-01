@@ -10,17 +10,51 @@
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
-      <el-form-item label="背景色">
-        <div
-          v-if="currentWidget.visualData.background.enable"
-          style="height: 32px;"
+      <el-form-item label="背景">
+        <el-radio-group
+          v-model="currentWidget.visualData.background.props.type"
         >
+          <el-radio :label="0">背景色</el-radio>
+          <el-radio :label="1">背景图片</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item
+        label=""
+        v-if="currentWidget.visualData.background.props.type === 0"
+      >
+        <div style="height: 32px;">
           <el-color-picker
             v-model="currentWidget.visualData.background.props.color"
             :show-alpha="true"
             color-format="hex"
             size="mini"
           />
+        </div>
+      </el-form-item>
+
+      <el-form-item
+        label=""
+        v-if="currentWidget.visualData.background.props.type === 1"
+      >
+        <div style="height: 32px;">
+          <el-upload
+            action="admin/dashboard/container/updateBackground"
+            class="bg-uploader"
+            :show-file-list="false"
+            :on-success="uploadBgSuccess"
+            :on-error="uploadBgError"
+            :before-upload="bgValidate"
+            :data="{
+              dashboardId: currentWidget.id
+            }"
+          >
+            <img
+              v-if="currentWidget.visualData.background.props.url"
+              :src="currentWidget.visualData.background.props.url"
+              class="background-img"
+            />
+            <i v-else class="el-icon-plus"></i>
+          </el-upload>
         </div>
       </el-form-item>
 
@@ -138,6 +172,11 @@ import { Properties } from "csstype";
 import DetailCard from "@/components/DetailCard.vue";
 import { DashWidget } from "@/types/DashWidget";
 import { WidgetBuilder, blurSizeMap } from "@/config/WidgetBuilder";
+import {
+  ElUploadInternalRawFile,
+  ElUploadInternalFileDetail
+} from "element-ui/types/upload";
+import UIUtil from "@/util/UIUtil";
 
 @Component({
   components: {
@@ -245,6 +284,32 @@ export default class AppearanceStyle extends Vue {
 
     (this.currentWidget.visualData.shadow.props as any).color = color;
   }
+
+  // 背景图片 校验
+  bgValidate(file: ElUploadInternalRawFile): boolean {
+    const isJPG = file.type === "image/jpeg",
+      isLt10M = file.size / 1024 / 1024 < 10;
+
+    if (!isJPG) {
+      UIUtil.showErrorMessage("上传头像图片只能是 JPG 格式!");
+    }
+    if (!isLt10M) {
+      UIUtil.showErrorMessage("上传头像图片大小不能超过 10MB!");
+    }
+    return isJPG && isLt10M;
+  }
+
+  // 背景图片 上传成功
+  uploadBgSuccess(res: any, file: ElUploadInternalFileDetail): void {
+    this.currentWidget.visualData.background.props.url = res.result.raw;
+  }
+
+  // 背景图片 上传失败
+  uploadBgError(err: ErrorEvent): void {
+    console.error(err);
+    this.currentWidget.visualData.background.props.url = "";
+    UIUtil.showErrorMessage("上传背景图片失败 请稍后重试");
+  }
 }
 </script>
 
@@ -258,5 +323,10 @@ export default class AppearanceStyle extends Vue {
     border-width: 3px 0 0;
     margin-bottom: 3px;
   }
+}
+.background-img {
+  width: 30px;
+  height: 30px;
+  display: block;
 }
 </style>

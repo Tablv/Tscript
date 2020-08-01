@@ -124,8 +124,12 @@ export default class ResizableElement extends Vue {
      * 背景
      */
     if (background && background.enable && background.props) {
-      const { color } = background.props;
-      domStyle.background = `${color}`;
+      const { color, url, type } = background.props;
+      if (type) {
+        domStyle.background = `url(${url}) 0% 0% / 100% no-repeat`;
+      } else {
+        domStyle.background = `${color}`;
+      }
     }
 
     /**
