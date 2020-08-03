@@ -403,7 +403,10 @@ export default class AsideToolBar extends Vue {
     return await AxiosRequest.dashboards.save(saveResult);
   }
 
-  typeMap = new Map<string, number>([["text", 1]]);
+  typeMap = new Map<string, number>([
+    ["text", 1],
+    ["img", 4]
+  ]);
 
   /**
    * 特殊处理一些数据
@@ -417,11 +420,12 @@ export default class AsideToolBar extends Vue {
     const serializedDashboards: Array<Dashboard> = [];
     const serializedDashWidget: Array<DashWidget<any>> = [];
     dashboards.forEach((serialized: any) => {
-      if (typeof serialized.type === "string" || serialized.config) {
-        serialized.type = this.typeMap.get(serialized.type);
+      if (serialized.type || serialized.config) {
+        if (isNaN(parseInt(serialized.type))) {
+          serialized.type = this.typeMap.get(serialized.type);
+        }
         serialized.containerId = this.setId;
         serializedDashWidget.push(serialized);
-        return false;
       } else {
         // 合并分析数据
         Object.assign(serialized.analysis, serialized.tableView);

@@ -5,9 +5,9 @@ import text from "./widgets/Text.vue";
 import img from "./widgets/Image.vue";
 import { DashWidget } from "@/types/DashWidget";
 
-const widgetMap: { [type: string]: any } = {
-  "1": text,
-  "4": img
+const widgetMap: { [type: number]: any } = {
+  1: text,
+  4: img
 };
 
 @Component({})
