@@ -38,7 +38,7 @@
       >
         <div style="height: 32px;">
           <el-upload
-            action="admin/dashboard/container/updateBackground"
+            action="/admin/dashboard/container/updateBackground"
             class="bg-uploader"
             :show-file-list="false"
             :on-success="uploadBgSuccess"

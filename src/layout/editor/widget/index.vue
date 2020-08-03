@@ -38,7 +38,7 @@ export default class WidgetProxy extends Vue {
   }
 
   render(h: CreateElement) {
-    const isDashboard = !(this.item as any).type && (this.item as any).config;
+    const isDashboard = !(this.item as any).type;
     const widget = isDashboard ? DashboardWidget : ExternalWidget;
 
     return (
