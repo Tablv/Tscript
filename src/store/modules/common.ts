@@ -158,6 +158,7 @@ const mutations: MutationTree<any> = {
     state.focusDashboard.id = "";
   },
 
+  // 创建外部组件
   createWidget(
     state: any,
     baseConfig: { type: WidgetType; position: { x: number; y: number } }
@@ -172,6 +173,7 @@ const mutations: MutationTree<any> = {
       ...position,
       z: currentDataLength
     });
+    debugger;
 
     let newWidget: DashWidget<any> = {
       id: UUID.generate(),

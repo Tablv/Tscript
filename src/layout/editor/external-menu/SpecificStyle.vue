@@ -3,6 +3,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 import TextStyle from "./menu-card/TextStyle.vue";
 import ImageStyle from "./menu-card/ImageStyle.vue";
+import HtmlStyle from "./menu-card/HtmlStyle.vue";
 import { CommonStore } from "@/store/modules-model";
 import { DashWidget } from "@/types/DashWidget";
 import { CreateElement } from "vue";
@@ -31,6 +32,14 @@ export default class specificMenuItems extends Vue {
         return (
           <div>
             <TextStyle />
+          </div>
+        );
+      }
+
+      case WidgetType.HTML_PHRASE: {
+        return (
+          <div>
+            <HtmlStyle />
           </div>
         );
       }

@@ -153,6 +153,31 @@ export namespace widgetConfig {
   };
 
   /**
+   * iframe配置
+   */
+  export type TIframe = {
+    /**
+     * URL
+     */
+    url: string | null;
+  };
+
+  /**
+   * Html片段配置
+   */
+  export type THtml = {
+    /**
+     * html片段
+     */
+    htmlEditer: string;
+
+    /**
+     * css片段
+     */
+    // cssEditer: { [key: string]: any };
+  };
+
+  /**
    * 图片配置
    */
   export type Image = {

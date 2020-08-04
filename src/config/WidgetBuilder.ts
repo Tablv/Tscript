@@ -20,7 +20,6 @@ export class WidgetBuilder {
     if (!configBuilder) {
       return {};
     }
-
     return configBuilder();
   }
 
@@ -114,6 +113,32 @@ export class WidgetBuilder {
           horizontal: "left",
           vertical: "top"
         }
+      };
+    },
+    // iframe
+    2: (): widgetConfig.TIframe => {
+      return {
+        url: ""
+      };
+    },
+    // html
+    3: (): widgetConfig.THtml => {
+      return {
+        htmlEditer: `<div class="example">
+  打开设置，自定义 html 代码
+</div>
+<style>
+  .example {
+    width: 100%;
+    height: 100%;
+    color: #858585;"
+    font-size: 20px;
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>`
       };
     },
     // img

@@ -214,7 +214,7 @@ export default class AsideToolBar extends Vue {
       iconClass: "fa fa-code",
       title: "HTML 片段",
       type: WidgetType.HTML_PHRASE,
-      enable: false
+      enable: true
     }
   ];
 
