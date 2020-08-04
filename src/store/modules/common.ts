@@ -116,6 +116,8 @@ const mutations: MutationTree<any> = {
     }
     // 添加仪表盘
     state.dashboards.push(initData);
+
+    state.focusDashboard.id = "";
   },
 
   /**
@@ -152,6 +154,8 @@ const mutations: MutationTree<any> = {
 
     // 选中复制的仪表盘
     setTimeout(() => (state.dashboardIndex = state.dashboards.length - 1), 300);
+
+    state.focusDashboard.id = "";
   },
 
   createWidget(
@@ -182,6 +186,8 @@ const mutations: MutationTree<any> = {
     }
     // 添加仪表盘
     state.dashboards.push(newWidget);
+
+    state.focusDashboard.id = "";
   },
 
   /**
