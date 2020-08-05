@@ -81,11 +81,6 @@ const actions: ActionTree<any, any> = {
       state.tableList = [];
       return Promise.resolve(DashboardUtil.initTableView());
     }
-    const dataTypeList: Map<string | null, TableInfoVO[]> = new Map([
-      ["VARCHAR", []],
-      ["NUMBER", []],
-      ["DATE", []]
-    ]);
     return AxiosRequest.table
       .find(datasetId)
       .then(
@@ -99,6 +94,11 @@ const actions: ActionTree<any, any> = {
           state.tableList = tables.map((table: TableVO) => {
             const { schema, alias } = fromTable;
             let columns: TableInfoVO[] = [];
+            const dataTypeList: Map<string | null, TableInfoVO[]> = new Map([
+              ["VARCHAR", []],
+              ["NUMBER", []],
+              ["DATE", []]
+            ]);
             table.columns?.forEach((column: TableInfoVO) => {
               const result = DashboardUtil.initTableInfoColumn(
                 column,
