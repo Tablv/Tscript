@@ -4,6 +4,7 @@ import { Vue, Component } from "vue-property-decorator";
 import TextStyle from "./menu-card/TextStyle.vue";
 import ImageStyle from "./menu-card/ImageStyle.vue";
 import HtmlStyle from "./menu-card/HtmlStyle.vue";
+import IframeStyle from "./menu-card/IframeStyle.vue";
 import { CommonStore } from "@/store/modules-model";
 import { DashWidget } from "@/types/DashWidget";
 import { CreateElement } from "vue";
@@ -12,7 +13,9 @@ import { WidgetType } from "@/config/WidgetType";
 @Component({
   components: {
     TextStyle,
-    ImageStyle
+    ImageStyle,
+    HtmlStyle,
+    IframeStyle
   }
 })
 export default class specificMenuItems extends Vue {
@@ -32,6 +35,14 @@ export default class specificMenuItems extends Vue {
         return (
           <div>
             <TextStyle />
+          </div>
+        );
+      }
+
+      case WidgetType.EXTERNAL_PAGE: {
+        return (
+          <div>
+            <IframeStyle />
           </div>
         );
       }

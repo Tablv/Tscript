@@ -205,10 +205,10 @@ export default class AsideToolBar extends Vue {
       enable: true
     },
     {
-      iconClass: "fa fa-dice-d20",
+      iconClass: "fa fa-globe-asia",
       title: "外部页面",
       type: WidgetType.EXTERNAL_PAGE,
-      enable: false
+      enable: true
     },
     {
       iconClass: "fa fa-code",

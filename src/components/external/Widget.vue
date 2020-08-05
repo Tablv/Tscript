@@ -3,11 +3,13 @@ import { Vue, Component, Provide, Inject, Prop } from "vue-property-decorator";
 import { CreateElement } from "vue";
 import text from "./widgets/Text.vue";
 import img from "./widgets/Image.vue";
+import iframe from "./widgets/Iframe.vue";
 import customHtml from "./widgets/CustomHtml.vue";
 import { DashWidget } from "@/types/DashWidget";
 
 const widgetMap: { [type: number]: any } = {
   1: text,
+  2: iframe,
   3: customHtml,
   4: img
 };

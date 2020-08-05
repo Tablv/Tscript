@@ -75,6 +75,8 @@ export default class ResizableElement extends Vue {
   @CommonStore.Mutation("setDashboardIndex")
   setActiveIndex!: Function;
 
+  // isDraging: boolean = false;
+
   get resizeGrid(): Array<number> {
     const showBackground = this.dashboardSet.canvasSetting.background.show;
     return showBackground ? this.dashboardSet.grid : [1, 1];
@@ -184,6 +186,7 @@ export default class ResizableElement extends Vue {
    * 拖拽结束
    */
   onDragStop(x: number, y: number): void {
+    // this.isDraging = false;
     // 防止出现非当前下标的元素被操作的问题
     this.setActiveIndex(this.index);
 
@@ -194,6 +197,8 @@ export default class ResizableElement extends Vue {
    * 拖拽进行时
    */
   onDragging(x: number, y: number) {
+    // this.isDraging = true;
+
     this.setPosition(x, y);
 
     this.widgetProxy.onDragging(x, y);

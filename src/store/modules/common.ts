@@ -173,7 +173,6 @@ const mutations: MutationTree<any> = {
       ...position,
       z: currentDataLength
     });
-    debugger;
 
     let newWidget: DashWidget<any> = {
       id: UUID.generate(),

@@ -29,6 +29,9 @@ export default class TextStyle extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentWidget!: DashWidget<any>;
 
+  @Inject()
+  boxCardBodyStyle!: Properties;
+
   get widget(): DashWidget<widgetConfig.THtml> {
     return this.currentWidget as DashWidget<widgetConfig.THtml>;
   }
