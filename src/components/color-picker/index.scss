@@ -1,0 +1,92 @@
+
+$pickerSize: 30px;
+
+$popperSize: (
+  width: 280px,
+  height: 282px
+);
+
+:export {
+  popperWidth: map-get($popperSize, width);
+  popperHeight: map-get($popperSize, height);
+}
+
+.color-picker {
+  display: inline-block;
+  box-sizing: border-box;
+  line-height: 24px;
+
+  & + .color-picker {
+    margin-left: 10px;
+  }
+
+  .picker-popover {
+    height: $pickerSize;
+  }
+
+  .color-picker__trigger {
+    display: inline-block;
+    width: $pickerSize;
+    height: $pickerSize;
+    padding: 4px;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+
+    .color-picker__color {
+      position: relative;
+      display: block;
+      box-sizing: border-box;
+      border: 1px solid #999;
+      border-radius: 2px;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+
+      .color-picker__color-inner {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
+
+    .color-picker__icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%, -50%, 0);
+    }
+  }
+}
+
+.color-picker-popover-layer {
+  min-height: 200px;
+
+  .basic-wrap {
+    height: map-get($popperSize, height);
+
+    .vc-swatches {
+      width: 100%;
+      height: 100%;
+      box-shadow: none;
+    }
+  }
+
+  .advanced-wrap {
+    padding: 10px 10px 0;
+
+    .vc-sketch {
+      border: none;
+      box-shadow: none;
+      width: 100%;
+      padding: 0;
+
+      .vc-sketch-presets {
+        display: none;
+      }
+    }
+  }
+}

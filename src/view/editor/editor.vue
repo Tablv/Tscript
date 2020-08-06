@@ -123,8 +123,13 @@ export default class Editor extends Vue {
     // 启动时绑定 Keymap
     this.bindKeymap();
 
-    // 加载数据
+    // 参数
     const { dashboardSetId, debuggerMode } = RequestUtil.getRequestParams();
+
+    if (debuggerMode) {
+      return;
+    }
+
     // 加载数据
     this.loadData(dashboardSetId);
 
