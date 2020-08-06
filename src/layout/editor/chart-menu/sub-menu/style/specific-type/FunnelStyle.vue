@@ -35,12 +35,7 @@
     <el-form-item label="边框颜色">
       <el-row>
         <el-col :span="22">
-          <el-color-picker
-            v-model="specificStyle.itemStyle.borderColor"
-            :show-alpha="true"
-            color-format="hex"
-            size="mini"
-          />
+          <color-picker v-model="specificStyle.itemStyle.borderColor" />
         </el-col>
       </el-row>
     </el-form-item>
@@ -107,9 +102,12 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import { ChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import ColorPicker from "@/components/color-picker/index.vue";
 
 @Component({
-  components: {}
+  components: {
+    ColorPicker
+  }
 })
 export default class FunnelStyle extends Vue {
   @CommonStore.Getter("currentDashboard")

@@ -25,7 +25,6 @@
         <div style="height: 32px;">
           <color-picker
             v-model="currentDashboard.visualData.background.props.color"
-            :show-alpha="true"
           />
         </div>
       </el-form-item>
@@ -99,12 +98,9 @@
         <el-form-item label="颜色">
           <!-- 颜色 -->
           <div style="height: 32px;">
-            <el-color-picker
+            <color-picker
               :disabled="borderDisabled"
               v-model="borderProps.color"
-              :show-alpha="true"
-              color-format="hex"
-              size="mini"
             />
           </div>
         </el-form-item>
@@ -149,12 +145,7 @@
         <el-form-item label="颜色">
           <!-- 颜色 -->
           <div style="height: 32px;">
-            <el-color-picker
-              v-model="shadowColor"
-              :show-alpha="true"
-              color-format="hex"
-              size="mini"
-            />
+            <color-picker v-model="shadowColor" />
           </div>
         </el-form-item>
       </detail-card>

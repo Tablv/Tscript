@@ -23,11 +23,8 @@
         v-if="currentWidget.visualData.background.props.type === 0"
       >
         <div style="height: 32px;">
-          <el-color-picker
+          <color-picker
             v-model="currentWidget.visualData.background.props.color"
-            :show-alpha="true"
-            color-format="hex"
-            size="mini"
           />
         </div>
       </el-form-item>
@@ -102,12 +99,9 @@
         <el-form-item label="颜色">
           <!-- 颜色 -->
           <div style="height: 32px;">
-            <el-color-picker
+            <color-picker
               :disabled="borderDisabled"
               v-model="borderProps.color"
-              :show-alpha="true"
-              color-format="hex"
-              size="mini"
             />
           </div>
         </el-form-item>
@@ -152,12 +146,7 @@
         <el-form-item label="颜色">
           <!-- 颜色 -->
           <div style="height: 32px;">
-            <el-color-picker
-              v-model="shadowColor"
-              :show-alpha="true"
-              color-format="hex"
-              size="mini"
-            />
+            <color-picker v-model="shadowColor" />
           </div>
         </el-form-item>
       </detail-card>
@@ -172,6 +161,7 @@ import { Properties } from "csstype";
 import DetailCard from "@/components/DetailCard.vue";
 import { DashWidget } from "@/types/DashWidget";
 import { WidgetBuilder, blurSizeMap } from "@/config/WidgetBuilder";
+import ColorPicker from "@/components/color-picker/index.vue";
 import {
   ElUploadInternalRawFile,
   ElUploadInternalFileDetail
@@ -180,7 +170,8 @@ import UIUtil from "@/util/UIUtil";
 
 @Component({
   components: {
-    DetailCard
+    DetailCard,
+    ColorPicker
   }
 })
 export default class AppearanceStyle extends Vue {

@@ -46,11 +46,11 @@
             .global.color"
           :key="colorIndex"
         >
-          <el-color-picker
+          <color-picker
             v-model="
               currentDashboard.echarts.sampleStyle.global.color[colorIndex]
             "
-          ></el-color-picker>
+          ></color-picker>
         </span>
       </div>
     </el-dialog>
@@ -63,10 +63,12 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import ColorGallery, { ColorsModel } from "@/components/ColorGallery.vue";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
+import ColorPicker from "@/components/color-picker/index.vue";
 
 @Component({
   components: {
-    ColorGallery
+    ColorGallery,
+    ColorPicker
   }
 })
 export default class ColorOption extends Vue {

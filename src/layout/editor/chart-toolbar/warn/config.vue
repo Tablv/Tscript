@@ -11,7 +11,7 @@
               <el-input v-model="currentWarnPack.config.warnColor" />
             </el-col>
             <el-col :span="8" :offset="1" class="color-picker-box">
-              <el-color-picker v-model="currentWarnPack.config.warnColor" />
+              <color-picker v-model="currentWarnPack.config.warnColor" />
             </el-col>
           </el-row>
         </el-form-item>
@@ -114,6 +114,7 @@
 import { Vue, Component, Prop, Emit } from "vue-property-decorator";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { CommonStore, EditorStore } from "@/store/modules-model";
+import ColorPicker from "@/components/color-picker/index.vue";
 
 import {
   WarnDisplayTypeMapping,
@@ -128,7 +129,11 @@ import {
 } from "glaway-bi-model/view/Warn";
 import UIUtil, { MessageType } from "@/util/UIUtil";
 
-@Component
+@Component({
+  components: {
+    ColorPicker
+  }
+})
 export default class ConfigView extends Vue {
   // 当前仪表盘
   @CommonStore.Getter("currentDashboard")

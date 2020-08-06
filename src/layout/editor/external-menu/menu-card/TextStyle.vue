@@ -13,13 +13,7 @@
       <el-form-item label="字体颜色">
         <!-- 字体颜色 -->
         <div style="height: 32px">
-          <el-color-picker
-            class="font-color-picker"
-            v-model="textFont.color"
-            :show-alpha="true"
-            color-format="hex"
-            size="mini"
-          ></el-color-picker>
+          <color-picker v-model="textFont.color"></color-picker>
         </div>
       </el-form-item>
 
@@ -145,10 +139,12 @@ import { Properties } from "csstype";
 import DetailCard from "@/components/DetailCard.vue";
 import { DashWidget, widgetConfig } from "@/types/DashWidget";
 import { WidgetBuilder } from "@/config/WidgetBuilder";
+import ColorPicker from "@/components/color-picker/index.vue";
 
 @Component({
   components: {
-    DetailCard
+    DetailCard,
+    ColorPicker
   }
 })
 export default class TextStyle extends Vue {

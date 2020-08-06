@@ -66,7 +66,7 @@
             </el-col>
 
             <el-col :span="5" :offset="1" style="height: 32px;">
-              <el-color-picker
+              <color-picker
                 v-model="currentDashboard.echarts.title.textStyle.color"
               />
             </el-col>
@@ -129,11 +129,13 @@ import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ValueUnitOption from "./common/ValueUnitOption.vue";
 import DetailCard from "@/components/DetailCard.vue";
+import ColorPicker from "@/components/color-picker/index.vue";
 
 @Component({
   components: {
     ValueUnitOption,
-    DetailCard
+    DetailCard,
+    ColorPicker
   }
 })
 export default class TitleStyle extends Vue {

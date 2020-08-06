@@ -54,7 +54,7 @@
           class="select-color"
         >
           <span class="label-text">拾取背景色</span>
-          <el-color-picker
+          <color-picker
             v-model="dashboardSet.canvasSetting.background.color"
             :show-alpha="true"
             color-format="hex"
@@ -156,13 +156,18 @@ import { dashboardSetOptions } from "@/config/EditorOptions";
 import { ShareType } from "glaway-bi-model/enums/ShareType";
 import ShareVO from "glaway-bi-model/results/ShareVO";
 import UIUtil from "@/util/UIUtil";
+import ColorPicker from "@/components/color-picker/index.vue";
 import { AxiosRequest } from "@/api/AxiosRequest";
 import {
   ElUploadInternalRawFile,
   ElUploadInternalFileDetail
 } from "element-ui/types/upload";
 
-@Component
+@Component({
+  components: {
+    ColorPicker
+  }
+})
 export default class OptionBar extends Vue {
   @CommonStore.State("dashboardSetId")
   dashboardSetId!: string;
@@ -382,10 +387,10 @@ export default class OptionBar extends Vue {
           margin-left: 20px;
           margin-right: 12px;
         }
-        .el-color-picker--small {
+        .color-picker--small {
           margin-left: 20px;
           transform: translateY(7px);
-          .el-color-picker__trigger {
+          .color-picker__trigger {
             height: 20px;
             width: 20px;
           }

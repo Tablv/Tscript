@@ -64,7 +64,7 @@
             </el-col>
 
             <el-col :span="5" :offset="1" style="height: 32px;">
-              <el-color-picker v-model="specificStyle.label.color" />
+              <color-picker v-model="specificStyle.label.color" />
             </el-col>
           </el-row>
         </el-form-item>
@@ -106,10 +106,12 @@ import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import { ChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
 import { EChartsSampleStyle } from "glaway-bi-model/view/dashboard/EChartsOption";
 import DetailCard from "@/components/DetailCard.vue";
+import ColorPicker from "@/components/color-picker/index.vue";
 
 @Component({
   components: {
-    DetailCard
+    DetailCard,
+    ColorPicker
   }
 })
 export default class MarkStyle extends Vue {
