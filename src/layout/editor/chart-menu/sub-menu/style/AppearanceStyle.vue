@@ -23,11 +23,9 @@
         v-if="currentDashboard.visualData.background.props.type === 0"
       >
         <div style="height: 32px;">
-          <el-color-picker
+          <color-picker
             v-model="currentDashboard.visualData.background.props.color"
             :show-alpha="true"
-            color-format="hex"
-            size="mini"
           />
         </div>
       </el-form-item>
@@ -168,6 +166,7 @@
 import { Component, Vue, Inject, Model } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
+import ColorPicker from "@/components/color-picker/index.vue";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import DetailCard from "@/components/DetailCard.vue";
 import { WidgetBuilder, blurSizeMap } from "@/config/WidgetBuilder";
@@ -179,6 +178,7 @@ import UIUtil from "@/util/UIUtil";
 
 @Component({
   components: {
+    ColorPicker,
     DetailCard
   }
 })
