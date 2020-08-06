@@ -59,7 +59,7 @@ $switchAnimationDuration: 0.2s;
   border: 0;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.6);
-  transition: background-color .2s;
+  transition: background-color 0.2s;
   cursor: pointer;
 
   &:focus {
