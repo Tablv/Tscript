@@ -56,10 +56,10 @@ export default class StyleMenu extends Vue {
     return this.currentDashboard.echarts.sampleStyle[this.chartType];
   }
   @Provide()
-  setPieCenterConfig(config: object) {
+  setPieCenter(config: object) {
     (this.currentDashboard.echarts.sampleStyle[
       this.chartType
-    ] as any).centerConfig = config;
+    ] as any).center = config;
   }
 
   get chartType() {

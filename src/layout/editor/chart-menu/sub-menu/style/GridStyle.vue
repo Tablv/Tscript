@@ -11,7 +11,7 @@
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
       <!-- 标签角度 -->
-      <el-form-item label="标签角度" v-if="!this.specificStyle.centerConfig">
+      <el-form-item label="标签角度" v-if="!specificStyle.center">
         <el-row>
           <el-col :offset="1" :span="23">
             <el-slider
@@ -27,14 +27,14 @@
         form-label="顶部"
         v-model="specificStyle.grid.top"
         :selection="styleSelection.grid.unit.selection"
-        @change="handlerAxias($event, 'yAxias')"
+        @change="handlerAxias($event, '1')"
       />
 
       <value-unit-option
         form-label="底部"
         v-model="specificStyle.grid.bottom"
         :selection="styleSelection.grid.unit.selection"
-        v-show="!this.specificStyle.centerConfig"
+        v-show="!specificStyle.center"
         @change="handleChange"
       />
 
@@ -42,18 +42,18 @@
         form-label="左侧"
         v-model="specificStyle.grid.left"
         :selection="styleSelection.grid.unit.selection"
-        @change="handlerAxias($event, 'xAxias')"
+        @change="handlerAxias($event, '0')"
       />
 
       <value-unit-option
         form-label="右侧"
         v-model="specificStyle.grid.right"
         :selection="styleSelection.grid.unit.selection"
-        v-show="!this.specificStyle.centerConfig"
+        v-show="!specificStyle.center"
         @change="handleChange"
       />
 
-      <el-form-item label="显示网格" v-show="!this.specificStyle.centerConfig">
+      <el-form-item label="显示网格" v-show="!specificStyle.center">
         <el-switch
           v-model="currentDashboard.echarts.grid.show"
           active-color="#13ce66"
@@ -96,7 +96,7 @@ export default class GridStyle extends Vue {
   getSpecificStyle!: Function;
 
   @Inject()
-  setPieCenterConfig!: Function;
+  setPieCenter!: Function;
 
   get specificStyle() {
     return this.getSpecificStyle();
@@ -104,10 +104,10 @@ export default class GridStyle extends Vue {
 
   handlerAxias(conObj: { value: string; unit: string }, fieldName: string) {
     this.handleChange();
-    if (!this.specificStyle.centerConfig) return;
-    let config = Object.assign({}, this.specificStyle.centerConfig);
+    if (!this.specificStyle.center) return;
+    let config = Object.assign({}, this.specificStyle.center);
     config[fieldName] = Object.values(conObj).join("");
-    this.setPieCenterConfig(config);
+    this.setPieCenter(config);
   }
 
   handleChange() {

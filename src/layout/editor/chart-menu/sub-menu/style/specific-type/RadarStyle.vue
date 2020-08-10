@@ -4,22 +4,14 @@
     <el-form-item label="半径(外)">
       <el-row>
         <el-col :span="22">
-          <el-slider
-            v-model="specificStyle.radiusConfig.outside"
-            :max="200"
-            :min="1"
-          />
+          <el-slider v-model="specificStyle.radius[1]" :max="200" :min="1" />
         </el-col>
       </el-row>
     </el-form-item>
     <el-form-item label="半径(内)">
       <el-row>
         <el-col :span="22">
-          <el-slider
-            v-model="specificStyle.radiusConfig.inside"
-            :max="200"
-            :min="0"
-          />
+          <el-slider v-model="specificStyle.radius[0]" max="200" :min="0" />
         </el-col>
       </el-row>
     </el-form-item>

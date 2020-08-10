@@ -14,7 +14,7 @@
         <el-input-number v-model="specificStyle.decimals.value" :min="0" />
       </el-form-item>
 
-      <el-form-item label="数据单位" v-if="!this.specificStyle.centerConfig">
+      <el-form-item label="数据单位" v-if="!specificStyle.center">
         <el-input
           placeholder="例如：万"
           v-model="specificStyle.decimals.unit"

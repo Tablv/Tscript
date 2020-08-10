@@ -4,6 +4,7 @@
     class="box-card"
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
+    v-show="!specificStyle.center"
   >
     <template #header>
       <span>图例</span>
@@ -68,6 +69,7 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import DetailCard from "@/components/DetailCard.vue";
+import { ChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
 
 @Component({
   components: {
@@ -80,6 +82,13 @@ export default class LegendStyle extends Vue {
 
   @EditorStore.State("styleSelection")
   styleSelection!: Object;
+
+  @Inject()
+  getSpecificStyle!: Function;
+
+  get specificStyle(): ChartOption {
+    return this.getSpecificStyle();
+  }
 
   @Inject()
   boxCardBodyStyle!: Properties;

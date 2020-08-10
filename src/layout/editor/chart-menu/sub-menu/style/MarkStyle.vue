@@ -69,16 +69,6 @@
           </el-row>
         </el-form-item>
 
-        <el-form-item
-          label="显示数值"
-          v-if="typeof this.specificStyle.isShowNumber !== 'undefind'"
-        >
-          <el-switch
-            active-color="#13ce66"
-            v-model="specificStyle.label.isShowNumber"
-          />
-        </el-form-item>
-
         <el-form-item label="位置" v-show="!specificStyle.label.hidePosition">
           <el-select
             v-model="specificStyle.label.position"
@@ -92,6 +82,36 @@
               :value="unit.value"
             />
           </el-select>
+        </el-form-item>
+        <el-form-item
+          label="水平偏移量"
+          v-if="specificStyle.label.hidePosition && !specificStyle.barWidth"
+        >
+          <el-slider
+            v-model="specificStyle.label.offset[0]"
+            :max="100"
+            :min="-100"
+          />
+        </el-form-item>
+        <el-form-item
+          label="垂直偏移量"
+          v-if="specificStyle.label.hidePosition && !specificStyle.barWidth"
+        >
+          <el-slider
+            v-model="specificStyle.label.offset[1]"
+            :max="100"
+            :min="-100"
+          />
+        </el-form-item>
+
+        <el-form-item
+          label="显示数值"
+          v-if="typeof specificStyle.isShowNumber !== 'undefind'"
+        >
+          <el-switch
+            active-color="#13ce66"
+            v-model="specificStyle.label.isShowNumber"
+          />
         </el-form-item>
       </detail-card>
     </el-form>

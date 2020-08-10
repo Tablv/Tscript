@@ -118,6 +118,96 @@
           </el-row>
         </el-form-item>
       </detail-card>
+
+      <el-form-item label="显示副标题" v-if="specificStyle.title">
+        <el-switch v-model="specificStyle.title.show" active-color="#13ce66" />
+      </el-form-item>
+
+      <detail-card
+        :visible="specificStyle.title.show"
+        v-if="specificStyle.title"
+      >
+        <el-form-item label="字体">
+          <el-select
+            v-model="specificStyle.title.fontFamily"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="(item, index) in styleSelection.title.fontFamily.selection"
+              :key="index"
+              :label="item.text"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="字体大小">
+          <el-select
+            v-model="specificStyle.title.fontSize"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="(item, index) in styleSelection.title.size.selection"
+              :key="index"
+              :label="item.text"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="字体颜色">
+          <el-row>
+            <el-col :span="18">
+              <el-select v-model="specificStyle.title.color">
+                <el-option
+                  v-for="(item, index) in styleSelection.title.color.selection"
+                  :key="index"
+                  :label="item.text"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-col>
+
+            <el-col :span="5" :offset="1" style="height: 32px;">
+              <color-picker v-model="specificStyle.title.color" />
+            </el-col>
+          </el-row>
+        </el-form-item>
+
+        <el-form-item label="背景色">
+          <el-row>
+            <el-col :span="18">
+              <el-select v-model="specificStyle.title.backgroundColor">
+                <el-option
+                  v-for="(item, index) in styleSelection.title.color.selection"
+                  :key="index"
+                  :label="item.text"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-col>
+
+            <el-col :span="5" :offset="1" style="height: 32px;">
+              <color-picker v-model="specificStyle.title.backgroundColor" />
+            </el-col>
+          </el-row>
+        </el-form-item>
+
+        <el-form-item label="水平偏移量">
+          <el-slider
+            v-model="specificStyle.title.offsetCenter[0]"
+            :max="100"
+            :min="-100"
+          />
+        </el-form-item>
+        <el-form-item label="垂直偏移量">
+          <el-slider
+            v-model="specificStyle.title.offsetCenter[1]"
+            :max="100"
+            :min="-100"
+          />
+        </el-form-item>
+      </detail-card>
     </el-form>
   </el-card>
 </template>
@@ -130,6 +220,7 @@ import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ValueUnitOption from "./common/ValueUnitOption.vue";
 import DetailCard from "@/components/DetailCard.vue";
 import ColorPicker from "@/components/color-picker/index.vue";
+import { ChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
 
 @Component({
   components: {
@@ -153,6 +244,13 @@ export default class TitleStyle extends Vue {
 
   @Inject()
   elFormLabelWidth!: string;
+
+  @Inject()
+  getSpecificStyle!: Function;
+
+  get specificStyle(): ChartOption {
+    return this.getSpecificStyle();
+  }
 }
 </script>
 

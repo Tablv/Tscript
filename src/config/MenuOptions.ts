@@ -39,6 +39,7 @@ export const generalMenuOptions: any = {
     },
     color: {
       selection: [
+        { text: "自动", value: "auto" },
         { text: "黑色", value: "#000" },
         { text: "红色", value: "#f00" },
         { text: "绿色", value: "#0f0" },
@@ -182,6 +183,7 @@ export const generalMenuOptions: any = {
     },
     color: {
       selection: [
+        { text: "自动", value: "auto" },
         { text: "黑色", value: "#000" },
         { text: "红色", value: "#f00" },
         { text: "绿色", value: "#0f0" },
