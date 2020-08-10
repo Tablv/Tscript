@@ -69,7 +69,7 @@ export default class TitleStyle extends Vue {
     /**
      * 仪表盘
      */
-    guage: () => import("./specific-type/GuageStyle.vue"),
+    gauge: () => import("./specific-type/GaugeStyle.vue"),
 
     /**
      * 漏斗图

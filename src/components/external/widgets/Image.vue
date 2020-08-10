@@ -66,8 +66,7 @@ export default class ImageWidget extends Vue {
   .el-image {
     width: 100%;
     height: 100%;
-    background-color: #fff;
-
+    background-color: transparent;
     .placeholder {
       width: 100%;
       height: 100%;

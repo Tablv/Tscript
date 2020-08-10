@@ -47,18 +47,8 @@
             placeholder="请选择排列方式"
             popper-class="border-style-selector"
           >
-            <el-option value="ascending" label="金字塔">
-              <!-- <span
-                class="border-style-example"
-                :style="{ 'border-style': true }"
-              ></span> -->
-            </el-option>
-            <el-option value="descending" label="漏斗">
-              <!-- <span
-                class="border-style-example"
-                :style="{ 'border-style': true }"
-              ></span> -->
-            </el-option>
+            <el-option value="ascending" label="金字塔"></el-option>
+            <el-option value="descending" label="漏斗"></el-option>
           </el-select>
         </el-col>
       </el-row>
@@ -71,24 +61,9 @@
             placeholder="请选择对齐方式"
             popper-class="border-style-selector"
           >
-            <el-option value="left" label="左对齐">
-              <!-- <span
-                class="border-style-example"
-                :style="{ 'border-style': true }"
-              ></span> -->
-            </el-option>
-            <el-option value="right" label="右对齐">
-              <!-- <span
-                class="border-style-example"
-                :style="{ 'border-style': true }"
-              ></span> -->
-            </el-option>
-            <el-option value="center" label="居中">
-              <!-- <span
-                class="border-style-example"
-                :style="{ 'border-style': true }"
-              ></span> -->
-            </el-option>
+            <el-option value="left" label="左对齐"></el-option>
+            <el-option value="right" label="右对齐"></el-option>
+            <el-option value="center" label="居中"></el-option>
           </el-select>
         </el-col>
       </el-row>

@@ -323,7 +323,7 @@ import SwitchButton from "@/components/SwitchButton.vue";
     SwitchButton
   }
 })
-export default class GuageStyle extends Vue {
+export default class GaugeStyle extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 

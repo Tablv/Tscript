@@ -4,14 +4,18 @@
     <el-form-item label="半径">
       <el-row>
         <el-col :span="22">
-          <el-slider v-model="specificStyle.radius[1]" :max="200" :min="1" />
+          <el-slider v-model="specificStyle.radius" :max="200" :min="1" />
         </el-col>
       </el-row>
     </el-form-item>
     <el-form-item label="环宽">
       <el-row>
         <el-col :span="22">
-          <el-slider v-model="specificStyle.barWidth" :max="50" :min="1" />
+          <el-slider
+            v-model="specificStyle.axisLine.lineStyle.width"
+            :max="100"
+            :min="1"
+          />
         </el-col>
       </el-row>
     </el-form-item>
