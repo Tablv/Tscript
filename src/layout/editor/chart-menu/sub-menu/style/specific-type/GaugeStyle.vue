@@ -1,10 +1,13 @@
 <template>
   <div class="specific-style-items">
     <!-- 范围配色 -->
-    <!-- <el-form-item label="范围和配色">
-      <el-row>
-      </el-row>
-    </el-form-item> -->
+    <el-form-item label="范围和配色">
+      <switch-button v-model="showSwitch.colorGroup"></switch-button>
+    </el-form-item>
+
+    <detail-card :visible="showSwitch.colorGroup">
+      <tree-input></tree-input>
+    </detail-card>
 
     <!-- 半径 -->
     <el-form-item label="半径">
@@ -315,12 +318,14 @@ import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import DetailCard from "@/components/DetailCard.vue";
 import ColorPicker from "@/components/color-picker/index.vue";
 import SwitchButton from "@/components/SwitchButton.vue";
+import TreeInput from "@/components/TreeInput.vue";
 
 @Component({
   components: {
     DetailCard,
     ColorPicker,
-    SwitchButton
+    SwitchButton,
+    TreeInput
   }
 })
 export default class GaugeStyle extends Vue {
@@ -339,6 +344,7 @@ export default class GaugeStyle extends Vue {
   }
 
   showSwitch = {
+    colorGroup: false,
     axisLine: false,
     pointer: false,
     angle: false
