@@ -3,7 +3,7 @@
     <iframe
       ref="iframe"
       v-show="isShowIframe"
-      :src="data.config.url"
+      :src="iframeUrl"
       :frameName="data.id"
       frameborder="0"
       height="100%"
@@ -76,12 +76,17 @@ export default class Iframe extends Vue {
   handleUrlChange() {
     this.templinkUrl = this.data.config.url || "";
   }
+
+  get iframeUrl() {
+    const api = /http:|https:/;
+    const pre = api.test(this.templinkUrl) ? "" : "//";
+    return pre + this.templinkUrl;
+  }
 }
 </script>
 
 <style lang="scss">
 .iframe-widget {
-  padding: 10px;
   .iframe-modal {
     position: absolute;
     top: 0;

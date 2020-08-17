@@ -59,5 +59,8 @@ export default class IframeStyle extends Vue {
   handleUrlChange() {
     this.templinkUrl = this.currentWidget.config.url || "";
   }
+  mounted() {
+    this.templinkUrl = this.currentWidget.config.url;
+  }
 }
 </script>

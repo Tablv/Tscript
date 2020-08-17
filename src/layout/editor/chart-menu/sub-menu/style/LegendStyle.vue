@@ -4,7 +4,7 @@
     class="box-card"
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
-    v-show="!specificStyle.center"
+    v-show="!specificStyle.pointer"
   >
     <template #header>
       <span>图例</span>

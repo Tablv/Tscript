@@ -73,13 +73,12 @@ export class WidgetBuilder {
     enable: boolean,
     shadowSize: "small" | "medium" | "large" | "huge" = "small"
   ): widgetConfig.Shadow {
-    if (!enable) {
-      return {
-        enable,
-        props: null
-      };
-    }
-
+    // if (!enable) {
+    //   return {
+    //     enable,
+    //     props: null
+    //   };
+    // }
     let blurSize = blurSizeMap[shadowSize] || blurSizeMap.medium;
 
     // props
@@ -88,7 +87,7 @@ export class WidgetBuilder {
       v: 0,
       blur: blurSize,
       spread: 0,
-      color: "#000000"
+      color: "#000"
     };
 
     return {
