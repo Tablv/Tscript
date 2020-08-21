@@ -58,7 +58,8 @@ $switchAnimationDuration: 0.2s;
   height: 28px;
   border: 0;
   border-radius: 50%;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.6);
+  transition: background-color 0.2s;
   cursor: pointer;
 
   &:focus {
@@ -66,11 +67,11 @@ $switchAnimationDuration: 0.2s;
   }
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.06);
+    background-color: rgba(220, 220, 220, 0.6);
   }
 
   &:active {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(200, 200, 200, 0.6);
   }
 
   i {
