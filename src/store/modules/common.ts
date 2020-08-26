@@ -132,7 +132,9 @@ const mutations: MutationTree<any> = {
       throw "复制仪表盘出错";
     }
 
-    let newDashboard: Dashboard = ObjectUtil.copy(sourceDashboard);
+    let newDashboard: Dashboard | DashWidget<any> = ObjectUtil.copy(
+      sourceDashboard
+    );
 
     // 生成新ID
     newDashboard.id = UUID.generate();

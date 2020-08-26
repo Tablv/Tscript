@@ -209,6 +209,8 @@ export default class TextWidget extends Vue {
       width: 100%;
       height: 100%;
       text-decoration: inherit;
+      word-wrap: break-word;
+      word-break: normal;
     }
   }
 }

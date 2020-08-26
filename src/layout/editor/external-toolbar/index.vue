@@ -14,6 +14,8 @@
 
     <tool-button icon-class="fa fa-cog" title="设置" @click="doShowMenu" />
 
+    <tool-button icon-class="fa fa-copy" title="复制" @click="handleCopy" />
+
     <tool-button icon-class="fa fa-trash" title="删除" @click="handleDelete" />
   </div>
 </template>
@@ -81,6 +83,10 @@ export default class CommonToolbar extends Vue {
   @CommonStore.Mutation("deleteDashboard")
   deleteWidget!: Function;
 
+  // 复制仪表盘
+  @CommonStore.Mutation("copyDashboard")
+  copyWidget!: Function;
+
   get widgetData() {
     return this.data;
   }
@@ -109,6 +115,13 @@ export default class CommonToolbar extends Vue {
     // 是否存在放大的图表
     const focusId = this.focusItem.id ? "" : this.data.id;
     this.setFocusItem({ id: focusId });
+  }
+
+  /**
+   * 复制
+   */
+  handleCopy() {
+    this.copyWidget(this.activeIndex);
   }
 }
 </script>
