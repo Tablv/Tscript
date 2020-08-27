@@ -8,15 +8,15 @@
     <div class="color-group reset-display">
       <color-picker
         class="color-select-0"
-        v-model="specificStyle.axisLabel.color"
+        v-model="specificStyle.axisLine.lineStyle.color[2][1]"
       />
       <color-picker
         class="color-select-1"
-        v-model="specificStyle.axisLabel.color"
+        v-model="specificStyle.axisLine.lineStyle.color[1][1]"
       />
       <color-picker
         class="color-select-2"
-        v-model="specificStyle.axisLabel.color"
+        v-model="specificStyle.axisLine.lineStyle.color[0][1]"
       />
     </div>
     <div class="input-group reset-display">
@@ -24,26 +24,26 @@
         v-model="specificStyle.max"
         class="span-split"
         :controls="false"
-        :min="inputList[0].minValue"
+        :min="specificStyle.axisLine.lineStyle.color[3][1]"
       ></el-input-number>
       <el-input-number
-        v-model="inputList[0].minValue"
+        v-model="specificStyle.axisLine.lineStyle.color[3][1]"
         class="span-split"
         :controls="false"
-        :min="inputList[1].maxValue"
-        :max="inputList[0].maxValue"
+        :max="specificStyle.max"
+        :min="specificStyle.axisLine.lineStyle.color[3][0]"
       ></el-input-number>
       <el-input-number
-        v-model="inputList[1].maxValue"
+        v-model="specificStyle.axisLine.lineStyle.color[3][0]"
         class="span-split"
         :controls="false"
-        :min="inputList[2].maxValue"
-        :max="inputList[0].minValue"
+        :max="specificStyle.axisLine.lineStyle.color[3][1]"
+        :min="specificStyle.min"
       ></el-input-number>
       <el-input-number
-        v-model="inputList[2].minValue"
+        v-model="specificStyle.min"
         :controls="false"
-        :max="inputList[1].maxValue"
+        :max="specificStyle.axisLine.lineStyle.color[3][0]"
       ></el-input-number>
     </div>
   </div>
@@ -65,12 +65,6 @@ export default class TreeInput extends Vue {
   get specificStyle() {
     return this.getSpecificStyle();
   }
-
-  inputList = [
-    { text: "高", className: "", minValue: 0, maxValue: 0 },
-    { text: "中", className: "", minValue: 0, maxValue: 0 },
-    { text: "低", className: "", minValue: 0, maxValue: 0 }
-  ];
 }
 </script>
 

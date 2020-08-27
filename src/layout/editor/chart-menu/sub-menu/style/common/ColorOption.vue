@@ -39,7 +39,7 @@
       append-to-body
       :visible.sync="showCustomizedColorDialog"
     >
-      <div class="color-gallery">
+      <div class="color-gallery color-gallery-group">
         <span
           class="color-block"
           v-for="(colorVal, colorIndex) in currentDashboard.echarts.sampleStyle
@@ -109,5 +109,10 @@ export default class ColorOption extends Vue {
 // 解决配色预览条与下拉箭头对其问题
 .el-dropdown-link > * {
   vertical-align: middle;
+}
+
+.color-gallery-group {
+  display: flex;
+  justify-content: space-around;
 }
 </style>
