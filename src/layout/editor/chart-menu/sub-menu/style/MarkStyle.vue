@@ -123,8 +123,8 @@ import { Component, Prop, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
-import { ChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
-import { EChartsSampleStyle } from "glaway-bi-model/view/dashboard/EChartsOption";
+import { SeriesOption } from "glaway-bi-model/view/dashboard/chart/SeriesOption";
+import { EChartsSampleStyle } from "glaway-bi-model/view/dashboard/chart/EChartsOption";
 import DetailCard from "@/components/DetailCard.vue";
 import ColorPicker from "@/components/color-picker/index.vue";
 
@@ -144,7 +144,7 @@ export default class MarkStyle extends Vue {
   @Inject()
   getSpecificStyle!: Function;
 
-  get specificStyle(): ChartOption {
+  get specificStyle(): SeriesOption {
     return this.getSpecificStyle();
   }
 

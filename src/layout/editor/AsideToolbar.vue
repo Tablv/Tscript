@@ -251,18 +251,6 @@ export default class AsideToolBar extends Vue {
     //   createType: "withShow",
     //   iconClass: "gw-iconfsux_tubiao_biaoge",
     //   title: "表格"
-    // },
-    // {
-    //   enable: false,
-    //   createType: "withShow",
-    //   iconClass: "gw-iconfsux_tubiao_xuritu",
-    //   title: "甘特图"
-    // },
-    // {
-    //   enable: false,
-    //   createType: "withShow",
-    //   iconClass: "gw-iconfsux_tubiao_ditu_sandian",
-    //   title: "地图"
     // }
   ];
 

@@ -7,7 +7,7 @@ import { Component, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
-import { EChartsSampleStyle } from "glaway-bi-model/view/dashboard/EChartsOption";
+import { EChartsSampleStyle } from "glaway-bi-model/view/dashboard/chart/EChartsOption";
 import ColorOption from "./common/ColorOption.vue";
 
 @Component({
@@ -15,7 +15,7 @@ import ColorOption from "./common/ColorOption.vue";
     ColorOption
   }
 })
-export default class TitleStyle extends Vue {
+export default class SpecificStyle extends Vue {
   @CommonStore.Getter("currentDashboard")
   currentDashboard!: Dashboard;
 
@@ -74,7 +74,12 @@ export default class TitleStyle extends Vue {
     /**
      * 漏斗图
      */
-    funnel: () => import("./specific-type/FunnelStyle.vue")
+    funnel: () => import("./specific-type/FunnelStyle.vue"),
+
+    /**
+     * 地图
+     */
+    map: () => import("./specific-type/MapStyle.vue")
   };
 
   get chartType() {

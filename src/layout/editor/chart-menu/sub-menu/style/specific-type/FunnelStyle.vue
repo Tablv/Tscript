@@ -75,7 +75,7 @@
 import { Component, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
-import { ChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
+import { SeriesOption } from "glaway-bi-model/view/dashboard/chart/SeriesOption";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ColorPicker from "@/components/color-picker/index.vue";
 
@@ -94,7 +94,7 @@ export default class FunnelStyle extends Vue {
   @Inject()
   getSpecificStyle!: Function;
 
-  get specificStyle(): ChartOption {
+  get specificStyle(): SeriesOption {
     return this.getSpecificStyle();
   }
 }

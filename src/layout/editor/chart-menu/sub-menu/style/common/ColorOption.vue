@@ -11,7 +11,7 @@
           <span class="el-dropdown-link">
             <color-gallery
               :limit="5"
-              :colors="currentDashboard.echarts.sampleStyle.global.color"
+              :colors="currentDashboard.echarts.color"
             ></color-gallery>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
@@ -42,14 +42,12 @@
       <div class="color-gallery color-gallery-group">
         <span
           class="color-block"
-          v-for="(colorVal, colorIndex) in currentDashboard.echarts.sampleStyle
-            .global.color"
+          v-for="(colorVal, colorIndex) in currentDashboard.echarts.color"
           :key="colorIndex"
         >
           <color-picker
-            v-model="
-              currentDashboard.echarts.sampleStyle.global.color[colorIndex]
-            "
+            type="hex"
+            v-model="currentDashboard.echarts.color[colorIndex]"
           ></color-picker>
         </span>
       </div>
@@ -88,11 +86,10 @@ export default class ColorOption extends Vue {
     if (colorArr) {
       // 数组直接赋值
       if (colorArr instanceof Array) {
-        this.currentDashboard.echarts.sampleStyle.global.color = colorArr;
+        this.currentDashboard.echarts.color = colorArr;
       } else {
         // 对象 取colors属性
-        this.currentDashboard.echarts.sampleStyle.global.color =
-          colorArr.colors;
+        this.currentDashboard.echarts.color = colorArr.colors;
       }
     } else {
       this.showCustomizedColorDialog = true;

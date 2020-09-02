@@ -69,7 +69,7 @@ import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import DetailCard from "@/components/DetailCard.vue";
-import { ChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
+import { SeriesOption } from "glaway-bi-model/view/dashboard/chart/SeriesOption";
 
 @Component({
   components: {
@@ -86,7 +86,7 @@ export default class LegendStyle extends Vue {
   @Inject()
   getSpecificStyle!: Function;
 
-  get specificStyle(): ChartOption {
+  get specificStyle(): SeriesOption {
     return this.getSpecificStyle();
   }
 

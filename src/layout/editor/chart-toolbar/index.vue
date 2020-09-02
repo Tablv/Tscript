@@ -25,6 +25,13 @@
       @click="screenhotVisible = true"
     />
 
+    <!-- <tool-button
+      icon-class="fa fa-thumbtack"
+      title="快照"
+      placement="top"
+      @click="screenhotVisible = true"
+    /> -->
+
     <!-- 更多操作 -->
     <el-popover
       v-model="isShowDetail"

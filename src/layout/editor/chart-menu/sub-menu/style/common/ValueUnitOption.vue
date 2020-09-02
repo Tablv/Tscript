@@ -35,14 +35,14 @@ export default class ValueUnitOption extends Vue {
   selection!: Array<SelectionEntity>;
 
   @Model("valueUnit")
-  valueUnit!: ValueUnitEntity;
+  valueUnit!: string | number;
 
   isValIniting = true;
   isUnitIniting = true;
   settimeId = 0;
 
   get valueVal() {
-    return this.valueUnit?.value;
+    return parseInt(this.valueUnit.toString());
   }
 
   set valueVal(value) {
@@ -51,7 +51,8 @@ export default class ValueUnitOption extends Vue {
   }
 
   get unitVal() {
-    return this.valueUnit?.unit;
+    const unitList = this.valueUnit.toString().match(/%|px/g) || ["px"];
+    return unitList[0];
   }
 
   set unitVal(unit) {
@@ -59,15 +60,8 @@ export default class ValueUnitOption extends Vue {
     this.updateEmit(this.valueVal, unit);
   }
 
-  updateEmit(value: number, unit: string): void {
-    this.$emit("valueUnit", {
-      value,
-      unit
-    });
-    this.$emit("change", {
-      value,
-      unit
-    });
+  updateEmit(value: string | number = 0, unit: string): void {
+    this.$emit("valueUnit", value + unit);
   }
 }
 

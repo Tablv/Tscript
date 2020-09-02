@@ -7,6 +7,11 @@
     <!-- 图表样式 -->
     <specific-style />
 
+    <!-- 地图组件 -->
+    <geo-style />
+
+    <visual-map-style />
+
     <!-- 标题 -->
     <title-style />
 
@@ -20,7 +25,7 @@
     <data-style />
 
     <!-- 数据轴 -->
-    <grid-style />
+    <margin-style />
   </div>
 </template>
 
@@ -31,9 +36,11 @@ import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import AppearanceStyle from "./style/AppearanceStyle.vue";
 import SpecificStyle from "./style/SpecificStyle.vue";
 import TitleStyle from "./style/TitleStyle.vue";
-import GridStyle from "./style/GridStyle.vue";
+import MarginStyle from "./style/MarginStyle.vue";
 import MarkStyle from "./style/MarkStyle.vue";
 import DataStyle from "./style/DataStyle.vue";
+import GeoStyle from "./style/GeoStyle.vue";
+import VisualMapStyle from "./style/VisualMapStyle.vue";
 import LegendStyle from "./style/LegendStyle.vue";
 
 @Component({
@@ -44,7 +51,9 @@ import LegendStyle from "./style/LegendStyle.vue";
     LegendStyle,
     MarkStyle,
     DataStyle,
-    GridStyle
+    MarginStyle,
+    GeoStyle,
+    VisualMapStyle
   }
 })
 export default class StyleMenu extends Vue {
@@ -54,12 +63,6 @@ export default class StyleMenu extends Vue {
   @Provide()
   getSpecificStyle() {
     return this.currentDashboard.echarts.sampleStyle[this.chartType];
-  }
-  @Provide()
-  setPieCenter(config: object) {
-    (this.currentDashboard.echarts.sampleStyle[
-      this.chartType
-    ] as any).center = config;
   }
 
   get chartType() {

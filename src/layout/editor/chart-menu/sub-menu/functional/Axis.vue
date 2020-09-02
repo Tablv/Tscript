@@ -51,7 +51,8 @@ export default class TitleStyle extends Vue {
      */
     targetpie: () => import("./axis-type/GaugeAxis.vue"),
     gauge: () => import("./axis-type/GaugeAxis.vue"),
-    funnel: () => import("./axis-type/PieAxis.vue")
+    funnel: () => import("./axis-type/PieAxis.vue"),
+    map: () => import("./axis-type/MapAxis.vue")
   };
 
   get chartType() {

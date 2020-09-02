@@ -1,37 +1,30 @@
 <template>
   <div class="specific-style-items">
-    <!-- 柱宽 -->
-    <el-form-item label="柱宽">
+    <!-- 长宽比 -->
+    <!-- <el-form-item label="长宽比">
       <el-row>
-        <el-col :span="12">
-          <el-slider v-model="specificStyle.width.value" :min="1" />
-        </el-col>
-        <el-col :span="10" :offset="2">
-          <el-select
-            v-model="specificStyle.width.unit"
-            size="mini"
-            placeholder="单位"
-          >
-            <el-option
-              v-for="(unit, index) in styleSelection.series.barWidth.unit
-                .selection"
-              :key="index"
-              :label="unit.text"
-              :value="unit.value"
-            />
-          </el-select>
+        <el-col :span="24">
+          <el-slider
+            v-model="currentDashboard.echarts.geo.aspectScale"
+            :format-tooltip="formatTooltip"
+            :min="1"
+          />
         </el-col>
       </el-row>
-    </el-form-item>
-
-    <!-- 圆角 -->
-    <el-form-item label="圆角">
+    </el-form-item> -->
+    <!-- 放大 -->
+    <!-- <el-form-item label="放大倍数">
       <el-row>
-        <el-col :span="22">
-          <el-slider v-model="specificStyle.radius" :min="1" />
+        <el-col :span="24">
+          <el-slider
+            v-model="currentDashboard.echarts.geo.zoom"
+            step="0.1"
+            :min="1"
+            :max="10"
+          />
         </el-col>
       </el-row>
-    </el-form-item>
+    </el-form-item> -->
   </div>
 </template>
 
@@ -57,6 +50,9 @@ export default class BarStyle extends Vue {
 
   get specificStyle(): BarSeriesOption {
     return this.getSpecificStyle();
+  }
+  formatTooltip(val: number) {
+    return val / 100;
   }
 }
 </script>

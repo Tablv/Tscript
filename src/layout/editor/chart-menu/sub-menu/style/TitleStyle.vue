@@ -220,7 +220,7 @@ import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
 import ValueUnitOption from "./common/ValueUnitOption.vue";
 import DetailCard from "@/components/DetailCard.vue";
 import ColorPicker from "@/components/color-picker/index.vue";
-import { ChartOption } from "glaway-bi-model/view/dashboard/chart/ChartOption";
+import { SeriesOption } from "glaway-bi-model/view/dashboard/chart/SeriesOption";
 
 @Component({
   components: {
@@ -248,7 +248,7 @@ export default class TitleStyle extends Vue {
   @Inject()
   getSpecificStyle!: Function;
 
-  get specificStyle(): ChartOption {
+  get specificStyle(): SeriesOption {
     return this.getSpecificStyle();
   }
 }
