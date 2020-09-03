@@ -10,7 +10,11 @@
     <!-- 地图组件 -->
     <geo-style />
 
+    <!-- 视觉映射 -->
     <visual-map-style />
+
+    <!-- 数据提示 -->
+    <tooltip-style />
 
     <!-- 标题 -->
     <title-style />
@@ -42,6 +46,7 @@ import DataStyle from "./style/DataStyle.vue";
 import GeoStyle from "./style/GeoStyle.vue";
 import VisualMapStyle from "./style/VisualMapStyle.vue";
 import LegendStyle from "./style/LegendStyle.vue";
+import TooltipStyle from "./style/TooltipStyle.vue";
 
 @Component({
   components: {
@@ -53,7 +58,8 @@ import LegendStyle from "./style/LegendStyle.vue";
     DataStyle,
     MarginStyle,
     GeoStyle,
-    VisualMapStyle
+    VisualMapStyle,
+    TooltipStyle
   }
 })
 export default class StyleMenu extends Vue {

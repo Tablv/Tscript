@@ -5,22 +5,6 @@
     :shadow="boxCardShadow"
   >
     <el-form label-position="top" label-width="60px">
-      <!-- 地图切换 -->
-      <el-form-item label="地图切换">
-        <el-row>
-          <el-col :span="24">
-            <el-cascader
-              v-model="currentDashboard.echarts.geo.mapList"
-              :options="options"
-              :props="{ checkStrictly: true }"
-              :show-all-levels="false"
-              filterable
-              clearable
-            ></el-cascader>
-          </el-col>
-        </el-row>
-      </el-form-item>
-
       <el-form-item label="维度">
         <!-- 维度拖拽区域 -->
         <axis-widget
@@ -258,33 +242,6 @@ export default class Axis extends Vue {
   addMeasuresZ(measuresZ: Array<FieldDTO>) {
     this.measuresZ = measuresZ;
   }
-
-  options = [
-    {
-      value: "china",
-      label: "全国"
-    },
-    {
-      value: "370000",
-      label: "山东",
-      children: [
-        {
-          value: "371700",
-          label: "菏泽"
-        }
-      ]
-    },
-    {
-      value: "320000",
-      label: "江苏",
-      children: [
-        {
-          value: "320100",
-          label: "南京"
-        }
-      ]
-    }
-  ];
 }
 </script>
 

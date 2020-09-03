@@ -10,12 +10,12 @@
     </template>
 
     <el-form label-position="right" :label-width="elFormLabelWidth">
-      <el-form-item label="显示提示标签">
+      <!-- <el-form-item label="显示提示标签">
         <el-switch
           active-color="#13ce66"
           v-model="currentDashboard.echarts.tooltip.show"
         />
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item label="显示数据标注">
         <el-switch active-color="#13ce66" v-model="specificStyle.label.show" />
