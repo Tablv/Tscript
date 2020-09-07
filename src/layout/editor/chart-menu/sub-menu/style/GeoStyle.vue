@@ -65,12 +65,12 @@
         </el-form-item>
         <value-unit-option
           form-label="顶部"
-          v-model="currentDashboard.echarts.geo.layoutCenter[0]"
+          v-model="currentDashboard.echarts.geo.layoutCenter[1]"
           :selection="styleSelection.grid.unit.selection"
         />
         <value-unit-option
           form-label="左侧"
-          v-model="currentDashboard.echarts.geo.layoutCenter[1]"
+          v-model="currentDashboard.echarts.geo.layoutCenter[0]"
           :selection="styleSelection.grid.unit.selection"
         />
       </detail-card>
@@ -83,7 +83,7 @@ import { Component, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
-import { BarSeriesOption } from "glaway-bi-model/view/dashboard/chart/SeriesOption";
+import { BarSeriesOption } from "glaway-bi-model/view/dashboard/chart/BarSeriesOption";
 import ValueUnitOption from "./common/ValueUnitOption.vue";
 import DetailCard from "@/components/DetailCard.vue";
 

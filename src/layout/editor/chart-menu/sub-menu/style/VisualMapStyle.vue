@@ -10,24 +10,18 @@
       <span>视觉映射</span>
     </template>
     <el-form label-position="right" :label-width="elFormLabelWidth">
+      <el-form-item label="开启映射功能">
+        <el-switch
+          active-color="#13ce66"
+          v-model="currentDashboard.echarts.visualMap.enable"
+        />
+      </el-form-item>
       <el-form-item label="显示映射组件">
         <el-switch
           active-color="#13ce66"
           v-model="currentDashboard.echarts.visualMap.show"
         />
       </el-form-item>
-      <!-- 长宽比 -->
-      <!-- <el-form-item label="长宽比">
-        <el-row>
-          <el-col :span="24">
-            <el-slider
-              v-model="currentDashboard.echarts.geo.aspectScale"
-              :format-tooltip="formatTooltip"
-              :min="1"
-            />
-          </el-col>
-        </el-row>
-      </el-form-item> -->
     </el-form>
   </el-card>
 </template>
@@ -37,7 +31,7 @@ import { Component, Vue, Inject } from "vue-property-decorator";
 import { CommonStore, EditorStore } from "@/store/modules-model";
 import { Properties } from "csstype";
 import Dashboard from "glaway-bi-model/view/dashboard/Dashboard";
-import { BarSeriesOption } from "glaway-bi-model/view/dashboard/chart/SeriesOption";
+import { BarSeriesOption } from "glaway-bi-model/view/dashboard/chart/BarSeriesOption";
 
 @Component({
   components: {}

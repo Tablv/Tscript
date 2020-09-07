@@ -1,6 +1,9 @@
 <template>
   <!-- 属性设置 -->
   <div>
+    <!-- 标题 -->
+    <title-style />
+
     <!-- 外观样式 -->
     <appearance-style />
 
@@ -13,17 +16,14 @@
     <!-- 视觉映射 -->
     <visual-map-style />
 
-    <!-- 数据提示 -->
-    <tooltip-style />
-
-    <!-- 标题 -->
-    <title-style />
-
     <!-- 图例 -->
     <legend-style />
 
+    <!-- 数据提示 -->
+    <tooltip-style />
+
     <!-- 标注 -->
-    <mark-style />
+    <label-style />
 
     <!-- 数据 -->
     <data-style />
@@ -41,7 +41,7 @@ import AppearanceStyle from "./style/AppearanceStyle.vue";
 import SpecificStyle from "./style/SpecificStyle.vue";
 import TitleStyle from "./style/TitleStyle.vue";
 import MarginStyle from "./style/MarginStyle.vue";
-import MarkStyle from "./style/MarkStyle.vue";
+import LabelStyle from "./style/LabelStyle.vue";
 import DataStyle from "./style/DataStyle.vue";
 import GeoStyle from "./style/GeoStyle.vue";
 import VisualMapStyle from "./style/VisualMapStyle.vue";
@@ -54,7 +54,7 @@ import TooltipStyle from "./style/TooltipStyle.vue";
     SpecificStyle,
     TitleStyle,
     LegendStyle,
-    MarkStyle,
+    LabelStyle,
     DataStyle,
     MarginStyle,
     GeoStyle,
