@@ -6,7 +6,7 @@
         <el-col :span="12">
           <el-slider v-model="specificStyle.width.value" :min="1" />
         </el-col>
-        <el-col :span="10" :offset="2">
+        <el-col :span="8" :offset="2">
           <el-select
             v-model="specificStyle.width.unit"
             size="mini"

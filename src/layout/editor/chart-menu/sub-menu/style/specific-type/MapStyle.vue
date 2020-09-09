@@ -307,6 +307,7 @@ export default class BarStyle extends Vue {
     itemStyle: false,
     emphasis: false
   };
+
   options = [
     {
       value: "china",

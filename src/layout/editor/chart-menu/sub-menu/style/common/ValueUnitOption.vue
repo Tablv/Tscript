@@ -9,7 +9,7 @@
         />
       </el-col>
 
-      <el-col :span="10" :offset="1">
+      <el-col :span="8" :offset="1">
         <el-select v-model="unitVal" size="small" placeholder="单位">
           <el-option
             v-for="unit in selection"

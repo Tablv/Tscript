@@ -4,6 +4,7 @@
     class="box-card"
     :body-style="boxCardBodyStyle"
     :shadow="boxCardShadow"
+    v-if="specificStyle.decimals"
   >
     <template #header>
       <span>数据设置</span>
@@ -15,10 +16,14 @@
       </el-form-item>
 
       <el-form-item label="数据单位" v-if="!specificStyle.center">
-        <el-input
-          placeholder="例如：万"
-          v-model="specificStyle.decimals.unit"
-        />
+        <el-row>
+          <el-col :span="22">
+            <el-input
+              placeholder="例如：万"
+              v-model="specificStyle.decimals.unit"
+            />
+          </el-col>
+        </el-row>
       </el-form-item>
     </el-form>
   </el-card>

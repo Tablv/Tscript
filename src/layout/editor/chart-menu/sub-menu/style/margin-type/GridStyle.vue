@@ -4,7 +4,7 @@
     <!-- 标签角度 -->
     <el-form-item label="标签角度" v-if="!specificStyle.center">
       <el-row>
-        <el-col :offset="1" :span="23">
+        <el-col :offset="2" :span="20">
           <el-slider
             v-model="specificStyle.axisLabel.rotate"
             :max="360"

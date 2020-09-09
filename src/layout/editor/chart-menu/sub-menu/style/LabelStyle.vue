@@ -45,25 +45,37 @@
       </el-form-item>
 
       <el-form-item label="位置" v-if="specificStyle.label.position">
-        <el-select
-          v-model="specificStyle.label.position"
-          size="mini"
-          placeholder="位置"
-        >
-          <el-option
-            v-for="(unit, index) in styleSelection.label.position.selection"
-            :key="index"
-            :label="unit.text"
-            :value="unit.value"
-          />
-        </el-select>
+        <el-row>
+          <el-col :span="22">
+            <el-select
+              v-model="specificStyle.label.position"
+              size="mini"
+              placeholder="位置"
+            >
+              <el-option
+                v-for="(unit, index) in styleSelection.label.position.selection"
+                :key="index"
+                :label="unit.text"
+                :value="unit.value"
+              />
+            </el-select>
+          </el-col>
+        </el-row>
       </el-form-item>
 
       <el-form-item
         label="旋转角度"
         v-if="specificStyle.label.rotate !== undefind"
       >
-        <el-slider v-model="specificStyle.label.rotate" :max="90" :min="-90" />
+        <el-row>
+          <el-col :span="22">
+            <el-slider
+              v-model="specificStyle.label.rotate"
+              :max="90"
+              :min="-90"
+            />
+          </el-col>
+        </el-row>
       </el-form-item>
 
       <el-form-item

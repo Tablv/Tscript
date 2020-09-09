@@ -35,22 +35,30 @@
       </el-form-item>
 
       <el-form-item label="布局朝向">
-        <el-select v-model="legend.orient">
-          <el-option
-            v-for="(sel, idx) in styleSelection.legend.orient.selection"
-            :key="idx"
-            :label="sel.text"
-            :value="sel.value"
-          />
-        </el-select>
+        <el-row>
+          <el-col :span="22">
+            <el-select v-model="legend.orient">
+              <el-option
+                v-for="(sel, idx) in styleSelection.legend.orient.selection"
+                :key="idx"
+                :label="sel.text"
+                :value="sel.value"
+              />
+            </el-select>
+          </el-col>
+        </el-row>
       </el-form-item>
 
       <el-form-item label="对齐方式">
-        <el-select v-model="legend.algin">
-          <el-option key="auto" label="自动" value="auto" />
-          <el-option key="left" label="左对齐" value="left" />
-          <el-option key="right" label="右对齐" value="right" />
-        </el-select>
+        <el-row>
+          <el-col :span="22">
+            <el-select v-model="legend.algin">
+              <el-option key="auto" label="自动" value="auto" />
+              <el-option key="left" label="左对齐" value="left" />
+              <el-option key="right" label="右对齐" value="right" />
+            </el-select>
+          </el-col>
+        </el-row>
       </el-form-item>
 
       <!-- 图例块 -->
